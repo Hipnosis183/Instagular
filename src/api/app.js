@@ -1,12 +1,13 @@
-let express = require('express');
-let bodyParser = require('body-parser')
-let cookieParser = require('cookie-parser');
-let cors = require('cors');
-let logger = require('morgan');
-let path = require('path');
+const express = require('express');
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const logger = require('morgan');
+const path = require('path');
+require('dotenv').config()
 
-let app = express();
-let root = process.cwd().substring(0, process.cwd().length - 8)
+const app = express();
+const root = process.cwd().substring(0, process.cwd().length - 8)
 const port = 3200
 
 app.use(logger('dev'));
@@ -22,11 +23,11 @@ app.get('/', (req, res) => {
     res.sendFile(`${root}/dist/instagram/index.html`)
 });
 
-let ApiRouter = require('./routes/api');
+const ApiRouter = require('./routes/api');
 app.use('/api', ApiRouter);
 
 app.listen(port, () => {
-    console.log(`Server listening on port::${port}`);
+    console.log(`Server listening on http://localhost:${port}/`);
 });
 
 module.exports = app;

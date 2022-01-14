@@ -1,0 +1,15 @@
+<div class="login-container">
+  <div class="login-card">
+    <img src="/assets/images/Instagram_logo.svg">
+    <form [formGroup]="loginForm">
+      <div class="space-y-4">
+        <input formControlName="username" placeholder="Username" type="text" />
+        <input formControlName="password" placeholder="Password" type="password" />
+      </div>
+    </form>
+    <div class="login-buttons">
+      <button (click)="loginUser()">Log In</button>
+      <button (click)="logoutUser()">Log Out</button>
+    </div>
+  </div>
+</div>

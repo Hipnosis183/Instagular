@@ -1,0 +1,27 @@
+button {
+  @apply bg-blue-400 mt-8 px-8 py-2 rounded-md text-white w-full;
+}
+
+form {
+  @apply flex flex-col items-center w-4/5;
+}
+
+img {
+  @apply mb-5 w-4/5;
+}
+
+input {
+  @apply bg-slate-100 border border-slate-200 font-light p-2.5 rounded-md w-full;
+}
+
+.login-buttons {
+  @apply flex space-x-4 w-4/5 whitespace-nowrap;
+}
+
+.login-container {
+  @apply flex h-screen items-center justify-center relative w-screen;
+}
+
+.login-card {
+  @apply absolute bg-white border border-slate-200 flex flex-col items-center pb-10 pt-6 rounded-2xl w-96;
+}
