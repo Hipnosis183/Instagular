@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   templateUrl: './login.component.html',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) { }
 
   loginForm = this.formBuilder.group({
@@ -31,6 +33,7 @@ export class LoginComponent implements OnInit {
       .subscribe((data) => {
         console.info('Logged in successfully!');
         localStorage.setItem('state', JSON.stringify(data));
+        this.router.navigate(['feed']);
       });
   }
 
@@ -57,13 +60,14 @@ export class LoginComponent implements OnInit {
       .subscribe((data) => {
         console.info('Session loaded!');
         localStorage.setItem('state', JSON.stringify(data));
+        this.router.navigate(['feed']);
       });
   }
 
   ngOnInit(): void {
     if (localStorage.getItem("state") != null) {
       console.info('Session found!');
-      this.loadSession();
+      //this.loadSession();
     } else {
       console.info('Session not found.');
     }
