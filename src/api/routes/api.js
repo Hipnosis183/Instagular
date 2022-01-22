@@ -125,7 +125,10 @@ router.post('/feed', (req, res, next) => {
             // Exclude ads processing.
             if (post.product_type != 'ad') {
               // Create custom object to store data.
-              let instagram = { thumb: null };
+              let instagram = {
+                profile: null,
+                thumb: null
+              };
               // Parse different media types data.
               switch (post.product_type) {
                 case 'feed': {
@@ -147,6 +150,8 @@ router.post('/feed', (req, res, next) => {
               }
               // Create custom object to return data.
               post.instagram = {}
+              // Get profile picture image.
+              post.instagram.profile = await getBase64Image(post.user.profile_pic_url);
               // Get thumbnail image.
               post.instagram.thumb = await getBase64Image(instagram.thumb);
               // Add post to feed list.
