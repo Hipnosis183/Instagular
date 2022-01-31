@@ -6,6 +6,7 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
+  selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit {
       .subscribe((data) => {
         console.info('Logged in successfully!');
         localStorage.setItem('state', JSON.stringify(data));
-        this.router.navigate(['feed']);
+        window.location.reload()
       });
   }
 
@@ -65,11 +66,5 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem("state") != null) {
-      console.info('Session found!');
-      //this.loadSession();
-    } else {
-      console.info('Session not found.');
-    }
   }
 }

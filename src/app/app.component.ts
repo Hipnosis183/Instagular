@@ -7,5 +7,15 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'instagram';
+  loadSession = false;
+
+  ngOnInit(): void {
+    if (localStorage.getItem("state") != null) {
+      console.info('Session found!');
+      this.loadSession = true;
+    } else {
+      console.info('Session not found.');
+      this.loadSession = false;
+    }
+  }
 }

@@ -1,3 +1,9 @@
 <div class="w-full">
-  <router-outlet></router-outlet>
+  <div *ngIf="loadSession; then continue; else login"></div>
+  <ng-template #continue>
+    <router-outlet></router-outlet>
+  </ng-template>
+  <ng-template #login>
+    <login></login>
+  </ng-template>
 </div>
