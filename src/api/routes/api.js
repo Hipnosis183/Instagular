@@ -165,6 +165,60 @@ router.post('/feed', (req, res, next) => {
   })();
 });
 
+router.post('/like', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    try {
+      // Load the state from a previous session.
+      await client.state.deserialize(req.body.session);
+      // Like the selected media.
+      await client.media.like({
+        mediaId: req.body.mediaId,
+        moduleInfo: {
+          module_name: 'profile',
+          user_id: client.state.cookieUserId,
+          username: req.cookies.seed,
+        }
+      });
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+});
+
+router.post('/unlike', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    try {
+      // Load the state from a previous session.
+      await client.state.deserialize(req.body.session);
+      // Unlike the selected media.
+      await client.media.unlike({
+        mediaId: req.body.mediaId,
+        moduleInfo: {
+          module_name: 'profile',
+          user_id: client.state.cookieUserId,
+          username: req.cookies.seed,
+        }
+      });
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+});
+
 async function getBase64Image(url) {
   // Create URL object to get the hostname.
   const host = new URL(url);
