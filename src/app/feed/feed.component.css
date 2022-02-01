@@ -3,12 +3,12 @@
 }
 
 .feed-grid {
-  @apply gap-4 grid justify-center m-4;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 300px));
+  @apply gap-6 grid justify-center;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 280px));
 }
 
 .feed-post {
-  @apply h-[300px] ml-auto mr-auto relative w-[300px];
+  @apply h-[280px] ml-auto mr-auto overflow-hidden relative rounded-3xl w-[280px];
 }
 
 .post-header {

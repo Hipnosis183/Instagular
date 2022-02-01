@@ -1,16 +1,16 @@
 <div class="feed-container">
-    <div class="feed-grid">
-        <div *ngFor="let post of feedPosts" class="feed-post">
-            <div class="post-header">
-                <img [src]="post.instagram.profile">
-                <p>{{ post.user.username }}</p>
-            </div>
-            <div class="post-footer">
-                <img [src]="'/assets/images/' + (post.has_liked ? 'like-fill.svg' : 'like.svg')"
-                    (click)="post.has_liked ? unlikeMedia(post.id) : likeMedia(post.id)">
-            </div>
-            <div class="post-gradient"></div>
-            <img [src]="post.instagram.thumb" class="post-image" />
-        </div>
+  <div class="feed-grid">
+    <div *ngFor="let post of feedPosts" class="feed-post">
+      <div class="post-header">
+        <img [src]="post.instagram.profile">
+        <p>{{ post.user.username }}</p>
+      </div>
+      <div class="post-footer">
+        <img [src]="'/assets/images/' + (post.has_liked ? 'like-fill.svg' : 'like.svg')"
+          (click)="post.has_liked ? unlikeMedia(post.id) : likeMedia(post.id)">
+      </div>
+      <div class="post-gradient"></div>
+      <img [src]="post.instagram.thumb" class="post-image" />
     </div>
+  </div>
 </div>

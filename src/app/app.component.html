@@ -1,7 +1,15 @@
 <div class="w-full">
   <div *ngIf="loadSession; then continue; else login"></div>
   <ng-template #continue>
-    <router-outlet></router-outlet>
+    <div class="flex">
+      <sidenav></sidenav>
+      <div class="page-container">
+        <div class="page-content">
+          <router-outlet></router-outlet>
+          <div class="h-6"></div>
+        </div>
+      </div>
+    </div>
   </ng-template>
   <ng-template #login>
     <login></login>

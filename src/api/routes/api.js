@@ -219,6 +219,31 @@ router.post('/unlike', (req, res, next) => {
   })();
 });
 
+router.post('/profile', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    try {
+      // Load the state from a previous session.
+      await client.state.deserialize(req.body.session);
+      // Get current user profile information.
+      let userProfile = await client.user.info(client.state.cookieUserId);
+      // Create custom object to return data.
+      userProfile.instagram = {}
+      // Get thumbnail image.
+      userProfile.instagram.thumb = await getBase64Image(userProfile.profile_pic_url);
+      // Return user profile information.
+      res.status(200);
+      res.send(JSON.stringify(userProfile));
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+});
+
 async function getBase64Image(url) {
   // Create URL object to get the hostname.
   const host = new URL(url);

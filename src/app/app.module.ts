@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FeedComponent } from './feed/feed.component';
 import { LoginComponent } from './login/login.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FeedComponent,
-    LoginComponent
+    LoginComponent,
+    SidenavComponent
   ],
   imports: [
     AppRoutingModule,
