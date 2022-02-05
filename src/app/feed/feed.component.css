@@ -11,8 +11,13 @@
   @apply h-[280px] ml-auto mr-auto overflow-hidden relative rounded-3xl w-[280px];
 }
 
+.post-container {
+  @apply absolute cursor-pointer h-full hover:opacity-100 opacity-0 w-full;
+  transition: opacity 0.2s;
+}
+
 .post-header {
-  @apply absolute cursor-pointer flex m-3 space-x-3 z-10;
+  @apply absolute flex m-3 space-x-3 z-10;
 }
 .post-header img {
   @apply h-8 rounded-full w-8;
@@ -26,7 +31,7 @@
   @apply absolute bottom-0 flex m-3 right-0 space-x-3 z-10;
 }
 .post-footer img {
-  @apply cursor-pointer h-6 w-6;
+  @apply h-6 w-6;
   filter: drop-shadow(0px 2px 0px black);
 }
 
@@ -37,8 +42,4 @@
 
 .post-image {
   @apply h-full object-cover w-full;
-}
-
-.post-header {
-  @apply absolute cursor-pointer flex m-3 space-x-3 z-10;
 }

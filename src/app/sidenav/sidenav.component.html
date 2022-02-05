@@ -21,4 +21,14 @@
       </div>
     </div>
   </div>
+  <div class="sidenav-buttons">
+    <button routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
+      <img [src]="'/assets/images/' + (router.url == '/' ? 'feed-fill.svg' : 'feed.svg')">
+      <p>Feed</p>
+    </button>
+    <button (click)="logoutUser()">
+      <img src="/assets/images/logout.svg">
+      <p>Log Out</p>
+    </button>
+  </div>
 </div>

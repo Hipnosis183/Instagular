@@ -38,19 +38,6 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  private logoutError(error: HttpErrorResponse) {
-    return throwError('Logout error: no session active.');
-  }
-
-  logoutUser(): void {
-    this.http.post('/api/logout', { session: localStorage.getItem("state") })
-      .pipe(catchError(this.logoutError))
-      .subscribe(() => {
-        console.info('Logged out successfully!');
-        localStorage.removeItem('state');
-      });
-  }
-
   private sessionError(error: HttpErrorResponse) {
     return throwError('Session error: corrupted stored data or the session has expired.');
   }

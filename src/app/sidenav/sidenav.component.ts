@@ -13,7 +13,7 @@ export class SidenavComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    public router: Router
   ) { }
 
   userProfile: any = null
@@ -29,6 +29,20 @@ export class SidenavComponent implements OnInit {
         console.info('Profile loaded successfully!');
         console.log(data);
         this.userProfile = data;
+      });
+  }
+
+  private logoutError(error: HttpErrorResponse) {
+    return throwError('Logout error: no session active.');
+  }
+
+  logoutUser(): void {
+    this.http.post('/api/logout', { session: localStorage.getItem("state") })
+      .pipe(catchError(this.logoutError))
+      .subscribe(() => {
+        console.info('Logged out successfully!');
+        localStorage.removeItem('state');
+        window.location.reload()
       });
   }
 
