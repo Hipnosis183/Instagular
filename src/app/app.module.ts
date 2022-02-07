@@ -8,13 +8,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { FeedComponent } from './feed/feed.component';
 import { LoginComponent } from './login/login.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { ViewerPhotoComponent } from './viewer-photo/viewer-photo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FeedComponent,
     LoginComponent,
-    SidenavComponent
+    SidenavComponent,
+    ViewerPhotoComponent
   ],
   imports: [
     AppRoutingModule,

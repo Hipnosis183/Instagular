@@ -1,0 +1,40 @@
+.viewer-container {
+    @apply fixed flex h-full items-center justify-center left-0 top-0 w-full z-10;
+}
+.viewer-contents {
+    @apply absolute flex h-full w-full;
+}
+.viewer-overlay {
+    @apply bg-black bg-opacity-90 h-full w-full;
+}
+.viewer-sidenav {
+    @apply absolute bg-slate-100 flex flex-col h-screen w-[320px];
+}
+.viewer-image {
+    @apply h-full ml-[320px] object-contain pointer-events-none;
+    width: calc(100% - 320px);
+}
+
+.sidenav-user {
+    @apply flex flex-col items-center my-6 px-6 w-full;
+}
+.sidenav-image {
+    @apply mb-5 rounded-full w-[100px];
+}
+.sidenav-location {
+    @apply max-w-full overflow-hidden text-sub whitespace-nowrap;
+}
+.sidenav-stats {
+    @apply flex h-10 items-center justify-between mb-8 mt-6 w-full;
+}
+
+.text-main {
+    @apply cursor-default text-lg text-slate-800;
+}
+.text-sub {
+    @apply cursor-default font-light text-slate-600;
+}
+
+.close-button {
+    @apply absolute bg-slate-100 cursor-pointer m-3 p-1.5 right-0 rounded-full w-7;
+}

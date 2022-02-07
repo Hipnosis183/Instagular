@@ -17,6 +17,15 @@ export class FeedComponent implements OnInit {
   ) { }
 
   feedPosts: any[] = [];
+  feedPost: any = null;
+
+  openMedia(post: any): void {
+    this.feedPost = post;
+  }
+
+  closeMedia(): void {
+    this.feedPost = null;
+  }
 
   loadFeed(): void {
     this.http.post<object[]>('/api/feed', { session: localStorage.getItem("state") })

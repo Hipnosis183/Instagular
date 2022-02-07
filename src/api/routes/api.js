@@ -127,13 +127,15 @@ router.post('/feed', (req, res, next) => {
               // Create custom object to store data.
               let instagram = {
                 profile: null,
-                thumb: null
+                thumb: null,
+                full: null
               };
               // Parse different media types data.
               switch (post.product_type) {
                 case 'feed': {
                   // Set thumbnail image url.
                   instagram.thumb = post.image_versions2.candidates[1].url;
+                  instagram.full = post.image_versions2.candidates[0].url;
                   break;
                 }
                 case 'clips':
@@ -145,6 +147,7 @@ router.post('/feed', (req, res, next) => {
                 case 'carousel_container': {
                   // Set thumbnail image url.
                   instagram.thumb = post.carousel_media[0].image_versions2.candidates[1].url;
+                  instagram.full = post.carousel_media[0].image_versions2.candidates[0].url;
                   break;
                 }
               }
@@ -154,6 +157,8 @@ router.post('/feed', (req, res, next) => {
               post.instagram.profile = await getBase64Image(post.user.profile_pic_url);
               // Get thumbnail image.
               post.instagram.thumb = await getBase64Image(instagram.thumb);
+              // Get fullsize image.
+              post.instagram.full = await getBase64Image(instagram.full);
               // Add post to feed list.
               items.push(post);
             }

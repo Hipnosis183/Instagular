@@ -1,0 +1,27 @@
+<div *ngIf="feedPost" class="viewer-container">
+  <div class="viewer-overlay"></div>
+  <div class="viewer-contents">
+    <div class="viewer-sidenav">
+      <div class="sidenav-user">
+        <img [src]="feedPost.instagram.profile" class="sidenav-image">
+        <div class="text-main">{{ feedPost.user.full_name }}</div>
+        <div class="text-sub">@{{ feedPost.user.username }}</div>
+        <div *ngIf="feedPost.location" class="sidenav-location">{{ feedPost.location.name }}</div>
+        <div class="sidenav-stats">
+          <div class="text-sub">{{ feedPost.taken_at * 1000 | date }}</div>
+          <div class="flex space-x-4">
+            <div class="text-main">{{ feedPost.like_count }}</div>
+            <img [src]="'/assets/images/' + (feedPost.has_liked ? 'like-fill.svg' : 'like.svg')"
+              (click)="feedPost.has_liked ? unlikeSend.emit(feedPost.id) : likeSend.emit(feedPost.id)"
+              class="cursor-pointer object-contain">
+          </div>
+        </div>
+        <div *ngIf="feedPost.caption" [innerText]="feedPost.caption.text" class="text-main w-full"></div>
+      </div>
+    </div>
+    <img [src]="feedPost.instagram.full" class="viewer-image">
+    <div (click)="closeSend.emit()" class="close-button">
+      <img src="/assets/images/close.svg">
+    </div>
+  </div>
+</div>
