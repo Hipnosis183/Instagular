@@ -14,6 +14,13 @@
     @apply h-full ml-[320px] object-contain pointer-events-none;
     width: calc(100% - 320px);
 }
+.viewer-count {
+    @apply absolute bottom-0 flex justify-center mb-3 ml-[320px] space-x-2;
+    width: calc(100% - 320px);
+}
+.viewer-count .count-dot {
+    @apply h-2 rounded-full w-2;
+}
 
 .sidenav-user {
     @apply flex flex-col items-center my-6 px-6 w-full;
@@ -35,6 +42,16 @@
     @apply cursor-default font-light text-slate-600;
 }
 
+.prev-button {
+    @apply absolute flex flex-col justify-center h-full ml-[320px];
+}
+.next-button {
+    @apply absolute flex flex-col justify-center h-full right-0;
+}
+.prev-button img,
+.next-button img {
+    @apply bg-slate-100 cursor-pointer m-3 p-1.5 rounded-full w-7;
+}
 .close-button {
-    @apply absolute bg-slate-100 cursor-pointer m-3 p-1.5 right-0 rounded-full w-7;
+    @apply absolute bg-slate-100 cursor-pointer m-3 p-[0.45rem] right-0 rounded-full w-7;
 }

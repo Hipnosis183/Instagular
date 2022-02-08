@@ -15,6 +15,17 @@ export class ViewerPhotoComponent implements OnInit {
   @Output() unlikeSend = new EventEmitter();
   @Output() closeSend = new EventEmitter();
 
+  carouselIndex = 0;
+
+  carouselPrev(): void {
+    this.carouselIndex--;
+  }
+
+  carouselNext(): void {
+    this.carouselIndex++;
+  }
+
   ngOnInit(): void {
+    this.carouselIndex = 0;
   }
 }

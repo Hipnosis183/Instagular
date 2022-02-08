@@ -1,4 +1,4 @@
-<viewer-photo [feedPost]="feedPost" (likeSend)="likeMedia($event)" (unlikeSend)="unlikeMedia($event)"
+<viewer-photo *ngIf="feedPost" [feedPost]="feedPost" (likeSend)="likeMedia($event)" (unlikeSend)="unlikeMedia($event)"
   (closeSend)="closeMedia()"></viewer-photo>
 <div class="feed-container">
   <div class="feed-grid">
@@ -8,6 +8,7 @@
           <img [src]="post.instagram.profile | encode | async">
           <p>{{ post.user.username }}</p>
         </div>
+        <img *ngIf="post.instagram.thumb.length > 1" src="/assets/images/carousel.svg" class="post-carousel">
         <div class="post-footer">
           <img [src]="'/assets/images/' + (post.has_liked ? 'like-fill.svg' : 'like-lite.svg')"
             (click)="post.has_liked ? unlikeMedia(post.id) : likeMedia(post.id)">

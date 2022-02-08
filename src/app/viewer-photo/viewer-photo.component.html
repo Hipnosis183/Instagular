@@ -1,4 +1,4 @@
-<div *ngIf="feedPost" class="viewer-container">
+<div class="viewer-container">
   <div class="viewer-overlay"></div>
   <div class="viewer-contents">
     <div class="viewer-sidenav">
@@ -19,9 +19,23 @@
         <div *ngIf="feedPost.caption" [innerText]="feedPost.caption.text" class="text-main w-full"></div>
       </div>
     </div>
-    <img [src]="(feedPost.instagram.full.length > 0 ? feedPost.instagram.full[0] : feedPost.instagram.thumb[0]) | encode | async" class="viewer-image">
+    <img
+      [src]="(feedPost.instagram.full.length > 0 ? feedPost.instagram.full[carouselIndex] : feedPost.instagram.thumb[carouselIndex]) | encode | async"
+      class="viewer-image">
+    <div *ngIf="feedPost.instagram.full.length > 1 && carouselIndex > 0" (click)="carouselPrev()" class="prev-button">
+      <img src="/assets/images/chevron-left.svg">
+    </div>
+    <div *ngIf="feedPost.instagram.full.length > 1 && carouselIndex < feedPost.instagram.full.length - 1"
+      (click)="carouselNext()" class="next-button">
+      <img src="/assets/images/chevron-right.svg">
+    </div>
     <div (click)="closeSend.emit()" class="close-button">
       <img src="/assets/images/close.svg">
+    </div>
+    <div *ngIf="feedPost.instagram.full.length > 1" class="viewer-count">
+      <div *ngFor="let media of feedPost.instagram.full; index as i">
+        <div class="count-dot" [class]="i == carouselIndex ? 'bg-blue-500' : 'bg-slate-100'"></div>
+      </div>
     </div>
   </div>
 </div>

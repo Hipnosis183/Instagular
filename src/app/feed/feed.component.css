@@ -27,6 +27,10 @@
   filter: drop-shadow(1px 1px 1px black);
 }
 
+.post-carousel {
+  @apply absolute m-3 right-0;
+}
+
 .post-footer {
   @apply absolute bottom-0 flex m-3 right-0 space-x-3 z-10;
 }
