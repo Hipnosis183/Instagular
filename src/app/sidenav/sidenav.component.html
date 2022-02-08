@@ -3,7 +3,7 @@
     <img src="/assets/images/logo.svg">
   </div>
   <div *ngIf="userProfile" class="sidenav-user">
-    <img [src]="userProfile.instagram.thumb">
+    <img [src]="userProfile.instagram.thumb | encode | async">
     <div class="text-main">{{ userProfile.full_name }}</div>
     <div class="text-sub">@{{ userProfile.username }}</div>
     <div class="user-stats">

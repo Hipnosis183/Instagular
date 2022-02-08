@@ -3,7 +3,7 @@
   <div class="viewer-contents">
     <div class="viewer-sidenav">
       <div class="sidenav-user">
-        <img [src]="feedPost.instagram.profile" class="sidenav-image">
+        <img [src]="feedPost.instagram.profile | encode | async" class="sidenav-image">
         <div class="text-main">{{ feedPost.user.full_name }}</div>
         <div class="text-sub">@{{ feedPost.user.username }}</div>
         <div *ngIf="feedPost.location" class="sidenav-location">{{ feedPost.location.name }}</div>
@@ -19,7 +19,7 @@
         <div *ngIf="feedPost.caption" [innerText]="feedPost.caption.text" class="text-main w-full"></div>
       </div>
     </div>
-    <img [src]="feedPost.instagram.full" class="viewer-image">
+    <img [src]="(feedPost.instagram.full.length > 0 ? feedPost.instagram.full[0] : feedPost.instagram.thumb[0]) | encode | async" class="viewer-image">
     <div (click)="closeSend.emit()" class="close-button">
       <img src="/assets/images/close.svg">
     </div>

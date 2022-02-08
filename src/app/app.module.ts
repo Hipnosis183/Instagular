@@ -9,6 +9,7 @@ import { FeedComponent } from './feed/feed.component';
 import { LoginComponent } from './login/login.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ViewerPhotoComponent } from './viewer-photo/viewer-photo.component';
+import { EncodePipe } from './encode.pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ViewerPhotoComponent } from './viewer-photo/viewer-photo.component';
     FeedComponent,
     LoginComponent,
     SidenavComponent,
-    ViewerPhotoComponent
+    ViewerPhotoComponent,
+    EncodePipe
   ],
   imports: [
     AppRoutingModule,

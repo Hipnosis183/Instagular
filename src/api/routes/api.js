@@ -114,51 +114,51 @@ router.post('/feed', (req, res, next) => {
     const feedTimeline = client.feed.timeline();
     // Initialize feed elements list.
     let items = [];
-    let ad = 0;
     // Load last couple of posts (25 average without ads).
     // Feeds are auto paginated, in a weird way.
     for (let i = 0; i < 4; i++) {
       await feedTimeline.items()
-        .then(async (res) => {
+        .then((res) => {
           // Get media data from urls.
           res.forEach(async (post) => {
             // Exclude ads processing.
             if (post.product_type != 'ad') {
-              // Create custom object to store data.
-              let instagram = {
-                profile: null,
-                thumb: null,
-                full: null
-              };
+              // Create custom object to return data.
+              post.instagram = {};
+              post.instagram.thumb = [];
+              post.instagram.full = [];
+              // Get profile picture image.
+              post.instagram.profile = post.user.profile_pic_url;
               // Parse different media types data.
               switch (post.product_type) {
                 case 'feed': {
-                  // Set thumbnail image url.
-                  instagram.thumb = post.image_versions2.candidates[1].url;
-                  instagram.full = post.image_versions2.candidates[0].url;
+                  // Get thumbnail image.
+                  let thumb = post.image_versions2.candidates[1].url;
+                  post.instagram.thumb.push(thumb);
+                  // Get fullsize image.
+                  let full = post.image_versions2.candidates[0].url;
+                  post.instagram.full.push(full);
                   break;
                 }
                 case 'clips':
                 case 'igtv': {
-                  // Set thumbnail image url.
-                  instagram.thumb = post.image_versions2.candidates[0].url;
+                  // Get thumbnail image.
+                  let thumb = post.image_versions2.candidates[0].url;
+                  post.instagram.thumb.push(thumb);
                   break;
                 }
                 case 'carousel_container': {
-                  // Set thumbnail image url.
-                  instagram.thumb = post.carousel_media[0].image_versions2.candidates[1].url;
-                  instagram.full = post.carousel_media[0].image_versions2.candidates[0].url;
+                  for (let media of post.carousel_media) {
+                    // Set thumbnail image.
+                    let thumb = media.image_versions2.candidates[1].url;
+                    post.instagram.thumb.push(thumb);
+                    // Get fullsize image.
+                    let full = media.image_versions2.candidates[0].url;
+                    post.instagram.full.push(full);
+                  }
                   break;
                 }
               }
-              // Create custom object to return data.
-              post.instagram = {}
-              // Get profile picture image.
-              post.instagram.profile = await getBase64Image(post.user.profile_pic_url);
-              // Get thumbnail image.
-              post.instagram.thumb = await getBase64Image(instagram.thumb);
-              // Get fullsize image.
-              post.instagram.full = await getBase64Image(instagram.full);
               // Add post to feed list.
               items.push(post);
             }
@@ -238,7 +238,7 @@ router.post('/profile', (req, res, next) => {
       // Create custom object to return data.
       userProfile.instagram = {}
       // Get thumbnail image.
-      userProfile.instagram.thumb = await getBase64Image(userProfile.profile_pic_url);
+      userProfile.instagram.thumb = userProfile.profile_pic_url;
       // Return user profile information.
       res.status(200);
       res.send(JSON.stringify(userProfile));
@@ -249,21 +249,25 @@ router.post('/profile', (req, res, next) => {
   })();
 });
 
-async function getBase64Image(url) {
-  // Create URL object to get the hostname.
-  const host = new URL(url);
-  // Fetch image data from url.
-  const body = await fetch(url, { mode: 'GET', headers: { Host: host.hostname } });
-  // Convert image to blob.
-  let blob = await body.blob()
-    .then(async (res) => {
-      // Get actual image binary data.
-      return await res.arrayBuffer();
-    });
-  // Convert blob data to Base64.
-  let bufferBase64 = Buffer.from(blob, 'binary').toString('base64');
-  // Return formatted data to use as an image.
-  return 'data:image/png;base64,' + bufferBase64;
-}
+router.post('/encode', (req, res, next) => {
+  ; (async () => {
+    // Create URL object to get the hostname.
+    const host = new URL(req.body.url);
+    // Fetch image data from url.
+    const body = await fetch(req.body.url, { mode: 'GET', headers: { Host: host.hostname } });
+    // Convert image to blob.
+    let blob = await body.blob()
+      .then(async (res) => {
+        // Get actual image binary data.
+        return await res.arrayBuffer();
+      });
+    // Convert blob data to Base64.
+    let bufferBase64 = Buffer.from(blob, 'binary').toString('base64');
+    // Return formatted data to use as an image.
+    let encodedBase64 = 'data:image/png;base64,' + bufferBase64;
+    res.status(200);
+    res.json(encodedBase64);
+  })();
+});
 
 module.exports = router;

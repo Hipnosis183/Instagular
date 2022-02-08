@@ -5,7 +5,7 @@
     <div *ngFor="let post of feedPosts" class="feed-post">
       <div class="post-container">
         <div class="post-header">
-          <img [src]="post.instagram.profile">
+          <img [src]="post.instagram.profile | encode | async">
           <p>{{ post.user.username }}</p>
         </div>
         <div class="post-footer">
@@ -14,7 +14,7 @@
         </div>
         <div (click)="openMedia(post)" class="post-gradient"></div>
       </div>
-      <img [src]="post.instagram.thumb" class="post-image" />
+      <img [src]="post.instagram.thumb[0] | encode | async" class="post-image" />
     </div>
   </div>
 </div>
