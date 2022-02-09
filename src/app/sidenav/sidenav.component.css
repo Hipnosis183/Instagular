@@ -12,8 +12,8 @@
 .sidenav-user {
     @apply flex flex-col items-center mt-6 mb-10 w-full;
 }
-.sidenav-user img {
-    @apply mb-5 rounded-full w-[100px];
+.sidenav-image {
+    @apply mb-5 overflow-hidden rounded-full w-[100px];
 }
 
 .user-stat {

@@ -5,7 +5,7 @@
     <div *ngFor="let post of feedPosts" class="feed-post">
       <div class="post-container">
         <div class="post-header">
-          <img [src]="post.instagram.profile | encode | async">
+          <img-await [source]="post.instagram.profile" class="post-profile"></img-await>
           <p>{{ post.user.username }}</p>
         </div>
         <img *ngIf="post.instagram.thumb.length > 1" src="/assets/images/carousel.svg" class="post-carousel">
@@ -15,7 +15,7 @@
         </div>
         <div (click)="openMedia(post)" class="post-gradient"></div>
       </div>
-      <img [src]="post.instagram.thumb[0] | encode | async" class="post-image" />
+      <img-await [source]="post.instagram.thumb[0]" class="post-image"></img-await>
     </div>
   </div>
 </div>

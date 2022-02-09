@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ViewerPhotoComponent } from './viewer-photo/viewer-photo.component';
 import { EncodePipe } from './encode.pipe';
+import { ImgAwaitComponent } from './utils/img-await/img-await.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { EncodePipe } from './encode.pipe';
     LoginComponent,
     SidenavComponent,
     ViewerPhotoComponent,
-    EncodePipe
+    EncodePipe,
+    ImgAwaitComponent
   ],
   imports: [
     AppRoutingModule,

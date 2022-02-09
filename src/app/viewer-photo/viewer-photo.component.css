@@ -11,7 +11,10 @@
     @apply absolute bg-slate-100 flex flex-col h-screen w-[320px];
 }
 .viewer-image {
-    @apply h-full ml-[320px] object-contain pointer-events-none;
+    @apply w-full;
+}
+:host ::ng-deep .viewer-image img {
+    @apply h-full ml-[320px] object-contain;
     width: calc(100% - 320px);
 }
 .viewer-count {
@@ -26,7 +29,7 @@
     @apply flex flex-col items-center my-6 px-6 w-full;
 }
 .sidenav-image {
-    @apply mb-5 rounded-full w-[100px];
+    @apply mb-5 overflow-hidden rounded-full w-[100px];
 }
 .sidenav-location {
     @apply max-w-full overflow-hidden text-sub whitespace-nowrap;

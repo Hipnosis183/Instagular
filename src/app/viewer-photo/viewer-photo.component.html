@@ -3,7 +3,7 @@
   <div class="viewer-contents">
     <div class="viewer-sidenav">
       <div class="sidenav-user">
-        <img [src]="feedPost.instagram.profile | encode | async" class="sidenav-image">
+        <img-await [source]="feedPost.instagram.profile" class="sidenav-image"></img-await>
         <div class="text-main">{{ feedPost.user.full_name }}</div>
         <div class="text-sub">@{{ feedPost.user.username }}</div>
         <div *ngIf="feedPost.location" class="sidenav-location">{{ feedPost.location.name }}</div>
@@ -19,9 +19,9 @@
         <div *ngIf="feedPost.caption" [innerText]="feedPost.caption.text" class="text-main w-full"></div>
       </div>
     </div>
-    <img
-      [src]="(feedPost.instagram.full.length > 0 ? feedPost.instagram.full[carouselIndex] : feedPost.instagram.thumb[carouselIndex]) | encode | async"
-      class="viewer-image">
+    <img-await class="viewer-image"
+      [source]="feedPost.instagram.full.length > 0 ? feedPost.instagram.full[carouselIndex] : feedPost.instagram.thumb[carouselIndex]">
+    </img-await>
     <div *ngIf="feedPost.instagram.full.length > 1 && carouselIndex > 0" (click)="carouselPrev()" class="prev-button">
       <img src="/assets/images/chevron-left.svg">
     </div>
