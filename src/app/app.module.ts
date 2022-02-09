@@ -3,24 +3,32 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// App components.
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FeedComponent } from './feed/feed.component';
-import { LoginComponent } from './login/login.component';
-import { SidenavComponent } from './sidenav/sidenav.component';
-import { ViewerPhotoComponent } from './viewer-photo/viewer-photo.component';
-import { EncodePipe } from './encode.pipe';
+import { FeedComponent } from './components/pages/feed/feed.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { ViewerPhotoComponent } from './components/viewers/viewer-photo/viewer-photo.component';
+
+// Utility components.
 import { ImgAwaitComponent } from './utils/img-await/img-await.component';
+
+// Pipes.
+import { EncodePipe } from './pipes/encode.pipe';
 
 @NgModule({
   declarations: [
+    // App components.
     AppComponent,
     FeedComponent,
     LoginComponent,
     SidenavComponent,
     ViewerPhotoComponent,
-    EncodePipe,
-    ImgAwaitComponent
+    // Utility components.
+    ImgAwaitComponent,
+    // Pipes.
+    EncodePipe
   ],
   imports: [
     AppRoutingModule,
