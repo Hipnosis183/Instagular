@@ -1,60 +1,63 @@
-.viewer-container {
-    @apply fixed flex h-full items-center justify-center left-0 top-0 w-full z-10;
+.close-button {
+  @apply absolute bg-slate-100 cursor-pointer m-3 p-[0.45rem] right-0 rounded-full w-7;
 }
-.viewer-contents {
-    @apply absolute flex h-full w-full;
+.next-button {
+  @apply absolute flex flex-col justify-center h-full right-0;
 }
-.viewer-overlay {
-    @apply bg-black bg-opacity-90 h-full w-full;
+.prev-button {
+  @apply absolute flex flex-col justify-center h-full ml-[320px];
 }
-.viewer-sidenav {
-    @apply absolute bg-slate-100 flex flex-col h-screen w-[320px];
-}
-.viewer-image {
-    @apply w-full;
-}
-:host ::ng-deep .viewer-image img {
-    @apply h-full ml-[320px] object-contain;
-    width: calc(100% - 320px);
-}
-.viewer-count {
-    @apply absolute bottom-0 flex justify-center mb-3 ml-[320px] space-x-2;
-    width: calc(100% - 320px);
-}
-.viewer-count .count-dot {
-    @apply h-2 rounded-full w-2;
+.next-button img,
+.prev-button img {
+  @apply bg-slate-100 cursor-pointer m-3 p-1.5 rounded-full w-7;
 }
 
-.sidenav-user {
-    @apply flex flex-col items-center my-6 px-6 w-full;
+.sidenav-header {
+  @apply cursor-pointer flex flex-col items-center;
 }
 .sidenav-image {
-    @apply mb-5 overflow-hidden rounded-full w-[100px];
+  @apply mb-5 overflow-hidden rounded-full w-[100px];
 }
 .sidenav-location {
-    @apply max-w-full overflow-hidden text-sub whitespace-nowrap;
+  @apply max-w-full overflow-hidden text-sub whitespace-nowrap;
 }
 .sidenav-stats {
-    @apply flex h-10 items-center justify-between mb-8 mt-6 w-full;
+  @apply cursor-default flex h-10 items-center justify-between mb-8 mt-6 w-full;
+}
+.sidenav-user {
+  @apply flex flex-col items-center my-6 px-6 w-full;
 }
 
 .text-main {
-    @apply cursor-default text-lg text-slate-800;
+  @apply text-lg text-slate-800;
 }
 .text-sub {
-    @apply cursor-default font-light text-slate-600;
+  @apply font-light text-slate-600;
 }
 
-.prev-button {
-    @apply absolute flex flex-col justify-center h-full ml-[320px];
+.viewer-container {
+  @apply fixed flex h-full items-center justify-center left-0 top-0 w-full z-10;
 }
-.next-button {
-    @apply absolute flex flex-col justify-center h-full right-0;
+.viewer-contents {
+  @apply absolute flex h-full w-full;
 }
-.prev-button img,
-.next-button img {
-    @apply bg-slate-100 cursor-pointer m-3 p-1.5 rounded-full w-7;
+.viewer-count {
+  @apply absolute bottom-0 flex justify-center mb-3 ml-[320px] space-x-2;
+  width: calc(100% - 320px);
 }
-.close-button {
-    @apply absolute bg-slate-100 cursor-pointer m-3 p-[0.45rem] right-0 rounded-full w-7;
+.viewer-count .count-dot {
+  @apply h-2 rounded-full w-2;
+}
+.viewer-image {
+  @apply w-full;
+}
+:host ::ng-deep .viewer-image img {
+  @apply h-full ml-[320px] object-contain;
+  width: calc(100% - 320px);
+}
+.viewer-overlay {
+  @apply bg-black bg-opacity-90 h-full w-full;
+}
+.viewer-sidenav {
+  @apply absolute bg-slate-100 flex flex-col h-screen w-[320px];
 }

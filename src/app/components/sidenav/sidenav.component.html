@@ -4,8 +4,10 @@
   </div>
   <div *ngIf="userProfile" class="sidenav-user">
     <img-await [source]="userProfile.instagram.thumb" class="sidenav-image"></img-await>
-    <div class="text-main">{{ userProfile.full_name }}</div>
-    <div class="text-sub">@{{ userProfile.username }}</div>
+    <div [routerLink]="['/' + userProfile.username]" class="sidenav-header">
+      <div class="text-main">{{ userProfile.full_name }}</div>
+      <div class="text-sub">@{{ userProfile.username }}</div>
+    </div>
     <div class="user-stats">
       <div class="user-stat">
         <div class="text-main">{{ userProfile.follower_count }}</div>

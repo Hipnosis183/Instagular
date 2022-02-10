@@ -233,12 +233,14 @@ router.post('/profile', (req, res, next) => {
     try {
       // Load the state from a previous session.
       await client.state.deserialize(req.body.session);
+      // Set the user id.
+      const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
       // Get current user profile information.
-      let userProfile = await client.user.info(client.state.cookieUserId);
+      let userProfile = await client.user.info(userId);
       // Create custom object to return data.
       userProfile.instagram = {}
       // Get thumbnail image.
-      userProfile.instagram.thumb = userProfile.profile_pic_url;
+      userProfile.instagram.thumb = userProfile.hd_profile_pic_url_info.url;
       // Return user profile information.
       res.status(200);
       res.send(JSON.stringify(userProfile));
@@ -246,6 +248,70 @@ router.post('/profile', (req, res, next) => {
       res.status(400);
       res.send(e);
     }
+  })();
+});
+
+router.post('/user', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Set the user id.
+    const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
+    // Load user feed object.
+    const feedUser = client.feed.user(userId);
+    // Initialize feed elements list.
+    let items = [];
+    // Load user posts.
+    await feedUser.items()
+      .then((res) => {
+        // Get media data from urls.
+        res.forEach(async (post) => {
+          // Create custom object to return data.
+          post.instagram = {};
+          post.instagram.thumb = [];
+          post.instagram.full = [];
+          // Get profile picture image.
+          post.instagram.profile = post.user.profile_pic_url;
+          // Parse different media types data.
+          switch (post.product_type) {
+            case 'feed': {
+              // Get thumbnail image.
+              let thumb = post.image_versions2.candidates[1].url;
+              post.instagram.thumb.push(thumb);
+              // Get fullsize image.
+              let full = post.image_versions2.candidates[0].url;
+              post.instagram.full.push(full);
+              break;
+            }
+            case 'clips':
+            case 'igtv': {
+              // Get thumbnail image.
+              let thumb = post.image_versions2.candidates[0].url;
+              post.instagram.thumb.push(thumb);
+              break;
+            }
+            case 'carousel_container': {
+              for (let media of post.carousel_media) {
+                // Set thumbnail image.
+                let thumb = media.image_versions2.candidates[1].url;
+                post.instagram.thumb.push(thumb);
+                // Get fullsize image.
+                let full = media.image_versions2.candidates[0].url;
+                post.instagram.full.push(full);
+              }
+              break;
+            }
+          }
+          // Add post to feed list.
+          items.push(post);
+        });
+      });
+    // Return feed elements list.
+    res.json(items);
   })();
 });
 

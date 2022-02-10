@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
       .subscribe((data) => {
         console.info('Logged in successfully!');
         localStorage.setItem('state', JSON.stringify(data));
+        localStorage.setItem('user', this.loginForm.value.username);
         window.location.reload()
       });
   }

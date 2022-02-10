@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FeedComponent } from './components/pages/feed/feed.component';
 import { LoginComponent } from './components/pages/login/login.component';
+import { UserComponent } from './components/pages/user/user.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ViewerPhotoComponent } from './components/viewers/viewer-photo/viewer-photo.component';
 
@@ -23,6 +24,7 @@ import { EncodePipe } from './pipes/encode.pipe';
     AppComponent,
     FeedComponent,
     LoginComponent,
+    UserComponent,
     SidenavComponent,
     ViewerPhotoComponent,
     // Utility components.
