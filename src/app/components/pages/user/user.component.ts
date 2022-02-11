@@ -95,6 +95,6 @@ export class UserComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.title.setTitle('Instagram');
+    this.title.setTitle('Instagular');
   }
 }

@@ -124,37 +124,37 @@ router.post('/feed', (req, res, next) => {
             // Exclude ads processing.
             if (post.product_type != 'ad') {
               // Create custom object to return data.
-              post.instagram = {};
-              post.instagram.thumb = [];
-              post.instagram.full = [];
+              post.instagular = {};
+              post.instagular.thumb = [];
+              post.instagular.full = [];
               // Get profile picture image.
-              post.instagram.profile = post.user.profile_pic_url;
+              post.instagular.profile = post.user.profile_pic_url;
               // Parse different media types data.
               switch (post.product_type) {
                 case 'feed': {
                   // Get thumbnail image.
                   let thumb = post.image_versions2.candidates[1].url;
-                  post.instagram.thumb.push(thumb);
+                  post.instagular.thumb.push(thumb);
                   // Get fullsize image.
                   let full = post.image_versions2.candidates[0].url;
-                  post.instagram.full.push(full);
+                  post.instagular.full.push(full);
                   break;
                 }
                 case 'clips':
                 case 'igtv': {
                   // Get thumbnail image.
                   let thumb = post.image_versions2.candidates[0].url;
-                  post.instagram.thumb.push(thumb);
+                  post.instinstagularagram.thumb.push(thumb);
                   break;
                 }
                 case 'carousel_container': {
                   for (let media of post.carousel_media) {
                     // Set thumbnail image.
                     let thumb = media.image_versions2.candidates[1].url;
-                    post.instagram.thumb.push(thumb);
+                    post.instagular.thumb.push(thumb);
                     // Get fullsize image.
                     let full = media.image_versions2.candidates[0].url;
-                    post.instagram.full.push(full);
+                    post.instagular.full.push(full);
                   }
                   break;
                 }
@@ -238,9 +238,9 @@ router.post('/profile', (req, res, next) => {
       // Get current user profile information.
       let userProfile = await client.user.info(userId);
       // Create custom object to return data.
-      userProfile.instagram = {}
+      userProfile.instagular = {}
       // Get thumbnail image.
-      userProfile.instagram.thumb = userProfile.hd_profile_pic_url_info.url;
+      userProfile.instagular.thumb = userProfile.hd_profile_pic_url_info.url;
       // Return user profile information.
       res.status(200);
       res.send(JSON.stringify(userProfile));
@@ -271,37 +271,37 @@ router.post('/user', (req, res, next) => {
         // Get media data from urls.
         res.forEach(async (post) => {
           // Create custom object to return data.
-          post.instagram = {};
-          post.instagram.thumb = [];
-          post.instagram.full = [];
+          post.instagular = {};
+          post.instagular.thumb = [];
+          post.instagular.full = [];
           // Get profile picture image.
-          post.instagram.profile = post.user.profile_pic_url;
+          post.instagular.profile = post.user.profile_pic_url;
           // Parse different media types data.
           switch (post.product_type) {
             case 'feed': {
               // Get thumbnail image.
               let thumb = post.image_versions2.candidates[1].url;
-              post.instagram.thumb.push(thumb);
+              post.instagular.thumb.push(thumb);
               // Get fullsize image.
               let full = post.image_versions2.candidates[0].url;
-              post.instagram.full.push(full);
+              post.instagular.full.push(full);
               break;
             }
             case 'clips':
             case 'igtv': {
               // Get thumbnail image.
               let thumb = post.image_versions2.candidates[0].url;
-              post.instagram.thumb.push(thumb);
+              post.instagular.thumb.push(thumb);
               break;
             }
             case 'carousel_container': {
               for (let media of post.carousel_media) {
                 // Set thumbnail image.
                 let thumb = media.image_versions2.candidates[1].url;
-                post.instagram.thumb.push(thumb);
+                post.instagular.thumb.push(thumb);
                 // Get fullsize image.
                 let full = media.image_versions2.candidates[0].url;
-                post.instagram.full.push(full);
+                post.instagular.full.push(full);
               }
               break;
             }

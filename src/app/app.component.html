@@ -2,7 +2,7 @@
   <div *ngIf="loadSession; then continue; else login"></div>
   <ng-template #continue>
     <div class="flex">
-      <sidenav></sidenav>
+      <sidenav class="sidenav"></sidenav>
       <div class="page-container">
         <div class="page-content">
           <router-outlet></router-outlet>

@@ -1,27 +1,6 @@
 <div class="sidenav-container">
   <div class="sidenav-logo">
-    <img src="/assets/images/logo.svg">
-  </div>
-  <div *ngIf="userProfile" class="sidenav-user">
-    <img-await [source]="userProfile.instagram.thumb" class="sidenav-image"></img-await>
-    <div [routerLink]="['/' + userProfile.username]" class="sidenav-header">
-      <div class="text-main">{{ userProfile.full_name }}</div>
-      <div class="text-sub">@{{ userProfile.username }}</div>
-    </div>
-    <div class="user-stats">
-      <div class="user-stat">
-        <div class="text-main">{{ userProfile.follower_count }}</div>
-        <div class="text-sub">Followers</div>
-      </div>
-      <div class="user-stat">
-        <div class="text-main">{{ userProfile.media_count }}</div>
-        <div class="text-sub">Posts</div>
-      </div>
-      <div class="user-stat">
-        <div class="text-main">{{ userProfile.following_count }}</div>
-        <div class="text-sub">Following</div>
-      </div>
-    </div>
+    <img src="/assets/images/logo-full.svg">
   </div>
   <div class="sidenav-buttons">
     <button routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
@@ -32,5 +11,26 @@
       <img src="/assets/images/logout.svg">
       <p>Log Out</p>
     </button>
+  </div>
+  <div *ngIf="userProfile" [routerLink]="['/' + userProfile.username]" class="sidenav-user">
+    <img-await [source]="userProfile.instagular.thumb" class="sidenav-image"></img-await>
+    <div class="sidenav-header">
+      <div class="text-main text-lg">{{ userProfile.full_name }}</div>
+      <div class="text-sub">@{{ userProfile.username }}</div>
+    </div>
+  </div>
+  <div *ngIf="userProfile" class="user-stats">
+    <div class="user-stat">
+      <div class="text-main">{{ userProfile.media_count }}</div>
+      <div class="text-sub">Posts</div>
+    </div>
+    <div class="user-stat">
+      <div class="text-main">{{ userProfile.follower_count }}</div>
+      <div class="text-sub">Followers</div>
+    </div>
+    <div class="user-stat">
+      <div class="text-main">{{ userProfile.following_count }}</div>
+      <div class="text-sub">Following</div>
+    </div>
   </div>
 </div>

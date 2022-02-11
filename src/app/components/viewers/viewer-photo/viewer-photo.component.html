@@ -3,7 +3,7 @@
   <div class="viewer-contents">
     <div class="viewer-sidenav">
       <div class="sidenav-user">
-        <img-await [source]="feedPost.instagram.profile" class="sidenav-image"></img-await>
+        <img-await [source]="feedPost.instagular.profile" class="sidenav-image"></img-await>
         <div [routerLink]="['/' + feedPost.user.username]" class="sidenav-header">
           <div class="text-main">{{ feedPost.user.full_name }}</div>
           <div class="text-sub">@{{ feedPost.user.username }}</div>
@@ -22,20 +22,20 @@
       </div>
     </div>
     <img-await class="viewer-image"
-      [source]="feedPost.instagram.full.length > 0 ? feedPost.instagram.full[carouselIndex] : feedPost.instagram.thumb[carouselIndex]">
+      [source]="feedPost.instagular.full.length > 0 ? feedPost.instagular.full[carouselIndex] : feedPost.instagular.thumb[carouselIndex]">
     </img-await>
-    <div *ngIf="feedPost.instagram.full.length > 1 && carouselIndex > 0" (click)="carouselPrev()" class="prev-button">
+    <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" (click)="carouselPrev()" class="prev-button">
       <img src="/assets/images/chevron-left.svg">
     </div>
-    <div *ngIf="feedPost.instagram.full.length > 1 && carouselIndex < feedPost.instagram.full.length - 1"
+    <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex < feedPost.instagular.full.length - 1"
       (click)="carouselNext()" class="next-button">
       <img src="/assets/images/chevron-right.svg">
     </div>
     <div (click)="closeSend.emit()" class="close-button">
       <img src="/assets/images/close.svg">
     </div>
-    <div *ngIf="feedPost.instagram.full.length > 1" class="viewer-count">
-      <div *ngFor="let media of feedPost.instagram.full; index as i">
+    <div *ngIf="feedPost.instagular.full.length > 1" class="viewer-count">
+      <div *ngFor="let media of feedPost.instagular.full; index as i">
         <div class="count-dot" [class]="i == carouselIndex ? 'bg-blue-500' : 'bg-slate-100'"></div>
       </div>
     </div>

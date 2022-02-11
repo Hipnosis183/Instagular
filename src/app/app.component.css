@@ -1,7 +1,10 @@
 .page-container {
-    @apply relative overflow-y-auto w-full;
+  @apply relative overflow-y-auto w-full;
+}
+.page-content {
+  @apply absolute bottom-0 left-0 m-6 max-h-full right-0 top-0;
 }
 
-.page-content {
-    @apply absolute bottom-0 left-0 m-6 max-h-full right-0 top-0;
+.sidenav {
+  @apply h-screen py-8;
 }

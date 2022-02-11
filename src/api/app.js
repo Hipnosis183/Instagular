@@ -17,10 +17,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({ origin: [process.env.CORS_ORIGIN], credentials: true }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(`${root}/dist/instagram/`));
+app.use(express.static(`${root}/dist/instagular/`));
 
 app.get('/', (req, res) => {
-    res.sendFile(`${root}/dist/instagram/index.html`)
+    res.sendFile(`${root}/dist/instagular/index.html`)
 });
 
 const ApiRouter = require('./routes/api');
