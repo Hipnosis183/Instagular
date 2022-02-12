@@ -1,0 +1,18 @@
+<div class="viewer-container">
+  <div class="viewer-overlay"></div>
+  <div class="viewer-contents">
+    <div class="options-modal">
+      <div class="options-header">
+        <div>More Options</div>
+        <img src="/assets/images/close.svg" (click)="closeSend.emit()">
+      </div>
+      <div (click)="download.emit()" class="options-item options-icon">
+        <div>Download</div>
+        <img src="/assets/images/download.svg" class="w-4">
+      </div>
+      <div (click)="closeSend.emit()" class="options-item">
+        <div>Close</div>
+      </div>
+    </div>
+  </div>
+</div>

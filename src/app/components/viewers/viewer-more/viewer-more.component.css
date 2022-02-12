@@ -1,0 +1,28 @@
+.options-header {
+  @apply flex h-[70px] items-center justify-center relative;
+}
+.options-header div {
+  @apply cursor-default font-light text-xl;
+}
+.options-header img {
+  @apply absolute cursor-pointer mr-6 right-0 w-4;
+}
+.options-item {
+  @apply cursor-pointer flex h-[60px] items-center justify-center;
+}
+.options-icon {
+  @apply pl-6 space-x-2;
+}
+.options-modal {
+  @apply bg-slate-100 divide-slate-200 divide-y-[1px] rounded-3xl text-slate-800 w-[400px];
+}
+
+.viewer-container {
+  @apply fixed flex h-full items-center justify-center left-0 top-0 w-full z-20;
+}
+.viewer-contents {
+  @apply absolute flex h-full items-center justify-center w-full;
+}
+.viewer-overlay {
+  @apply bg-black bg-opacity-60 h-full w-full;
+}

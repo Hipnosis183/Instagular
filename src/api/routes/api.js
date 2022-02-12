@@ -127,6 +127,19 @@ router.post('/feed', (req, res, next) => {
               post.instagular = {};
               post.instagular.thumb = [];
               post.instagular.full = [];
+              // Download URL Flags (Required):
+              // -'_nc_ht': ? (Signature mismatch)
+              // -'_nc_ohc': ? (Signature mismatch)
+              // -'edm': ? (Signature mismatch)
+              // -'oh': Hash
+              // -'oe': Timestamp
+              //
+              // Download URL Flags (Optional):
+              // -'se': Image quality (0-9)
+              //
+              // Append '&se=0' to ensure always source quality.
+              // Append '&dl=1' to download media automatically.
+              post.instagular.download = [];
               // Get profile picture image.
               post.instagular.profile = post.user.profile_pic_url;
               // Parse different media types data.
@@ -138,6 +151,9 @@ router.post('/feed', (req, res, next) => {
                   // Get fullsize image.
                   let full = post.image_versions2.candidates[0].url;
                   post.instagular.full.push(full);
+                  // Get download url.
+                  let download = post.image_versions2.candidates[0].url + '&se=0&dl=1';
+                  post.instagular.download.push(download);
                   break;
                 }
                 case 'clips':
@@ -155,6 +171,9 @@ router.post('/feed', (req, res, next) => {
                     // Get fullsize image.
                     let full = media.image_versions2.candidates[0].url;
                     post.instagular.full.push(full);
+                    // Get download url.
+                    let download = media.image_versions2.candidates[0].url + '&se=0&dl=1';
+                    post.instagular.download.push(download);
                   }
                   break;
                 }
@@ -274,6 +293,19 @@ router.post('/user', (req, res, next) => {
           post.instagular = {};
           post.instagular.thumb = [];
           post.instagular.full = [];
+          // Download URL Flags (Required):
+          // -'_nc_ht': ? (Signature mismatch)
+          // -'_nc_ohc': ? (Signature mismatch)
+          // -'edm': ? (Signature mismatch)
+          // -'oh': Hash
+          // -'oe': Timestamp
+          //
+          // Download URL Flags (Optional):
+          // -'se': Image quality (0-9)
+          //
+          // Append '&se=0' to ensure always source quality.
+          // Append '&dl=1' to download media automatically.
+          post.instagular.download = [];
           // Get profile picture image.
           post.instagular.profile = post.user.profile_pic_url;
           // Parse different media types data.
@@ -285,6 +317,9 @@ router.post('/user', (req, res, next) => {
               // Get fullsize image.
               let full = post.image_versions2.candidates[0].url;
               post.instagular.full.push(full);
+              // Get download url.
+              let download = post.image_versions2.candidates[0].url + '&se=0&dl=1';
+              post.instagular.download.push(download);
               break;
             }
             case 'clips':
@@ -302,6 +337,9 @@ router.post('/user', (req, res, next) => {
                 // Get fullsize image.
                 let full = media.image_versions2.candidates[0].url;
                 post.instagular.full.push(full);
+                // Get download url.
+                let download = media.image_versions2.candidates[0].url + '&se=0&dl=1';
+                post.instagular.download.push(download);
               }
               break;
             }

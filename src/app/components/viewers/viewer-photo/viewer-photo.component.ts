@@ -25,6 +25,21 @@ export class ViewerPhotoComponent implements OnInit {
     this.carouselIndex++;
   }
 
+  moreOptions = 0;
+
+  openOptions(): void {
+    this.moreOptions = 1;
+  }
+
+  closeOptions(): void {
+    this.moreOptions = 0;
+  }
+
+  downloadMedia(): void {
+    window.open(this.feedPost.instagular.download[this.carouselIndex], '_blank');
+    this.moreOptions = 0;
+  }
+
   ngOnInit(): void {
     this.carouselIndex = 0;
   }

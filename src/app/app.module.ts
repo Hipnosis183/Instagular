@@ -11,6 +11,7 @@ import { LoginComponent } from './components/pages/login/login.component';
 import { UserComponent } from './components/pages/user/user.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ViewerPhotoComponent } from './components/viewers/viewer-photo/viewer-photo.component';
+import { ViewerMoreComponent } from './components/viewers/viewer-more/viewer-more.component';
 
 // Utility components.
 import { ImgAwaitComponent } from './utils/img-await/img-await.component';
@@ -27,6 +28,7 @@ import { EncodePipe } from './pipes/encode.pipe';
     UserComponent,
     SidenavComponent,
     ViewerPhotoComponent,
+    ViewerMoreComponent,
     // Utility components.
     ImgAwaitComponent,
     // Pipes.

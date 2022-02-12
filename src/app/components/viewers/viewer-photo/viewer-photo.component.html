@@ -1,8 +1,10 @@
+<viewer-more *ngIf="moreOptions" (download)="downloadMedia()" (closeSend)="closeOptions()"></viewer-more>
 <div class="viewer-container">
   <div class="viewer-overlay"></div>
   <div class="viewer-contents">
     <div class="viewer-sidenav">
       <div class="sidenav-user">
+        <img src="/assets/images/more.svg" (click)="openOptions()" class="more-button">
         <img-await [source]="feedPost.instagular.profile" class="sidenav-image"></img-await>
         <div [routerLink]="['/' + feedPost.user.username]" class="sidenav-header">
           <div class="text-main">{{ feedPost.user.full_name }}</div>
