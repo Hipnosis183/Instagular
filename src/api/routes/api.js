@@ -123,61 +123,8 @@ router.post('/feed', (req, res, next) => {
           res.forEach(async (post) => {
             // Exclude ads processing.
             if (post.product_type != 'ad') {
-              // Create custom object to return data.
-              post.instagular = {};
-              post.instagular.thumb = [];
-              post.instagular.full = [];
-              // Download URL Flags (Required):
-              // -'_nc_ht': ? (Signature mismatch)
-              // -'_nc_ohc': ? (Signature mismatch)
-              // -'edm': ? (Signature mismatch)
-              // -'oh': Hash
-              // -'oe': Timestamp
-              //
-              // Download URL Flags (Optional):
-              // -'se': Image quality (0-9)
-              //
-              // Append '&se=0' to ensure always source quality.
-              // Append '&dl=1' to download media automatically.
-              post.instagular.download = [];
-              // Get profile picture image.
-              post.instagular.profile = post.user.profile_pic_url;
-              // Parse different media types data.
-              switch (post.product_type) {
-                case 'feed': {
-                  // Get thumbnail image.
-                  let thumb = post.image_versions2.candidates[1].url;
-                  post.instagular.thumb.push(thumb);
-                  // Get fullsize image.
-                  let full = post.image_versions2.candidates[0].url;
-                  post.instagular.full.push(full);
-                  // Get download url.
-                  let download = post.image_versions2.candidates[0].url + '&se=0&dl=1';
-                  post.instagular.download.push(download);
-                  break;
-                }
-                case 'clips':
-                case 'igtv': {
-                  // Get thumbnail image.
-                  let thumb = post.image_versions2.candidates[0].url;
-                  post.instinstagularagram.thumb.push(thumb);
-                  break;
-                }
-                case 'carousel_container': {
-                  for (let media of post.carousel_media) {
-                    // Set thumbnail image.
-                    let thumb = media.image_versions2.candidates[1].url;
-                    post.instagular.thumb.push(thumb);
-                    // Get fullsize image.
-                    let full = media.image_versions2.candidates[0].url;
-                    post.instagular.full.push(full);
-                    // Get download url.
-                    let download = media.image_versions2.candidates[0].url + '&se=0&dl=1';
-                    post.instagular.download.push(download);
-                  }
-                  break;
-                }
-              }
+              // Process post custom data.
+              post.instagular = await getPostInfo(post)
               // Add post to feed list.
               items.push(post);
             }
@@ -188,6 +135,96 @@ router.post('/feed', (req, res, next) => {
     res.json(items);
   })();
 });
+
+router.post('/user', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Set the user id.
+    const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
+    // Load user feed object.
+    const feedUser = client.feed.user(userId);
+    // Initialize feed elements list.
+    let items = [];
+    // Load user posts.
+    await feedUser.items()
+      .then((res) => {
+        // Get media data from urls.
+        res.forEach(async (post) => {
+          // Process post custom data.
+          post.instagular = await getPostInfo(post)
+          // Add post to feed list.
+          items.push(post);
+        });
+      });
+    // Return feed elements list.
+    res.json(items);
+  })();
+});
+
+const getPostInfo = async (post) => {
+  // Create custom object to return data.
+  let instagular = {};
+  // Download URL Flags (Required):
+  // -'_nc_ht': ? (Signature mismatch)
+  // -'_nc_ohc': ? (Signature mismatch)
+  // -'edm': ? (Signature mismatch)
+  // -'oh': Hash
+  // -'oe': Timestamp
+  //
+  // Download URL Flags (Optional):
+  // -'se': Image quality (0-9)
+  //
+  // Append '&se=0' to ensure always source quality.
+  // Append '&dl=1' to download media automatically.
+  instagular.download = [];
+  instagular.thumb = [];
+  instagular.full = [];
+  // Get profile picture image.
+  instagular.profile = post.user.profile_pic_url;
+  // Parse different media types data.
+  switch (post.product_type) {
+    case 'feed': {
+      // Get thumbnail image.
+      let thumb = post.image_versions2.candidates.length > 1 ? post.image_versions2.candidates[1].url : post.image_versions2.candidates[0].url;
+      instagular.thumb.push(thumb);
+      // Get fullsize image.
+      let full = post.image_versions2.candidates[0].url;
+      instagular.full.push(full);
+      // Get download url.
+      let download = post.image_versions2.candidates[0].url + '&se=0&dl=1';
+      instagular.download.push(download);
+      break;
+    }
+    case 'clips':
+    case 'igtv': {
+      // Get thumbnail image.
+      let thumb = post.image_versions2.candidates[0].url;
+      instagular.thumb.push(thumb);
+      break;
+    }
+    case 'carousel_container': {
+      for (let media of post.carousel_media) {
+        // Set thumbnail image.
+        let thumb = media.image_versions2.candidates.length > 1 ? media.image_versions2.candidates[1].url : media.image_versions2.candidates[0].url;
+        instagular.thumb.push(thumb);
+        // Get fullsize image.
+        let full = media.image_versions2.candidates[0].url;
+        instagular.full.push(full);
+        // Get download url.
+        let download = media.image_versions2.candidates[0].url + '&se=0&dl=1';
+        instagular.download.push(download);
+      }
+      break;
+    }
+  }
+  // Return processed post response.
+  return instagular;
+}
 
 router.post('/like', (req, res, next) => {
   ; (async () => {
@@ -267,89 +304,6 @@ router.post('/profile', (req, res, next) => {
       res.status(400);
       res.send(e);
     }
-  })();
-});
-
-router.post('/user', (req, res, next) => {
-  ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
-    // Load the state from a previous session.
-    await client.state.deserialize(req.body.session);
-    // Set the user id.
-    const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
-    // Load user feed object.
-    const feedUser = client.feed.user(userId);
-    // Initialize feed elements list.
-    let items = [];
-    // Load user posts.
-    await feedUser.items()
-      .then((res) => {
-        // Get media data from urls.
-        res.forEach(async (post) => {
-          // Create custom object to return data.
-          post.instagular = {};
-          post.instagular.thumb = [];
-          post.instagular.full = [];
-          // Download URL Flags (Required):
-          // -'_nc_ht': ? (Signature mismatch)
-          // -'_nc_ohc': ? (Signature mismatch)
-          // -'edm': ? (Signature mismatch)
-          // -'oh': Hash
-          // -'oe': Timestamp
-          //
-          // Download URL Flags (Optional):
-          // -'se': Image quality (0-9)
-          //
-          // Append '&se=0' to ensure always source quality.
-          // Append '&dl=1' to download media automatically.
-          post.instagular.download = [];
-          // Get profile picture image.
-          post.instagular.profile = post.user.profile_pic_url;
-          // Parse different media types data.
-          switch (post.product_type) {
-            case 'feed': {
-              // Get thumbnail image.
-              let thumb = post.image_versions2.candidates[1].url;
-              post.instagular.thumb.push(thumb);
-              // Get fullsize image.
-              let full = post.image_versions2.candidates[0].url;
-              post.instagular.full.push(full);
-              // Get download url.
-              let download = post.image_versions2.candidates[0].url + '&se=0&dl=1';
-              post.instagular.download.push(download);
-              break;
-            }
-            case 'clips':
-            case 'igtv': {
-              // Get thumbnail image.
-              let thumb = post.image_versions2.candidates[0].url;
-              post.instagular.thumb.push(thumb);
-              break;
-            }
-            case 'carousel_container': {
-              for (let media of post.carousel_media) {
-                // Set thumbnail image.
-                let thumb = media.image_versions2.candidates[1].url;
-                post.instagular.thumb.push(thumb);
-                // Get fullsize image.
-                let full = media.image_versions2.candidates[0].url;
-                post.instagular.full.push(full);
-                // Get download url.
-                let download = media.image_versions2.candidates[0].url + '&se=0&dl=1';
-                post.instagular.download.push(download);
-              }
-              break;
-            }
-          }
-          // Add post to feed list.
-          items.push(post);
-        });
-      });
-    // Return feed elements list.
-    res.json(items);
   })();
 });
 

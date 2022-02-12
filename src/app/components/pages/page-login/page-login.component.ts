@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
-  selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'page-login',
+  templateUrl: './page-login.component.html',
+  styleUrls: ['./page-login.component.css']
 })
 
-export class LoginComponent implements OnInit {
+export class PageLoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
     password: ''
   });
 
-  private loginError(error: HttpErrorResponse) {
-    return throwError('Login error: incorrect username or password.');
+  private loginError() {
+    return throwError(() => new Error('Login error: incorrect username or password.'));
   }
 
   loginUser(): void {
@@ -39,8 +39,8 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  private sessionError(error: HttpErrorResponse) {
-    return throwError('Session error: corrupted stored data or the session has expired.');
+  private sessionError() {
+    return throwError(() => new Error('Session error: corrupted stored data or the session has expired.'));
   }
 
   loadSession(): void {

@@ -5,6 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './viewer-photo.component.html',
   styleUrls: ['./viewer-photo.component.css']
 })
+
 export class ViewerPhotoComponent implements OnInit {
 
   constructor() { }

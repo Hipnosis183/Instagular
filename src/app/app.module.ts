@@ -6,12 +6,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // App components.
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FeedComponent } from './components/pages/feed/feed.component';
-import { LoginComponent } from './components/pages/login/login.component';
-import { UserComponent } from './components/pages/user/user.component';
+import { PageFeedComponent } from './components/pages/page-feed/page-feed.component';
+import { PageLoginComponent } from './components/pages/page-login/page-login.component';
+import { PageUserComponent } from './components/pages/page-user/page-user.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ViewerPhotoComponent } from './components/viewers/viewer-photo/viewer-photo.component';
 import { ViewerMoreComponent } from './components/viewers/viewer-more/viewer-more.component';
+import { MediaFeedComponent } from './components/media/media-feed/media-feed.component';
 
 // Utility components.
 import { ImgAwaitComponent } from './utils/img-await/img-await.component';
@@ -23,12 +24,13 @@ import { EncodePipe } from './pipes/encode.pipe';
   declarations: [
     // App components.
     AppComponent,
-    FeedComponent,
-    LoginComponent,
-    UserComponent,
+    PageFeedComponent,
+    PageLoginComponent,
+    PageUserComponent,
     SidenavComponent,
     ViewerPhotoComponent,
     ViewerMoreComponent,
+    MediaFeedComponent,
     // Utility components.
     ImgAwaitComponent,
     // Pipes.

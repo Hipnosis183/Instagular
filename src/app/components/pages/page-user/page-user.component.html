@@ -1,7 +1,5 @@
-<viewer-photo *ngIf="userPost" [feedPost]="userPost" (likeSend)="likeMedia($event)" (unlikeSend)="unlikeMedia($event)"
-  (closeSend)="closeMedia()"></viewer-photo>
-<div *ngIf="userProfile" class="sidenav-user">
-  <img-await [source]="userProfile.instagular.thumb" class="sidenav-image"></img-await>
+<div *ngIf="userProfile" class="user-container">
+  <img-await [source]="userProfile.instagular.thumb" class="user-image"></img-await>
   <div>
     <div class="text-main text-[32px]">{{ userProfile.full_name }}</div>
     <div class="user-stats">
@@ -29,18 +27,4 @@
     </div>
   </div>
 </div>
-<div class="feed-container">
-  <div class="feed-grid">
-    <div *ngFor="let post of userPosts" class="feed-post">
-      <div class="post-container">
-        <img *ngIf="post.instagular.thumb.length > 1" src="/assets/images/carousel.svg" class="post-carousel">
-        <div class="post-footer">
-          <img [src]="'/assets/images/' + (post.has_liked ? 'like-fill.svg' : 'like-lite.svg')"
-            (click)="post.has_liked ? unlikeMedia(post.id) : likeMedia(post.id)">
-        </div>
-        <div (click)="openMedia(post)" class="post-gradient"></div>
-      </div>
-      <img-await [source]="post.instagular.thumb[0]" class="post-image"></img-await>
-    </div>
-  </div>
-</div>
+<media-feed [feedPosts]="userPosts" [hideHeader]="true"></media-feed>

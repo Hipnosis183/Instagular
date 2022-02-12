@@ -1,22 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
-  templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.css']
+  selector: 'media-feed',
+  templateUrl: './media-feed.component.html',
+  styleUrls: ['./media-feed.component.css']
 })
 
-export class FeedComponent implements OnInit {
+export class MediaFeedComponent implements OnInit {
 
   constructor(
-    private http: HttpClient,
-    private router: Router
+    private http: HttpClient
   ) { }
 
-  feedPosts: any[] = [];
+  @Input() hideHeader: boolean = false;
+  @Input() feedPosts: any[] = [];
   feedPost: any = null;
 
   openMedia(post: any): void {
@@ -27,17 +27,8 @@ export class FeedComponent implements OnInit {
     this.feedPost = null;
   }
 
-  loadFeed(): void {
-    this.http.post<object[]>('/api/feed', { session: localStorage.getItem("state") })
-      .subscribe((data) => {
-        console.info('Feed loaded successfully!');
-        console.log(data);
-        this.feedPosts = data;
-      });
-  }
-
-  private likeError(error: HttpErrorResponse) {
-    return throwError('Media error: could not like the media.');
+  private likeError() {
+    return throwError(() => new Error('Media error: could not like the media.'));
   }
 
   likeMedia(id: string): void {
@@ -50,8 +41,8 @@ export class FeedComponent implements OnInit {
       });
   }
 
-  private unlikeError(error: HttpErrorResponse) {
-    return throwError('Media error: could not unlike the media.');
+  private unlikeError() {
+    return throwError(() => new Error('Media error: could not unlike the media.'));
   }
 
   unlikeMedia(id: string): void {
@@ -65,6 +56,5 @@ export class FeedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadFeed();
   }
 }
