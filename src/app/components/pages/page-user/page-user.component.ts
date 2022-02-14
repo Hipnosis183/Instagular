@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
+import { throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -22,17 +22,20 @@ export class PageUserComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
+  userNotFound: boolean = false;
   userPosts: any[] = [];
   userProfile: any = null
 
   private profileError() {
+    this.title.setTitle('Page not found · Instagular');
+    this.userNotFound = true; return of();
     return throwError(() => new Error('Profile error: cannot load user profile information.'));
   }
 
   loadProfile(): void {
     this.http.post<any>('/api/profile', { id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
-      .pipe(catchError(this.profileError))
-      .subscribe((data) => {
+      .pipe(catchError(this.profileError.bind(this)))
+      .subscribe((data: any) => {
         console.info('Profile loaded successfully!');
         console.log(data);
         this.userProfile = data;
