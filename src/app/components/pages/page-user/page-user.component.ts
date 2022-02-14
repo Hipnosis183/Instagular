@@ -37,6 +37,7 @@ export class PageUserComponent implements OnInit {
         console.log(data);
         this.userProfile = data;
         this.title.setTitle(`${data.full_name} (@${data.username})`);
+        if (!data.is_private) { this.loadUser(); }
       });
   }
 
@@ -56,7 +57,6 @@ export class PageUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProfile();
-    this.loadUser();
   }
 
   ngOnDestroy(): void {

@@ -20,11 +20,23 @@
     </div>
     <div [innerText]="userProfile.biography" class="my-5 text-main"></div>
     <div *ngIf="userProfile.external_url" class="user-link">
-      <img [src]="'/assets/images/link.svg'">
+      <img src="/assets/images/link.svg">
       <a [href]="userProfile.external_url" target="_blank" rel="noopener noreferrer">
         {{ userProfile.external_url }}
       </a>
     </div>
   </div>
 </div>
-<media-feed [feedPosts]="userPosts" [hideHeader]="true"></media-feed>
+<div *ngIf="userProfile">
+  <div *ngIf="!userProfile.is_private; then public; else private"></div>
+  <ng-template #public>
+    <media-feed [feedPosts]="userPosts" [hideHeader]="true"></media-feed>
+  </ng-template>
+  <ng-template #private>
+    <div class="user-private">
+      <img src="/assets/images/lock.svg">
+      <div class="text-main">This account is private</div>
+      <div class="text-sub">Follow to see their photos and videos.</div>
+    </div>
+  </ng-template>
+</div>
