@@ -7,7 +7,10 @@
         <img src="/assets/images/more.svg" (click)="openOptions()" class="more-button">
         <img-await [source]="feedPost.instagular.profile" class="sidenav-image"></img-await>
         <div [routerLink]="['/' + feedPost.user.username]" class="sidenav-header">
-          <div class="text-main">{{ feedPost.user.full_name }}</div>
+          <div class="sidenav-name">
+            <div class="text-main">{{ feedPost.user.full_name }}</div>
+            <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
+          </div>
           <div class="text-sub">@{{ feedPost.user.username }}</div>
         </div>
         <div *ngIf="feedPost.location" class="sidenav-location">{{ feedPost.location.name }}</div>

@@ -7,6 +7,7 @@
         <div *ngIf="!hideHeader" [routerLink]="['/' + post.user.username]" class="post-header">
           <img-await [source]="post.instagular.profile" class="post-profile"></img-await>
           <p>{{ post.user.username }}</p>
+          <img *ngIf="post.user.is_verified" src="/assets/images/verified.svg">
         </div>
         <img *ngIf="post.instagular.thumb.length > 1" src="/assets/images/carousel.svg" class="post-carousel">
         <div class="post-footer">

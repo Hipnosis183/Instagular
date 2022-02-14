@@ -24,6 +24,12 @@
 .sidenav-location {
   @apply max-w-full overflow-hidden text-sub whitespace-nowrap;
 }
+.sidenav-name {
+  @apply flex space-x-2;
+}
+.sidenav-name img {
+  @apply -mr-8 !important;
+}
 .sidenav-stats {
   @apply cursor-default flex h-10 items-center justify-between mb-8 mt-6 w-full;
 }

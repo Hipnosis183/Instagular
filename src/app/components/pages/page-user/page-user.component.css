@@ -15,6 +15,12 @@
 .user-container {
   @apply flex items-center mb-8 px-8 space-x-10 w-full;
 }
+.user-header {
+  @apply flex space-x-2;
+}
+.user-header img {
+  @apply w-7;
+}
 .user-image {
   @apply flex h-[200px] min-h-[200px] min-w-[200px] overflow-hidden rounded-full w-[200px];
 }
