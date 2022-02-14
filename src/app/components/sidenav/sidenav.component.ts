@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -9,6 +9,7 @@ import { catchError } from 'rxjs/operators';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css']
 })
+
 export class SidenavComponent implements OnInit {
 
   constructor(
@@ -18,8 +19,8 @@ export class SidenavComponent implements OnInit {
 
   userProfile: any = null
 
-  private profileError(error: HttpErrorResponse) {
-    return throwError('Profile error: cannot load user profile information.');
+  private profileError() {
+    return throwError(() => new Error('Profile error: cannot load user profile information.'));
   }
 
   loadProfile(): void {
@@ -32,8 +33,8 @@ export class SidenavComponent implements OnInit {
       });
   }
 
-  private logoutError(error: HttpErrorResponse) {
-    return throwError('Logout error: no session active.');
+  private logoutError() {
+    return throwError(() => new Error('Logout error: no session active.'));
   }
 
   logoutUser(): void {
