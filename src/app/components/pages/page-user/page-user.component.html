@@ -40,11 +40,13 @@
   </div>
 </div>
 <div *ngIf="userProfile">
-  <div *ngIf="!userProfile.is_private; then public; else private"></div>
-  <ng-template #public>
+  <div
+    *ngIf="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following); then allow; else block">
+  </div>
+  <ng-template #allow>
     <media-feed [feedPosts]="userPosts" [hideHeader]="true"></media-feed>
   </ng-template>
-  <ng-template #private>
+  <ng-template #block>
     <div class="error-container mt-24">
       <img src="/assets/images/lock.svg">
       <div class="text-main">This account is private</div>

@@ -41,7 +41,9 @@ export class PageUserComponent implements OnInit {
         console.log(data);
         this.userProfile = data;
         this.title.setTitle(`${data.full_name} (@${data.username})`);
-        if (!data.is_private) { this.loadUser(); }
+        if (!data.is_private || (data.is_private && data.friendship.following)) {
+          this.loadUser();
+        }
       });
   }
 
