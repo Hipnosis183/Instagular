@@ -21,15 +21,15 @@
   </div>
   <div *ngIf="userProfile" class="user-stats">
     <div class="user-stat">
-      <div class="text-main">{{ userProfile.media_count }}</div>
+      <div class="text-main">{{ userProfile.media_count | shortNumber }}</div>
       <div class="text-sub">Posts</div>
     </div>
     <div class="user-stat">
-      <div class="text-main">{{ userProfile.follower_count }}</div>
+      <div class="text-main">{{ userProfile.follower_count | shortNumber }}</div>
       <div class="text-sub">Followers</div>
     </div>
     <div class="user-stat">
-      <div class="text-main">{{ userProfile.following_count }}</div>
+      <div class="text-main">{{ userProfile.following_count | shortNumber }}</div>
       <div class="text-sub">Following</div>
     </div>
   </div>

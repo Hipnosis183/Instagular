@@ -19,6 +19,7 @@ import { ImgAwaitComponent } from './utils/img-await/img-await.component';
 
 // Pipes.
 import { EncodePipe } from './pipes/encode.pipe';
+import { ShortNumberPipe } from './pipes/short-number.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { EncodePipe } from './pipes/encode.pipe';
     // Utility components.
     ImgAwaitComponent,
     // Pipes.
-    EncodePipe
+    EncodePipe,
+    ShortNumberPipe
   ],
   imports: [
     AppRoutingModule,

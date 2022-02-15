@@ -17,7 +17,7 @@
         <div class="sidenav-stats">
           <div class="text-sub">{{ feedPost.taken_at * 1000 | date }}</div>
           <div class="flex space-x-4">
-            <div class="text-main">{{ feedPost.like_count }}</div>
+            <div class="text-main">{{ feedPost.like_count | shortNumber }}</div>
             <img [src]="'/assets/images/' + (feedPost.has_liked ? 'like-fill.svg' : 'like.svg')"
               (click)="feedPost.has_liked ? unlikeSend.emit(feedPost.id) : likeSend.emit(feedPost.id)"
               class="cursor-pointer object-contain">
