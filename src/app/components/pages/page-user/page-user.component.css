@@ -5,6 +5,16 @@
   @apply mb-6 w-24;
 }
 
+.follow-button {
+  @apply cursor-pointer ml-4 px-4 py-1.5 rounded-lg !important;
+}
+.follow-color {
+  @apply bg-blue-500 text-slate-50;
+}
+.follow-light {
+  @apply bg-slate-200 text-slate-800;
+}
+
 .text-main {
   @apply cursor-default text-slate-800;
 }
@@ -16,7 +26,7 @@
   @apply flex items-center mb-8 px-8 space-x-10 w-full;
 }
 .user-header {
-  @apply flex space-x-2;
+  @apply flex items-center mb-0.5 space-x-2;
 }
 .user-header img {
   @apply w-7;

@@ -4,6 +4,15 @@
     <div class="user-header">
       <div class="text-main text-[32px]">{{ userProfile.full_name }}</div>
       <img *ngIf="userProfile.is_verified" src="/assets/images/verified.svg">
+      <div *ngIf="userProfile.username != userName"
+        (click)="userProfile.friendship.following ? unfollowUser() : followUser()" class="follow-button"
+        [class]="userProfile.friendship.following ? 'follow-light' : 'follow-color'">
+        {{ userProfile.friendship.following ? 'Following' : 'Follow' }}
+      </div>
+      <div *ngIf="userProfile.friendship.followed_by" class="pl-2 user-stats">
+        <div class="text-sub">•</div>
+        <div class="text-sub">Follows you</div>
+      </div>
     </div>
     <div class="user-stats">
       <div class="text-sub">@{{ userProfile.username }}</div>

@@ -22,9 +22,10 @@ export class PageUserComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
+  userName: any = '';
   userNotFound: boolean = false;
   userPosts: any[] = [];
-  userProfile: any = null
+  userProfile: any = null;
 
   private profileError() {
     this.title.setTitle('Page not found · Instagular');
@@ -58,7 +59,34 @@ export class PageUserComponent implements OnInit {
       });
   }
 
+  private followError() {
+    return throwError(() => new Error('Following error: could not follow user.'));
+  }
+
+  followUser(): void {
+    this.http.post('/api/follow', { userId: this.userProfile.pk, session: localStorage.getItem("state") })
+      .pipe(catchError(this.followError))
+      .subscribe((data) => {
+        console.info('User followed successfully!');
+        this.userProfile.friendship.following = true;
+      });
+  }
+
+  private unfollowError() {
+    return throwError(() => new Error('Unfollowing error: could not unfollow user.'));
+  }
+
+  unfollowUser(): void {
+    this.http.post('/api/unfollow', { userId: this.userProfile.pk, session: localStorage.getItem("state") })
+      .pipe(catchError(this.unfollowError))
+      .subscribe((data) => {
+        console.info('User unfollowed successfully :(');
+        this.userProfile.friendship.following = false;
+      });
+  }
+
   ngOnInit(): void {
+    this.userName = localStorage.getItem('user');
     this.loadProfile();
   }
 

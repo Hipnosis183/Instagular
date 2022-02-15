@@ -280,6 +280,46 @@ router.post('/unlike', (req, res, next) => {
   })();
 });
 
+router.post('/follow', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    try {
+      // Load the state from a previous session.
+      await client.state.deserialize(req.body.session);
+      // Follow the selected user.
+      await client.friendship.create(req.body.userId);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+});
+
+router.post('/unfollow', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    try {
+      // Load the state from a previous session.
+      await client.state.deserialize(req.body.session);
+      // Unfollow the selected user.
+      await client.friendship.destroy(req.body.userId);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+});
+
 router.post('/profile', (req, res, next) => {
   ; (async () => {
     // Create new Instagram client instance.
@@ -297,6 +337,8 @@ router.post('/profile', (req, res, next) => {
       userProfile.instagular = {}
       // Get thumbnail image.
       userProfile.instagular.thumb = userProfile.hd_profile_pic_url_info.url;
+      // Get relationship data with the current user.
+      userProfile.friendship = await client.friendship.show(userId);
       // Return user profile information.
       res.status(200);
       res.send(JSON.stringify(userProfile));
