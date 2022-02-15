@@ -30,7 +30,7 @@
         <div class="text-sub">Following</div>
       </div>
     </div>
-    <div [innerText]="userProfile.biography" class="my-5 text-main"></div>
+    <div [innerHTML]="userProfile.biography | parseUrls " class="my-5 text-main"></div>
     <div *ngIf="userProfile.external_url" class="user-link">
       <img src="/assets/images/link.svg">
       <a [href]="userProfile.external_url" target="_blank" rel="noopener noreferrer">

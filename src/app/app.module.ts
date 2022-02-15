@@ -19,6 +19,7 @@ import { ImgAwaitComponent } from './utils/img-await/img-await.component';
 
 // Pipes.
 import { EncodePipe } from './pipes/encode.pipe';
+import { ParseUrlsPipe } from './pipes/parse-urls.pipe';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
 
 @NgModule({
@@ -36,6 +37,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     ImgAwaitComponent,
     // Pipes.
     EncodePipe,
+    ParseUrlsPipe,
     ShortNumberPipe
   ],
   imports: [

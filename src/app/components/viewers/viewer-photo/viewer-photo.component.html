@@ -23,7 +23,7 @@
               class="cursor-pointer object-contain">
           </div>
         </div>
-        <div *ngIf="feedPost.caption" [innerText]="feedPost.caption.text" class="text-main w-full"></div>
+        <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls " class="text-main w-full"></div>
       </div>
     </div>
     <img-await class="viewer-image"
