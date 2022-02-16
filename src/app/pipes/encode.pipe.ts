@@ -17,8 +17,8 @@ export class EncodePipe implements PipeTransform {
     return throwError(() => new Error('Encoding error: wrong url or network error.'));
   }
 
-  transform(value: string): Observable<any> {
-    return this.http.post<string>('/api/encode', { url: value })
+  transform(value: string, video = false): Observable<any> {
+    return this.http.post<string>('/api/encode', { url: value, video: video })
       .pipe(catchError(this.encodeError))
       .pipe(map((data: string) => {
         console.info('Media encoded successfully!');

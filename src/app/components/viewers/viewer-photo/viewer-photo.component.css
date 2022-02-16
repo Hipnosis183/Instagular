@@ -57,10 +57,11 @@
 .viewer-count .count-dot {
   @apply h-2 rounded-full w-2;
 }
-.viewer-image {
+.viewer-media {
   @apply w-full;
 }
-:host ::ng-deep .viewer-image img {
+.viewer-media video,
+:host ::ng-deep .viewer-media img {
   @apply h-full ml-[320px] object-contain;
   width: calc(100% - 320px);
 }

@@ -181,43 +181,58 @@ const getPostInfo = async (post) => {
   //
   // Append '&se=0' to ensure always source quality.
   // Append '&dl=1' to download media automatically.
+  instagular.media_type = [];
   instagular.download = [];
   instagular.thumb = [];
   instagular.full = [];
   // Get profile picture image.
   instagular.profile = post.user.profile_pic_url;
   // Parse different media types data.
-  switch (post.product_type) {
-    case 'feed': {
-      // Get thumbnail image.
-      let thumb = post.image_versions2.candidates.length > 1 ? post.image_versions2.candidates[1].url : post.image_versions2.candidates[0].url;
+  switch (post.media_type) {
+    case 1: {
+      instagular.media_type.push(1);
+      let thumb = post.image_versions2.candidates[1].url;
       instagular.thumb.push(thumb);
-      // Get fullsize image.
       let full = post.image_versions2.candidates[0].url;
       instagular.full.push(full);
-      // Get download url.
       let download = post.image_versions2.candidates[0].url + '&se=0&dl=1';
       instagular.download.push(download);
       break;
     }
-    case 'clips':
-    case 'igtv': {
-      // Get thumbnail image.
+    case 2: {
+      instagular.media_type.push(2);
       let thumb = post.image_versions2.candidates[0].url;
       instagular.thumb.push(thumb);
+      let full = post.video_versions[0].url;
+      instagular.full.push(full);
+      let download = post.video_versions[0].url + '&se=0&dl=1';
+      instagular.download.push(download);
       break;
     }
-    case 'carousel_container': {
+    case 8: {
       for (let media of post.carousel_media) {
-        // Set thumbnail image.
-        let thumb = media.image_versions2.candidates.length > 1 ? media.image_versions2.candidates[1].url : media.image_versions2.candidates[0].url;
-        instagular.thumb.push(thumb);
-        // Get fullsize image.
-        let full = media.image_versions2.candidates[0].url;
-        instagular.full.push(full);
-        // Get download url.
-        let download = media.image_versions2.candidates[0].url + '&se=0&dl=1';
-        instagular.download.push(download);
+        switch (media.media_type) {
+          case 1: {
+            instagular.media_type.push(1);
+            let thumb = media.image_versions2.candidates[1].url;
+            instagular.thumb.push(thumb);
+            let full = media.image_versions2.candidates[0].url;
+            instagular.full.push(full);
+            let download = media.image_versions2.candidates[0].url + '&se=0&dl=1';
+            instagular.download.push(download);
+            break;
+          }
+          case 2: {
+            instagular.media_type.push(2);
+            let thumb = media.image_versions2.candidates[0].url;
+            instagular.thumb.push(thumb);
+            let full = media.video_versions[0].url;
+            instagular.full.push(full);
+            let download = media.video_versions[0].url + '&se=0&dl=1';
+            instagular.download.push(download);
+            break;
+          }
+        }
       }
       break;
     }
@@ -364,7 +379,8 @@ router.post('/encode', (req, res, next) => {
     // Convert blob data to Base64.
     let bufferBase64 = Buffer.from(blob, 'binary').toString('base64');
     // Return formatted data to use as an image.
-    let encodedBase64 = 'data:image/png;base64,' + bufferBase64;
+    let encodeType = req.body.video ? 'data:video/mp4;base64,' : 'data:image/png;base64,';
+    let encodedBase64 = encodeType + bufferBase64;
     res.status(200);
     res.json(encodedBase64);
   })();

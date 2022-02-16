@@ -9,7 +9,8 @@
           <p>{{ post.user.username }}</p>
           <img *ngIf="post.user.is_verified" src="/assets/images/verified.svg">
         </div>
-        <img *ngIf="post.instagular.thumb.length > 1" src="/assets/images/carousel.svg" class="post-carousel">
+        <img *ngIf="post.media_type == 8" src="/assets/images/carousel.svg" class="post-type">
+        <img *ngIf="post.media_type == 2" src="/assets/images/play.svg" class="post-type">
         <div class="post-footer">
           <img [src]="'/assets/images/' + (post.has_liked ? 'like-fill.svg' : 'like-lite.svg')"
             (click)="post.has_liked ? unlikeMedia(post.id) : likeMedia(post.id)">
