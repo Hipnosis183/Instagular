@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -15,8 +15,11 @@ export class MediaFeedComponent implements OnInit {
     private http: HttpClient
   ) { }
 
-  @Input() hideHeader: boolean = false;
   @Input() feedPosts: any[] = [];
+  @Input() hideHeader: boolean = false;
+
+  @Output() onScroll = new EventEmitter();
+
   feedPost: any = null;
 
   openMedia(post: any): void {
@@ -25,6 +28,14 @@ export class MediaFeedComponent implements OnInit {
 
   closeMedia(): void {
     this.feedPost = null;
+  }
+
+  hideIntersect: boolean = true;
+  stopIntersect: boolean = false;
+
+  onIntersection(): void {
+    this.hideIntersect = true;
+    this.onScroll.emit();
   }
 
   private likeError() {
@@ -53,6 +64,14 @@ export class MediaFeedComponent implements OnInit {
         let i = this.feedPosts.findIndex((res) => res.id == id);
         this.feedPosts[i].has_liked = false;
       });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['feedPosts'].firstChange) {
+      const feed: any = localStorage.getItem("feed");
+      this.hideIntersect = JSON.parse(feed).moreAvailable ? false : true;
+      this.stopIntersect = JSON.parse(feed).moreAvailable ? false : true;
+    }
   }
 
   ngOnInit(): void {

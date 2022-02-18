@@ -35,7 +35,7 @@ export class PageLoginComponent implements OnInit {
         console.info('Logged in successfully!');
         localStorage.setItem('state', JSON.stringify(data));
         localStorage.setItem('user', this.loginForm.value.username);
-        window.location.reload()
+        window.location.reload();
       });
   }
 

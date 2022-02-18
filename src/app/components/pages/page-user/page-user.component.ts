@@ -52,12 +52,13 @@ export class PageUserComponent implements OnInit {
   }
 
   loadUser(): void {
-    this.http.post<object[]>('/api/user', { id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
+    this.http.post<object[]>('/api/user', { feed: localStorage.getItem("feed"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
       .pipe(catchError(this.userError))
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         console.info('User loaded successfully!');
         console.log(data);
-        this.userPosts = data;
+        localStorage.setItem('feed', data.feed);
+        this.userPosts = this.userPosts.concat(data.posts);
       });
   }
 
@@ -89,6 +90,7 @@ export class PageUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.userName = localStorage.getItem('user');
+    localStorage.removeItem('feed');
     this.loadProfile();
   }
 

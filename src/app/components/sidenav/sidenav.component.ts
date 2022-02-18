@@ -17,7 +17,7 @@ export class SidenavComponent implements OnInit {
     public router: Router
   ) { }
 
-  userProfile: any = null
+  userProfile: any = null;
 
   private profileError() {
     return throwError(() => new Error('Profile error: cannot load user profile information.'));
@@ -43,7 +43,7 @@ export class SidenavComponent implements OnInit {
       .subscribe(() => {
         console.info('Logged out successfully!');
         localStorage.removeItem('state');
-        window.location.reload()
+        window.location.reload();
       });
   }
 

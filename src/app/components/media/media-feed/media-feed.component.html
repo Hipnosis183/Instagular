@@ -20,4 +20,6 @@
       <img-await [source]="post.instagular.thumb[0]" class="post-image"></img-await>
     </div>
   </div>
+  <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-px"
+    [class]="hideIntersect ? 'hidden' : 'block'"></div>
 </div>

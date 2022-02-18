@@ -112,27 +112,35 @@ router.post('/feed', (req, res, next) => {
     await client.state.deserialize(req.body.session);
     // Load timeline feed object.
     const feedTimeline = client.feed.timeline();
-    // Initialize feed elements list.
-    let items = [];
-    // Load last couple of posts (25 average without ads).
-    // Feeds are auto paginated, in a weird way.
-    for (let i = 0; i < 4; i++) {
-      await feedTimeline.items()
-        .then((res) => {
-          // Get media data from urls.
-          res.forEach(async (post) => {
-            // Exclude ads processing.
-            if (post.product_type != 'ad') {
-              // Process post custom data.
-              post.instagular = await getPostInfo(post)
-              // Add post to feed list.
-              items.push(post);
-            }
+    // Load the state of the feed if present.
+    if (req.body.feed) { feedTimeline.deserialize(req.body.feed); }
+    // Initialize feed posts list.
+    let posts = [];
+    // Load most recent posts. Feeds are auto paginated.
+    let index = req.body.feed ? 1 : 3;
+    for (let i = 0; i < index; i++) {
+      if ((!req.body.feed && i == 0) || feedTimeline.isMoreAvailable()) {
+        await feedTimeline.items()
+          .then((res) => {
+            // Get media data from urls.
+            res.forEach(async (post) => {
+              // Exclude ads processing.
+              if (post.product_type != 'ad') {
+                // Process post custom data.
+                post.instagular = await getPostInfo(post)
+                // Add post to feed list.
+                posts.push(post);
+              }
+            });
           });
-        });
+      }
+      // Wait 2 seconds for the next API request to avoid blocks.
+      if ((i + 1) != index) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
     }
-    // Return feed elements list.
-    res.json(items);
+    // Return timeline feed posts list and state.
+    res.json({ feed: feedTimeline.serialize(), posts: posts });
   })();
 });
 
@@ -148,21 +156,25 @@ router.post('/user', (req, res, next) => {
     const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
     // Load user feed object.
     const feedUser = client.feed.user(userId);
-    // Initialize feed elements list.
-    let items = [];
-    // Load user posts.
-    await feedUser.items()
-      .then((res) => {
-        // Get media data from urls.
-        res.forEach(async (post) => {
-          // Process post custom data.
-          post.instagular = await getPostInfo(post)
-          // Add post to feed list.
-          items.push(post);
+    // Load the state of the feed if present.
+    if (req.body.feed) { feedUser.deserialize(req.body.feed); }
+    // Initialize feed posts list.
+    let posts = [];
+    // Load most recent user posts. Feeds are auto paginated.
+    if (!req.body.feed || feedUser.isMoreAvailable()) {
+      await feedUser.items()
+        .then((res) => {
+          // Get media data from urls.
+          res.forEach(async (post) => {
+            // Process post custom data.
+            post.instagular = await getPostInfo(post)
+            // Add post to feed list.
+            posts.push(post);
+          });
         });
-      });
-    // Return feed elements list.
-    res.json(items);
+    }
+    // Return user feed posts list and state.
+    res.json({ feed: feedUser.serialize(), posts: posts });
   })();
 });
 
@@ -181,10 +193,10 @@ const getPostInfo = async (post) => {
   //
   // Append '&se=0' to ensure always source quality.
   // Append '&dl=1' to download media automatically.
-  instagular.media_type = [];
   instagular.download = [];
-  instagular.thumb = [];
   instagular.full = [];
+  instagular.media_type = [];
+  instagular.thumb = [];
   // Get profile picture image.
   instagular.profile = post.user.profile_pic_url;
   // Parse different media types data.

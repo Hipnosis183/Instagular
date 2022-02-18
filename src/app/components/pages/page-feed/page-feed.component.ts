@@ -22,16 +22,18 @@ export class PageFeedComponent implements OnInit {
   }
 
   loadFeed(): void {
-    this.http.post<object[]>('/api/feed', { session: localStorage.getItem("state") })
+    this.http.post<object[]>('/api/feed', { feed: localStorage.getItem("feed"), session: localStorage.getItem("state") })
       .pipe(catchError(this.feedError))
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         console.info('Feed loaded successfully!');
         console.log(data);
-        this.feedPosts = data;
+        localStorage.setItem('feed', data.feed);
+        this.feedPosts = this.feedPosts.concat(data.posts);
       });
   }
 
   ngOnInit(): void {
+    localStorage.removeItem('feed');
     this.loadFeed();
   }
 }

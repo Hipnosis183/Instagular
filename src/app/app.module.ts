@@ -21,6 +21,7 @@ import { ImgAwaitComponent } from './utils/img-await/img-await.component';
 import { EncodePipe } from './pipes/encode.pipe';
 import { ParseUrlsPipe } from './pipes/parse-urls.pipe';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
+import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     // Pipes.
     EncodePipe,
     ParseUrlsPipe,
-    ShortNumberPipe
+    ShortNumberPipe,
+    InfiniteScrollDirective
   ],
   imports: [
     AppRoutingModule,
