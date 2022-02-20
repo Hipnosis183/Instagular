@@ -88,9 +88,58 @@ export class PageUserComponent implements OnInit {
       });
   }
 
+  listIndex: number = 0;
+  listTitle: string = '';
+  usersList: any[] = [];
+
+  private followersError() {
+    return throwError(() => new Error('Followers error: cannot load followers information.'));
+  }
+
+  loadFollowers(): void {
+    this.http.post<object[]>('/api/followers', { feed: localStorage.getItem("follow"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
+      .pipe(catchError(this.followersError))
+      .subscribe((data: any) => {
+        console.info('Followers loaded successfully!');
+        console.log(data);
+        localStorage.setItem('follow', data.feed);
+        this.listIndex = 0;
+        this.listTitle = 'Followers';
+        this.usersList = this.usersList.concat(data.followers);
+      });
+  }
+
+  private followingError() {
+    return throwError(() => new Error('Following error: cannot load following information.'));
+  }
+
+  loadFollowing(): void {
+    this.http.post<object[]>('/api/following', { feed: localStorage.getItem("follow"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
+      .pipe(catchError(this.followingError))
+      .subscribe((data: any) => {
+        console.info('Following loaded successfully!');
+        console.log(data);
+        localStorage.setItem('follow', data.feed);
+        this.listIndex = 1;
+        this.listTitle = 'Following';
+        this.usersList = this.usersList.concat(data.following);
+      });
+  }
+
+  loadUserPage(username: string): void {
+    localStorage.removeItem('follow');
+    this.router.navigate(['/' + username]);
+  }
+
+  closeUsers(): void {
+    this.usersList = [];
+    localStorage.removeItem('follow');
+  }
+
   ngOnInit(): void {
     this.userName = localStorage.getItem('user');
     localStorage.removeItem('feed');
+    localStorage.removeItem('follow');
     this.loadProfile();
   }
 

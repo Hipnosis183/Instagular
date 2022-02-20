@@ -1,0 +1,25 @@
+<div class="viewer-container">
+  <div class="viewer-overlay"></div>
+  <div class="viewer-contents">
+    <div class="options-modal">
+      <div class="options-header">
+        <div>{{ title }}</div>
+        <img src="/assets/images/close.svg" (click)="closeSend.emit()">
+      </div>
+      <div class="options-body">
+        <div *ngFor="let user of usersList" (click)="userSend.emit(user.username)" class="options-item">
+          <img-await [source]="user.profile_pic_url" class="options-image"></img-await>
+          <div class="options-text">
+            <div class="flex space-x-2">
+              <div class="text-main">{{ user.full_name ? user.full_name : user.username }}</div>
+              <img *ngIf="user.is_verified" src="/assets/images/verified.svg">
+            </div>
+            <div class="text-sub">@{{ user.username }}</div>
+          </div>
+        </div>
+        <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-full"
+          [class]="hideIntersect ? 'hidden' : 'block'"></div>
+      </div>
+    </div>
+  </div>
+</div>

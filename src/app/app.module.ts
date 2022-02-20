@@ -22,6 +22,7 @@ import { EncodePipe } from './pipes/encode.pipe';
 import { ParseUrlsPipe } from './pipes/parse-urls.pipe';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
 import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
+import { ViewerUsersComponent } from './components/viewers/viewer-users/viewer-users.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { InfiniteScrollDirective } from './directives/infinite-scroll.directive'
     EncodePipe,
     ParseUrlsPipe,
     ShortNumberPipe,
-    InfiniteScrollDirective
+    InfiniteScrollDirective,
+    ViewerUsersComponent
   ],
   imports: [
     AppRoutingModule,

@@ -1,3 +1,6 @@
+<viewer-users *ngIf="usersList.length > 0" (onScroll)="listIndex == 0 ? loadFollowers() : loadFollowing()"
+  [title]="listTitle" [usersList]="usersList" (userSend)="loadUserPage($event)" (closeSend)="closeUsers()">
+</viewer-users>
 <div *ngIf="userProfile" class="user-container">
   <img-await [source]="userProfile.instagular.thumb" class="user-image"></img-await>
   <div>
@@ -21,16 +24,18 @@
         <div class="text-main">{{ userProfile.media_count | shortNumber }}</div>
         <div class="text-sub">Posts</div>
       </div>
-      <div class="user-stat">
+      <div class="cursor-pointer user-stat"
+        (click)="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following) ? loadFollowers() : null">
         <div class="text-main">{{ userProfile.follower_count | shortNumber }}</div>
         <div class="text-sub">Followers</div>
       </div>
-      <div class="user-stat">
+      <div class="cursor-pointer user-stat"
+        (click)="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following) ? loadFollowing() : null">
         <div class="text-main">{{ userProfile.following_count | shortNumber }}</div>
         <div class="text-sub">Following</div>
       </div>
     </div>
-    <div [innerHTML]="userProfile.biography | parseUrls " class="my-5 text-main"></div>
+    <div [innerHTML]="userProfile.biography | parseUrls " class="cursor-default my-5 text-main"></div>
     <div *ngIf="userProfile.external_url" class="user-link">
       <img src="/assets/images/link.svg">
       <a [href]="userProfile.external_url" target="_blank" rel="noopener noreferrer">

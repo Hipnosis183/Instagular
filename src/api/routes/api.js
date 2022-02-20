@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
 
-const { IgApiClient } = require('instagram-private-api')
+const { IgApiClient } = require('instagram-private-api');
 
 router.post('/login', (req, res, next) => {
   ; (async () => {
@@ -369,6 +369,60 @@ router.post('/profile', (req, res, next) => {
       // Return user profile information.
       res.status(200);
       res.send(JSON.stringify(userProfile));
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+});
+
+router.post('/followers', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    try {
+      // Load the state from a previous session.
+      await client.state.deserialize(req.body.session);
+      // Set the user id.
+      const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
+      // Get user followers information.
+      const followersFeed = client.feed.accountFollowers(userId);
+      // Load the state of the feed if present.
+      if (req.body.feed) { followersFeed.deserialize(req.body.feed); }
+      // Load user followers. Feeds are auto paginated.
+      let followers = !req.body.feed || followersFeed.isMoreAvailable() ? await followersFeed.items() : {};
+      // Return user followers information.
+      res.status(200);
+      res.json({ feed: followersFeed.serialize(), followers: followers });
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+});
+
+router.post('/following', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    try {
+      // Load the state from a previous session.
+      await client.state.deserialize(req.body.session);
+      // Set the user id.
+      const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
+      // Get user following information.
+      const followingFeed = client.feed.accountFollowing(userId);
+      // Load the state of the feed if present.
+      if (req.body.feed) { followingFeed.deserialize(req.body.feed); }
+      // Load user following. Feeds are auto paginated.
+      let following = !req.body.feed || followingFeed.isMoreAvailable() ? await followingFeed.items() : {};
+      // Return user following information.
+      res.status(200);
+      res.json({ feed: followingFeed.serialize(), following: following });
     } catch (e) {
       res.status(400);
       res.send(e);

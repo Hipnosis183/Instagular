@@ -1,5 +1,5 @@
 .error-container {
-  @apply flex flex-col h-full items-center justify-center w-full;
+  @apply cursor-default flex flex-col h-full items-center justify-center w-full;
 }
 .error-container img {
   @apply mb-6 w-24;
@@ -16,17 +16,17 @@
 }
 
 .text-main {
-  @apply cursor-default text-slate-800;
+  @apply text-slate-800;
 }
 .text-sub {
-  @apply cursor-default font-light text-slate-600;
+  @apply font-light text-slate-600;
 }
 
 .user-container {
   @apply flex items-center mb-8 px-8 space-x-10 w-full;
 }
 .user-header {
-  @apply flex items-center mb-0.5 space-x-2;
+  @apply cursor-default flex items-center mb-0.5 space-x-2;
 }
 .user-header img {
   @apply w-7;
@@ -44,5 +44,5 @@
   @apply flex items-center space-x-1;
 }
 .user-stats {
-  @apply flex space-x-4;
+  @apply cursor-default flex space-x-4;
 }
