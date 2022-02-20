@@ -9,7 +9,7 @@ export class ShortNumberPipe implements PipeTransform {
   transform(number: number): any {
     if (isNaN(number)) { return null };
     if (number === null) { return null };
-    if (number === 0) { return null };
+    if (number === 0) { return 0 };
 
     let abs = Math.abs(number);
     let key = '';

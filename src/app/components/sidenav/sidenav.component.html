@@ -15,7 +15,7 @@
   <div *ngIf="userProfile" [routerLink]="['/' + userProfile.username]" class="sidenav-user">
     <img-await [source]="userProfile.instagular.thumb" class="sidenav-image"></img-await>
     <div class="sidenav-header">
-      <div class="text-main text-lg">{{ userProfile.full_name }}</div>
+      <div class="text-main text-lg">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}</div>
       <div class="text-sub">@{{ userProfile.username }}</div>
     </div>
   </div>

@@ -5,7 +5,8 @@
   <img-await [source]="userProfile.instagular.thumb" class="user-image"></img-await>
   <div>
     <div class="user-header">
-      <div class="text-main text-[32px]">{{ userProfile.full_name }}</div>
+      <div class="text-main text-[32px]">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}
+      </div>
       <img *ngIf="userProfile.is_verified" src="/assets/images/verified.svg">
       <div *ngIf="userProfile.username != userName"
         (click)="userProfile.friendship.following ? unfollowUser() : followUser()" class="follow-button"

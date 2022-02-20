@@ -8,7 +8,8 @@
         <img-await [source]="feedPost.instagular.profile" class="sidenav-image"></img-await>
         <div [routerLink]="['/' + feedPost.user.username]" class="sidenav-header">
           <div class="sidenav-name">
-            <div class="text-main">{{ feedPost.user.full_name }}</div>
+            <div class="text-main">{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}
+            </div>
             <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
           </div>
           <div class="text-sub">@{{ feedPost.user.username }}</div>
