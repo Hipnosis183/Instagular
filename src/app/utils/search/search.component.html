@@ -1,0 +1,23 @@
+<div class="search-bar">
+  <input [(ngModel)]="selectModel" placeholder="Search" (input)="updateValueDebounced()" />
+  <img src="/assets/images/search.svg" class="search-icon">
+  <img *ngIf="selectModel" (click)="clearValue()" src="/assets/images/close-circle.svg"
+    class="cursor-pointer right-0 search-icon">
+  <div *ngIf="queryResults.length > 0" class="options-container">
+    <div class="options-modal">
+      <div *ngFor="let user of queryResults" [routerLink]="'/' + user.username" class="options-item">
+        <img-await [source]="user.profile_pic_url" class="options-image"></img-await>
+        <div class="options-text">
+          <div class="flex space-x-2">
+            <div class="text-main">{{ user.full_name ? user.full_name : user.username }}</div>
+            <img *ngIf="user.is_verified" src="/assets/images/verified.svg">
+          </div>
+          <div class="text-sub">@{{ user.username }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="selectModel && queryFinished && queryResults.length == 0" class="options-container">
+    <div class="options-noresults">No results found.</div>
+  </div>
+</div>

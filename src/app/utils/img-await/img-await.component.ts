@@ -5,6 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './img-await.component.html',
   styleUrls: ['./img-await.component.css']
 })
+
 export class ImgAwaitComponent implements OnInit {
 
   constructor() { }
