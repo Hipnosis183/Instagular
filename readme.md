@@ -1,3 +1,5 @@
+&nbsp;
+
 ![](/src/assets/images/logo-full.svg#gh-light-mode-only)
 ![](/src/assets/images/logo-full-lite.svg#gh-dark-mode-only)
 
@@ -17,9 +19,7 @@ The app is fully compatible with Instagram routing structure, so it's possible t
 
 While the app should be safe to use normally, there's the possibility for the user account to get blocked if too many request are made in a short period of time, so keep this in mind when using the app.
 
-&nbsp;
-
-## Features implemented
+## Implemented features
 
 - Login/logout with persistent session on local storage.
 - Feeds with auto pagination management.
@@ -29,15 +29,13 @@ While the app should be safe to use normally, there's the possibility for the us
 - High/original quality media download.
 - Users search bar.
 
-Features planned:
+Planned features:
 
 - Stories full support (view and interaction).
 - View/post comments.
 - Direct messaging.
 - Activity/notifications.
 - Quality of life options (dark mode, accesibility, etc.)
-
-&nbsp;
 
 ## Getting started
 
