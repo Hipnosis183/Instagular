@@ -4,10 +4,28 @@
   </div>
   <search></search>
   <div class="sidenav-buttons">
-    <button routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
-      <img [src]="'/assets/images/' + (router.url == '/' ? 'feed-fill.svg' : 'feed.svg')">
-      <p>Feed</p>
-    </button>
+    <div>
+      <button routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
+        <img [src]="'/assets/images/' + (router.url == '/' ? 'feed-fill.svg' : 'feed.svg')">
+        <p>Feed</p>
+      </button>
+      <button>
+        <img [src]="'/assets/images/explore.svg'">
+        <p>Explore</p>
+      </button>
+      <button>
+        <img [src]="'/assets/images/direct.svg'">
+        <p>Direct</p>
+      </button>
+      <button>
+        <img [src]="'/assets/images/activity.svg'">
+        <p>Activity</p>
+      </button>
+      <button>
+        <img [src]="'/assets/images/settings.svg'">
+        <p>Settings</p>
+      </button>
+    </div>
     <button (click)="logoutUser()">
       <img src="/assets/images/logout.svg">
       <p>Log Out</p>
@@ -18,20 +36,6 @@
     <div class="sidenav-header">
       <div class="text-main text-lg">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}</div>
       <div class="text-sub">@{{ userProfile.username }}</div>
-    </div>
-  </div>
-  <div *ngIf="userProfile" class="user-stats">
-    <div class="user-stat">
-      <div class="text-main">{{ userProfile.media_count | shortNumber }}</div>
-      <div class="text-sub">Posts</div>
-    </div>
-    <div class="user-stat">
-      <div class="text-main">{{ userProfile.follower_count | shortNumber }}</div>
-      <div class="text-sub">Followers</div>
-    </div>
-    <div class="user-stat">
-      <div class="text-main">{{ userProfile.following_count | shortNumber }}</div>
-      <div class="text-sub">Following</div>
     </div>
   </div>
 </div>
