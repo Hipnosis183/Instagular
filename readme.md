@@ -3,15 +3,11 @@
 ![](/src/assets/images/logo-full.svg#gh-light-mode-only)
 ![](/src/assets/images/logo-full-lite.svg#gh-dark-mode-only)
 
-# Instagular
+&nbsp;
 
 **Instagular** is a custom web client for Instagram, aiming for a better desktop experience, unlike the mobile-on-web design that the official site has, while adding extra features not found on regular Instagram.
 
-&nbsp;
-
 ![](/src/assets/screens/0.png)
-
-&nbsp;
 
 This project implements its own backend API server using [instagram-private-api](https://github.com/dilame/instagram-private-api) to connect/interface to Instagram, acting as a middleware between the Instagular client and the Instagram server.
 

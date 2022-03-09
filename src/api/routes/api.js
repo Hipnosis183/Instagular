@@ -253,6 +253,55 @@ const getPostInfo = async (post) => {
   return instagular;
 }
 
+router.post('/stories_tray', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Load reels feed object.
+    const feedReels = client.feed.reelsTray();
+    // Load most recent stories. Feeds are auto paginated.
+    let stories = await feedReels.items();
+    // Return stories objects.
+    res.json(stories);
+  })();
+});
+
+router.post('/stories_media', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Load selected users reels media.
+    const feedReels = client.feed.reelsMedia({ userIds: req.body.stories });
+    // Load users stories.
+    let stories = await feedReels.request();
+    // Return stories objects.
+    res.json(stories.reels);
+  })();
+});
+
+router.post('/stories_seen', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Mark selected stories as seen.
+    await client.story.seen(req.body.stories);
+    res.status(200);
+    res.send();
+  })();
+});
+
 router.post('/like', (req, res, next) => {
   ; (async () => {
     // Create new Instagram client instance.

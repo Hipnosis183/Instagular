@@ -1,0 +1,71 @@
+.close-button {
+  @apply absolute bg-slate-100 cursor-pointer m-3 p-[0.45rem] right-0 rounded-full w-7;
+}
+.next-button {
+  @apply flex flex-col justify-center h-full;
+}
+.prev-button {
+  @apply flex flex-col justify-center h-full;
+}
+.next-button > img,
+.prev-button > img {
+  @apply bg-slate-100 cursor-pointer m-3 p-1.5 rounded-full w-7;
+}
+.separator {
+  @apply border-b border-b-slate-200 mb-8 mt-5 w-full;
+}
+
+.stories-container {
+  @apply flex max-w-full overflow-x-scroll pb-4 space-x-4 w-full;
+}
+.stories-item {
+  @apply border-[3px] cursor-pointer p-[3px] rounded-full;
+}
+.stories-profile {
+  @apply block h-20 overflow-hidden rounded-full w-20;
+}
+
+.user-container {
+  @apply absolute flex flex-col items-end mt-4 mr-4 right-0 space-y-2 top-0 whitespace-nowrap;
+}
+.user-contents {
+  @apply cursor-pointer flex space-x-4;
+}
+.user-profile {
+  @apply h-14 rounded-full overflow-hidden w-14;
+}
+
+.text-date {
+  @apply cursor-default font-light text-slate-400;
+}
+.text-main {
+  @apply text-xl text-slate-200;
+}
+.text-sub {
+  @apply font-light text-lg text-slate-400;
+}
+
+.viewer-container {
+  @apply fixed flex h-full items-center justify-center left-0 top-0 w-full z-10;
+}
+.viewer-contents {
+  @apply absolute flex h-full w-full;
+}
+.viewer-count {
+  @apply absolute bottom-0 flex justify-center mb-3 space-x-2;
+  width: 100%;
+}
+.viewer-count .count-dot {
+  @apply h-2 rounded-full w-2;
+}
+.viewer-media {
+  @apply absolute h-full;
+}
+.viewer-media video,
+:host ::ng-deep .viewer-media img {
+  @apply h-full object-contain;
+  width: 100%;
+}
+.viewer-overlay {
+  @apply bg-black bg-opacity-90 h-full w-full;
+}

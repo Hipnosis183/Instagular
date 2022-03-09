@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MediaFeedComponent } from './components/media/media-feed/media-feed.component';
+import { MediaStoriesComponent } from './components/media/media-stories/media-stories.component';
 import { PageFeedComponent } from './components/pages/page-feed/page-feed.component';
 import { PageLoginComponent } from './components/pages/page-login/page-login.component';
 import { PageUserComponent } from './components/pages/page-user/page-user.component';
@@ -23,6 +24,7 @@ import { SearchComponent } from './utils/search/search.component';
 import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
 
 // Pipes.
+import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { EncodePipe } from './pipes/encode.pipe';
 import { ParseUrlsPipe } from './pipes/parse-urls.pipe';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
@@ -32,6 +34,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     // App components.
     AppComponent,
     MediaFeedComponent,
+    MediaStoriesComponent,
     PageFeedComponent,
     PageLoginComponent,
     PageUserComponent,
@@ -45,6 +48,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     // Directives.
     InfiniteScrollDirective,
     // Pipes.
+    DateAgoPipe,
     EncodePipe,
     ParseUrlsPipe,
     ShortNumberPipe,
