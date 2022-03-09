@@ -28,6 +28,7 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { EncodePipe } from './pipes/encode.pipe';
 import { ParseUrlsPipe } from './pipes/parse-urls.pipe';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
+import { ViewerStoriesComponent } from './components/viewers/viewer-stories/viewer-stories.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     EncodePipe,
     ParseUrlsPipe,
     ShortNumberPipe,
+    ViewerStoriesComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
-import { throwError, of } from 'rxjs';
+import { lastValueFrom, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -33,33 +33,33 @@ export class PageUserComponent implements OnInit {
     return throwError(() => new Error('Profile error: cannot load user profile information.'));
   }
 
-  loadProfile(): void {
-    this.http.post<any>('/api/profile', { id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
-      .pipe(catchError(this.profileError.bind(this)))
-      .subscribe((data: any) => {
-        console.info('Profile loaded successfully!');
-        console.log(data);
-        this.userProfile = data;
-        this.title.setTitle(`${data.full_name ? data.full_name : data.username} (@${data.username})`);
-        if (!data.is_private || (data.is_private && data.friendship.following)) {
-          this.loadUser();
-        }
-      });
+  async loadProfile(): Promise<void> {
+    await lastValueFrom(
+      this.http.post<any>('/api/profile', { id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state"), stories: true })
+        .pipe(catchError(this.profileError.bind(this)))).then(async (data: any) => {
+          console.info('Profile loaded successfully!');
+          console.log(data);
+          this.userProfile = data;
+          this.title.setTitle(`${data.full_name ? data.full_name : data.username} (@${data.username})`);
+          if (!data.is_private || (data.is_private && data.friendship.following)) {
+            await this.loadUser();
+          }
+        });
   }
 
   private userError() {
     return throwError(() => new Error('User error: cannot load user media.'));
   }
 
-  loadUser(): void {
-    this.http.post<object[]>('/api/user', { feed: localStorage.getItem("feed"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
-      .pipe(catchError(this.userError))
-      .subscribe((data: any) => {
-        console.info('User loaded successfully!');
-        console.log(data);
-        localStorage.setItem('feed', data.feed);
-        this.userPosts = this.userPosts.concat(data.posts);
-      });
+  async loadUser(): Promise<void> {
+    await lastValueFrom(
+      this.http.post<any>('/api/user', { feed: localStorage.getItem("feed"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
+        .pipe(catchError(this.userError))).then((data: any) => {
+          console.info('User loaded successfully!');
+          console.log(data);
+          localStorage.setItem('feed', data.feed);
+          this.userPosts = this.userPosts.concat(data.posts);
+        });
   }
 
   private followError() {
@@ -136,11 +136,21 @@ export class PageUserComponent implements OnInit {
     localStorage.removeItem('follow');
   }
 
-  ngOnInit(): void {
+  storiesShow: boolean = false;
+
+  openStories(): void {
+    this.storiesShow = true;
+  }
+
+  closeStories(): void {
+    this.storiesShow = false;
+  }
+
+  async ngOnInit(): Promise<void> {
     this.userName = localStorage.getItem('user');
     localStorage.removeItem('feed');
     localStorage.removeItem('follow');
-    this.loadProfile();
+    await this.loadProfile();
   }
 
   ngOnDestroy(): void {

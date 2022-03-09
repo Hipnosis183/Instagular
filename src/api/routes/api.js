@@ -415,6 +415,11 @@ router.post('/profile', (req, res, next) => {
       userProfile.instagular.thumb = userProfile.hd_profile_pic_url_info.url;
       // Get relationship data with the current user.
       userProfile.friendship = await client.friendship.show(userId);
+      if (req.body.stories) {
+        // Load selected user reels media.
+        const feedReels = client.feed.reelsMedia({ userIds: [userId] });
+        userProfile.reels = Object.values((await feedReels.request()).reels)[0];
+      }
       // Return user profile information.
       res.status(200);
       res.send(JSON.stringify(userProfile));

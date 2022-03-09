@@ -1,8 +1,13 @@
+<viewer-stories *ngIf="storiesShow" [feedStories]="[userProfile.reels]" [originIndex]="0" (closeSend)="closeStories()">
+</viewer-stories>
 <viewer-users *ngIf="usersList.length > 0" (onScroll)="listIndex == 0 ? loadFollowers() : loadFollowing()"
   [title]="listTitle" [usersList]="usersList" (userSend)="loadUserPage($event)" (closeSend)="closeUsers()">
 </viewer-users>
 <div *ngIf="userProfile" class="user-container">
-  <img-await [source]="userProfile.instagular.thumb" class="user-image"></img-await>
+  <div (click)="openStories()" class="user-stories"
+    [ngClass]="userProfile.reels.seen < userProfile.reels.latest_reel_media ? userProfile.reels.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200'">
+    <img-await [source]="userProfile.instagular.thumb" class="user-image"></img-await>
+  </div>
   <div>
     <div class="user-header">
       <div class="text-main text-[32px]">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}

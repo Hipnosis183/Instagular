@@ -1,62 +1,9 @@
-<div *ngIf="storiesShow" class="viewer-container">
-  <div class="viewer-overlay"></div>
-  <div *ngIf="feedStories[feedIndex].items" class="viewer-contents">
-    <div class="flex justify-center w-full">
-      <div class="prev-button relative">
-        <img *ngIf="feedIndex > originIndex || storiesIndex > 0; else prevButton" (click)="storiesPrev()"
-          src="/assets/images/chevron-left.svg">
-        <ng-template #prevButton>
-          <div class="m-3 w-7"></div>
-        </ng-template>
-        <div class="user-container">
-          <div (click)="loadUserPage(feedStories[feedIndex].user.username)" class="user-contents">
-            <img-await [source]="feedStories[feedIndex].user.profile_pic_url" class="user-profile"></img-await>
-            <div class="flex flex-col items-end">
-              <div class="flex space-x-2">
-                <div class="text-main">{{ feedStories[feedIndex].user.full_name ? feedStories[feedIndex].user.full_name
-                  : feedStories[feedIndex].user.username }}</div>
-                <img *ngIf="feedStories[feedIndex].user.is_verified" src="/assets/images/verified.svg" class="mr-4">
-              </div>
-              <div class="text-sub">@{{ feedStories[feedIndex].user.username }}</div>
-            </div>
-          </div>
-          <div class="text-date">{{ feedStories[feedIndex].items[storiesIndex].taken_at | dateAgo }}</div>
-        </div>
-      </div>
-      <img-await *ngIf="feedStories[feedIndex].items[storiesIndex].media_type == 1; else tempVideo" class="viewer-media"
-        [source]="feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url">
-      </img-await>
-      <div *ngIf="feedStories[feedIndex].items[storiesIndex].media_type == 2; else tempVideo" class="viewer-media">
-        <video autoplay controls loop [muted]="true" class="aspect-[9/16]"
-          [src]="feedStories[feedIndex].items[storiesIndex].video_versions[0].url | encode:true | async"></video>
-      </div>
-      <ng-template #tempVideo>
-        <div class="aspect-[9/16]"></div>
-      </ng-template>
-      <div (click)="storiesNext()" class="next-button">
-        <img src="/assets/images/chevron-right.svg">
-      </div>
-    </div>
-    <div *ngIf="feedIndex > originIndex || storiesIndex > 0" (click)="storiesPrevSkip()" class="absolute prev-button">
-      <img src="/assets/images/chevron-d-left.svg">
-    </div>
-    <div (click)="storiesNextSkip()" class="absolute next-button right-0">
-      <img src="/assets/images/chevron-d-right.svg">
-    </div>
-    <div (click)="closeStories()" class="close-button">
-      <img src="/assets/images/close.svg">
-    </div>
-    <div class="viewer-count">
-      <div *ngFor="let media of feedStories[feedIndex].items; index as i">
-        <div class="count-dot" [class]="i == storiesIndex ? 'bg-blue-500' : 'bg-slate-100'"></div>
-      </div>
-    </div>
-  </div>
-</div>
+<viewer-stories *ngIf="storiesShow" [feedStories]="feedStories" [originIndex]="originIndex"
+  (closeSend)="closeStories()"></viewer-stories>
 <div *ngIf="feedStories.length > 0" class="stories-container">
   <div *ngFor="let story of feedStories; index as i">
-    <div (click)="loadStories(i)" class="stories-item"
-      [ngClass]="[story.seen < story.latest_reel_media ? story.has_besties_media ? 'border-[#26cb54]' : 'border-[#e48d6a]' : 'border-slate-200', story.muted ? 'opacity-40' : '']">
+    <div (click)="openStories(i)" class="stories-item"
+      [ngClass]="[story.seen < story.latest_reel_media ? story.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200', story.muted ? 'opacity-40' : '']">
       <img-await [source]="story.user.profile_pic_url" class="stories-profile"></img-await>
     </div>
   </div>

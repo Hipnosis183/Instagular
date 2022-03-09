@@ -34,6 +34,9 @@
 .user-image {
   @apply flex h-[200px] min-h-[200px] min-w-[200px] overflow-hidden rounded-full w-[200px];
 }
+.user-stories {
+  @apply border-[4px] cursor-pointer p-[6px] rounded-full;
+}
 .user-link {
   @apply flex items-center space-x-2;
 }
