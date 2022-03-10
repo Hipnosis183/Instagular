@@ -437,9 +437,11 @@ router.post('/profile', (req, res, next) => {
         const feedReels = client.feed.reelsMedia({ userIds: [userId] });
         userProfile.reels = Object.values((await feedReels.request()).reels)[0];
         // Search for stories and set bestie status.
-        for (let reel of userProfile.reels.items) {
-          if (reel.audience == 'besties') {
-            userProfile.reels.has_besties_media = true;
+        if (userProfile.reels) {
+          for (let reel of userProfile.reels.items) {
+            if (reel.audience == 'besties') {
+              userProfile.reels.has_besties_media = true;
+            }
           }
         }
       }

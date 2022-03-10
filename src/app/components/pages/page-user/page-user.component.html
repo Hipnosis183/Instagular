@@ -65,6 +65,11 @@
       <div class="text-sub">Follow to see their photos and videos.</div>
     </div>
   </ng-template>
+  <div *ngIf="!userProfile.media_count" class="error-container mt-[4.5rem]">
+    <img src="/assets/images/camera.svg">
+    <div class="text-main">No posts yet</div>
+    <div class="text-sub">This user hasn't made any posts yet.</div>
+  </div>
 </div>
 <div *ngIf="userNotFound" class="error-container">
   <img src="/assets/images/slash.svg">
