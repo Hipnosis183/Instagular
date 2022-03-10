@@ -42,6 +42,9 @@
             <div class="text-sub">{{ (storiesIndex + 1) + '/' + feedStories[feedIndex].media_count }}</div>
           </div>
         </div>
+        <div *ngIf="feedStories[feedIndex].items[storiesIndex].audience == 'besties'" class="user-container-r">
+          <img class="h-8" src="/assets/images/besties.svg">
+        </div>
       </div>
     </div>
     <div *ngIf="feedStories.length > 1 && (feedIndex > originIndex && storiesIndex > 0)" (click)="storiesPrevSkip()"
