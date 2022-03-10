@@ -34,8 +34,6 @@ export class SearchComponent implements OnInit {
         .pipe(catchError(this.updateError))
         .subscribe((data: any) => {
           console.info('Search completed successfully!');
-          console.log('Search: ' + this.selectModel);
-          console.log(data);
           this.queryResults = data;
           this.queryFinished = true;
         });

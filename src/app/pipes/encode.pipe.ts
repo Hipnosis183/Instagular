@@ -20,9 +20,6 @@ export class EncodePipe implements PipeTransform {
   transform(value: string, video = false): Observable<any> {
     return this.http.post<string>('/api/encode', { url: value, video: video })
       .pipe(catchError(this.encodeError))
-      .pipe(map((data: string) => {
-        console.info('Media encoded successfully!');
-        return data;
-      }));
+      .pipe(map((data: string) => { return data; }));
   }
 }

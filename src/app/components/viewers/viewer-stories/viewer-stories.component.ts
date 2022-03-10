@@ -51,7 +51,7 @@ export class ViewerStoriesComponent implements OnInit {
     // Load the media items into the stories feed array.
     for (let media in data) {
       let index = this.feedStories.findIndex((story) => story.id == data[media].id)
-      if (index) { this.feedStories[index].items = data[media].items; }
+      if (typeof (index) == 'number') { this.feedStories[index].items = data[media].items; }
     } this.openStories();
   }
 
@@ -88,7 +88,7 @@ export class ViewerStoriesComponent implements OnInit {
   }
 
   async storiesNext(): Promise<void> {
-    // Go to the next user stories if it's the las story for the current.
+    // Go to the next user stories if it's the last story for the current.
     if (this.storiesIndex == (this.feedStories[this.feedIndex].items.length - 1)) {
       await this.storiesNextSkip();
     } else {
@@ -122,18 +122,21 @@ export class ViewerStoriesComponent implements OnInit {
   }
 
   storySeen(): void {
-    // Check if the story has been seen already and add it to the seen list if not.
-    if (!(this.feedStories[this.feedIndex].seen >= this.feedStories[this.feedIndex].items[this.storiesIndex].taken_at)) {
-      if (this.feedStoriesSeen.findIndex((item) => item.pk == this.feedStories[this.feedIndex].items[this.storiesIndex].pk)) {
-        // Leave only the necessary data to avoid payload overload errors.
-        let storyStrip = {
-          id: this.feedStories[this.feedIndex].items[this.storiesIndex].id,
-          user: this.feedStories[this.feedIndex].items[this.storiesIndex].user,
-          taken_at: this.feedStories[this.feedIndex].items[this.storiesIndex].taken_at
-        };
-        // Add story to the seen array to be sent, and update the status in the local list.
-        this.feedStoriesSeen.push(storyStrip);
-        this.feedStories[this.feedIndex].seen = this.feedStories[this.feedIndex].items[this.storiesIndex].taken_at + 1;
+    // Continue if it's a user story (avoid highlights).
+    if (this.feedStories[this.feedIndex].reel_type == 'user_reel') {
+      // Check if the story has been seen already and add it to the seen list if not.
+      if (!(this.feedStories[this.feedIndex].seen >= this.feedStories[this.feedIndex].items[this.storiesIndex].taken_at)) {
+        if (this.feedStoriesSeen.findIndex((item) => item.pk == this.feedStories[this.feedIndex].items[this.storiesIndex].pk)) {
+          // Leave only the necessary data to avoid payload overload errors.
+          let storyStrip = {
+            id: this.feedStories[this.feedIndex].items[this.storiesIndex].id,
+            user: this.feedStories[this.feedIndex].items[this.storiesIndex].user,
+            taken_at: this.feedStories[this.feedIndex].items[this.storiesIndex].taken_at
+          };
+          // Add story to the seen array to be sent, and update the status in the local list.
+          this.feedStoriesSeen.push(storyStrip);
+          this.feedStories[this.feedIndex].seen = this.feedStories[this.feedIndex].items[this.storiesIndex].taken_at + 1;
+        }
       }
     }
   }

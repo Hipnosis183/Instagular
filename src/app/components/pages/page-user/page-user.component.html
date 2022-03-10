@@ -5,7 +5,7 @@
 </viewer-users>
 <div *ngIf="userProfile" class="user-container">
   <div (click)="openStories()" class="user-stories"
-    [ngClass]="userProfile.reels.seen < userProfile.reels.latest_reel_media ? userProfile.reels.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200'">
+    [ngClass]="[userProfile.reels ? 'cursor-pointer' : 'border-none', userProfile.reels ? userProfile.reels.seen < userProfile.reels.latest_reel_media ? userProfile.reels.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200' : '']">
     <img-await [source]="userProfile.instagular.thumb" class="user-image"></img-await>
   </div>
   <div>
@@ -55,6 +55,7 @@
     *ngIf="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following); then allow; else block">
   </div>
   <ng-template #allow>
+    <media-stories [feedStories]="userStories"></media-stories>
     <media-feed [feedPosts]="userPosts" [hideHeader]="true" (onScroll)="loadUser()"></media-feed>
   </ng-template>
   <ng-template #block>

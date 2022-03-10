@@ -1,5 +1,5 @@
 .feed-container {
-  @apply ml-auto mr-auto;
+  @apply ml-auto mr-auto mt-6;
 }
 .feed-grid {
   @apply gap-6 grid justify-center;

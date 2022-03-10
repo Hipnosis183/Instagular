@@ -28,7 +28,6 @@ export class SidenavComponent implements OnInit {
       .pipe(catchError(this.profileError))
       .subscribe((data) => {
         console.info('Profile loaded successfully!');
-        console.log(data);
         this.userProfile = data;
       });
   }

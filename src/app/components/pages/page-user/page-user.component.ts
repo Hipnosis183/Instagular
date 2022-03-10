@@ -26,6 +26,7 @@ export class PageUserComponent implements OnInit {
   userNotFound: boolean = false;
   userPosts: any[] = [];
   userProfile: any = null;
+  userStories: any[] = [];
 
   private profileError() {
     this.title.setTitle('Page not found · Instagular');
@@ -38,7 +39,6 @@ export class PageUserComponent implements OnInit {
       this.http.post<any>('/api/profile', { id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state"), stories: true })
         .pipe(catchError(this.profileError.bind(this)))).then(async (data: any) => {
           console.info('Profile loaded successfully!');
-          console.log(data);
           this.userProfile = data;
           this.title.setTitle(`${data.full_name ? data.full_name : data.username} (@${data.username})`);
           if (!data.is_private || (data.is_private && data.friendship.following)) {
@@ -56,10 +56,21 @@ export class PageUserComponent implements OnInit {
       this.http.post<any>('/api/user', { feed: localStorage.getItem("feed"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
         .pipe(catchError(this.userError))).then((data: any) => {
           console.info('User loaded successfully!');
-          console.log(data);
           localStorage.setItem('feed', data.feed);
           this.userPosts = this.userPosts.concat(data.posts);
         });
+  }
+
+  private storiesError() {
+    return throwError(() => new Error('Stories error: cannot load stories tray information.'));
+  }
+
+  async loadStories(): Promise<void> {
+    await lastValueFrom(this.http.post<object[]>('/api/highlights_tray', { id: this.userProfile.pk, session: localStorage.getItem("state") })
+      .pipe(catchError(this.storiesError))).then((data: any) => {
+        console.info('Stories tray loaded successfully!');
+        this.userStories = this.userStories.concat(data);
+      });
   }
 
   private followError() {
@@ -97,11 +108,10 @@ export class PageUserComponent implements OnInit {
   }
 
   loadFollowers(): void {
-    this.http.post<object[]>('/api/followers', { feed: localStorage.getItem("follow"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
+    this.http.post<object[]>('/api/followers', { feed: localStorage.getItem("follow"), id: this.userProfile.pk, session: localStorage.getItem("state") })
       .pipe(catchError(this.followersError))
       .subscribe((data: any) => {
         console.info('Followers loaded successfully!');
-        console.log(data);
         localStorage.setItem('follow', data.feed);
         this.listIndex = 0;
         this.listTitle = 'Followers';
@@ -114,11 +124,10 @@ export class PageUserComponent implements OnInit {
   }
 
   loadFollowing(): void {
-    this.http.post<object[]>('/api/following', { feed: localStorage.getItem("follow"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
+    this.http.post<object[]>('/api/following', { feed: localStorage.getItem("follow"), id: this.userProfile.pk, session: localStorage.getItem("state") })
       .pipe(catchError(this.followingError))
       .subscribe((data: any) => {
         console.info('Following loaded successfully!');
-        console.log(data);
         localStorage.setItem('follow', data.feed);
         this.listIndex = 1;
         this.listTitle = 'Following';
@@ -139,7 +148,9 @@ export class PageUserComponent implements OnInit {
   storiesShow: boolean = false;
 
   openStories(): void {
-    this.storiesShow = true;
+    if (this.userProfile.reels) {
+      this.storiesShow = true;
+    }
   }
 
   closeStories(): void {
@@ -151,6 +162,7 @@ export class PageUserComponent implements OnInit {
     localStorage.removeItem('feed');
     localStorage.removeItem('follow');
     await this.loadProfile();
+    await this.loadStories();
   }
 
   ngOnDestroy(): void {

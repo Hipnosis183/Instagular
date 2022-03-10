@@ -12,8 +12,11 @@
   @apply bg-slate-100 cursor-pointer m-3 p-1.5 rounded-full w-7;
 }
 
-.user-container {
+.user-container-l {
   @apply absolute flex flex-col items-end mt-4 mr-4 right-0 space-y-2 top-0 whitespace-nowrap;
+}
+.user-container-r {
+  @apply absolute flex flex-col items-end mt-4 ml-4 left-0 space-y-2 top-0 whitespace-nowrap;
 }
 .user-contents {
   @apply cursor-pointer flex space-x-4;

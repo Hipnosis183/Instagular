@@ -253,6 +253,23 @@ const getPostInfo = async (post) => {
   return instagular;
 }
 
+router.post('/highlights_tray', (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Set the user id.
+    const userId = req.body.id ? await req.body.id : client.state.cookieUserId;
+    // Load highlights feed object.
+    const feedReels = await client.highlights.highlightsTray(userId);
+    // Return highlights objects.
+    res.json(feedReels.tray);
+  })();
+});
+
 router.post('/stories_tray', (req, res, next) => {
   ; (async () => {
     // Create new Instagram client instance.
@@ -440,7 +457,7 @@ router.post('/followers', (req, res, next) => {
       // Load the state from a previous session.
       await client.state.deserialize(req.body.session);
       // Set the user id.
-      const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
+      const userId = req.body.id ? req.body.id : client.state.cookieUserId;
       // Get user followers information.
       const followersFeed = client.feed.accountFollowers(userId);
       // Load the state of the feed if present.
@@ -467,7 +484,7 @@ router.post('/following', (req, res, next) => {
       // Load the state from a previous session.
       await client.state.deserialize(req.body.session);
       // Set the user id.
-      const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
+      const userId = req.body.id ? req.body.id : client.state.cookieUserId;
       // Get user following information.
       const followingFeed = client.feed.accountFollowing(userId);
       // Load the state of the feed if present.
