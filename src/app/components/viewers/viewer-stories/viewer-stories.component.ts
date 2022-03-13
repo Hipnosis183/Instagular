@@ -20,6 +20,7 @@ export class ViewerStoriesComponent implements OnInit {
   @Output() closeSend = new EventEmitter();
 
   @Input() feedStories: any[] = [];
+  @Input() seenStories: boolean = true;
   feedStoriesSeen: any[] = [];
   feedIndex: number = 0;
 
@@ -64,7 +65,7 @@ export class ViewerStoriesComponent implements OnInit {
   }
 
   closeStories(): void {
-    if (this.feedStoriesSeen.length > 0) {
+    if ((this.feedStoriesSeen.length > 0) && this.seenStories) {
       // Request watched stories to be marked as seen.
       this.http.post('/api/stories_seen', { session: localStorage.getItem("state"), stories: this.feedStoriesSeen }).subscribe();
     }
@@ -123,7 +124,7 @@ export class ViewerStoriesComponent implements OnInit {
 
   storySeen(): void {
     // Continue if it's a user story (avoid highlights).
-    if (this.feedStories[this.feedIndex].reel_type == 'user_reel') {
+    if ((this.feedStories[this.feedIndex].reel_type == 'user_reel') && this.seenStories) {
       // Check if the story has been seen already and add it to the seen list if not.
       if (!(this.feedStories[this.feedIndex].seen >= this.feedStories[this.feedIndex].items[this.storiesIndex].taken_at)) {
         if (this.feedStoriesSeen.findIndex((item) => item.pk == this.feedStories[this.feedIndex].items[this.storiesIndex].pk)) {
@@ -142,7 +143,7 @@ export class ViewerStoriesComponent implements OnInit {
   }
 
   loadUserPage(username: string): void {
-    if (this.feedStoriesSeen.length > 0) {
+    if ((this.feedStoriesSeen.length > 0) && this.seenStories) {
       // Request watched stories to be marked as seen.
       this.http.post('/api/stories_seen', { session: localStorage.getItem("state"), stories: this.feedStoriesSeen }).subscribe();
     }

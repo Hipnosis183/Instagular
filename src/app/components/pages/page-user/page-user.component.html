@@ -1,5 +1,5 @@
-<viewer-stories *ngIf="storiesShow" [feedStories]="[userProfile.reels]" [originIndex]="0" (closeSend)="closeStories()">
-</viewer-stories>
+<viewer-stories *ngIf="storiesShow" [feedStories]="[userProfile.reels]" [seenStories]="userProfile.friendship.following"
+  [originIndex]="0" (closeSend)="closeStories()"></viewer-stories>
 <viewer-users *ngIf="usersList.length > 0" (onScroll)="listIndex == 0 ? loadFollowers() : loadFollowing()"
   [title]="listTitle" [usersList]="usersList" (userSend)="loadUserPage($event)" (closeSend)="closeUsers()">
 </viewer-users>
