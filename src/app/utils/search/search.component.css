@@ -16,6 +16,12 @@
   @apply bg-white overflow-x-hidden overflow-y-scroll py-2 w-full whitespace-nowrap;
   max-height: calc(100vh - 18rem);
 }
+.options-modal::-webkit-scrollbar-track-piece:start {
+  margin-top: 10px;
+}
+.options-modal::-webkit-scrollbar-track-piece:end {
+  margin-bottom: 10px;
+}
 .options-noresults {
   @apply bg-white overflow-hidden py-6 text-center text-sub w-full;
 }

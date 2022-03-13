@@ -8,3 +8,10 @@ a {
 html {
   @apply bg-slate-50;
 }
+
+::-webkit-scrollbar {
+  @apply bg-transparent h-4 w-4 !important;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 bg-clip-content border-[5px] border-solid border-transparent rounded-full !important;
+}
