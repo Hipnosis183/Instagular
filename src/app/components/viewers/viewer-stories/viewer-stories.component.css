@@ -53,8 +53,11 @@
 }
 .viewer-media video,
 :host ::ng-deep .viewer-media img {
-  @apply h-full object-contain;
+  @apply aspect-[9/16] h-full object-cover;
   width: 100%;
+}
+.viewer-media video:fullscreen {
+  @apply object-contain;
 }
 .viewer-overlay {
   @apply bg-black bg-opacity-90 h-full w-full;

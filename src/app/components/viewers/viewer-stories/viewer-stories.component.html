@@ -28,7 +28,7 @@
         [source]="feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url">
       </img-await>
       <div *ngIf="feedStories[feedIndex].items[storiesIndex].media_type == 2; else tempVideo" class="viewer-media">
-        <video autoplay controls loop [muted]="true" class="aspect-[9/16]"
+        <video autoplay controls loop [muted]="true"
           [src]="feedStories[feedIndex].items[storiesIndex].video_versions[0].url | encode:true | async"></video>
       </div>
       <ng-template #tempVideo>
@@ -37,7 +37,7 @@
       <div class="next-button relative">
         <img (click)="storiesNext()" src="/assets/images/chevron-right.svg">
         <div *ngIf="feedStories[feedIndex].reel_type == 'highlight_reel'" class="user-container-r">
-          <div class="flex flex-col items-start">
+          <div class="flex flex-col items-start mt-8">
             <div class="text-main">{{ feedStories[feedIndex].title }}</div>
             <div class="text-sub">{{ (storiesIndex + 1) + '/' + feedStories[feedIndex].media_count }}</div>
           </div>
@@ -49,6 +49,10 @@
           <div *ngIf="!seenStories">
             <img class="h-7" src="/assets/images/anon.svg">
           </div>
+          <a [href]="(feedStories[feedIndex].items[storiesIndex].media_type == 1 ? feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url : feedStories[feedIndex].items[storiesIndex].video_versions[0].url) + '&se=0&dl=1'"
+            target="_blank" rel="noopener noreferrer">
+            <img class="h-6" src="/assets/images/download-lite.svg">
+          </a>
         </div>
       </div>
     </div>
