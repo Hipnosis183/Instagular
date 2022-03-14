@@ -6,7 +6,7 @@
 <div *ngIf="userProfile" class="user-container">
   <div (click)="openStories()" class="user-stories"
     [ngClass]="[userProfile.reels ? 'cursor-pointer' : 'border-none', userProfile.reels ? userProfile.reels.seen < userProfile.reels.latest_reel_media ? userProfile.reels.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200' : '']">
-    <img-await [source]="userProfile.instagular.thumb" class="user-image"></img-await>
+    <img-await [source]="userProfile.hd_profile_pic_url_info.url" class="user-image"></img-await>
   </div>
   <div>
     <div class="user-header">

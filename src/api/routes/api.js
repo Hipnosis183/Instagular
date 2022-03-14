@@ -180,45 +180,23 @@ router.post('/user', (req, res, next) => {
 
 const getPostInfo = async (post) => {
   // Create custom object to return data.
-  let instagular = {};
-  // Download URL Flags (Required):
-  // -'_nc_ht': ? (Signature mismatch)
-  // -'_nc_ohc': ? (Signature mismatch)
-  // -'edm': ? (Signature mismatch)
-  // -'oh': Hash
-  // -'oe': Timestamp
-  //
-  // Download URL Flags (Optional):
-  // -'se': Image quality (0-9)
-  //
-  // Append '&se=0' to ensure always source quality.
-  // Append '&dl=1' to download media automatically.
-  instagular.download = [];
-  instagular.full = [];
-  instagular.media_type = [];
-  instagular.thumb = [];
-  // Get profile picture image.
-  instagular.profile = post.user.profile_pic_url;
+  let instagular = {
+    media_type: [],
+    thumb: [],
+    full: []
+  };
   // Parse different media types data.
   switch (post.media_type) {
     case 1: {
       instagular.media_type.push(1);
-      let thumb = post.image_versions2.candidates[1].url;
-      instagular.thumb.push(thumb);
-      let full = post.image_versions2.candidates[0].url;
-      instagular.full.push(full);
-      let download = post.image_versions2.candidates[0].url + '&se=0&dl=1';
-      instagular.download.push(download);
+      instagular.thumb.push(post.image_versions2.candidates[1].url);
+      instagular.full.push(post.image_versions2.candidates[0].url);
       break;
     }
     case 2: {
       instagular.media_type.push(2);
-      let thumb = post.image_versions2.candidates[0].url;
-      instagular.thumb.push(thumb);
-      let full = post.video_versions[0].url;
-      instagular.full.push(full);
-      let download = post.video_versions[0].url + '&se=0&dl=1';
-      instagular.download.push(download);
+      instagular.thumb.push(post.image_versions2.candidates[0].url);
+      instagular.full.push(post.video_versions[0].url);
       break;
     }
     case 8: {
@@ -226,27 +204,18 @@ const getPostInfo = async (post) => {
         switch (media.media_type) {
           case 1: {
             instagular.media_type.push(1);
-            let thumb = media.image_versions2.candidates[1].url;
-            instagular.thumb.push(thumb);
-            let full = media.image_versions2.candidates[0].url;
-            instagular.full.push(full);
-            let download = media.image_versions2.candidates[0].url + '&se=0&dl=1';
-            instagular.download.push(download);
+            instagular.thumb.push(media.image_versions2.candidates[1].url);
+            instagular.full.push(media.image_versions2.candidates[0].url);
             break;
           }
           case 2: {
             instagular.media_type.push(2);
-            let thumb = media.image_versions2.candidates[0].url;
-            instagular.thumb.push(thumb);
-            let full = media.video_versions[0].url;
-            instagular.full.push(full);
-            let download = media.video_versions[0].url + '&se=0&dl=1';
-            instagular.download.push(download);
+            instagular.thumb.push(media.image_versions2.candidates[0].url);
+            instagular.full.push(media.video_versions[0].url);
             break;
           }
         }
-      }
-      break;
+      } break;
     }
   }
   // Return processed post response.
@@ -426,10 +395,6 @@ router.post('/profile', (req, res, next) => {
       const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
       // Get current user profile information.
       let userProfile = await client.user.info(userId);
-      // Create custom object to return data.
-      userProfile.instagular = {}
-      // Get thumbnail image.
-      userProfile.instagular.thumb = userProfile.hd_profile_pic_url_info.url;
       // Get relationship data with the current user.
       userProfile.friendship = await client.friendship.show(userId);
       if (req.body.stories) {

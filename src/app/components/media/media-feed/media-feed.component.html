@@ -5,7 +5,7 @@
     <div *ngFor="let post of feedPosts" class="feed-post">
       <div class="post-container">
         <div *ngIf="!hideHeader" [routerLink]="['/' + post.user.username]" class="post-header">
-          <img-await [source]="post.instagular.profile" class="post-profile"></img-await>
+          <img-await [source]="post.user.profile_pic_url" class="post-profile"></img-await>
           <p>{{ post.user.username }}</p>
           <img *ngIf="post.user.is_verified" src="/assets/images/verified.svg">
         </div>

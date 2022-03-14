@@ -37,7 +37,7 @@ export class ViewerPhotoComponent implements OnInit {
   }
 
   downloadMedia(): void {
-    window.open(this.feedPost.instagular.download[this.carouselIndex], '_blank');
+    window.open(this.feedPost.instagular.full[this.carouselIndex] + '&se=0&dl=1', '_blank');
     this.moreOptions = 0;
   }
 
