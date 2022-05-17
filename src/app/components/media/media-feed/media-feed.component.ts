@@ -43,7 +43,7 @@ export class MediaFeedComponent implements OnInit {
   }
 
   likeMedia(id: string): void {
-    this.http.post('/api/like', { session: localStorage.getItem("state"), mediaId: id })
+    this.http.post('/api/media/like', { session: localStorage.getItem("state"), mediaId: id })
       .pipe(catchError(this.likeError))
       .subscribe((data) => {
         console.info('Media liked successfully!');
@@ -57,7 +57,7 @@ export class MediaFeedComponent implements OnInit {
   }
 
   unlikeMedia(id: string): void {
-    this.http.post('/api/unlike', { session: localStorage.getItem("state"), mediaId: id })
+    this.http.post('/api/media/unlike', { session: localStorage.getItem("state"), mediaId: id })
       .pipe(catchError(this.unlikeError))
       .subscribe((data) => {
         console.info('Media unliked successfully!');

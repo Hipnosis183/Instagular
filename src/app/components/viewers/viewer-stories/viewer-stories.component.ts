@@ -45,7 +45,7 @@ export class ViewerStoriesComponent implements OnInit {
     }
     // Fetch selected stories media.
     let data: any = await lastValueFrom(
-      this.http.post<object[]>('/api/stories_media', { session: localStorage.getItem("state"), stories: stories })
+      this.http.post<object[]>('/api/feed/reels_media', { session: localStorage.getItem("state"), stories: stories })
         .pipe(catchError(this.storiesError))).then((data) => {
           console.info('Stories media loaded successfully!'); return data;
         });
@@ -67,7 +67,7 @@ export class ViewerStoriesComponent implements OnInit {
   closeStories(): void {
     if ((this.feedStoriesSeen.length > 0) && this.seenStories) {
       // Request watched stories to be marked as seen.
-      this.http.post('/api/stories_seen', { session: localStorage.getItem("state"), stories: this.feedStoriesSeen }).subscribe();
+      this.http.post('/api/media/seen', { session: localStorage.getItem("state"), stories: this.feedStoriesSeen }).subscribe();
     }
     this.feedStoriesSeen = [];
     this.closeSend.emit();
@@ -145,7 +145,7 @@ export class ViewerStoriesComponent implements OnInit {
   loadUserPage(username: string): void {
     if ((this.feedStoriesSeen.length > 0) && this.seenStories) {
       // Request watched stories to be marked as seen.
-      this.http.post('/api/stories_seen', { session: localStorage.getItem("state"), stories: this.feedStoriesSeen }).subscribe();
+      this.http.post('/api/media/seen', { session: localStorage.getItem("state"), stories: this.feedStoriesSeen }).subscribe();
     }
     this.router.navigate(['/' + username]);
   }

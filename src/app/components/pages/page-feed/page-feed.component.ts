@@ -23,7 +23,7 @@ export class PageFeedComponent implements OnInit {
   }
 
   async loadFeed(): Promise<void> {
-    await lastValueFrom(this.http.post<object[]>('/api/feed', { feed: localStorage.getItem("feed"), session: localStorage.getItem("state") })
+    await lastValueFrom(this.http.post<object[]>('/api/feed/timeline', { feed: localStorage.getItem("feed"), session: localStorage.getItem("state") })
       .pipe(catchError(this.feedError))).then((data: any) => {
         console.info('Feed loaded successfully!');
         localStorage.setItem('feed', data.feed);
@@ -36,7 +36,7 @@ export class PageFeedComponent implements OnInit {
   }
 
   async loadStories(): Promise<void> {
-    await lastValueFrom(this.http.post<object[]>('/api/stories_tray', { session: localStorage.getItem("state") })
+    await lastValueFrom(this.http.post<object[]>('/api/feed/reels_tray', { session: localStorage.getItem("state") })
       .pipe(catchError(this.storiesError))).then((data: any) => {
         console.info('Stories tray loaded successfully!');
         this.feedStories = this.feedStories.concat(data);

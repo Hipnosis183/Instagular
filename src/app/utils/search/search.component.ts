@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
 
   updateValue(): void {
     if (this.selectModel && this.selectModel.length > 0) {
-      this.http.post<any>('/api/search', { session: localStorage.getItem("state"), query: this.selectModel })
+      this.http.post<any>('/api/search/users', { session: localStorage.getItem("state"), query: this.selectModel })
         .pipe(catchError(this.updateError))
         .subscribe((data: any) => {
           console.info('Search completed successfully!');

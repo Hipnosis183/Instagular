@@ -29,27 +29,13 @@ export class PageLoginComponent implements OnInit {
   }
 
   loginUser(): void {
-    this.http.post<string>('/api/login', this.loginForm.value)
+    this.http.post<string>('/api/account/login', this.loginForm.value)
       .pipe(catchError(this.loginError))
       .subscribe((data) => {
         console.info('Logged in successfully!');
         localStorage.setItem('state', JSON.stringify(data));
         localStorage.setItem('user', this.loginForm.value.username);
         window.location.reload();
-      });
-  }
-
-  private sessionError() {
-    return throwError(() => new Error('Session error: corrupted stored data or the session has expired.'));
-  }
-
-  loadSession(): void {
-    this.http.post<string>('/api/session', { session: localStorage.getItem("state") })
-      .pipe(catchError(this.sessionError))
-      .subscribe((data) => {
-        console.info('Session loaded!');
-        localStorage.setItem('state', JSON.stringify(data));
-        this.router.navigate(['feed']);
       });
   }
 

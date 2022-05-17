@@ -36,7 +36,7 @@ export class PageUserComponent implements OnInit {
 
   async loadProfile(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/profile', { id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state"), stories: true })
+      this.http.post<any>('/api/user/profile', { id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state"), stories: true })
         .pipe(catchError(this.profileError.bind(this)))).then(async (data: any) => {
           console.info('Profile loaded successfully!');
           this.userProfile = data;
@@ -53,7 +53,7 @@ export class PageUserComponent implements OnInit {
 
   async loadUser(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/user', { feed: localStorage.getItem("feed"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
+      this.http.post<any>('/api/feed/user', { feed: localStorage.getItem("feed"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
         .pipe(catchError(this.userError))).then((data: any) => {
           console.info('User loaded successfully!');
           localStorage.setItem('feed', data.feed);
@@ -66,7 +66,7 @@ export class PageUserComponent implements OnInit {
   }
 
   async loadStories(): Promise<void> {
-    await lastValueFrom(this.http.post<object[]>('/api/highlights_tray', { id: this.userProfile.pk, session: localStorage.getItem("state") })
+    await lastValueFrom(this.http.post<object[]>('/api/highlights/highlights_tray', { id: this.userProfile.pk, session: localStorage.getItem("state") })
       .pipe(catchError(this.storiesError))).then((data: any) => {
         console.info('Stories tray loaded successfully!');
         this.userStories = this.userStories.concat(data);
@@ -78,7 +78,7 @@ export class PageUserComponent implements OnInit {
   }
 
   followUser(): void {
-    this.http.post('/api/follow', { userId: this.userProfile.pk, session: localStorage.getItem("state") })
+    this.http.post('/api/friendship/follow', { userId: this.userProfile.pk, session: localStorage.getItem("state") })
       .pipe(catchError(this.followError))
       .subscribe((data) => {
         console.info('User followed successfully!');
@@ -91,7 +91,7 @@ export class PageUserComponent implements OnInit {
   }
 
   unfollowUser(): void {
-    this.http.post('/api/unfollow', { userId: this.userProfile.pk, session: localStorage.getItem("state") })
+    this.http.post('/api/friendship/unfollow', { userId: this.userProfile.pk, session: localStorage.getItem("state") })
       .pipe(catchError(this.unfollowError))
       .subscribe((data) => {
         console.info('User unfollowed successfully :(');
@@ -108,7 +108,7 @@ export class PageUserComponent implements OnInit {
   }
 
   loadFollowers(): void {
-    this.http.post<object[]>('/api/followers', { feed: localStorage.getItem("follow"), id: this.userProfile.pk, session: localStorage.getItem("state") })
+    this.http.post<object[]>('/api/feed/followers', { feed: localStorage.getItem("follow"), id: this.userProfile.pk, session: localStorage.getItem("state") })
       .pipe(catchError(this.followersError))
       .subscribe((data: any) => {
         console.info('Followers loaded successfully!');
@@ -124,7 +124,7 @@ export class PageUserComponent implements OnInit {
   }
 
   loadFollowing(): void {
-    this.http.post<object[]>('/api/following', { feed: localStorage.getItem("follow"), id: this.userProfile.pk, session: localStorage.getItem("state") })
+    this.http.post<object[]>('/api/feed/following', { feed: localStorage.getItem("follow"), id: this.userProfile.pk, session: localStorage.getItem("state") })
       .pipe(catchError(this.followingError))
       .subscribe((data: any) => {
         console.info('Following loaded successfully!');

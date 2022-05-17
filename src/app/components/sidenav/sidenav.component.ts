@@ -24,7 +24,7 @@ export class SidenavComponent implements OnInit {
   }
 
   loadProfile(): void {
-    this.http.post<string>('/api/profile', { session: localStorage.getItem("state") })
+    this.http.post<string>('/api/user/profile', { session: localStorage.getItem("state") })
       .pipe(catchError(this.profileError))
       .subscribe((data) => {
         console.info('Profile loaded successfully!');
@@ -37,7 +37,7 @@ export class SidenavComponent implements OnInit {
   }
 
   logoutUser(): void {
-    this.http.post('/api/logout', { session: localStorage.getItem("state") })
+    this.http.post('/api/account/logout', { session: localStorage.getItem("state") })
       .pipe(catchError(this.logoutError))
       .subscribe(() => {
         console.info('Logged out successfully!');
