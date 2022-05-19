@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom, throwError } from 'rxjs';
@@ -110,6 +110,28 @@ export class ViewerStoriesComponent implements OnInit {
       this.feedIndex++;
       this.storyIndex();
       this.storySeen();
+    }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    // Go to the next story if the right arrow key is pressed.
+    if (event.key == 'ArrowRight') {
+      if (event.ctrlKey) {
+        if (this.feedStories.length > 1) {
+          this.storiesNextSkip();
+        }
+      } else { this.storiesNext(); }
+    }
+    // Go to the previous story if the left arrow key is pressed.
+    if (event.key == 'ArrowLeft') {
+      if (event.ctrlKey) {
+        if (this.feedStories.length > 1 && (this.feedIndex > this.originIndex && this.storiesIndex > 0)) {
+          this.storiesPrevSkip();
+        }
+      } else if (this.feedIndex > this.originIndex || this.storiesIndex > 0) {
+        this.storiesPrev();
+      }
     }
   }
 

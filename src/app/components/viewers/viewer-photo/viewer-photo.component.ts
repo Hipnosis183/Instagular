@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'viewer-photo',
@@ -24,6 +24,22 @@ export class ViewerPhotoComponent implements OnInit {
 
   carouselNext(): void {
     this.carouselIndex++;
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    // Go to the next item in the carousel if the right arrow key is pressed.
+    if (event.key == 'ArrowRight') {
+      if (this.feedPost.instagular.full.length > 1 && this.carouselIndex < this.feedPost.instagular.full.length - 1) {
+        this.carouselNext();
+      }
+    }
+    // Go to the previous item in the carousel if the left arrow key is pressed.
+    if (event.key == 'ArrowLeft') {
+      if (this.feedPost.instagular.full.length > 1 && this.carouselIndex > 0) {
+        this.carouselPrev();
+      }
+    }
   }
 
   moreOptions = 0;
