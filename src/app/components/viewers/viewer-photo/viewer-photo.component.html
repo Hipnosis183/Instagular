@@ -34,12 +34,15 @@
       <video autoplay controls loop [muted]="true"
         [src]="feedPost.instagular.full[carouselIndex] | encode:true | async"></video>
     </div>
-    <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" (click)="carouselPrev()" class="prev-button">
-      <img src="/assets/images/chevron-left.svg">
+    <div class="prev-button">
+      <img *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" (click)="carouselPrev()"
+        src="/assets/images/chevron-left.svg" class="carousel">
+      <img *ngIf="feedIndex.current > 0" (click)="postPrev()" src="/assets/images/chevron-d-left.svg">
     </div>
-    <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex < feedPost.instagular.full.length - 1"
-      (click)="carouselNext()" class="next-button">
-      <img src="/assets/images/chevron-right.svg">
+    <div class="next-button">
+      <img *ngIf="feedPost.instagular.full.length > 1 && carouselIndex < feedPost.instagular.full.length - 1"
+        (click)="carouselNext()" src="/assets/images/chevron-right.svg" class="carousel">
+      <img *ngIf="feedIndex.current < feedIndex.total" (click)="postNext()" src="/assets/images/chevron-d-right.svg">
     </div>
     <div (click)="closeSend.emit()" class="close-button">
       <img src="/assets/images/close.svg">

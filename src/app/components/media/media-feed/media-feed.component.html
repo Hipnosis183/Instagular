@@ -1,5 +1,6 @@
-<viewer-photo *ngIf="feedPost" [feedPost]="feedPost" (likeSend)="likeMedia($event)" (unlikeSend)="unlikeMedia($event)"
-  (closeSend)="closeMedia()"></viewer-photo>
+<viewer-photo *ngIf="feedPost" [feedPost]="feedPost" [feedIndex]="feedIndex" (likeSend)="likeMedia($event)"
+  (unlikeSend)="unlikeMedia($event)" (closeSend)="closeMedia()" (nextPost)="nextPost()" (prevPost)="prevPost()">
+</viewer-photo>
 <div *ngIf="feedPosts" class="feed-container">
   <div class="feed-grid">
     <div *ngFor="let post of feedPosts" class="feed-post">
@@ -23,7 +24,7 @@
             </div>
           </div>
           <img [src]="'/assets/images/' + (post.has_liked ? 'like-fill.svg' : 'like-lite.svg')"
-            (click)="post.has_liked ? unlikeMedia(post.id) : likeMedia(post.id)">
+            (click)="post.has_liked ? unlikeMedia(post.id) : likeMedia(post.id)" class="pointer-events-auto">
         </div>
         <div (click)="openMedia(post)" class="post-gradient"></div>
       </div>

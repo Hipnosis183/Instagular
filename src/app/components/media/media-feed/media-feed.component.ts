@@ -21,13 +21,26 @@ export class MediaFeedComponent implements OnInit {
   @Output() onScroll = new EventEmitter();
 
   feedPost: any = null;
+  feedIndex: any = { current: null, total: null };
 
   openMedia(post: any): void {
     this.feedPost = post;
+    this.feedIndex.current = this.feedPosts.findIndex((res) => res.id == post.id);
+    this.feedIndex.total = this.feedPosts.length - 1;
   }
 
   closeMedia(): void {
     this.feedPost = null;
+  }
+
+  prevPost(): void {
+    this.feedIndex.current--;
+    this.feedPost = this.feedPosts[this.feedIndex.current];
+  }
+
+  nextPost(): void {
+    this.feedIndex.current++;
+    this.feedPost = this.feedPosts[this.feedIndex.current];
   }
 
   hideIntersect: boolean = true;

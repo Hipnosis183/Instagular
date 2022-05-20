@@ -14,6 +14,10 @@
 .prev-button img {
   @apply bg-slate-100 cursor-pointer m-3 p-1.5 rounded-full w-7;
 }
+.next-button .carousel,
+.prev-button .carousel {
+  @apply absolute -mt-20 !important;
+}
 
 .sidenav-header {
   @apply cursor-pointer flex flex-col items-center;
