@@ -1,15 +1,31 @@
-.sidenav-buttons {
+.sidenav-buttons,
+.sidenav-buttons-s {
   @apply border-y border-y-slate-200 flex flex-col h-full items-center justify-between m-8 py-8;
 }
 .sidenav-buttons button {
   @apply hover:bg-slate-200 flex pl-6 py-2.5 rounded-lg space-x-6 w-full;
   transition: background-color 0.2s;
 }
-.sidenav-buttons div {
+.sidenav-buttons-s button {
+  @apply hover:bg-slate-200 flex justify-center py-3 rounded-lg w-[50px];
+  transition: background-color 0.2s;
+}
+.sidenav-buttons div ,
+.sidenav-buttons-s div {
   @apply flex flex-col items-center space-y-4 w-full;
 }
 .sidenav-container {
   @apply border-r border-r-slate-200 flex flex-col h-full w-[320px];
+}
+.sidenav-container-s {
+  @apply border-r border-r-slate-200 flex flex-col h-full w-[100px];
+}
+.sidenav-expand {
+  @apply absolute hover:bg-slate-200 bottom-0 cursor-pointer flex h-12 items-center justify-center mb-2 right-0 rounded-lg w-8 z-[1];
+  transition: background-color 0.2s;
+}
+.sidenav-expand img {
+  @apply h-5;
 }
 .sidenav-header {
   @apply flex flex-col;
@@ -21,10 +37,10 @@
   @apply flex justify-center w-full;
 }
 .sidenav-logo img {
-  @apply mr-4 h-[40px];
+  @apply cursor-pointer h-[40px];
 }
 .sidenav-user {
-  @apply cursor-pointer flex items-center justify-center -ml-1 space-x-4 w-full;
+  @apply cursor-pointer flex items-center justify-center space-x-4 w-full;
 }
 
 .text-main {

@@ -17,6 +17,20 @@ export class SidenavComponent implements OnInit {
     public router: Router
   ) { }
 
+  expandedSidenav: boolean = true;
+
+  expandSidenav(): void {
+    this.expandedSidenav = !this.expandedSidenav
+    localStorage.setItem('expanded', this.expandedSidenav.toString());
+  }
+
+  loadSidenav(): void {
+    if (localStorage.getItem("expanded")) {
+      let expanded: any = localStorage.getItem("expanded");
+      this.expandedSidenav = JSON.parse(expanded);
+    }
+  }
+
   userProfile: any = null;
 
   private profileError() {
@@ -48,5 +62,6 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadProfile();
+    this.loadSidenav();
   }
 }

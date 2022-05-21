@@ -1,5 +1,5 @@
-<div class="sidenav-container">
-  <div class="sidenav-logo">
+<div *ngIf="expandedSidenav" class="sidenav-container">
+  <div routerLink="/" class="sidenav-logo mr-4">
     <img src="/assets/images/logo-full.svg">
   </div>
   <search></search>
@@ -31,11 +31,44 @@
       <p>Log Out</p>
     </button>
   </div>
-  <div *ngIf="userProfile" [routerLink]="['/' + userProfile.username]" class="sidenav-user">
+  <div *ngIf="userProfile" [routerLink]="['/' + userProfile.username]" class="sidenav-user -ml-1">
     <img-await [source]="userProfile.hd_profile_pic_url_info.url" class="sidenav-image"></img-await>
     <div class="sidenav-header">
       <div class="text-main text-lg">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}</div>
       <div class="text-sub">@{{ userProfile.username }}</div>
     </div>
   </div>
+</div>
+<div *ngIf="!expandedSidenav" class="sidenav-container-s">
+  <div routerLink="/" class="sidenav-logo">
+    <img src="/assets/images/icon.svg">
+  </div>
+  <div class="sidenav-buttons-s">
+    <div>
+      <button routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
+        <img [src]="'/assets/images/' + (router.url == '/' ? 'feed-fill.svg' : 'feed.svg')">
+      </button>
+      <button>
+        <img [src]="'/assets/images/explore.svg'">
+      </button>
+      <button>
+        <img [src]="'/assets/images/direct.svg'">
+      </button>
+      <button>
+        <img [src]="'/assets/images/activity.svg'">
+      </button>
+      <button>
+        <img [src]="'/assets/images/settings.svg'">
+      </button>
+    </div>
+    <button (click)="logoutUser()">
+      <img src="/assets/images/logout.svg" class="-ml-1">
+    </button>
+  </div>
+  <div *ngIf="userProfile" [routerLink]="['/' + userProfile.username]" class="sidenav-user">
+    <img-await [source]="userProfile.hd_profile_pic_url_info.url" class="sidenav-image"></img-await>
+  </div>
+</div>
+<div (click)="expandSidenav()" class="sidenav-expand" [class]="expandedSidenav ? 'mr-3' : '-mr-10'">
+  <img [src]="'/assets/images/' + (expandedSidenav ? 'chevron-left.svg' : 'chevron-right.svg')">
 </div>
