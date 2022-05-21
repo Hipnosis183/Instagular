@@ -6,7 +6,7 @@
   @apply flex max-w-full mb-[1.1rem] min-h-[125px] overflow-x-auto pb-4 space-x-4 w-full;
 }
 .stories-container-h {
-  @apply flex max-w-full mb-2 overflow-x-auto pb-2 pt-4 space-x-4 w-full;
+  @apply flex max-w-full mb-2 mx-auto overflow-x-auto pb-2 pt-4 space-x-4 w-fit;
 }
 .stories-item {
   @apply cursor-pointer rounded-full;

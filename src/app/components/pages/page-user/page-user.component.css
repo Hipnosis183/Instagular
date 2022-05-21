@@ -23,7 +23,7 @@
 }
 
 .user-container {
-  @apply flex items-center mb-5 px-8 space-x-10 w-full;
+  @apply flex items-center justify-center mb-5 px-8 space-x-10 w-full;
 }
 .user-header {
   @apply cursor-default flex items-center mb-0.5 space-x-2;
