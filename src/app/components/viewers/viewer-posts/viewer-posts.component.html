@@ -34,6 +34,9 @@
       <video autoplay controls loop [muted]="true"
         [src]="feedPost.instagular.full[carouselIndex] | encode:true | async"></video>
     </div>
+    <div *ngIf="feedPost.instagular.media_type[0] == 3" class="viewer-media">
+      <video autoplay controls loop [muted]="true" [src]="feedPost.instagular.full[0] | encode:true | async"></video>
+    </div>
     <div class="prev-button">
       <img *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" (click)="carouselPrev()"
         src="/assets/images/chevron-left.svg" class="carousel">

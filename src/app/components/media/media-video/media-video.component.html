@@ -1,3 +1,6 @@
+<viewer-posts *ngIf="feedPost" [feedPost]="feedPost" [feedIndex]="feedIndex" (likeSend)="likeMedia($event)"
+  (unlikeSend)="unlikeMedia($event)" (closeSend)="closeMedia()" (nextPost)="nextPost()" (prevPost)="prevPost()">
+</viewer-posts>
 <div *ngIf="feedPosts" class="feed-container">
   <div class="feed-grid">
     <div *ngFor="let post of feedPosts" class="feed-post">

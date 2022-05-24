@@ -1,12 +1,12 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'viewer-photo',
-  templateUrl: './viewer-photo.component.html',
-  styleUrls: ['./viewer-photo.component.css']
+  selector: 'viewer-posts',
+  templateUrl: './viewer-posts.component.html',
+  styleUrls: ['./viewer-posts.component.css']
 })
 
-export class ViewerPhotoComponent implements OnInit {
+export class ViewerPostsComponent implements OnInit {
 
   constructor() { }
 

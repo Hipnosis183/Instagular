@@ -14,10 +14,10 @@
   transition: opacity 0.2s;
 }
 .post-footer {
-  @apply absolute bottom-0 flex items-end justify-between p-3 pointer-events-none w-full z-10;
+  @apply absolute bottom-0 flex items-end justify-between p-3 pointer-events-none w-full z-[1];
 }
 .post-header {
-  @apply absolute flex justify-end p-3 pointer-events-none w-full z-10;
+  @apply absolute flex justify-end p-3 pointer-events-none w-full z-[1];
 }
 .post-footer img,
 .post-header img {

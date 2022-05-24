@@ -1,4 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'media-video',
@@ -8,7 +11,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 export class MediaVideoComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   @Input() feedPosts: any[] = [];
 
@@ -17,10 +22,28 @@ export class MediaVideoComponent implements OnInit {
   feedPost: any = null;
   feedIndex: any = { current: null, total: null };
 
+  private mediaError() {
+    return throwError(() => new Error('Media error: could not load media information.'));
+  }
+
   openMedia(post: any): void {
-    this.feedPost = post;
-    this.feedIndex.current = this.feedPosts.findIndex((res) => res.id == post.id);
-    this.feedIndex.total = this.feedPosts.length - 1;
+    // If the media information hasn't been requested yet.
+    if (!post.node.instangular) {
+      this.http.post('/api/media/video', { session: localStorage.getItem("state"), id: post.node.shortcode })
+        .pipe(catchError(this.mediaError))
+        .subscribe((data) => {
+          console.info('Media information loaded successfully!');
+          this.feedPost = data;
+          this.feedIndex.current = this.feedPosts.findIndex((res) => res.node.id == post.node.id);
+          this.feedIndex.total = this.feedPosts.length - 1;
+          // Store results to avoid further request for the selected media.
+          this.feedPosts[this.feedIndex.current].node.instangular = data;
+        });
+    } else {
+      console.info('Media information already loaded.')
+      this.feedIndex.current = this.feedPosts.findIndex((res) => res.node.id == post.node.id);
+      this.feedPost = this.feedPosts[this.feedIndex.current].node.instangular;
+    }
   }
 
   closeMedia(): void {
@@ -29,12 +52,38 @@ export class MediaVideoComponent implements OnInit {
 
   prevPost(): void {
     this.feedIndex.current--;
-    this.feedPost = this.feedPosts[this.feedIndex.current];
+    // If the media information hasn't been requested yet.
+    if (!this.feedPosts[this.feedIndex.current].node.instangular) {
+      this.http.post('/api/media/video', { session: localStorage.getItem("state"), id: this.feedPosts[this.feedIndex.current].node.shortcode })
+        .pipe(catchError(this.mediaError))
+        .subscribe((data) => {
+          console.info('Media information loaded successfully!');
+          this.feedPost = data;
+          // Store results to avoid further request for the selected media.
+          this.feedPosts[this.feedIndex.current].node.instangular = data;
+        });
+    } else {
+      console.info('Media information already loaded.')
+      this.feedPost = this.feedPosts[this.feedIndex.current].node.instangular;
+    }
   }
 
   nextPost(): void {
     this.feedIndex.current++;
-    this.feedPost = this.feedPosts[this.feedIndex.current];
+    // If the media information hasn't been requested yet.
+    if (!this.feedPosts[this.feedIndex.current].node.instangular) {
+      this.http.post('/api/media/video', { session: localStorage.getItem("state"), id: this.feedPosts[this.feedIndex.current].node.shortcode })
+        .pipe(catchError(this.mediaError))
+        .subscribe((data) => {
+          console.info('Media information loaded successfully!');
+          this.feedPost = data;
+          // Store results to avoid further request for the selected media.
+          this.feedPosts[this.feedIndex.current].node.instangular = data;
+        });
+    } else {
+      console.info('Media information already loaded.')
+      this.feedPost = this.feedPosts[this.feedIndex.current].node.instangular;
+    }
   }
 
   hideIntersect: boolean = true;
@@ -43,6 +92,32 @@ export class MediaVideoComponent implements OnInit {
   onIntersection(): void {
     this.hideIntersect = true;
     this.onScroll.emit();
+  }
+
+  private likeError() {
+    return throwError(() => new Error('Media error: could not like the media.'));
+  }
+
+  likeMedia(id: string): void {
+    this.http.post('/api/media/like', { session: localStorage.getItem("state"), mediaId: id })
+      .pipe(catchError(this.likeError))
+      .subscribe((data) => {
+        console.info('Media liked successfully!');
+        this.feedPost.has_liked = true;
+      });
+  }
+
+  private unlikeError() {
+    return throwError(() => new Error('Media error: could not unlike the media.'));
+  }
+
+  unlikeMedia(id: string): void {
+    this.http.post('/api/media/unlike', { session: localStorage.getItem("state"), mediaId: id })
+      .pipe(catchError(this.unlikeError))
+      .subscribe((data) => {
+        console.info('Media unliked successfully!');
+        this.feedPost.has_liked = false;
+      });
   }
 
   ngOnChanges(): void {

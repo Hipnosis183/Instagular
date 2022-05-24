@@ -14,7 +14,7 @@ import { PageLoginComponent } from './components/pages/page-login/page-login.com
 import { PageUserComponent } from './components/pages/page-user/page-user.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { ViewerMoreComponent } from './components/viewers/viewer-more/viewer-more.component';
-import { ViewerPhotoComponent } from './components/viewers/viewer-photo/viewer-photo.component';
+import { ViewerPostsComponent } from './components/viewers/viewer-posts/viewer-posts.component';
 import { ViewerStoriesComponent } from './components/viewers/viewer-stories/viewer-stories.component';
 import { ViewerUsersComponent } from './components/viewers/viewer-users/viewer-users.component';
 
@@ -43,7 +43,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     PageUserComponent,
     SidenavComponent,
     ViewerMoreComponent,
-    ViewerPhotoComponent,
+    ViewerPostsComponent,
     ViewerStoriesComponent,
     ViewerUsersComponent,
     // Utility components.

@@ -118,6 +118,11 @@ module.exports.video = (req, res, next) => {
           'cookie': `csrftoken=${cookies.csrftoken}; mid=${cookies.mid}; rur=${cookies.rur}; ds_user_id=${cookies.ds_user_id}; sessionid=${cookies.sessionid}; shbid=${cookies.shbid}; shbts=${cookies.shbts}`
         }
       })).json();
+      // Create custom object to return data.
+      mediaVideo.items[0].instagular = {};
+      mediaVideo.items[0].instagular.media_type = [3];
+      mediaVideo.items[0].instagular.thumb = [mediaVideo.items[0].image_versions2.candidates[0].url];
+      mediaVideo.items[0].instagular.full = [mediaVideo.items[0].video_versions[0].url];
       // Return user channel feed.
       res.status(200);
       res.json(mediaVideo.items[0]);
