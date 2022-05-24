@@ -22,11 +22,30 @@ export class PageUserComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
+  feedSelected: string = 'timeline';
+  feedLoaded: any = {
+    timeline: true,
+    video: false
+  };
+
+  feedTimeline(): void {
+    this.feedSelected = 'timeline';
+  }
+
+  async feedVideo(): Promise<void> {
+    this.feedSelected = 'video';
+    if (!this.feedLoaded.video && this.userProfile.has_videos) {
+      await this.loadVideo();
+      this.feedLoaded.video = true;
+    }
+  }
+
   userName: any = '';
   userNotFound: boolean = false;
   userPosts: any[] = [];
   userProfile: any = null;
   userStories: any[] = [];
+  userVideos: any[] = [];
 
   private profileError() {
     this.title.setTitle('Page not found · Instagular');
@@ -58,6 +77,20 @@ export class PageUserComponent implements OnInit {
           console.info('User loaded successfully!');
           localStorage.setItem('feed', data.feed);
           this.userPosts = this.userPosts.concat(data.posts);
+        });
+  }
+
+  private videoError() {
+    return throwError(() => new Error('Video error: cannot load user Video (IGTV) feed.'));
+  }
+
+  async loadVideo(): Promise<void> {
+    await lastValueFrom(
+      this.http.post<any>('/api/feed/video', { id: this.userProfile.pk, name: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state"), cursor: localStorage.getItem("cursor") })
+        .pipe(catchError(this.videoError))).then((data: any) => {
+          console.info('User Video feed loaded successfully!');
+          localStorage.setItem('cursor', data.cursor);
+          this.userVideos = this.userVideos.concat(data.posts);
         });
   }
 
@@ -159,6 +192,7 @@ export class PageUserComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.userName = localStorage.getItem('user');
+    localStorage.removeItem('cursor');
     localStorage.removeItem('feed');
     localStorage.removeItem('follow');
     await this.loadProfile();

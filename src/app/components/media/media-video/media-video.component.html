@@ -1,0 +1,30 @@
+<div *ngIf="feedPosts" class="feed-container">
+  <div class="feed-grid">
+    <div *ngFor="let post of feedPosts" class="feed-post">
+      <div class="post-header">
+        <div class="post-stat">
+          <p>{{ post.node.video_view_count | shortNumber }}</p>
+          <img src="/assets/images/play.svg">
+        </div>
+      </div>
+      <div class="post-container">
+        <div class="post-footer">
+          <div class="post-stats">
+            <div>
+              <img src="/assets/images/activity-fill-lite.svg">
+              <p>{{ post.node.edge_liked_by.count | shortNumber }}</p>
+            </div>
+            <div>
+              <img src="/assets/images/comment-fill.svg">
+              <p>{{ post.node.edge_media_to_comment.count | shortNumber }}</p>
+            </div>
+          </div>
+        </div>
+        <div (click)="openMedia(post)" class="post-gradient"></div>
+      </div>
+      <img-await [source]="post.node.thumbnail_src" class="post-image"></img-await>
+    </div>
+  </div>
+  <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-px"
+    [class]="hideIntersect ? 'hidden' : 'block'"></div>
+</div>

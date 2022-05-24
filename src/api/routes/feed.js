@@ -164,6 +164,44 @@ module.exports.user = (req, res, next) => {
   })();
 };
 
+const fetch = require('node-fetch');
+module.exports.video = (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Load cookies to local object.
+    let c = await client.state.serializeCookieJar();
+    let cookies = {
+      csrftoken: c.cookies.find(o => o.key == 'csrftoken').value,
+      mid: c.cookies.find(o => o.key == 'mid').value,
+      rur: c.cookies.find(o => o.key == 'rur').value,
+      ds_user_id: c.cookies.find(o => o.key == 'ds_user_id').value,
+      sessionid: c.cookies.find(o => o.key == 'sessionid').value,
+      shbid: c.cookies.find(o => o.key == 'shbid').value,
+      shbts: c.cookies.find(o => o.key == 'shbts').value,
+    };
+    // Make different request if a cursor is available.
+    const urlVideo = req.body.cursor
+      ? `https://www.instagram.com/graphql/query/?query_hash=bc78b344a68ed16dd5d7f264681c4c76&variables={"id":"${req.body.id}","first":24,"after":"${req.body.cursor}"}`
+      : `https://www.instagram.com/${req.body.name}/?__a=1&__d=dis`;
+    // Fetch user GraphQL info, which includes the channel (Video/IGTV) feed object.
+    const feedVideo = await (await fetch(urlVideo, {
+      mode: 'GET', headers: {
+        'cookie': `csrftoken=${cookies.csrftoken}; mid=${cookies.mid}; rur=${cookies.rur}; ds_user_id=${cookies.ds_user_id}; sessionid=${cookies.sessionid}; shbid=${cookies.shbid}; shbts=${cookies.shbts}`
+      }
+    })).json();
+    // Return user channel feed.
+    res.json({
+      posts: feedVideo[req.body.cursor ? 'data' : 'graphql'].user.edge_felix_video_timeline.edges,
+      cursor: feedVideo[req.body.cursor ? 'data' : 'graphql'].user.edge_felix_video_timeline.page_info.end_cursor
+    });
+  })();
+};
+
 const postInfo = async (post) => {
   // Create custom object to return data.
   let instagular = {

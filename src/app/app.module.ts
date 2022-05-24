@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MediaFeedComponent } from './components/media/media-feed/media-feed.component';
 import { MediaStoriesComponent } from './components/media/media-stories/media-stories.component';
+import { MediaVideoComponent } from './components/media/media-video/media-video.component';
 import { PageFeedComponent } from './components/pages/page-feed/page-feed.component';
 import { PageLoginComponent } from './components/pages/page-login/page-login.component';
 import { PageUserComponent } from './components/pages/page-user/page-user.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { ViewerPhotoComponent } from './components/viewers/viewer-photo/viewer-photo.component';
 import { ViewerMoreComponent } from './components/viewers/viewer-more/viewer-more.component';
+import { ViewerPhotoComponent } from './components/viewers/viewer-photo/viewer-photo.component';
+import { ViewerStoriesComponent } from './components/viewers/viewer-stories/viewer-stories.component';
 import { ViewerUsersComponent } from './components/viewers/viewer-users/viewer-users.component';
 
 // Utility components.
@@ -28,7 +30,6 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { EncodePipe } from './pipes/encode.pipe';
 import { ParseUrlsPipe } from './pipes/parse-urls.pipe';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
-import { ViewerStoriesComponent } from './components/viewers/viewer-stories/viewer-stories.component';
 
 @NgModule({
   declarations: [
@@ -36,12 +37,14 @@ import { ViewerStoriesComponent } from './components/viewers/viewer-stories/view
     AppComponent,
     MediaFeedComponent,
     MediaStoriesComponent,
+    MediaVideoComponent,
     PageFeedComponent,
     PageLoginComponent,
     PageUserComponent,
     SidenavComponent,
-    ViewerPhotoComponent,
     ViewerMoreComponent,
+    ViewerPhotoComponent,
+    ViewerStoriesComponent,
     ViewerUsersComponent,
     // Utility components.
     ImgAwaitComponent,
@@ -53,7 +56,6 @@ import { ViewerStoriesComponent } from './components/viewers/viewer-stories/view
     EncodePipe,
     ParseUrlsPipe,
     ShortNumberPipe,
-    ViewerStoriesComponent,
   ],
   imports: [
     AppRoutingModule,

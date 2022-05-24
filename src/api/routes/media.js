@@ -91,3 +91,39 @@ module.exports.unlike = (req, res, next) => {
     }
   })();
 };
+
+module.exports.video = (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    try {
+      // Load the state from a previous session.
+      await client.state.deserialize(req.body.session);
+      // Load cookies to local object.
+      let c = await client.state.serializeCookieJar();
+      let cookies = {
+        csrftoken: c.cookies.find(o => o.key == 'csrftoken').value,
+        mid: c.cookies.find(o => o.key == 'mid').value,
+        rur: c.cookies.find(o => o.key == 'rur').value,
+        ds_user_id: c.cookies.find(o => o.key == 'ds_user_id').value,
+        sessionid: c.cookies.find(o => o.key == 'sessionid').value,
+        shbid: c.cookies.find(o => o.key == 'shbid').value,
+        shbts: c.cookies.find(o => o.key == 'shbts').value,
+      };
+      // Fetch user GraphQL info, which includes the media (Video/IGTV) object.
+      const mediaVideo = await (await fetch(`https://www.instagram.com/tv/${req.body.id}/?__a=1&__d=dis`, {
+        mode: 'GET', headers: {
+          'cookie': `csrftoken=${cookies.csrftoken}; mid=${cookies.mid}; rur=${cookies.rur}; ds_user_id=${cookies.ds_user_id}; sessionid=${cookies.sessionid}; shbid=${cookies.shbid}; shbts=${cookies.shbts}`
+        }
+      })).json();
+      // Return user channel feed.
+      res.status(200);
+      res.json(mediaVideo.items[0]);
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};

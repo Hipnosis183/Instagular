@@ -14,6 +14,7 @@ router.post('/feed/reels_media', feed.reelsMedia);
 router.post('/feed/reels_tray', feed.reelsTray);
 router.post('/feed/timeline', feed.timeline);
 router.post('/feed/user', feed.user);
+router.post('/feed/video', feed.video);
 
 // Friendship route endpoints.
 const friendship = require('./friendship');
@@ -30,6 +31,7 @@ router.post('/media/encode', media.encode);
 router.post('/media/like', media.like);
 router.post('/media/seen', media.seen);
 router.post('/media/unlike', media.unlike);
+router.post('/media/video', media.video);
 
 // Search route endpoints.
 const search = require('./search');
