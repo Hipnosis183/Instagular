@@ -4,15 +4,13 @@
 <div *ngIf="feedPosts" class="feed-container">
   <div class="feed-grid">
     <div *ngFor="let post of feedPosts" class="feed-post">
-      <img *ngIf="post.media_type == 8" src="/assets/images/carousel.svg" class="post-type">
-      <img *ngIf="(post.media_type == 2) && (post.product_type != 'clips')" src="/assets/images/play.svg" class="post-type">
-      <img *ngIf="(post.media_type == 2) && (post.product_type == 'clips')" src="/assets/images/reels.svg" class="post-type">
-      <div class="post-container">
-        <div *ngIf="!hideHeader" [routerLink]="['/' + post.user.username]" class="post-header">
-          <img-await [source]="post.user.profile_pic_url" class="post-profile"></img-await>
-          <p>{{ post.user.username }}</p>
-          <img *ngIf="post.user.is_verified" src="/assets/images/verified.svg">
+      <div class="post-header">
+        <div class="post-stat">
+          <p>{{ post.view_count | shortNumber }}</p>
+          <img src="/assets/images/play.svg">
         </div>
+      </div>
+      <div class="post-container">
         <div class="post-footer">
           <div class="post-stats">
             <div>
@@ -24,8 +22,6 @@
               <p>{{ post.comment_count | shortNumber }}</p>
             </div>
           </div>
-          <img [src]="'/assets/images/' + (post.has_liked ? 'like-fill.svg' : 'like-lite.svg')"
-            (click)="post.has_liked ? unlikeMedia(post.id) : likeMedia(post.id)" class="pointer-events-auto">
         </div>
         <div (click)="openMedia(post)" class="post-gradient"></div>
       </div>

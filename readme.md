@@ -9,7 +9,7 @@
 
 ![](/src/assets/screens/0.png)
 
-This project implements its own backend API server using [instagram-private-api](https://github.com/dilame/instagram-private-api) to connect/interface to Instagram, acting as a middleware between the Instagular client and the Instagram server.
+This project implements its own backend API server using a custom, personal fork of [instagram-private-api](https://github.com/Hipnosis183/instagram-private-api) to connect/interface to Instagram, acting as a middleware between the Instagular client and the Instagram server.
 
 The app is fully compatible with Instagram routing structure, so it's possible to replace the domain with Instagular's and continue navigating right away.
 
@@ -21,13 +21,14 @@ While the app should be safe to use normally, there's the possibility for the us
 - Feeds with auto pagination management.
 - Fullscreen media viewer, with high quality photos and videos play.
 - Profile user pages.
+- Stories/highlights support.
 - Like/unlike posts, follow/unfollow users.
 - High/original quality media download.
 - Users search bar.
 
 Planned features:
 
-- Stories full support (view and interaction).
+- Stories interaction.
 - View/post comments.
 - Direct messaging.
 - Activity/notifications.

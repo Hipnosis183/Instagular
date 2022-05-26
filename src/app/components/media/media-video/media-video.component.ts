@@ -29,7 +29,7 @@ export class MediaVideoComponent implements OnInit {
   openMedia(post: any): void {
     // If the media information hasn't been requested yet.
     if (!post.node.instangular) {
-      this.http.post('/api/media/video', { session: localStorage.getItem("state"), id: post.node.shortcode })
+      this.http.post('/api/media/video', { session: localStorage.getItem('state'), id: post.node.shortcode })
         .pipe(catchError(this.mediaError))
         .subscribe((data) => {
           console.info('Media information loaded successfully!');
@@ -54,7 +54,7 @@ export class MediaVideoComponent implements OnInit {
     this.feedIndex.current--;
     // If the media information hasn't been requested yet.
     if (!this.feedPosts[this.feedIndex.current].node.instangular) {
-      this.http.post('/api/media/video', { session: localStorage.getItem("state"), id: this.feedPosts[this.feedIndex.current].node.shortcode })
+      this.http.post('/api/media/video', { session: localStorage.getItem('state'), id: this.feedPosts[this.feedIndex.current].node.shortcode })
         .pipe(catchError(this.mediaError))
         .subscribe((data) => {
           console.info('Media information loaded successfully!');
@@ -72,7 +72,7 @@ export class MediaVideoComponent implements OnInit {
     this.feedIndex.current++;
     // If the media information hasn't been requested yet.
     if (!this.feedPosts[this.feedIndex.current].node.instangular) {
-      this.http.post('/api/media/video', { session: localStorage.getItem("state"), id: this.feedPosts[this.feedIndex.current].node.shortcode })
+      this.http.post('/api/media/video', { session: localStorage.getItem('state'), id: this.feedPosts[this.feedIndex.current].node.shortcode })
         .pipe(catchError(this.mediaError))
         .subscribe((data) => {
           console.info('Media information loaded successfully!');
@@ -99,7 +99,7 @@ export class MediaVideoComponent implements OnInit {
   }
 
   likeMedia(id: string): void {
-    this.http.post('/api/media/like', { session: localStorage.getItem("state"), mediaId: id })
+    this.http.post('/api/media/like', { session: localStorage.getItem('state'), mediaId: id })
       .pipe(catchError(this.likeError))
       .subscribe((data) => {
         console.info('Media liked successfully!');
@@ -112,7 +112,7 @@ export class MediaVideoComponent implements OnInit {
   }
 
   unlikeMedia(id: string): void {
-    this.http.post('/api/media/unlike', { session: localStorage.getItem("state"), mediaId: id })
+    this.http.post('/api/media/unlike', { session: localStorage.getItem('state'), mediaId: id })
       .pipe(catchError(this.unlikeError))
       .subscribe((data) => {
         console.info('Media unliked successfully!');
@@ -121,7 +121,7 @@ export class MediaVideoComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    const cursor: any = localStorage.getItem("cursor");
+    const cursor: any = localStorage.getItem('video');
     this.hideIntersect = cursor ? false : true;
     this.stopIntersect = cursor ? false : true;
   }

@@ -54,6 +54,36 @@ module.exports.following = (req, res, next) => {
   })();
 };
 
+module.exports.reels = (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Load clips feed object.
+    const feedClips = client.feed.clips(req.body.id, req.body.cursor ? req.body.cursor : '');
+    // Initialize reels feed list.
+    let cursor, reels = [];
+    // Load clips in batches of 24 items. Feeds must be paginated manually.
+    await feedClips.items()
+      .then((res) => {
+        // Get feed cursor position.
+        cursor = res.cursor ? res.cursor : '';
+        // Get media data from urls.
+        res.items.forEach(async (clip) => {
+          // Process clip custom data.
+          clip.media.instagular = await postInfo(clip.media)
+          // Add clip to reels list.
+          reels.push(clip.media);
+        });
+      });
+    // Return clips object.
+    res.json({ cursor: cursor, posts: reels });
+  })();
+};
+
 module.exports.reelsMedia = (req, res, next) => {
   ; (async () => {
     // Create new Instagram client instance.

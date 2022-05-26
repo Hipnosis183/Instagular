@@ -61,12 +61,17 @@
         <img src="/assets/images/user-posts.svg">
         <p>POSTS</p>
       </div>
+      <div *ngIf="userProfile.total_clips_count" (click)="feedReels()" [class]="feedSelected == 'reels' ? 'bg-slate-200' : ''">
+        <img src="/assets/images/user-reels.svg">
+        <p>REELS</p>
+      </div>
       <div *ngIf="userProfile.has_videos" (click)="feedVideo()" [class]="feedSelected == 'video' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-videos.svg">
         <p>VIDEOS</p>
       </div>
     </div>
-    <media-feed [hidden]="feedSelected != 'timeline'" [feedPosts]="userPosts" [hideHeader]="true" (onScroll)="loadUser()"></media-feed>
+    <media-feed *ngIf="feedLoaded.timeline" [hidden]="feedSelected != 'timeline'" [feedPosts]="userPosts" [hideHeader]="true" (onScroll)="loadUser()"></media-feed>
+    <media-reels *ngIf="feedLoaded.reels" [hidden]="feedSelected != 'reels'" [feedPosts]="userReels" (onScroll)="loadReels()"></media-reels>
     <media-video *ngIf="feedLoaded.video" [hidden]="feedSelected != 'video'" [feedPosts]="userVideos" (onScroll)="loadVideo()"></media-video>
   </ng-template>
   <ng-template #block>

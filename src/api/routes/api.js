@@ -10,6 +10,7 @@ router.post('/account/logout', account.logout);
 const feed = require('./feed');
 router.post('/feed/followers', feed.followers);
 router.post('/feed/following', feed.following);
+router.post('/feed/reels', feed.reels);
 router.post('/feed/reels_media', feed.reelsMedia);
 router.post('/feed/reels_tray', feed.reelsTray);
 router.post('/feed/timeline', feed.timeline);

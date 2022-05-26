@@ -25,11 +25,20 @@ export class PageUserComponent implements OnInit {
   feedSelected: string = 'timeline';
   feedLoaded: any = {
     timeline: true,
+    reels: false,
     video: false
   };
 
   feedTimeline(): void {
     this.feedSelected = 'timeline';
+  }
+
+  async feedReels(): Promise<void> {
+    this.feedSelected = 'reels';
+    if (!this.feedLoaded.reels && this.userProfile.total_clips_count) {
+      await this.loadReels();
+      this.feedLoaded.reels = true;
+    }
   }
 
   async feedVideo(): Promise<void> {
@@ -44,6 +53,7 @@ export class PageUserComponent implements OnInit {
   userNotFound: boolean = false;
   userPosts: any[] = [];
   userProfile: any = null;
+  userReels: any[] = [];
   userStories: any[] = [];
   userVideos: any[] = [];
 
@@ -55,7 +65,7 @@ export class PageUserComponent implements OnInit {
 
   async loadProfile(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/user/profile', { id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state"), stories: true })
+      this.http.post<any>('/api/user/profile', { id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem('state'), stories: true })
         .pipe(catchError(this.profileError.bind(this)))).then(async (data: any) => {
           console.info('Profile loaded successfully!');
           this.userProfile = data;
@@ -72,11 +82,25 @@ export class PageUserComponent implements OnInit {
 
   async loadUser(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/feed/user', { feed: localStorage.getItem("feed"), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state") })
+      this.http.post<any>('/api/feed/user', { feed: localStorage.getItem('feed'), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem('state') })
         .pipe(catchError(this.userError))).then((data: any) => {
           console.info('User loaded successfully!');
           localStorage.setItem('feed', data.feed);
           this.userPosts = this.userPosts.concat(data.posts);
+        });
+  }
+
+  private reelsError() {
+    return throwError(() => new Error('Reels error: cannot load user reels feed.'));
+  }
+
+  async loadReels(): Promise<void> {
+    await lastValueFrom(
+      this.http.post<any>('/api/feed/reels', { id: this.userProfile.pk, session: localStorage.getItem('state'), cursor: localStorage.getItem('reels') })
+        .pipe(catchError(this.reelsError))).then((data: any) => {
+          console.info('User reels feed loaded successfully!');
+          localStorage.setItem('reels', data.cursor);
+          this.userReels = this.userReels.concat(data.posts);
         });
   }
 
@@ -86,10 +110,10 @@ export class PageUserComponent implements OnInit {
 
   async loadVideo(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/feed/video', { id: this.userProfile.pk, name: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem("state"), cursor: localStorage.getItem("cursor") })
+      this.http.post<any>('/api/feed/video', { id: this.userProfile.pk, name: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem('state'), cursor: localStorage.getItem('video') })
         .pipe(catchError(this.videoError))).then((data: any) => {
           console.info('User Video feed loaded successfully!');
-          localStorage.setItem('cursor', data.cursor);
+          localStorage.setItem('video', data.cursor);
           this.userVideos = this.userVideos.concat(data.posts);
         });
   }
@@ -99,7 +123,7 @@ export class PageUserComponent implements OnInit {
   }
 
   async loadStories(): Promise<void> {
-    await lastValueFrom(this.http.post<object[]>('/api/highlights/highlights_tray', { id: this.userProfile.pk, session: localStorage.getItem("state") })
+    await lastValueFrom(this.http.post<object[]>('/api/highlights/highlights_tray', { id: this.userProfile.pk, session: localStorage.getItem('state') })
       .pipe(catchError(this.storiesError))).then((data: any) => {
         console.info('Stories tray loaded successfully!');
         this.userStories = this.userStories.concat(data);
@@ -111,7 +135,7 @@ export class PageUserComponent implements OnInit {
   }
 
   followUser(): void {
-    this.http.post('/api/friendship/follow', { userId: this.userProfile.pk, session: localStorage.getItem("state") })
+    this.http.post('/api/friendship/follow', { userId: this.userProfile.pk, session: localStorage.getItem('state') })
       .pipe(catchError(this.followError))
       .subscribe((data) => {
         console.info('User followed successfully!');
@@ -124,7 +148,7 @@ export class PageUserComponent implements OnInit {
   }
 
   unfollowUser(): void {
-    this.http.post('/api/friendship/unfollow', { userId: this.userProfile.pk, session: localStorage.getItem("state") })
+    this.http.post('/api/friendship/unfollow', { userId: this.userProfile.pk, session: localStorage.getItem('state') })
       .pipe(catchError(this.unfollowError))
       .subscribe((data) => {
         console.info('User unfollowed successfully :(');
@@ -141,7 +165,7 @@ export class PageUserComponent implements OnInit {
   }
 
   loadFollowers(): void {
-    this.http.post<object[]>('/api/feed/followers', { feed: localStorage.getItem("follow"), id: this.userProfile.pk, session: localStorage.getItem("state") })
+    this.http.post<object[]>('/api/feed/followers', { feed: localStorage.getItem('follow'), id: this.userProfile.pk, session: localStorage.getItem('state') })
       .pipe(catchError(this.followersError))
       .subscribe((data: any) => {
         console.info('Followers loaded successfully!');
@@ -157,7 +181,7 @@ export class PageUserComponent implements OnInit {
   }
 
   loadFollowing(): void {
-    this.http.post<object[]>('/api/feed/following', { feed: localStorage.getItem("follow"), id: this.userProfile.pk, session: localStorage.getItem("state") })
+    this.http.post<object[]>('/api/feed/following', { feed: localStorage.getItem('follow'), id: this.userProfile.pk, session: localStorage.getItem('state') })
       .pipe(catchError(this.followingError))
       .subscribe((data: any) => {
         console.info('Following loaded successfully!');
@@ -192,8 +216,9 @@ export class PageUserComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.userName = localStorage.getItem('user');
-    localStorage.removeItem('cursor');
     localStorage.removeItem('feed');
+    localStorage.removeItem('reels');
+    localStorage.removeItem('video');
     localStorage.removeItem('follow');
     await this.loadProfile();
     await this.loadStories();
