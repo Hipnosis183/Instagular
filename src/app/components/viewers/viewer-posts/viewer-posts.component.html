@@ -35,7 +35,20 @@
         [src]="feedPost.instagular.full[carouselIndex] | encode:true | async"></video>
     </div>
     <div *ngIf="feedPost.instagular.media_type[0] == 3" class="viewer-media">
-      <video autoplay controls loop [muted]="true" [src]="feedPost.instagular.full[0] | encode:true | async"></video>
+      <div *ngIf="feedPost.video_duration < 60; then play; else block"></div>
+      <ng-template #play>
+        <video autoplay controls loop [muted]="true" [src]="feedPost.instagular.full[0] | encode:true | async"></video>
+      </ng-template>
+      <ng-template #block>
+        <div class="viewer-text">
+          <p>
+            This video is longer than a minute, and it's not suitable to be converted and displayed by the app.
+            You can still open the original video in a new tab and watch it externally.
+          </p>
+          <button (click)="openMedia()">WATCH IN NEW TAB</button>
+        </div>
+        <img-await [source]="feedPost.instagular.thumb[0]" class="viewer-image"></img-await>
+      </ng-template>
     </div>
     <div class="prev-button">
       <img *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" (click)="carouselPrev()"

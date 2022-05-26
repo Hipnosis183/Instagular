@@ -79,6 +79,10 @@ export class ViewerPostsComponent implements OnInit {
     this.moreOptions = 0;
   }
 
+  openMedia(): void {
+    window.open(this.feedPost.instagular.full[this.carouselIndex] + '&se=0', '_blank');
+  }
+
   downloadMedia(): void {
     window.open(this.feedPost.instagular.full[this.carouselIndex] + '&se=0&dl=1', '_blank');
     this.moreOptions = 0;

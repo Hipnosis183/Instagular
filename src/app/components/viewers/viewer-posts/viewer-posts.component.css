@@ -1,14 +1,14 @@
 .close-button {
-  @apply absolute bg-slate-100 cursor-pointer m-3 p-[0.45rem] right-0 rounded-full w-7;
+  @apply absolute bg-slate-100 cursor-pointer m-3 p-[0.45rem] right-0 rounded-full w-7 z-[1];
 }
 .more-button {
   @apply absolute cursor-pointer m-4 right-0 top-0;
 }
 .next-button {
-  @apply absolute flex flex-col justify-center h-full right-0;
+  @apply absolute flex flex-col justify-center h-full right-0 z-[1];
 }
 .prev-button {
-  @apply absolute flex flex-col justify-center h-full ml-[320px];
+  @apply absolute flex flex-col justify-center h-full ml-[320px] z-[1];
 }
 .next-button img,
 .prev-button img {
@@ -61,6 +61,10 @@
 .viewer-count .count-dot {
   @apply h-2 rounded-full w-2;
 }
+:host ::ng-deep .viewer-image img {
+  @apply h-full object-cover w-full;
+  filter: brightness(0.2);
+}
 .viewer-media {
   @apply w-full;
 }
@@ -74,4 +78,14 @@
 }
 .viewer-sidenav {
   @apply absolute bg-slate-100 flex flex-col h-screen w-[320px];
+}
+.viewer-text {
+  @apply absolute flex flex-col h-full items-center justify-center ml-[320px] space-y-10 text-center text-slate-100 z-[1];
+  width: calc(100% - 320px);
+}
+.viewer-text p {
+  @apply break-words max-w-[300px] pointer-events-none text-lg;
+}
+.viewer-text button {
+  @apply border-[1px] border-slate-100 px-4 py-2 rounded-lg;
 }
