@@ -26,7 +26,8 @@ export class PageUserComponent implements OnInit {
   feedLoaded: any = {
     timeline: true,
     reels: false,
-    video: false
+    video: false,
+    tagged: false
   };
 
   feedTimeline(): void {
@@ -49,12 +50,21 @@ export class PageUserComponent implements OnInit {
     }
   }
 
+  async feedTagged(): Promise<void> {
+    this.feedSelected = 'tagged';
+    if (!this.feedLoaded.tagged && this.userProfile.usertags_count) {
+      await this.loadTagged();
+      this.feedLoaded.tagged = true;
+    }
+  }
+
   userName: any = '';
   userNotFound: boolean = false;
   userPosts: any[] = [];
   userProfile: any = null;
   userReels: any[] = [];
   userStories: any[] = [];
+  userTagged: any[] = [];
   userVideos: any[] = [];
 
   private profileError() {
@@ -115,6 +125,20 @@ export class PageUserComponent implements OnInit {
           console.info('User Video feed loaded successfully!');
           localStorage.setItem('video', data.cursor);
           this.userVideos = this.userVideos.concat(data.posts);
+        });
+  }
+
+  private taggedError() {
+    return throwError(() => new Error('Video error: cannot load user Video (IGTV) feed.'));
+  }
+
+  async loadTagged(): Promise<void> {
+    await lastValueFrom(
+      this.http.post<any>('/api/feed/tagged', { feed: localStorage.getItem('tagged'), id: this.userProfile.pk, session: localStorage.getItem('state') })
+        .pipe(catchError(this.taggedError))).then((data: any) => {
+          console.info('User tagged feed loaded successfully!');
+          localStorage.setItem('tagged', data.feed);
+          this.userTagged = this.userTagged.concat(data.posts);
         });
   }
 
@@ -219,6 +243,7 @@ export class PageUserComponent implements OnInit {
     localStorage.removeItem('feed');
     localStorage.removeItem('reels');
     localStorage.removeItem('video');
+    localStorage.removeItem('tagged');
     localStorage.removeItem('follow');
     await this.loadProfile();
     await this.loadStories();

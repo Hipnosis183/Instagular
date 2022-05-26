@@ -13,6 +13,7 @@ router.post('/feed/following', feed.following);
 router.post('/feed/reels', feed.reels);
 router.post('/feed/reels_media', feed.reelsMedia);
 router.post('/feed/reels_tray', feed.reelsTray);
+router.post('/feed/tagged', feed.tagged);
 router.post('/feed/timeline', feed.timeline);
 router.post('/feed/user', feed.user);
 router.post('/feed/video', feed.video);

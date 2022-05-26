@@ -79,9 +79,16 @@ export class MediaFeedComponent implements OnInit {
       });
   }
 
+  @Input() feedStorage: string = '';
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes['feedPosts'].firstChange) {
-      const feed: any = localStorage.getItem("feed");
+    if (this.feedStorage.length > 0) {
+      const feed: any = localStorage.getItem(this.feedStorage);
+      this.hideIntersect = JSON.parse(feed).moreAvailable ? false : true;
+      this.stopIntersect = JSON.parse(feed).moreAvailable ? false : true;
+    }
+    else if (!changes['feedPosts'].firstChange) {
+      const feed: any = localStorage.getItem('feed');
       this.hideIntersect = JSON.parse(feed).moreAvailable ? false : true;
       this.stopIntersect = JSON.parse(feed).moreAvailable ? false : true;
     }

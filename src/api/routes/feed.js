@@ -118,6 +118,38 @@ module.exports.reelsTray = (req, res, next) => {
   })();
 };
 
+module.exports.tagged = (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Load tagged feed object.
+    const feedTagged = client.feed.usertags(req.body.id);
+    // Load the state of the feed if present.
+    if (req.body.feed) { feedTagged.deserialize(req.body.feed); }
+    // Initialize tagged feed posts list.
+    let posts = [];
+    // Load most recent user tagged posts. Feeds are auto paginated.
+    if (!req.body.feed || feedTagged.isMoreAvailable()) {
+      await feedTagged.items()
+        .then((res) => {
+          // Get media data from urls.
+          res.forEach(async (post) => {
+            // Process post custom data.
+            post.instagular = await postInfo(post)
+            // Add post to feed list.
+            posts.push(post);
+          });
+        });
+    }
+    // Return tagged feed posts list and state.
+    res.json({ feed: feedTagged.serialize(), posts: posts });
+  })();
+};
+
 module.exports.timeline = (req, res, next) => {
   ; (async () => {
     // Create new Instagram client instance.
