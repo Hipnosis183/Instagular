@@ -1,0 +1,30 @@
+<media-feed *ngIf="feedCollection.length > 0" [feedPosts]="feedCollection" [feedStorage]="'collection'"
+  [showReturn]="true" (onScroll)="openCollection(selectedCollection)" (onReturn)="closeCollection()"></media-feed>
+<div *ngIf="feedCollections" [hidden]="feedCollection.length > 0" class="feed-container">
+  <div class="feed-grid">
+    <div *ngFor="let collection of feedCollections" class="feed-collection">
+      <div class="collection-header">
+        <p>{{ collection.collection_media_count | shortNumber }}</p>
+      </div>
+      <div class="collection-container">
+        <div class="collection-footer">
+          <p>{{ collection.collection_name }}</p>
+        </div>
+        <div (click)="openCollection(collection.collection_id)" class="collection-gradient"></div>
+      </div>
+      <div *ngIf="collection.cover_media_list" class="collection-grid"
+        [class]="collection.cover_media_list[2] ? 'grid-cols-2 grid-rows-2' : collection.cover_media_list[1] ? 'grid-cols-2' : ''">
+        <img-await [source]="collection.cover_media_list[0].image_versions2.candidates[1].url"
+          *ngIf="collection.cover_media_list[0]" class="collection-image"></img-await>
+        <img-await [source]="collection.cover_media_list[1].image_versions2.candidates[1].url"
+          *ngIf="collection.cover_media_list[1]" class="collection-image"></img-await>
+        <img-await [source]="collection.cover_media_list[2].image_versions2.candidates[1].url" class="collection-image"
+          *ngIf="collection.cover_media_list[2]" [class]="collection.cover_media_list[3] ? '' : 'col-span-2'"></img-await>
+        <img-await [source]="collection.cover_media_list[3].image_versions2.candidates[1].url"
+          *ngIf="collection.cover_media_list[3]" class="collection-image"></img-await>
+      </div>
+    </div>
+  </div>
+  <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-px"
+    [class]="hideIntersect ? 'hidden' : 'block'"></div>
+</div>

@@ -17,7 +17,9 @@ export class MediaFeedComponent implements OnInit {
 
   @Input() feedPosts: any[] = [];
   @Input() hideHeader: boolean = false;
+  @Input() showReturn: boolean = false;
 
+  @Output() onReturn = new EventEmitter();
   @Output() onScroll = new EventEmitter();
 
   feedPost: any = null;

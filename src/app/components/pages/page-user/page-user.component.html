@@ -73,11 +73,16 @@
         <img src="/assets/images/user-tagged.svg">
         <p>TAGGED</p>
       </div>
+      <div *ngIf="userProfile.has_saved_items" (click)="feedSaved()" [class]="feedSelected == 'saved' ? 'bg-slate-200' : ''">
+        <img src="/assets/images/user-saved.svg">
+        <p>SAVED</p>
+      </div>
     </div>
     <media-feed *ngIf="feedLoaded.timeline" [hidden]="feedSelected != 'timeline'" [feedPosts]="userPosts" [hideHeader]="true" (onScroll)="loadUser()"></media-feed>
     <media-reels *ngIf="feedLoaded.reels" [hidden]="feedSelected != 'reels'" [feedPosts]="userReels" (onScroll)="loadReels()"></media-reels>
     <media-video *ngIf="feedLoaded.video" [hidden]="feedSelected != 'video'" [feedPosts]="userVideos" (onScroll)="loadVideo()"></media-video>
     <media-feed *ngIf="feedLoaded.tagged" [hidden]="feedSelected != 'tagged'" [feedPosts]="userTagged" [feedStorage]="'tagged'" (onScroll)="loadTagged()"></media-feed>
+    <media-saved *ngIf="feedLoaded.saved" [hidden]="feedSelected != 'saved'" [feedCollections]="userSaved" (onScroll)="loadSaved()"></media-saved>
   </ng-template>
   <ng-template #block>
     <div class="error-container mt-24">

@@ -118,6 +118,81 @@ module.exports.reelsTray = (req, res, next) => {
   })();
 };
 
+module.exports.saved = (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Load collections feed object.
+    const feedCollections = client.feed.collections();
+    // Return collections feed list and state.
+    res.json({ feed: feedCollections.serialize(), collections: await feedCollections.items() });
+  })();
+};
+
+module.exports.saved_all = (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Load all saved posts feed object.
+    const feedSaved = client.feed.saved();
+    // Load the state of the feed if present.
+    if (req.body.feed) { feedSaved.deserialize(req.body.feed); }
+    // Initialize saved posts feed list.
+    let posts = [];
+    // Load all posts saved by the user. Feeds are auto paginated.
+    await feedSaved.items()
+      .then((res) => {
+        // Get media data from urls.
+        res.forEach(async (post) => {
+          // Process post custom data.
+          post.instagular = await postInfo(post)
+          // Add post to feed list.
+          posts.push(post);
+        });
+      });
+    // Return saved posts feed list and state.
+    res.json({ feed: feedSaved.serialize(), posts: posts });
+  })();
+};
+
+module.exports.saved_collection = (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    // Load the state from a previous session.
+    await client.state.deserialize(req.body.session);
+    // Load collection feed object.
+    const feedCollection = client.feed.collection(req.body.id);
+    // Load the state of the feed if present.
+    if (req.body.feed) { feedCollection.deserialize(req.body.feed); }
+    // Initialize collection posts feed list.
+    let posts = [];
+    // Load all posts for the collection made by the user. Feeds are auto paginated.
+    await feedCollection.items()
+      .then((res) => {
+        // Get media data from urls.
+        res.forEach(async (post) => {
+          // Process post custom data.
+          post.instagular = await postInfo(post)
+          // Add post to feed list.
+          posts.push(post);
+        });
+      });
+    // Return collection posts feed list and state.
+    res.json({ feed: feedCollection.serialize(), posts: posts });
+  })();
+};
+
 module.exports.tagged = (req, res, next) => {
   ; (async () => {
     // Create new Instagram client instance.

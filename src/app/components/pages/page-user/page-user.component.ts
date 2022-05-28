@@ -27,7 +27,8 @@ export class PageUserComponent implements OnInit {
     timeline: true,
     reels: false,
     video: false,
-    tagged: false
+    tagged: false,
+    saved: false
   };
 
   feedTimeline(): void {
@@ -58,11 +59,20 @@ export class PageUserComponent implements OnInit {
     }
   }
 
+  async feedSaved(): Promise<void> {
+    this.feedSelected = 'saved';
+    if (!this.feedLoaded.saved && this.userProfile.has_saved_items) {
+      await this.loadSaved();
+      this.feedLoaded.saved = true;
+    }
+  }
+
   userName: any = '';
   userNotFound: boolean = false;
   userPosts: any[] = [];
   userProfile: any = null;
   userReels: any[] = [];
+  userSaved: any[] = [];
   userStories: any[] = [];
   userTagged: any[] = [];
   userVideos: any[] = [];
@@ -129,7 +139,7 @@ export class PageUserComponent implements OnInit {
   }
 
   private taggedError() {
-    return throwError(() => new Error('Video error: cannot load user Video (IGTV) feed.'));
+    return throwError(() => new Error('Tagged error: cannot load user tagged posts feed.'));
   }
 
   async loadTagged(): Promise<void> {
@@ -139,6 +149,20 @@ export class PageUserComponent implements OnInit {
           console.info('User tagged feed loaded successfully!');
           localStorage.setItem('tagged', data.feed);
           this.userTagged = this.userTagged.concat(data.posts);
+        });
+  }
+
+  private savedError() {
+    return throwError(() => new Error('Saved error: cannot load user saved posts feed.'));
+  }
+
+  async loadSaved(): Promise<void> {
+    await lastValueFrom(
+      this.http.post<any>('/api/feed/saved', { feed: localStorage.getItem('saved'), id: this.userProfile.pk, session: localStorage.getItem('state') })
+        .pipe(catchError(this.savedError))).then((data: any) => {
+          console.info('User saved feed loaded successfully!');
+          localStorage.setItem('saved', data.feed);
+          this.userSaved = this.userSaved.concat(data.collections);
         });
   }
 
@@ -244,6 +268,8 @@ export class PageUserComponent implements OnInit {
     localStorage.removeItem('reels');
     localStorage.removeItem('video');
     localStorage.removeItem('tagged');
+    localStorage.removeItem('saved');
+    localStorage.removeItem('collection');
     localStorage.removeItem('follow');
     await this.loadProfile();
     await this.loadStories();

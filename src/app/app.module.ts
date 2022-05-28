@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MediaFeedComponent } from './components/media/media-feed/media-feed.component';
 import { MediaReelsComponent } from './components/media/media-reels/media-reels.component';
+import { MediaSavedComponent } from './components/media/media-saved/media-saved.component';
 import { MediaStoriesComponent } from './components/media/media-stories/media-stories.component';
 import { MediaVideoComponent } from './components/media/media-video/media-video.component';
 import { PageFeedComponent } from './components/pages/page-feed/page-feed.component';
@@ -38,6 +39,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     AppComponent,
     MediaFeedComponent,
     MediaReelsComponent,
+    MediaSavedComponent,
     MediaStoriesComponent,
     MediaVideoComponent,
     PageFeedComponent,

@@ -5,54 +5,37 @@
   @apply gap-6 grid justify-center;
   grid-template-columns: repeat(auto-fit, minmax(280px, 280px));
 }
-.feed-post {
+.feed-collection {
   @apply h-[280px] ml-auto mr-auto overflow-hidden relative rounded-lg w-[280px];
 }
-.feed-return {
-  @apply hover:bg-slate-200 cursor-pointer flex font-light justify-center mb-6 p-2 text-lg text-slate-800 w-full;
-  transition: background-color 0.2s;
-}
 
-.post-container {
+.collection-container {
   @apply absolute cursor-pointer h-full hover:opacity-100 opacity-0 w-full;
   transition: opacity 0.2s;
 }
-.post-footer {
+.collection-footer {
   @apply absolute bottom-0 flex items-end justify-between p-3 pointer-events-none w-full z-10;
 }
-.post-footer img {
+.collection-footer img {
   @apply h-6 w-6;
   filter: drop-shadow(0px 2px 0px black);
 }
-.post-footer p {
-  @apply font-semibold text-lg text-white;
+.collection-header {
+  @apply absolute flex justify-end p-3 pointer-events-none w-full z-[1];
+}
+.collection-footer p,
+.collection-header p {
+  @apply font-semibold mr-1 text-lg text-white;
   filter: drop-shadow(1px 1px 1px black);
 }
-.post-gradient {
+.collection-gradient {
   @apply absolute h-full w-full;
   background: linear-gradient(to bottom, rgba(51, 65, 85, 0.5) -0%, rgba(51, 65, 85, 0.2) 20%, transparent 40% 60%, rgba(51, 65, 85, 0.2) 80%, rgba(51, 65, 85, 0.5) 100%);
   filter: brightness(0.5);
 }
-.post-header {
-  @apply absolute flex m-3 space-x-3 z-10;
+.collection-grid {
+  @apply gap-0.5 grid h-full w-full;
 }
-.post-header p {
-  @apply flex font-medium items-center text-lg text-white;
-  filter: drop-shadow(1px 1px 1px black);
-}
-:host ::ng-deep .post-image img {
+:host ::ng-deep .collection-image img {
   @apply h-full object-cover w-full;
-}
-.post-profile {
-  @apply h-8 overflow-hidden rounded-full w-8;
-}
-.post-stats {
-  @apply flex flex-col space-y-1;
-}
-.post-stats div {
-  @apply flex items-center space-x-3;
-}
-.post-type {
-  @apply absolute m-3 pointer-events-none right-0 w-[26px] z-[1];
-  filter: drop-shadow(1px 1px 0px black);
 }
