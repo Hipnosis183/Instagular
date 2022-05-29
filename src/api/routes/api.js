@@ -34,8 +34,10 @@ router.post('/highlights/highlights_tray', highlights.highlightsTray);
 const media = require('./media');
 router.post('/media/encode', media.encode);
 router.post('/media/like', media.like);
+router.post('/media/save', media.save);
 router.post('/media/seen', media.seen);
 router.post('/media/unlike', media.unlike);
+router.post('/media/unsave', media.unsave);
 router.post('/media/video', media.video);
 
 // Search route endpoints.

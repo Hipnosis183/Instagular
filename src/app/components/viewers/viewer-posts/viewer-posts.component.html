@@ -22,6 +22,9 @@
             <img [src]="'/assets/images/' + (feedPost.has_liked ? 'like-fill.svg' : 'like.svg')"
               (click)="feedPost.has_liked ? unlikeSend.emit(feedPost.id) : likeSend.emit(feedPost.id)"
               class="cursor-pointer object-contain">
+            <img [src]="'/assets/images/' + (feedPost.has_viewer_saved ? 'save-fill.svg' : 'save.svg')"
+              (click)="feedPost.has_viewer_saved ? unsaveSend.emit(feedPost.id) : saveSend.emit(feedPost.id)"
+              class="cursor-pointer object-contain">
           </div>
         </div>
         <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls " class="text-main w-full"></div>

@@ -17,6 +17,8 @@ export class ViewerPostsComponent implements OnInit {
 
   @Output() likeSend = new EventEmitter();
   @Output() unlikeSend = new EventEmitter();
+  @Output() saveSend = new EventEmitter();
+  @Output() unsaveSend = new EventEmitter();
   @Output() closeSend = new EventEmitter();
 
   carouselIndex = 0;

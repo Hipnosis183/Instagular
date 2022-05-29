@@ -1,5 +1,6 @@
 <viewer-posts *ngIf="feedPost" [feedPost]="feedPost" [feedIndex]="feedIndex" (likeSend)="likeMedia($event)"
-  (unlikeSend)="unlikeMedia($event)" (closeSend)="closeMedia()" (nextPost)="nextPost()" (prevPost)="prevPost()">
+  (unlikeSend)="unlikeMedia($event)" (saveSend)="saveMedia($event)" (unsaveSend)="unsaveMedia($event)"
+  (closeSend)="closeMedia()" (nextPost)="nextPost()" (prevPost)="prevPost()">
 </viewer-posts>
 <div *ngIf="feedPosts" class="feed-container">
   <div *ngIf="showReturn" class="px-5">

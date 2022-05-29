@@ -81,6 +81,34 @@ export class MediaFeedComponent implements OnInit {
       });
   }
 
+  private saveError() {
+    return throwError(() => new Error('Media error: could not save the media.'));
+  }
+
+  saveMedia(id: string): void {
+    this.http.post('/api/media/save', { session: localStorage.getItem("state"), mediaId: id })
+      .pipe(catchError(this.saveError))
+      .subscribe((data) => {
+        console.info('Media saved successfully!');
+        let i = this.feedPosts.findIndex((res) => res.id == id);
+        this.feedPosts[i].has_viewer_saved = true;
+      });
+  }
+
+  private unsaveError() {
+    return throwError(() => new Error('Media error: could not unsave the media.'));
+  }
+
+  unsaveMedia(id: string): void {
+    this.http.post('/api/media/unsave', { session: localStorage.getItem("state"), mediaId: id })
+      .pipe(catchError(this.unsaveError))
+      .subscribe((data) => {
+        console.info('Media unsaved successfully!');
+        let i = this.feedPosts.findIndex((res) => res.id == id);
+        this.feedPosts[i].has_viewer_saved = false;
+      });
+  }
+
   @Input() feedStorage: string = '';
 
   ngOnChanges(changes: SimpleChanges): void {

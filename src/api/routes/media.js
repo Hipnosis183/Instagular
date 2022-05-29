@@ -50,6 +50,26 @@ module.exports.like = (req, res, next) => {
   })();
 };
 
+module.exports.save = (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    try {
+      // Load the state from a previous session.
+      await client.state.deserialize(req.body.session);
+      // Save the selected media.
+      await client.media.save(req.body.mediaId);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
 module.exports.seen = (req, res, next) => {
   ; (async () => {
     // Create new Instagram client instance.
@@ -83,6 +103,26 @@ module.exports.unlike = (req, res, next) => {
           username: req.cookies.seed,
         }
       });
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
+module.exports.unsave = (req, res, next) => {
+  ; (async () => {
+    // Create new Instagram client instance.
+    const client = new IgApiClient();
+    // Generate fake device information based on seed.
+    client.state.generateDevice(req.cookies.seed);
+    try {
+      // Load the state from a previous session.
+      await client.state.deserialize(req.body.session);
+      // Unsave the selected media.
+      await client.media.unsave(req.body.mediaId);
       res.status(200);
       res.send();
     } catch (e) {
