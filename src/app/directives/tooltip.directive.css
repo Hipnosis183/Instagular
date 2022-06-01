@@ -1,20 +1,19 @@
-.tippy-box[data-theme~='instagular'] {
+.tippy-box[data-theme~='tooltip'] {
   @apply bg-slate-900 text-slate-100 !important;
 }
 
-.tippy-box[data-theme~='instagular'] > .tippy-arrow::before {
+.tippy-box[data-theme~='tooltip'] > .tippy-arrow::before {
   transform: scale(0.75);
 }
-
-.tippy-box[data-theme~=instagular][data-placement^=top]>.tippy-arrow:before{
+.tippy-box[data-theme~='tooltip'][data-placement^=top]>.tippy-arrow:before{
   @apply border-t-slate-900;
 }
-.tippy-box[data-theme~=instagular][data-placement^=bottom]>.tippy-arrow:before{
+.tippy-box[data-theme~='tooltip'][data-placement^=bottom]>.tippy-arrow:before{
   @apply border-b-slate-900;
 }
-.tippy-box[data-theme~=instagular][data-placement^=left]>.tippy-arrow:before{
+.tippy-box[data-theme~='tooltip'][data-placement^=left]>.tippy-arrow:before{
   @apply border-l-slate-900;
 }
-.tippy-box[data-theme~=instagular][data-placement^=right]>.tippy-arrow:before{
+.tippy-box[data-theme~='tooltip'][data-placement^=right]>.tippy-arrow:before{
   @apply border-r-slate-900;
 }

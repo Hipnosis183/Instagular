@@ -2,21 +2,22 @@ import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
 import tippy from 'tippy.js';
 
 @Directive({
-  selector: '[tooltip]'
+  selector: '[dropdown]'
 })
-export class TooltipDirective implements AfterViewInit {
+export class DropdownDirective implements AfterViewInit {
 
   constructor(private elementRef: ElementRef) { }
 
-  @Input() tooltip!: string;
+  @Input() dropdown!: HTMLElement;
 
   ngAfterViewInit(): void {
     tippy(this.elementRef.nativeElement, {
       animation: 'fade',
-      content: this.tooltip,
-      delay: [800, 200],
+      content: this.dropdown,
       duration: [200, 200],
-      theme: 'tooltip',
+      interactive: true,
+      theme: 'dropdown',
+      trigger: 'click',
     });
   }
 }

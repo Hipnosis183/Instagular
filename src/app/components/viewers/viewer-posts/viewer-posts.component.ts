@@ -71,23 +71,12 @@ export class ViewerPostsComponent implements OnInit {
     }
   }
 
-  moreOptions = 0;
-
-  openOptions(): void {
-    this.moreOptions = 1;
-  }
-
-  closeOptions(): void {
-    this.moreOptions = 0;
-  }
-
   openMedia(): void {
     window.open(this.feedPost.instagular.full[this.carouselIndex] + '&se=0', '_blank');
   }
 
   downloadMedia(): void {
     window.open(this.feedPost.instagular.full[this.carouselIndex] + '&se=0&dl=1', '_blank');
-    this.moreOptions = 0;
   }
 
   ngOnInit(): void {

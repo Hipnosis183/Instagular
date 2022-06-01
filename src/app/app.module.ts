@@ -15,7 +15,6 @@ import { PageFeedComponent } from './components/pages/page-feed/page-feed.compon
 import { PageLoginComponent } from './components/pages/page-login/page-login.component';
 import { PageUserComponent } from './components/pages/page-user/page-user.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { ViewerMoreComponent } from './components/viewers/viewer-more/viewer-more.component';
 import { ViewerPostsComponent } from './components/viewers/viewer-posts/viewer-posts.component';
 import { ViewerStoriesComponent } from './components/viewers/viewer-stories/viewer-stories.component';
 import { ViewerUsersComponent } from './components/viewers/viewer-users/viewer-users.component';
@@ -25,6 +24,7 @@ import { ImgAwaitComponent } from './utils/img-await/img-await.component';
 import { SearchComponent } from './utils/search/search.component';
 
 // Directives.
+import { DropdownDirective } from './directives/dropdown.directive';
 import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
 
@@ -47,7 +47,6 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     PageLoginComponent,
     PageUserComponent,
     SidenavComponent,
-    ViewerMoreComponent,
     ViewerPostsComponent,
     ViewerStoriesComponent,
     ViewerUsersComponent,
@@ -55,6 +54,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     ImgAwaitComponent,
     SearchComponent,
     // Directives.
+    DropdownDirective,
     InfiniteScrollDirective,
     TooltipDirective,
     // Pipes.

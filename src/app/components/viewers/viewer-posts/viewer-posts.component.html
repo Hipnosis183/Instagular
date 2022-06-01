@@ -1,10 +1,12 @@
-<viewer-more *ngIf="moreOptions" (download)="downloadMedia()" (closeSend)="closeOptions()"></viewer-more>
 <div class="viewer-container">
   <div class="viewer-overlay"></div>
   <div class="viewer-contents">
     <div class="viewer-sidenav">
       <div class="sidenav-user">
-        <img src="/assets/images/more.svg" (click)="openOptions()" class="more-button">
+        <img [dropdown]="dropdown" tooltip="More Options" src="/assets/images/more.svg" class="more-button">
+        <div #dropdown>
+          <span (click)="downloadMedia()">Download</span>
+        </div>
         <img-await [source]="feedPost.user.profile_pic_url" class="sidenav-image"></img-await>
         <div [routerLink]="['/' + feedPost.user.username]" class="sidenav-header">
           <div class="sidenav-name">
