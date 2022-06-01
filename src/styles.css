@@ -2,6 +2,9 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import 'tippy.js/dist/tippy.css';
+@import 'app/directives/tooltip.directive.css';
+
 a {
   @apply text-blue-800;
 }

@@ -26,6 +26,7 @@ import { SearchComponent } from './utils/search/search.component';
 
 // Directives.
 import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
+import { TooltipDirective } from './directives/tooltip.directive';
 
 // Pipes.
 import { DateAgoPipe } from './pipes/date-ago.pipe';
@@ -55,6 +56,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     SearchComponent,
     // Directives.
     InfiniteScrollDirective,
+    TooltipDirective,
     // Pipes.
     DateAgoPipe,
     EncodePipe,
