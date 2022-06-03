@@ -1,4 +1,5 @@
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'viewer-posts',
@@ -8,7 +9,7 @@ import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@a
 
 export class ViewerPostsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public store: StoreService) { }
 
   @Input() feedPost: any;
   @Input() feedIndex: any;
@@ -69,6 +70,13 @@ export class ViewerPostsComponent implements OnInit {
         this.postPrev();
       }
     }
+  }
+
+  saveMedia(feedPost: any, collection: any): void {
+    const ids = { media: feedPost.id, collection: collection.collection_id };
+    if (feedPost.saved_collection_ids) {
+      !feedPost.saved_collection_ids.includes(collection.collection_id) ? this.saveSend.emit(ids) : this.unsaveSend.emit(ids);
+    } else { this.saveSend.emit(ids); }
   }
 
   openMedia(): void {

@@ -76,6 +76,12 @@
 .viewer-overlay {
   @apply bg-black bg-opacity-90 h-full w-full;
 }
+.viewer-saved {
+  @apply flex items-center space-x-4;
+}
+:host ::ng-deep .viewer-saved img {
+  @apply h-8 object-cover rounded w-8;
+}
 .viewer-sidenav {
   @apply absolute bg-slate-100 flex flex-col h-screen w-[320px];
 }

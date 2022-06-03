@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -15,8 +14,7 @@ export class PageLoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient,
-    private router: Router
+    private http: HttpClient
   ) { }
 
   loginForm = this.formBuilder.group({
@@ -34,7 +32,6 @@ export class PageLoginComponent implements OnInit {
       .subscribe((data) => {
         console.info('Logged in successfully!');
         localStorage.setItem('state', JSON.stringify(data));
-        localStorage.setItem('user', this.loginForm.value.username);
         window.location.reload();
       });
   }

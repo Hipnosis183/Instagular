@@ -4,6 +4,7 @@ import tippy from 'tippy.js';
 @Directive({
   selector: '[tooltip]'
 })
+
 export class TooltipDirective implements AfterViewInit {
 
   constructor(private elementRef: ElementRef) { }

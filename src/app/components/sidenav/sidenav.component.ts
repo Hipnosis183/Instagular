@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'sidenav',
@@ -14,7 +15,8 @@ export class SidenavComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    public router: Router
+    public router: Router,
+    private store: StoreService
   ) { }
 
   expandedSidenav: boolean = true;
@@ -43,6 +45,9 @@ export class SidenavComponent implements OnInit {
       .subscribe((data) => {
         console.info('Profile loaded successfully!');
         this.userProfile = data;
+        localStorage.setItem('userpk', this.userProfile.pk);
+        localStorage.setItem('username', this.userProfile.username);
+        this.store.loadSaved();
       });
   }
 

@@ -60,7 +60,7 @@ module.exports.save = (req, res, next) => {
       // Load the state from a previous session.
       await client.state.deserialize(req.body.session);
       // Save the selected media.
-      await client.media.save(req.body.mediaId);
+      await client.media.save(req.body.mediaId, req.body.collectionId ? [req.body.collectionId] : []);
       res.status(200);
       res.send();
     } catch (e) {
@@ -122,7 +122,7 @@ module.exports.unsave = (req, res, next) => {
       // Load the state from a previous session.
       await client.state.deserialize(req.body.session);
       // Unsave the selected media.
-      await client.media.unsave(req.body.mediaId);
+      await client.media.unsave(req.body.mediaId, req.body.collectionId ? [req.body.collectionId] : null);
       res.status(200);
       res.send();
     } catch (e) {

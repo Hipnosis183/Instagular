@@ -82,7 +82,7 @@
     <media-reels *ngIf="feedLoaded.reels" [hidden]="feedSelected != 'reels'" [feedPosts]="userReels" (onScroll)="loadReels()"></media-reels>
     <media-video *ngIf="feedLoaded.video" [hidden]="feedSelected != 'video'" [feedPosts]="userVideos" (onScroll)="loadVideo()"></media-video>
     <media-feed *ngIf="feedLoaded.tagged" [hidden]="feedSelected != 'tagged'" [feedPosts]="userTagged" [feedStorage]="'tagged'" (onScroll)="loadTagged()"></media-feed>
-    <media-saved *ngIf="feedLoaded.saved" [hidden]="feedSelected != 'saved'" [feedCollections]="userSaved" (onScroll)="loadSaved()"></media-saved>
+    <media-saved *ngIf="feedLoaded.saved" [hidden]="feedSelected != 'saved'" [feedCollections]="store.state.savedPosts" (onScroll)="store.loadSaved(true)"></media-saved>
   </ng-template>
   <ng-template #block>
     <div class="error-container mt-24">

@@ -1,5 +1,5 @@
 .tippy-box[data-theme~='dropdown'] {
-  @apply bg-slate-100 text-slate-900 !important;
+  @apply bg-slate-100 text-slate-900 text-base !important;
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
 }
 .tippy-box[data-theme~='dropdown'] > .tippy-content {
@@ -9,7 +9,7 @@
   @apply flex flex-col !important;
 }
 .tippy-box[data-theme~='dropdown'] > .tippy-content span {
-  @apply bg-slate-100 hover:bg-slate-200 cursor-pointer py-1.5 px-2.5 !important;
+  @apply bg-slate-100 hover:bg-slate-200 cursor-pointer py-1.5 px-4 !important;
   transition: background-color 0.2s;
 }
 

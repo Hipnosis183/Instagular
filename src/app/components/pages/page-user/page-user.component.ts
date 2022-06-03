@@ -4,6 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'page-user',
@@ -17,7 +18,8 @@ export class PageUserComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     public router: Router,
-    private title: Title
+    private title: Title,
+    public store: StoreService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -61,10 +63,6 @@ export class PageUserComponent implements OnInit {
 
   async feedSaved(): Promise<void> {
     this.feedSelected = 'saved';
-    if (!this.feedLoaded.saved && this.userProfile.has_saved_items) {
-      await this.loadSaved();
-      this.feedLoaded.saved = true;
-    }
   }
 
   userName: any = '';
@@ -72,7 +70,6 @@ export class PageUserComponent implements OnInit {
   userPosts: any[] = [];
   userProfile: any = null;
   userReels: any[] = [];
-  userSaved: any[] = [];
   userStories: any[] = [];
   userTagged: any[] = [];
   userVideos: any[] = [];
@@ -152,18 +149,10 @@ export class PageUserComponent implements OnInit {
         });
   }
 
-  private savedError() {
-    return throwError(() => new Error('Saved error: cannot load user saved posts feed.'));
-  }
-
-  async loadSaved(): Promise<void> {
-    await lastValueFrom(
-      this.http.post<any>('/api/feed/saved', { feed: localStorage.getItem('saved'), id: this.userProfile.pk, session: localStorage.getItem('state') })
-        .pipe(catchError(this.savedError))).then((data: any) => {
-          console.info('User saved feed loaded successfully!');
-          localStorage.setItem('saved', data.feed);
-          this.userSaved = this.userSaved.concat(data.collections);
-        });
+  loadSaved(): void {
+    if (this.userProfile.has_saved_items && this.store.state.savedPosts.length > 0) {
+      this.feedLoaded.saved = true;
+    }
   }
 
   private storiesError() {
@@ -263,16 +252,16 @@ export class PageUserComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.userName = localStorage.getItem('user');
+    this.userName = localStorage.getItem('username');
     localStorage.removeItem('feed');
     localStorage.removeItem('reels');
     localStorage.removeItem('video');
     localStorage.removeItem('tagged');
-    localStorage.removeItem('saved');
     localStorage.removeItem('collection');
     localStorage.removeItem('follow');
     await this.loadProfile();
     await this.loadStories();
+    this.loadSaved();
   }
 
   ngOnDestroy(): void {

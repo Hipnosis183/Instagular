@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'media-feed',
@@ -12,7 +13,8 @@ import { catchError } from 'rxjs/operators';
 export class MediaFeedComponent implements OnInit {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private store: StoreService
   ) { }
 
   @Input() feedPosts: any[] = [];
@@ -85,13 +87,21 @@ export class MediaFeedComponent implements OnInit {
     return throwError(() => new Error('Media error: could not save the media.'));
   }
 
-  saveMedia(id: string): void {
-    this.http.post('/api/media/save', { session: localStorage.getItem("state"), mediaId: id })
+  saveMedia(ids: any): void {
+    this.http.post('/api/media/save', { session: localStorage.getItem("state"), mediaId: ids.media, collectionId: ids.collection })
       .pipe(catchError(this.saveError))
       .subscribe((data) => {
         console.info('Media saved successfully!');
-        let i = this.feedPosts.findIndex((res) => res.id == id);
+        let i = this.feedPosts.findIndex((res) => res.id == ids.media);
         this.feedPosts[i].has_viewer_saved = true;
+        if (ids.collection) {
+          if (this.feedPosts[i].saved_collection_ids) {
+            this.feedPosts[i].saved_collection_ids.push(ids.collection);
+          } else {
+            this.feedPosts[i].saved_collection_ids = [ids.collection];
+          }
+        }
+        this.store.loadSaved();
       });
   }
 
@@ -99,13 +109,19 @@ export class MediaFeedComponent implements OnInit {
     return throwError(() => new Error('Media error: could not unsave the media.'));
   }
 
-  unsaveMedia(id: string): void {
-    this.http.post('/api/media/unsave', { session: localStorage.getItem("state"), mediaId: id })
+  unsaveMedia(ids: any): void {
+    this.http.post('/api/media/unsave', { session: localStorage.getItem("state"), mediaId: ids.media, collectionId: ids.collection })
       .pipe(catchError(this.unsaveError))
       .subscribe((data) => {
         console.info('Media unsaved successfully!');
-        let i = this.feedPosts.findIndex((res) => res.id == id);
-        this.feedPosts[i].has_viewer_saved = false;
+        let i = this.feedPosts.findIndex((res) => res.id == ids.media);
+        this.feedPosts[i].has_viewer_saved = ids.collection ? true : false;
+        if (ids.collection) {
+          this.feedPosts[i].saved_collection_ids.splice(this.feedPosts[i].saved_collection_ids.indexOf(ids.collection), 1);
+        } else {
+          this.feedPosts[i].saved_collection_ids = [];
+        }
+        this.store.loadSaved();
       });
   }
 

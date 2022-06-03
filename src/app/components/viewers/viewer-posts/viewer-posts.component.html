@@ -3,8 +3,8 @@
   <div class="viewer-contents">
     <div class="viewer-sidenav">
       <div class="sidenav-user">
-        <img [dropdown]="dropdown" tooltip="More Options" src="/assets/images/more.svg" class="more-button">
-        <div #dropdown>
+        <img [dropdown]="moreOptions" tooltip="More Options" src="/assets/images/more.svg" class="more-button">
+        <div #moreOptions>
           <span (click)="downloadMedia()">Download</span>
         </div>
         <img-await [source]="feedPost.user.profile_pic_url" class="sidenav-image"></img-await>
@@ -19,14 +19,22 @@
         <div *ngIf="feedPost.location" class="sidenav-location">{{ feedPost.location.name }}</div>
         <div class="sidenav-stats">
           <div class="text-sub">{{ feedPost.taken_at * 1000 | date }}</div>
-          <div class="flex space-x-4">
-            <div class="text-main">{{ feedPost.like_count | shortNumber }}</div>
+          <div class="flex">
+            <div class="mr-4 text-main">{{ feedPost.like_count | shortNumber }}</div>
             <img [src]="'/assets/images/' + (feedPost.has_liked ? 'like-fill.svg' : 'like.svg')"
               (click)="feedPost.has_liked ? unlikeSend.emit(feedPost.id) : likeSend.emit(feedPost.id)"
-              class="cursor-pointer object-contain">
+              class="cursor-pointer mr-4 object-contain">
             <img [src]="'/assets/images/' + (feedPost.has_viewer_saved ? 'save-fill.svg' : 'save.svg')"
-              (click)="feedPost.has_viewer_saved ? unsaveSend.emit(feedPost.id) : saveSend.emit(feedPost.id)"
-              class="cursor-pointer object-contain">
+              (click)="feedPost.has_viewer_saved ? unsaveSend.emit({ media: feedPost.id }) : saveSend.emit({ media: feedPost.id })"
+              [dropdown]="savePost" [hover]="true" class="cursor-pointer object-contain">
+            <div #savePost>
+              <div *ngFor="let collection of store.state.savedPosts">
+                <span *ngIf="collection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="saveMedia(feedPost, collection)" class="viewer-saved">
+                  <img-await [source]="collection.cover_media_list[0].image_versions2.candidates[1].url"></img-await>
+                  <p [class]="feedPost.saved_collection_ids ? feedPost.saved_collection_ids.includes(collection.collection_id) ? 'font-bold' : '' : ''">{{ collection.collection_name }}</p>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
         <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls " class="text-main w-full"></div>
