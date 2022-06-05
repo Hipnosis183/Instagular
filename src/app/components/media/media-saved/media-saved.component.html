@@ -1,6 +1,10 @@
+<create-collection *ngIf="collectionCreate" (onCreate)="collectionsUpdate()" (onClose)="collectionCreateOpen()"></create-collection>
 <media-feed *ngIf="feedCollection.length > 0" [feedPosts]="feedCollection" [feedStorage]="'collection'"
   [showReturn]="true" (onScroll)="openCollection(selectedCollection)" (onReturn)="closeCollection()"></media-feed>
 <div *ngIf="feedCollections" [hidden]="feedCollection.length > 0" class="feed-container">
+  <div class="px-5">
+    <div (click)="collectionCreateOpen()" class="collection-create">+&emsp;NEW COLLECTION</div>
+  </div>
   <div class="feed-grid">
     <div *ngFor="let collection of feedCollections" class="feed-collection">
       <div class="collection-header">

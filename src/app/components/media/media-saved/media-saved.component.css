@@ -13,6 +13,10 @@
   @apply absolute cursor-pointer h-full hover:opacity-100 opacity-0 w-full;
   transition: opacity 0.2s;
 }
+.collection-create {
+  @apply hover:bg-slate-200 cursor-pointer flex font-normal justify-center mb-6 p-2 text-lg text-blue-500 w-full;
+  transition: background-color 0.2s;
+}
 .collection-footer {
   @apply absolute bottom-0 flex items-end justify-between p-3 pointer-events-none w-full z-10;
 }

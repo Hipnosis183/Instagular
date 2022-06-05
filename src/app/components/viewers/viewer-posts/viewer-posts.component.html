@@ -30,7 +30,7 @@
             <div #savePost>
               <div *ngFor="let collection of store.state.savedPosts">
                 <span *ngIf="collection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="saveMedia(feedPost, collection)" class="viewer-saved">
-                  <img-await [source]="collection.cover_media_list[0].image_versions2.candidates[1].url"></img-await>
+                  <img-await *ngIf="collection.cover_media_list" [source]="collection.cover_media_list[0].image_versions2.candidates[1].url"></img-await>
                   <p [class]="feedPost.saved_collection_ids ? feedPost.saved_collection_ids.includes(collection.collection_id) ? 'font-bold' : '' : ''">{{ collection.collection_name }}</p>
                 </span>
               </div>

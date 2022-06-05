@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'media-saved',
@@ -12,7 +13,8 @@ import { catchError } from 'rxjs/operators';
 export class MediaSavedComponent implements OnInit {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private store: StoreService
   ) { }
 
   @Input() feedCollections: any[] = [];
@@ -55,6 +57,19 @@ export class MediaSavedComponent implements OnInit {
   closeCollection(): void {
     this.feedCollection = [];
     localStorage.removeItem('collection');
+  }
+
+  collectionCreate: boolean = false;
+
+  collectionCreateOpen(): void {
+    this.collectionCreate = !this.collectionCreate;
+  }
+
+  collectionsUpdate(): void {
+    // Reload collections.
+    this.store.loadSaved();
+    this.feedCollections = this.store.state.savedPosts;
+    this.collectionCreate = false;
   }
 
   hideIntersect: boolean = true;

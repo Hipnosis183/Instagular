@@ -1,7 +1,6 @@
 .tippy-box[data-theme~='tooltip'] {
   @apply bg-slate-900 text-slate-100 !important;
 }
-
 .tippy-box[data-theme~='tooltip'] > .tippy-arrow::before {
   transform: scale(0.75);
 }
@@ -16,4 +15,23 @@
 }
 .tippy-box[data-theme~='tooltip'][data-placement^=right]>.tippy-arrow:before{
   @apply border-r-slate-900;
+}
+
+.tippy-box[data-theme~='error'] {
+  @apply bg-red-800 text-slate-100 !important;
+}
+.tippy-box[data-theme~='error'] > .tippy-arrow::before {
+  transform: scale(0.75);
+}
+.tippy-box[data-theme~='error'][data-placement^=top]>.tippy-arrow:before{
+  @apply border-t-red-800;
+}
+.tippy-box[data-theme~='error'][data-placement^=bottom]>.tippy-arrow:before{
+  @apply border-b-red-800;
+}
+.tippy-box[data-theme~='error'][data-placement^=left]>.tippy-arrow:before{
+  @apply border-l-red-800;
+}
+.tippy-box[data-theme~='error'][data-placement^=right]>.tippy-arrow:before{
+  @apply border-r-red-800;
 }

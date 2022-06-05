@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // App components.
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CreateCollectionComponent } from './components/media/media-saved/create-collection/create-collection.component';
 import { MediaFeedComponent } from './components/media/media-feed/media-feed.component';
 import { MediaReelsComponent } from './components/media/media-reels/media-reels.component';
 import { MediaSavedComponent } from './components/media/media-saved/media-saved.component';
@@ -38,6 +39,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
   declarations: [
     // App components.
     AppComponent,
+    CreateCollectionComponent,
     MediaFeedComponent,
     MediaReelsComponent,
     MediaSavedComponent,

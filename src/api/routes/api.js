@@ -6,6 +6,10 @@ const account = require('./account');
 router.post('/account/login', account.login);
 router.post('/account/logout', account.logout);
 
+// Collection route endpoints.
+const collection = require('./collection');
+router.post('/collection/create', collection.create);
+
 // Feed route endpoints.
 const feed = require('./feed');
 router.post('/feed/followers', feed.followers);
