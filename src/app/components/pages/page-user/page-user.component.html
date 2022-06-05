@@ -51,9 +51,7 @@
   </div>
 </div>
 <div *ngIf="userProfile">
-  <div
-    *ngIf="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following); then allow; else block">
-  </div>
+  <div *ngIf="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following); then allow; else block"></div>
   <ng-template #allow>
     <media-stories [feedStories]="userStories"></media-stories>
     <div class="feed-select">

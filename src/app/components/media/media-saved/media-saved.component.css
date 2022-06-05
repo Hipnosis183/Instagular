@@ -1,14 +1,3 @@
-.feed-container {
-  @apply ml-auto mr-auto mt-6;
-}
-.feed-grid {
-  @apply gap-6 grid justify-center;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 280px));
-}
-.feed-collection {
-  @apply h-[280px] ml-auto mr-auto overflow-hidden relative rounded-lg w-[280px];
-}
-
 .collection-back {
   @apply hover:bg-slate-200 cursor-pointer flex font-light justify-center p-2 text-lg text-slate-800 w-full;
   transition: background-color 0.2s;
@@ -46,4 +35,29 @@
 }
 :host ::ng-deep .collection-image img {
   @apply h-full object-cover w-full;
+}
+
+.empty-container {
+  @apply cursor-default flex flex-col h-full items-center justify-center mt-12 w-full;
+}
+.empty-container img {
+  @apply mb-6 w-16;
+}
+
+.feed-container {
+  @apply ml-auto mr-auto mt-6;
+}
+.feed-grid {
+  @apply gap-6 grid justify-center;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 280px));
+}
+.feed-collection {
+  @apply h-[280px] ml-auto mr-auto overflow-hidden relative rounded-lg w-[280px];
+}
+
+.text-main {
+  @apply text-slate-800;
+}
+.text-sub {
+  @apply font-light text-slate-600;
 }

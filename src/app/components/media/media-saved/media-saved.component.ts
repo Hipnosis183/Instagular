@@ -49,15 +49,18 @@ export class MediaSavedComponent implements OnInit {
   }
 
   selectedCollection: any;
+  loadedCollection: boolean = false;
 
   async openCollection(collection: any): Promise<void> {
     this.selectedCollection = collection;
     // Check if the selected collection is general or specific.
     (collection.collection_id == 'ALL_MEDIA_AUTO_COLLECTION') ? await this.loadSavedAll() : await this.loadSavedCollection(collection.collection_id);
+    this.loadedCollection = true;
   }
 
   closeCollection(): void {
     this.feedCollection = [];
+    this.loadedCollection = false;
     localStorage.removeItem('collection');
   }
 
