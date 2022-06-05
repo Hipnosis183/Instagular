@@ -8,10 +8,6 @@
 .feed-post {
   @apply h-[280px] ml-auto mr-auto overflow-hidden relative rounded-lg w-[280px];
 }
-.feed-return {
-  @apply hover:bg-slate-200 cursor-pointer flex font-light justify-center mb-6 p-2 text-lg text-slate-800 w-full;
-  transition: background-color 0.2s;
-}
 
 .post-container {
   @apply absolute cursor-pointer h-full hover:opacity-100 opacity-0 w-full;

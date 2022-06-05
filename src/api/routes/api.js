@@ -9,6 +9,7 @@ router.post('/account/logout', account.logout);
 // Collection route endpoints.
 const collection = require('./collection');
 router.post('/collection/create', collection.create);
+router.post('/collection/edit', collection.edit);
 
 // Feed route endpoints.
 const feed = require('./feed');

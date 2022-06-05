@@ -36,22 +36,24 @@ export class MediaSavedComponent implements OnInit {
         });
   }
 
-  async loadSavedCollection(id: string): Promise<void> {
+  async loadSavedCollection(id: string, reload?: boolean): Promise<void> {
+    if (reload) { localStorage.removeItem('collection'); }
     await lastValueFrom(
       this.http.post<any>('/api/feed/saved_collection', { feed: localStorage.getItem('collection'), id: id, session: localStorage.getItem('state') })
         .pipe(catchError(this.savedError))).then((data: any) => {
           console.info('User collection posts loaded successfully!');
           localStorage.setItem('collection', data.feed);
+          if (reload) { this.feedCollection = []; }
           this.feedCollection = this.feedCollection.concat(data.posts);
         });
   }
 
-  selectedCollection: string = '';
+  selectedCollection: any;
 
-  async openCollection(id: any): Promise<void> {
-    this.selectedCollection = id;
+  async openCollection(collection: any): Promise<void> {
+    this.selectedCollection = collection;
     // Check if the selected collection is general or specific.
-    (id == 'ALL_MEDIA_AUTO_COLLECTION') ? await this.loadSavedAll() : await this.loadSavedCollection(id);
+    (collection.collection_id == 'ALL_MEDIA_AUTO_COLLECTION') ? await this.loadSavedAll() : await this.loadSavedCollection(collection.collection_id);
   }
 
   closeCollection(): void {
@@ -70,6 +72,21 @@ export class MediaSavedComponent implements OnInit {
     this.store.loadSaved();
     this.feedCollections = this.store.state.savedPosts;
     this.collectionCreate = false;
+  }
+
+  collectionEdit: boolean = false;
+
+  collectionEditOpen(): void {
+    this.collectionEdit = !this.collectionEdit;
+  }
+
+  async collectionUpdate(): Promise<void> {
+    // Reload collections.
+    this.store.loadSaved();
+    this.feedCollections = this.store.state.savedPosts;
+    // Update selected collection.
+    await this.loadSavedCollection(this.selectedCollection.collection_id, true);
+    this.collectionEdit = false;
   }
 
   hideIntersect: boolean = true;

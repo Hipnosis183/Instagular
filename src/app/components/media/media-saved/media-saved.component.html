@@ -1,10 +1,16 @@
 <create-collection *ngIf="collectionCreate" (onCreate)="collectionsUpdate()" (onClose)="collectionCreateOpen()"></create-collection>
+<div *ngIf="!(feedCollection.length > 0)" class="mt-6 px-5">
+  <div (click)="collectionCreateOpen()" class="collection-create">+&emsp;NEW COLLECTION</div>
+</div>
+<edit-collection *ngIf="collectionEdit" (onEdit)="collectionUpdate()" (onClose)="collectionEditOpen()"
+  [collection]="selectedCollection" [collectionSelected]="feedCollection"></edit-collection>
+<div *ngIf="feedCollection.length > 0" class="flex mt-6 px-5 space-x-5">
+  <div (click)="closeCollection()" class="collection-back">&lt;&lt;&emsp;GO BACK TO COLLETIONS</div>
+  <div (click)="collectionEditOpen()" class="collection-create">EDIT COLLETION</div>
+</div>
 <media-feed *ngIf="feedCollection.length > 0" [feedPosts]="feedCollection" [feedStorage]="'collection'"
-  [showReturn]="true" (onScroll)="openCollection(selectedCollection)" (onReturn)="closeCollection()"></media-feed>
+  (onScroll)="openCollection(selectedCollection.collection_id)" (onReturn)="closeCollection()"></media-feed>
 <div *ngIf="feedCollections" [hidden]="feedCollection.length > 0" class="feed-container">
-  <div class="px-5">
-    <div (click)="collectionCreateOpen()" class="collection-create">+&emsp;NEW COLLECTION</div>
-  </div>
   <div class="feed-grid">
     <div *ngFor="let collection of feedCollections" class="feed-collection">
       <div class="collection-header">
@@ -14,7 +20,7 @@
         <div class="collection-footer">
           <p>{{ collection.collection_name }}</p>
         </div>
-        <div (click)="openCollection(collection.collection_id)" class="collection-gradient"></div>
+        <div (click)="openCollection(collection)" class="collection-gradient"></div>
       </div>
       <div *ngIf="collection.cover_media_list" class="collection-grid"
         [class]="collection.cover_media_list[2] ? 'grid-cols-2 grid-rows-2' : collection.cover_media_list[1] ? 'grid-cols-2' : ''">

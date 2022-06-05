@@ -3,9 +3,6 @@
   (closeSend)="closeMedia()" (nextPost)="nextPost()" (prevPost)="prevPost()">
 </viewer-posts>
 <div *ngIf="feedPosts" class="feed-container">
-  <div *ngIf="showReturn" class="px-5">
-    <div (click)="onReturn.emit()" class="feed-return">&lt;&lt;&emsp;GO BACK TO COLLETIONS</div>
-  </div>
   <div class="feed-grid">
     <div *ngFor="let post of feedPosts" class="feed-post">
       <img *ngIf="post.media_type == 8" src="/assets/images/carousel.svg" class="post-type">
