@@ -1,0 +1,13 @@
+<div class="delete-container">
+  <div class="delete-overlay"></div>
+  <div class="delete-contents">
+    <div class="delete-modal">
+      <div class="flex flex-col">
+        <div class="delete-title">Delete Collection?</div>
+        <div class="delete-subtitle">When you delete this collection, the photos and videos will still be saved.</div>
+      </div>
+      <div (click)="collectionDelete()" class="delete-button delete">Delete</div>
+      <div (click)="collectionDeleteCancel()" class="delete-button cancel">Cancel</div>
+    </div>
+  </div>
+</div>

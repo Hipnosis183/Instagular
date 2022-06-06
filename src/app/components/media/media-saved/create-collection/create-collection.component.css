@@ -16,13 +16,18 @@
 }
 .collection-post-selected {
   @apply absolute bg-white bg-opacity-40 flex h-full items-end justify-end pointer-events-none w-full;
+  transition: opacity 0.2s;
 }
 .collection-post-selected img {
   @apply h-[24px] m-1 w-[24px];
 }
 
 .create-button {
-  @apply flex justify-center mt-2 py-4 relative text-lg w-full;
+  @apply flex justify-center mt-2 pb-4 pt-3 relative text-lg w-full;
+  transition: background-color 0.2s;
+}
+.create-button.create {
+  @apply hover:bg-blue-100 border-t-[1px] border-solid border-t-slate-200 hover:border-t-blue-200 cursor-pointer rounded-b-xl text-blue-500 !important;
 }
 .create-button div {
   @apply absolute h-full top-0 w-full;

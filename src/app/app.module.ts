@@ -11,6 +11,7 @@ import { MediaReelsComponent } from './components/media/media-reels/media-reels.
 import { MediaSavedComponent } from './components/media/media-saved/media-saved.component';
 import { CreateCollectionComponent } from './components/media/media-saved/create-collection/create-collection.component';
 import { EditCollectionComponent } from './components/media/media-saved/edit-collection/edit-collection.component';
+import { DeleteCollectionComponent } from './components/media/media-saved/delete-collection/delete-collection.component';
 import { MediaStoriesComponent } from './components/media/media-stories/media-stories.component';
 import { MediaVideoComponent } from './components/media/media-video/media-video.component';
 import { PageFeedComponent } from './components/pages/page-feed/page-feed.component';
@@ -45,6 +46,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     MediaSavedComponent,
     CreateCollectionComponent,
     EditCollectionComponent,
+    DeleteCollectionComponent,
     MediaStoriesComponent,
     MediaVideoComponent,
     PageFeedComponent,

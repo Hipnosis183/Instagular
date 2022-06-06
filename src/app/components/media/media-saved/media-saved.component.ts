@@ -70,7 +70,7 @@ export class MediaSavedComponent implements OnInit {
     this.collectionCreate = !this.collectionCreate;
   }
 
-  collectionsUpdate(): void {
+  collectionCreated(): void {
     // Reload collections.
     this.store.loadSaved();
     this.feedCollections = this.store.state.savedPosts;
@@ -83,13 +83,27 @@ export class MediaSavedComponent implements OnInit {
     this.collectionEdit = !this.collectionEdit;
   }
 
-  async collectionUpdate(): Promise<void> {
+  async collectionEdited(): Promise<void> {
     // Reload collections.
     this.store.loadSaved();
     this.feedCollections = this.store.state.savedPosts;
     // Update selected collection.
     await this.loadSavedCollection(this.selectedCollection.collection_id, true);
     this.collectionEdit = false;
+  }
+
+  collectionDelete: boolean = false;
+
+  collectionDeleteOpen(): void {
+    this.collectionDelete = !this.collectionDelete;
+  }
+
+  collectionDeleted(): void {
+    // Reload collections.
+    this.store.loadSaved();
+    this.feedCollections = this.store.state.savedPosts;
+    this.collectionDelete = false;
+    this.closeCollection();
   }
 
   hideIntersect: boolean = true;

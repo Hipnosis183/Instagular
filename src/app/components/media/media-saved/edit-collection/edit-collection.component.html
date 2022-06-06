@@ -11,7 +11,7 @@
       </div>
       <div class="collection-grid">
         <div *ngFor="let post of collectionPosts" (click)="post.add ? post.add = !post.add : post.add = true" class="collection-post">
-          <div *ngIf="post.add" class="collection-post-selected">
+          <div [class]="post.add ? 'opacity-100' : 'opacity-0'" class="collection-post-selected">
             <img src="/assets/images/verified.svg">
           </div>
           <img-await [source]="post.instagular.thumb[0]" class="collection-image"></img-await>
@@ -19,7 +19,7 @@
         <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-px"
           [class]="hideIntersect ? 'hidden' : 'block'"></div>
       </div>
-      <div [class]="collection.collection_name.length > 0 ? 'cursor-pointer text-blue-500' : 'cursor-not-allowed text-gray-400'"
+      <div [class]="collection.collection_name.length > 0 ? 'edit' : 'cursor-not-allowed text-gray-400'"
         (click)="collectionEdit()" class="edit-button">Update
         <div *ngIf="!(collection.collection_name.length > 0)" tooltip="Enter a name for the collection" theme="error" [offset]="[0, -10]"></div>
       </div>
