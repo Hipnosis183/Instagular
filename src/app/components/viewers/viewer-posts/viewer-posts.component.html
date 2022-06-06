@@ -1,3 +1,5 @@
+<create-collection *ngIf="collectionCreate" [fromPost]="feedPost.id"
+  (onCreate)="collectionCreated()" (onClose)="collectionCreateOpen()"></create-collection>
 <div class="viewer-container">
   <div class="viewer-overlay"></div>
   <div class="viewer-contents">
@@ -28,6 +30,7 @@
               (click)="feedPost.has_viewer_saved ? unsaveSend.emit({ media: feedPost.id }) : saveSend.emit({ media: feedPost.id })"
               [dropdown]="savePost" [hover]="true" class="cursor-pointer object-contain">
             <div #savePost>
+              <span (click)="collectionCreateOpen()" class="create-button">&nbsp;+&ensp;NEW COLLECTION&nbsp;</span>
               <div *ngFor="let collection of store.state.savedPosts">
                 <span *ngIf="collection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="saveMedia(feedPost, collection)" class="viewer-saved">
                   <img-await *ngIf="collection.cover_media_list" [source]="collection.cover_media_list[0].image_versions2.candidates[1].url"></img-await>

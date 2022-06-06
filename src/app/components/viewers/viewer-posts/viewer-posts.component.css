@@ -1,6 +1,9 @@
 .close-button {
   @apply absolute bg-slate-100 cursor-pointer m-3 p-[0.45rem] right-0 rounded-full w-7 z-[1];
 }
+.create-button {
+  @apply hover:bg-blue-200 py-2 text-blue-500 font-medium !important;
+}
 .more-button {
   @apply absolute cursor-pointer m-4 right-0 top-0;
 }

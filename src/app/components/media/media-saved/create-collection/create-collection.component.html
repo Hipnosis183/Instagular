@@ -1,4 +1,4 @@
-<div *ngIf="collectionPosts.length > 0" class="create-container">
+<div *ngIf="collectionPosts.length > 0 || fromPost.length > 0" class="create-container">
   <div class="create-overlay"></div>
   <div class="create-contents">
     <div class="create-modal">
@@ -9,7 +9,7 @@
       <div class="collection-name">
         <input [(ngModel)]="collectionName" placeholder="Collection Name" type="text" />
       </div>
-      <div class="collection-grid">
+      <div *ngIf="!(fromPost.length > 0)" class="collection-grid">
         <div *ngFor="let post of collectionPosts" (click)="post.add ? post.add = !post.add : post.add = true" class="collection-post">
           <div [class]="post.add ? 'opacity-100' : 'opacity-0'" class="collection-post-selected">
             <img src="/assets/images/verified.svg">
@@ -19,7 +19,7 @@
         <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-px"
           [class]="hideIntersect ? 'hidden' : 'block'"></div>
       </div>
-      <div [class]="collectionName.length > 0 ? 'create' : 'cursor-not-allowed text-gray-400'"
+      <div [class]="{ 'mt-2': !(fromPost.length > 0), 'create': collectionName.length > 0, 'disable': !(collectionName.length > 0) }"
         (click)="collectionCreate()" class="create-button">Create
         <div *ngIf="!(collectionName.length > 0)" tooltip="Enter a name for the collection" theme="error" [offset]="[0, -10]"></div>
       </div>

@@ -87,6 +87,18 @@ export class ViewerPostsComponent implements OnInit {
     window.open(this.feedPost.instagular.full[this.carouselIndex] + '&se=0&dl=1', '_blank');
   }
 
+  collectionCreate: boolean = false;
+
+  collectionCreateOpen(): void {
+    this.collectionCreate = !this.collectionCreate;
+  }
+
+  collectionCreated(): void {
+    // Reload collections.
+    this.store.loadSaved();
+    this.collectionCreate = false;
+  }
+
   ngOnInit(): void {
     this.carouselIndex = 0;
   }

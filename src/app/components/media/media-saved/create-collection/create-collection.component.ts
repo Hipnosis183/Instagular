@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -15,6 +15,7 @@ export class CreateCollectionComponent implements OnInit {
 
   @Output() onCreate = new EventEmitter();
   @Output() onClose = new EventEmitter();
+  @Input() fromPost: string = '';
 
   collectionName: string = '';
   collectionPosts: any[] = [];
@@ -27,8 +28,12 @@ export class CreateCollectionComponent implements OnInit {
     if (!(this.collectionName.length > 0)) { return; }
     // Add selected posts for the new collection.
     let selectedPosts = [];
-    for (let post of this.collectionPosts) {
-      if (post.add) { selectedPosts.push(post.id); }
+    if (this.fromPost.length > 0) {
+      selectedPosts.push(this.fromPost);
+    } else {
+      for (let post of this.collectionPosts) {
+        if (post.add) { selectedPosts.push(post.id); }
+      }
     }
     // Create new collection.
     this.http.post<string>('/api/collection/create', { name: this.collectionName, medias: selectedPosts, session: localStorage.getItem('state') })
@@ -66,6 +71,6 @@ export class CreateCollectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.collectionGetPosts();
+    if (!this.fromPost) { this.collectionGetPosts(); }
   }
 }
