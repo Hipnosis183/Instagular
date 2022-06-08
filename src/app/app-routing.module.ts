@@ -6,7 +6,10 @@ import { PageUserComponent } from './components/pages/page-user/page-user.compon
 
 const routes: Routes = [
   { path: '', component: PageFeedComponent },
-  { path: ':id', component: PageUserComponent }
+  { path: ':id', component: PageUserComponent },
+  { path: ':id/:tab', component: PageUserComponent },
+  { path: ':id/:tab/:c_name', component: PageUserComponent },
+  { path: ':id/:tab/:c_name/:c_id', component: PageUserComponent }
 ];
 
 @NgModule({

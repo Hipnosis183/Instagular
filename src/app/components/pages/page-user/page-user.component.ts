@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom, throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -16,6 +17,7 @@ export class PageUserComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private location: Location,
     private route: ActivatedRoute,
     public router: Router,
     private title: Title,
@@ -26,43 +28,62 @@ export class PageUserComponent implements OnInit {
 
   feedSelected: string = 'timeline';
   feedLoaded: any = {
-    timeline: true,
+    timeline: false,
     reels: false,
     video: false,
     tagged: false,
     saved: false
   };
 
-  feedTimeline(): void {
+  async feedTimeline(): Promise<void> {
     this.feedSelected = 'timeline';
+    this.location.go(this.userProfile.username);
+    if (!this.feedLoaded.timeline) {
+      await this.loadUser();
+      this.feedLoaded.timeline = true;
+    }
   }
 
   async feedReels(): Promise<void> {
-    this.feedSelected = 'reels';
-    if (!this.feedLoaded.reels && this.userProfile.total_clips_count) {
-      await this.loadReels();
-      this.feedLoaded.reels = true;
-    }
+    if (this.userProfile.total_clips_count) {
+      this.feedSelected = 'reels';
+      this.location.go(this.userProfile.username + '/reels');
+      if (!this.feedLoaded.reels) {
+        await this.loadReels();
+        this.feedLoaded.reels = true;
+      }
+    } else { this.feedTimeline(); }
   }
 
   async feedVideo(): Promise<void> {
-    this.feedSelected = 'video';
-    if (!this.feedLoaded.video && this.userProfile.has_videos) {
-      await this.loadVideo();
-      this.feedLoaded.video = true;
-    }
+    if (this.userProfile.has_videos) {
+      this.feedSelected = 'video';
+      this.location.go(this.userProfile.username + '/channel');
+      if (!this.feedLoaded.video) {
+        await this.loadVideo();
+        this.feedLoaded.video = true;
+      }
+    } else { this.feedTimeline(); }
   }
 
   async feedTagged(): Promise<void> {
-    this.feedSelected = 'tagged';
-    if (!this.feedLoaded.tagged && this.userProfile.usertags_count) {
-      await this.loadTagged();
-      this.feedLoaded.tagged = true;
-    }
+    if (this.userProfile.usertags_count) {
+      this.feedSelected = 'tagged';
+      this.location.go(this.userProfile.username + '/tagged');
+      if (!this.feedLoaded.tagged) {
+        await this.loadTagged();
+        this.feedLoaded.tagged = true;
+      }
+    } else { this.feedTimeline(); }
   }
 
+  feedSavedUrl: string = '';
+
   async feedSaved(): Promise<void> {
-    this.feedSelected = 'saved';
+    if (this.userProfile.has_saved_items) {
+      this.feedSelected = 'saved';
+      this.location.go(this.userProfile.username + '/saved' + this.feedSavedUrl);
+    } else { this.feedTimeline(); }
   }
 
   userName: any = '';
@@ -73,6 +94,19 @@ export class PageUserComponent implements OnInit {
   userStories: any[] = [];
   userTagged: any[] = [];
   userVideos: any[] = [];
+
+  loadTabs(): void {
+    if (!this.userProfile.is_private || (this.userProfile.is_private && this.userProfile.friendship.following)) {
+      let tab = this.route.snapshot.paramMap.get('tab');
+      switch (tab) {
+        case 'reels': { this.feedReels(); break; }
+        case 'channel': { this.feedVideo(); break; }
+        case 'tagged': { this.feedTagged(); break; }
+        case 'saved': { this.feedSaved(); break; }
+        default: { this.feedTimeline(); break; }
+      }
+    }
+  }
 
   private profileError() {
     this.title.setTitle('Page not found · Instagular');
@@ -87,9 +121,6 @@ export class PageUserComponent implements OnInit {
           console.info('Profile loaded successfully!');
           this.userProfile = data;
           this.title.setTitle(`${data.full_name ? data.full_name : data.username} (@${data.username})`);
-          if (!data.is_private || (data.is_private && data.friendship.following)) {
-            await this.loadUser();
-          }
         });
   }
 
@@ -262,6 +293,7 @@ export class PageUserComponent implements OnInit {
     await this.loadProfile();
     await this.loadStories();
     this.loadSaved();
+    this.loadTabs();
   }
 
   ngOnDestroy(): void {

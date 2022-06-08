@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -14,6 +16,8 @@ export class MediaSavedComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private location: Location,
+    private route: ActivatedRoute,
     private store: StoreService
   ) { }
 
@@ -33,6 +37,7 @@ export class MediaSavedComponent implements OnInit {
           console.info('All user saved posts loaded successfully!');
           localStorage.setItem('collection', data.feed);
           this.feedCollection = this.feedCollection.concat(data.posts);
+          this.urlUpdate('/all-posts');
         });
   }
 
@@ -45,6 +50,7 @@ export class MediaSavedComponent implements OnInit {
           localStorage.setItem('collection', data.feed);
           if (reload) { this.feedCollection = []; }
           this.feedCollection = this.feedCollection.concat(data.posts);
+          this.urlUpdate('/_/' + id);
         });
   }
 
@@ -62,6 +68,7 @@ export class MediaSavedComponent implements OnInit {
     this.feedCollection = [];
     this.loadedCollection = false;
     localStorage.removeItem('collection');
+    this.urlUpdate();
   }
 
   collectionCreate: boolean = false;
@@ -114,6 +121,35 @@ export class MediaSavedComponent implements OnInit {
     this.onScroll.emit();
   }
 
+  async loadUrl(): Promise<void> {
+    // Load and parse collection name if present.
+    let c_name = this.route.snapshot.paramMap.get('c_name');
+    if (c_name) {
+      // Load and parse collection id if present.
+      let c_id = this.route.snapshot.paramMap.get('c_id');
+      if (c_id) {
+        // Check if the collection from url is valid.
+        let exists = await this.feedCollections.find((res) => res.collection_id == c_id);
+        if (exists) {
+          await this.loadSavedCollection(c_id);
+          this.selectedCollection = this.feedCollection;
+          this.loadedCollection = true;
+        } else { this.urlUpdate(); }
+      } else if (c_name == 'all-posts') {
+        await this.loadSavedAll();
+        this.selectedCollection = this.feedCollection;
+        this.loadedCollection = true;
+      } else { this.urlUpdate(); }
+    }
+  }
+
+  @Output() onUpdate = new EventEmitter();
+
+  urlUpdate(url: string = ''): void {
+    this.location.go(this.route.snapshot.paramMap.get('id') + '/saved' + url);
+    this.onUpdate.emit(url);
+  }
+
   ngOnChanges(): void {
     const feed: any = localStorage.getItem('saved');
     this.hideIntersect = JSON.parse(feed).moreAvailable ? false : true;
@@ -121,5 +157,6 @@ export class MediaSavedComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadUrl();
   }
 }
