@@ -132,12 +132,12 @@ export class MediaSavedComponent implements OnInit {
         let exists = await this.feedCollections.find((res) => res.collection_id == c_id);
         if (exists) {
           await this.loadSavedCollection(c_id);
-          this.selectedCollection = this.feedCollection;
+          this.selectedCollection = exists;
           this.loadedCollection = true;
         } else { this.urlUpdate(); }
       } else if (c_name == 'all-posts') {
         await this.loadSavedAll();
-        this.selectedCollection = this.feedCollection;
+        this.selectedCollection = this.feedCollections[0];
         this.loadedCollection = true;
       } else { this.urlUpdate(); }
     }
