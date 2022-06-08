@@ -51,6 +51,13 @@ export class EditCollectionComponent implements OnInit {
       this.http.post<any>('/api/feed/saved_all', { feed: localStorage.getItem('collectionEdit'), session: localStorage.getItem('state') })
         .pipe(catchError(this.editError))).then((data: any) => {
           localStorage.setItem('collectionEdit', data.feed);
+          for (let post of this.collectionSelected) {
+            let k = data.posts.findIndex((res: any) => res.id == post.id);
+            if (data.posts[k]) {
+              data.posts[k].add = true;
+              data.posts[k].removeable = true;
+            }
+          }
           this.collectionPosts = this.collectionPosts.concat(data.posts);
           this.hideIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
           this.stopIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
@@ -72,11 +79,5 @@ export class EditCollectionComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.collectionGetPosts();
-    // Add selected posts for the new collection.
-    for (let post of this.collectionSelected) {
-      let k = this.collectionPosts.findIndex((res) => res.id == post.id);
-      this.collectionPosts[k].add = true;
-      this.collectionPosts[k].removeable = true;
-    }
   }
 }
