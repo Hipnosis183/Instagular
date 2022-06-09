@@ -21,7 +21,7 @@
   @apply border-r border-r-slate-200 flex flex-col h-full w-[100px];
 }
 .sidenav-expand {
-  @apply absolute cursor-pointer flex h-12 items-center justify-center opacity-20 hover:opacity-60 right-0 z-[1];
+  @apply absolute cursor-pointer flex h-12 opacity-20 hover:opacity-60 right-0 z-[1];
   height: calc(100% - 4rem);
   transition: opacity 0.2s;
 }
@@ -29,10 +29,11 @@
   @apply border-r-[1px] border-r-slate-800 border-t-[1px] border-t-slate-800 h-[10px] mr-3 w-[10px];
 }
 .sidenav-expand div.collapsed {
-  margin-top: -44px;
+  margin-top: 16px;
   transform: rotate(45deg);
 }
 .sidenav-expand div.expanded {
+  margin-top: 14px;
   transform: rotate(225deg);
 }
 .sidenav-expand img {
