@@ -21,8 +21,19 @@
   @apply border-r border-r-slate-200 flex flex-col h-full w-[100px];
 }
 .sidenav-expand {
-  @apply absolute hover:bg-slate-200 bottom-0 cursor-pointer flex h-12 items-center justify-center mb-2 right-0 rounded-lg w-8 z-[1];
-  transition: background-color 0.2s;
+  @apply absolute cursor-pointer flex h-12 items-center justify-center opacity-20 hover:opacity-60 right-0 z-[1];
+  height: calc(100% - 4rem);
+  transition: opacity 0.2s;
+}
+.sidenav-expand div {
+  @apply border-r-[1px] border-r-slate-800 border-t-[1px] border-t-slate-800 h-[10px] mr-3 w-[10px];
+}
+.sidenav-expand div.collapsed {
+  margin-top: -44px;
+  transform: rotate(45deg);
+}
+.sidenav-expand div.expanded {
+  transform: rotate(225deg);
 }
 .sidenav-expand img {
   @apply h-5;
@@ -31,7 +42,7 @@
   @apply flex flex-col;
 }
 .sidenav-image {
-  @apply overflow-hidden rounded-full w-14;
+  @apply h-14 overflow-hidden rounded-full w-14;
 }
 .sidenav-logo {
   @apply flex justify-center w-full;

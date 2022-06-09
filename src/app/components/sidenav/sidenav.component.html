@@ -63,8 +63,8 @@
     <img-await [source]="userProfile.hd_profile_pic_url_info.url" class="sidenav-image"></img-await>
   </div>
 </div>
-<div (click)="expandSidenav()" class="sidenav-expand" [class]="expandedSidenav ? 'mr-3' : '-mr-10'">
-  <img [src]="'/assets/images/' + (expandedSidenav ? 'chevron-left.svg' : 'chevron-right.svg')">
+<div (click)="expandSidenav()" class="sidenav-expand">
+  <div [class]="expandedSidenav ? 'expanded' : 'collapsed'"></div>
 </div>
 <div #userOptions>
   <div *ngIf="userProfile" [class]="expandedSidenav ? 'w-[240px]' : 'w-[150px]'" class="sidenav-options">
