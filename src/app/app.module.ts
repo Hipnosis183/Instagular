@@ -29,6 +29,7 @@ import { SearchComponent } from './utils/search/search.component';
 // Directives.
 import { DropdownDirective } from './directives/dropdown.directive';
 import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
+import { TooltipArrayDirective } from './directives/tooltip-array.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
 
 // Pipes.
@@ -62,6 +63,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     // Directives.
     DropdownDirective,
     InfiniteScrollDirective,
+    TooltipArrayDirective,
     TooltipDirective,
     // Pipes.
     DateAgoPipe,

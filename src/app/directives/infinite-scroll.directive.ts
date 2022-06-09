@@ -2,9 +2,7 @@ import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, O
 import { Subject } from 'rxjs';
 import { delay, filter } from 'rxjs/operators';
 
-@Directive({
-  selector: '[infiniteScroll]'
-})
+@Directive({ selector: '[infiniteScroll]' })
 
 export class InfiniteScrollDirective implements OnDestroy, OnInit, AfterViewInit {
 

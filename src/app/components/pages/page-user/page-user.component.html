@@ -54,24 +54,29 @@
   <div *ngIf="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following); then allow; else block"></div>
   <ng-template #allow>
     <media-stories [feedStories]="userStories"></media-stories>
-    <div class="feed-select">
-      <div (click)="feedTimeline()" [class]="feedSelected == 'timeline' ? 'bg-slate-200' : ''">
+    <div tooltipArray place="bottom" class="feed-select">
+      <div (click)="feedTimeline()" attr.tooltipItem="{{ userProfile.media_count }} Posts"
+        [class]="feedSelected == 'timeline' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-posts.svg">
         <p>POSTS</p>
       </div>
-      <div *ngIf="userProfile.total_clips_count" (click)="feedReels()" [class]="feedSelected == 'reels' ? 'bg-slate-200' : ''">
+      <div *ngIf="userProfile.total_clips_count" attr.tooltipItem="{{ userProfile.total_clips_count }} Clips"
+        (click)="feedReels()" [class]="feedSelected == 'reels' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-reels.svg">
         <p>REELS</p>
       </div>
-      <div *ngIf="userProfile.has_videos" (click)="feedVideo()" [class]="feedSelected == 'video' ? 'bg-slate-200' : ''">
+      <div *ngIf="userProfile.has_videos" attr.tooltipItem="{{ userProfile.total_igtv_videos }} IGTVs"
+        (click)="feedVideo()" [class]="feedSelected == 'video' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-videos.svg">
         <p>VIDEOS</p>
       </div>
-      <div *ngIf="userProfile.usertags_count" (click)="feedTagged()" [class]="feedSelected == 'tagged' ? 'bg-slate-200' : ''">
+      <div *ngIf="userProfile.usertags_count" attr.tooltipItem="{{ userProfile.usertags_count }} Posts"
+        (click)="feedTagged()" [class]="feedSelected == 'tagged' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-tagged.svg">
         <p>TAGGED</p>
       </div>
-      <div *ngIf="userProfile.has_saved_items" (click)="feedSaved()" [class]="feedSelected == 'saved' ? 'bg-slate-200' : ''">
+      <div *ngIf="userProfile.has_saved_items" attr.tooltipItem="{{ store.state.savedPosts.length }} Collections"
+        (click)="feedSaved()" [class]="feedSelected == 'saved' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-saved.svg">
         <p>SAVED</p>
       </div>

@@ -2,8 +2,8 @@
   (closeSend)="closeStories()"></viewer-stories>
 <div *ngIf="feedStories.length > 0">
   <div *ngIf="feedStories[0].reel_type == 'highlight_reel'" class="separator"></div>
-  <div [ngClass]="feedStories[0].reel_type == 'user_reel' ? 'stories-container-f' : 'stories-container-h'">
-    <div *ngFor="let story of feedStories; index as i">
+  <div tooltipArray [ngClass]="feedStories[0].reel_type == 'user_reel' ? 'stories-container-f' : 'stories-container-h'">
+    <div *ngFor="let story of feedStories; index as i" attr.tooltipItem="{{ story.title ? story.title : story.user.username }} ({{ story.media_count }})">
       <div (click)="openStories(i)" class="stories-item"
         [ngClass]="[story.reel_type == 'user_reel' ? 'stories-border' : 'px-2', story.reel_type == 'user_reel' ? story.seen < story.latest_reel_media ? story.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200' : '', story.muted ? 'opacity-40' : '']">
         <img-await class="stories-profile"

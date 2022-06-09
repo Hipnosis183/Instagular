@@ -7,7 +7,7 @@
     <div>
       <button routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
         <img [src]="'/assets/images/' + (router.url == '/' ? 'feed-fill.svg' : 'feed.svg')">
-        <p>Feed</p>
+        <p>Home</p>
       </button>
       <button>
         <img [src]="'/assets/images/explore.svg'">
@@ -41,20 +41,20 @@
     <img src="/assets/images/icon.svg">
   </div>
   <div class="sidenav-buttons-s">
-    <div>
-      <button routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
+    <div tooltipArray place="right">
+      <button tooltipItem="Home" routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
         <img [src]="'/assets/images/' + (router.url == '/' ? 'feed-fill.svg' : 'feed.svg')">
       </button>
-      <button>
+      <button tooltipItem="Explore">
         <img [src]="'/assets/images/explore.svg'">
       </button>
-      <button>
+      <button tooltipItem="Direct">
         <img [src]="'/assets/images/direct.svg'">
       </button>
-      <button>
+      <button tooltipItem="Activity">
         <img [src]="'/assets/images/activity.svg'">
       </button>
-      <button>
+      <button tooltipItem="Settings">
         <img [src]="'/assets/images/settings.svg'">
       </button>
     </div>
