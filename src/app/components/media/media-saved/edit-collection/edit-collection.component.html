@@ -21,7 +21,7 @@
       </div>
       <div [class]="collection.collection_name.length > 0 ? 'edit' : 'cursor-not-allowed text-gray-400'"
         (click)="collectionEdit()" class="edit-button">Update
-        <div *ngIf="!(collection.collection_name.length > 0)" tooltip="Enter a name for the collection" theme="error" [offset]="[0, -10]"></div>
+        <div *ngIf="!(collection.collection_name.length > 0)" tooltip="Enter a name for the collection" tooltipTheme="error" [tooltipOffset]="[0, -10]"></div>
       </div>
     </div>
   </div>

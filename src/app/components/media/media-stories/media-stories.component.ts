@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { debounce } from 'src/app/utils/debounce';
 
 @Component({
   selector: 'media-stories',
@@ -11,6 +12,9 @@ export class MediaStoriesComponent implements OnInit {
   constructor() { }
 
   @Input() feedStories: any[] = [];
+  @Output() onReload = new EventEmitter();
+
+  feedLoaded: boolean = true;
   originIndex: number = 0;
   storiesShow: boolean = false;
 
@@ -21,6 +25,37 @@ export class MediaStoriesComponent implements OnInit {
 
   closeStories(): void {
     this.storiesShow = false;
+  }
+
+  reloadFeed(feed: string): void {
+    this.feedLoaded = false;
+    this.selectModel = null;
+    this.onReload.emit(feed);
+  }
+
+  selectModel: any = null;
+  _selectModel: any = null;
+
+  updateValueDebounced = debounce(() => this.updateValue(), 1000);
+  updateValue(): void {
+    this._selectModel = this.selectModel;
+    if (this.selectModel && this.selectModel.length > 0) {
+      for (let [i, story] of this.feedStories.entries()) {
+        this.feedStories[i].hidden = story.user.username.includes(this.selectModel.toLowerCase()) ? false : true;
+      }
+    }
+  }
+
+  clearValue(): void {
+    this.selectModel = null;
+    this.updateValue();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // Necessary for the tooltip array to work after a reload.
+    if (changes['feedStories'].currentValue.length > 0) {
+      this.feedLoaded = true;
+    }
   }
 
   ngOnInit(): void {

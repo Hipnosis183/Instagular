@@ -11,27 +11,28 @@ export class DropdownDirective implements AfterViewInit {
   ) { }
 
   @Input() dropdown!: HTMLElement;
-  @Input() hover: boolean = false;
-  @Input() offset: any = [0, 10];
-  @Input() place: any = 'top';
-  @Input() target: any = null;
+  @Input() dropdownDelay: any = [800, 200];
+  @Input() dropdownHover: boolean = false;
+  @Input() dropdownOffset: any = [0, 10];
+  @Input() dropdownPlace: any = 'top';
+  @Input() dropdownTarget: any = null;
 
   ngAfterViewInit(): void {
     // Create Tippy instance.
     tippy(this.elementRef.nativeElement, {
       animation: 'fade',
       content: this.dropdown,
-      delay: this.hover ? [800, 200] : 0,
+      delay: this.dropdownHover ? this.dropdownDelay : 0,
       duration: [200, 200],
       interactive: true,
-      offset: this.offset,
-      placement: this.place,
+      offset: this.dropdownOffset,
+      placement: this.dropdownPlace,
       theme: 'dropdown',
-      trigger: this.hover ? 'mouseenter focus' : 'click',
-      triggerTarget: this.target,
+      trigger: this.dropdownHover ? 'mouseenter focus' : 'click',
+      triggerTarget: this.dropdownTarget,
     });
     // Attach listener to close dropdowns upon clicking inside.
-    if (!this.hover) {
+    if (!this.dropdownHover) {
       this.renderer.listen(this.elementRef.nativeElement._tippy.popper, 'click', () => {
         this.elementRef.nativeElement._tippy.hide();
       });

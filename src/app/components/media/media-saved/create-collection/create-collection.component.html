@@ -21,7 +21,7 @@
       </div>
       <div [class]="{ 'mt-2': !(fromPost.length > 0), 'create': collectionName.length > 0, 'disable': !(collectionName.length > 0) }"
         (click)="collectionCreate()" class="create-button">Create
-        <div *ngIf="!(collectionName.length > 0)" tooltip="Enter a name for the collection" theme="error" [offset]="[0, -10]"></div>
+        <div *ngIf="!(collectionName.length > 0)" tooltip="Enter a name for the collection" tooltipTheme="error" [tooltipOffset]="[0, -10]"></div>
       </div>
     </div>
   </div>

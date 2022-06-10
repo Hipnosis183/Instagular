@@ -54,7 +54,7 @@
   <div *ngIf="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following); then allow; else block"></div>
   <ng-template #allow>
     <media-stories [feedStories]="userStories"></media-stories>
-    <div tooltipArray place="bottom" class="feed-select">
+    <div tooltipArray tooltipArrayPlace="bottom" class="feed-select">
       <div (click)="feedTimeline()" attr.tooltipItem="{{ userProfile.media_count }} Posts"
         [class]="feedSelected == 'timeline' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-posts.svg">

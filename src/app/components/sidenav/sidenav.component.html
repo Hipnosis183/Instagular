@@ -28,7 +28,7 @@
     </div>
   </div>
   <div #userTarget *ngIf="userProfile" class="sidenav-user -ml-1">
-    <img-await [dropdown]="userOptions" [target]="userTarget" place="top-start" [offset]="[0, 14]"
+    <img-await [dropdown]="userOptions" [dropdownOffset]="[0, 14]" dropdownPlace="top-start" [dropdownTarget]="userTarget"
       [source]="userProfile.hd_profile_pic_url_info.url" class="sidenav-image"></img-await>
     <div class="sidenav-header">
       <div class="text-main text-lg">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}</div>
@@ -41,7 +41,7 @@
     <img src="/assets/images/icon.svg">
   </div>
   <div class="sidenav-buttons-s">
-    <div tooltipArray place="right">
+    <div tooltipArray tooltipArrayPlace="right">
       <button tooltipItem="Home" routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
         <img [src]="'/assets/images/' + (router.url == '/' ? 'feed-fill.svg' : 'feed.svg')">
       </button>
@@ -59,7 +59,7 @@
       </button>
     </div>
   </div>
-  <div *ngIf="userProfile" [dropdown]="userOptions" place="top-start" [offset]="[20, 14]" class="sidenav-user">
+  <div *ngIf="userProfile" [dropdown]="userOptions" [dropdownOffset]="[20, 14]" dropdownPlace="top-start" class="sidenav-user">
     <img-await [source]="userProfile.hd_profile_pic_url_info.url" class="sidenav-image"></img-await>
   </div>
 </div>

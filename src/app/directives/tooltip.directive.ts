@@ -7,10 +7,10 @@ export class TooltipDirective implements AfterViewInit {
 
   constructor(private elementRef: ElementRef) { }
 
-  @Input() offset?: any = [0, 10];
-  @Input() place?: any = 'top';
-  @Input() theme?: string = 'tooltip';
   @Input() tooltip!: string;
+  @Input() tooltipOffset?: any = [0, 10];
+  @Input() tooltipPlace?: any = 'top';
+  @Input() tooltipTheme?: string = 'tooltip';
 
   ngAfterViewInit(): void {
     tippy(this.elementRef.nativeElement, {
@@ -18,9 +18,9 @@ export class TooltipDirective implements AfterViewInit {
       content: this.tooltip,
       delay: [800, 200],
       duration: [200, 200],
-      offset: this.offset,
-      placement: this.place,
-      theme: this.theme,
+      offset: this.tooltipOffset,
+      placement: this.tooltipPlace,
+      theme: this.tooltipTheme,
     });
   }
 }

@@ -1,6 +1,6 @@
 <div class="search-bar">
   <input [(ngModel)]="selectModel" placeholder="Search" (input)="updateValueDebounced()" />
-  <img src="/assets/images/search.svg" class="search-icon">
+  <img src="/assets/images/search-lite.svg" class="search-icon">
   <img *ngIf="selectModel" (click)="clearValue()" src="/assets/images/close-circle.svg"
     class="cursor-pointer right-0 search-icon">
   <div *ngIf="queryResults.length > 0" class="options-container">

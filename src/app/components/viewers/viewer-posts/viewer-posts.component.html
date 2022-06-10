@@ -31,7 +31,7 @@
               class="cursor-pointer mr-4 object-contain">
             <img [src]="'/assets/images/' + (feedPost.has_viewer_saved ? 'save-fill.svg' : 'save.svg')"
               (click)="feedPost.has_viewer_saved ? unsaveSend.emit({ media: feedPost.id }) : saveSend.emit({ media: feedPost.id })"
-              [dropdown]="savePost" [hover]="true" class="cursor-pointer object-contain">
+              [dropdown]="savePost" [dropdownHover]="true" class="cursor-pointer object-contain">
             <div #savePost>
               <span (click)="collectionCreateOpen()" class="create-button">&nbsp;+&ensp;NEW COLLECTION&nbsp;</span>
               <div *ngFor="let collection of store.state.savedPosts">
