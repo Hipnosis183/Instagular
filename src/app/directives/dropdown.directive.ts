@@ -33,8 +33,10 @@ export class DropdownDirective implements AfterViewInit {
     });
     // Attach listener to close dropdowns upon clicking inside.
     if (!this.dropdownHover) {
-      this.renderer.listen(this.elementRef.nativeElement._tippy.popper, 'click', () => {
-        this.elementRef.nativeElement._tippy.hide();
+      this.renderer.listen(this.elementRef.nativeElement._tippy.popper, 'click', (e) => {
+        if (e.target.getAttribute('dropdownIgnore') == null) {
+          this.elementRef.nativeElement._tippy.hide();
+        }
       });
     }
   }

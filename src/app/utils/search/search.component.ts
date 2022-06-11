@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
@@ -17,6 +17,8 @@ export class SearchComponent implements OnInit {
     private http: HttpClient,
     public router: Router
   ) { }
+
+  @Input() small: boolean = false;
 
   selectModel: any = null;
   queryResults: any[] = [];

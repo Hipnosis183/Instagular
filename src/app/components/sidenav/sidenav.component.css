@@ -3,7 +3,7 @@
   @apply border-y border-y-slate-200 flex flex-col h-full items-center justify-between m-8 py-8;
 }
 .sidenav-buttons button {
-  @apply hover:bg-slate-200 flex pl-6 py-2.5 rounded-lg space-x-6 w-full;
+  @apply hover:bg-slate-200 flex items-center pl-6 py-2.5 rounded-lg space-x-6 text-main text-lg w-full;
   transition: background-color 0.2s;
 }
 .sidenav-buttons-s button {
@@ -68,5 +68,5 @@
   @apply text-slate-800;
 }
 .text-sub {
-  @apply font-light text-slate-600;
+  @apply text-slate-600;
 }

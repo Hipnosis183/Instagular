@@ -5,7 +5,7 @@
 .tippy-box[data-theme~='dropdown'] > .tippy-content {
   @apply py-1.5 px-0 !important;
 }
-.tippy-box[data-theme~='dropdown'] > .tippy-content div {
+.tippy-box[data-theme~='dropdown'] > .tippy-content > div {
   @apply flex flex-col !important;
 }
 .tippy-box[data-theme~='dropdown'] > .tippy-content span {

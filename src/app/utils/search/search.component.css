@@ -1,32 +1,71 @@
-*:focus {
+.search {
+  @apply bg-slate-100 h-10 mt-6 mx-8 relative rounded-lg;
+  transition: background-color 0.2s;
+}
+.search:focus-within,
+.search:hover {
+  @apply bg-slate-200;
+}
+.search:focus-within .search-clear,
+.search:hover .search-clear {
+  @apply opacity-100;
+}
+.search input {
+  @apply absolute bg-transparent cursor-pointer h-full px-10 text-slate-600 w-full;
+}
+.search input::placeholder {
+  @apply text-slate-400;
+  transition: color 0.2s;
+}
+.search input:focus::placeholder,
+.search input:hover::placeholder {
+  @apply text-slate-500;
+}
+.search textarea:focus, input:focus{
   outline: none;
 }
-
-.options-container {
-  @apply absolute mt-12 overflow-hidden rounded-xl shadow w-full;
-  max-height: calc(100vh - 18rem);
+.search-clear {
+  @apply cursor-pointer opacity-0 right-0 search-icon;
+  transition: opacity 0.2s;
 }
-.options-item {
+.search-icon {
+  @apply absolute h-10 p-[11px];
+}
+.search-image {
+  @apply min-w-[3rem] overflow-hidden rounded-full w-12;
+}
+.search-item {
   @apply hover:bg-slate-100 cursor-pointer flex items-center pl-2 py-2 space-x-4 w-full;
 }
-.options-image {
-  @apply overflow-hidden rounded-full w-12;
-}
-.options-modal {
-  @apply bg-white overflow-x-hidden overflow-y-scroll py-2 w-full whitespace-nowrap;
+.search-modal {
+  @apply overflow-x-hidden overflow-y-scroll w-[255px] whitespace-nowrap;
   max-height: calc(100vh - 18rem);
 }
-.options-modal::-webkit-scrollbar-track-piece:start {
-  margin-top: 10px;
+.search-none {
+  @apply cursor-default py-2 text-center text-sub w-[255px];
 }
-.options-modal::-webkit-scrollbar-track-piece:end {
-  margin-bottom: 10px;
+
+.search-s {
+  @apply flex flex-col items-center space-y-4 w-full;
 }
-.options-noresults {
-  @apply bg-white overflow-hidden py-6 text-center text-sub w-full;
+.search-s input {
+  @apply bg-slate-50 border-b border-b-slate-200 font-light pb-3 pl-10 pr-4 pt-2 w-full;
 }
-.options-text {
-  @apply flex flex-col;
+.search-s input::placeholder {
+  @apply text-slate-400;
+}
+.search-s button {
+  @apply hover:bg-slate-200 flex justify-center mt-4 py-3 rounded-lg w-[50px];
+  transition: background-color 0.2s;
+}
+.search-s-bar {
+  @apply flex items-center mb-2 relative;
+}
+.search-s-clear {
+  @apply cursor-pointer right-0 search-s-icon;
+}
+.search-s-icon {
+  @apply absolute h-10 pb-[14px] pt-2 px-[11px];
 }
 
 .text-main {
@@ -34,14 +73,4 @@
 }
 .text-sub {
   @apply font-light text-slate-600;
-}
-
-.search-bar {
-  @apply bg-slate-200 h-10 mt-6 mx-8 relative rounded-lg;
-}
-.search-bar input {
-  @apply absolute bg-transparent cursor-pointer h-full px-10 text-slate-600 w-full;
-}
-.search-icon {
-  @apply absolute h-10 p-[11px];
 }
