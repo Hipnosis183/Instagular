@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { StoreService } from 'src/app/services/store.service';
@@ -11,12 +11,12 @@ import { StoreService } from 'src/app/services/store.service';
   styleUrls: ['./sidenav.component.css']
 })
 
-export class SidenavComponent implements OnInit {
+export class SidenavComponent {
 
   constructor(
     private http: HttpClient,
     public router: Router,
-    private store: StoreService
+    private store: StoreService,
   ) { }
 
   expandedSidenav: boolean = true;
@@ -27,8 +27,8 @@ export class SidenavComponent implements OnInit {
   }
 
   loadSidenav(): void {
-    if (localStorage.getItem("expanded")) {
-      let expanded: any = localStorage.getItem("expanded");
+    if (localStorage.getItem('expanded')) {
+      let expanded: any = localStorage.getItem('expanded');
       this.expandedSidenav = JSON.parse(expanded);
     }
   }
@@ -36,35 +36,37 @@ export class SidenavComponent implements OnInit {
   userProfile: any = null;
 
   private profileError() {
-    return throwError(() => new Error('Profile error: cannot load user profile information.'));
+    return throwError(() => {
+      new Error('Profile error: cannot load user profile information.');
+    });
   }
 
   loadProfile(): void {
-    this.http.post<string>('/api/user/profile', { session: localStorage.getItem("state") })
-      .pipe(catchError(this.profileError))
-      .subscribe((data) => {
-        console.info('Profile loaded successfully!');
-        this.userProfile = data;
-        localStorage.setItem('userpk', this.userProfile.pk);
-        localStorage.setItem('username', this.userProfile.username);
-        this.store.loadSaved();
-      });
+    this.http.post<string>('/api/user/profile', {
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.profileError)).subscribe((data) => {
+      this.userProfile = data;
+      localStorage.setItem('userpk', this.userProfile.pk);
+      localStorage.setItem('username', this.userProfile.username);
+      this.store.loadSaved();
+    });
   }
 
   private logoutError() {
-    return throwError(() => new Error('Logout error: no session active.'));
+    return throwError(() => {
+      new Error('Logout error: no session active.');
+    });
   }
 
   logoutUser(): void {
-    this.http.post('/api/account/logout', { session: localStorage.getItem("state") })
-      .pipe(catchError(this.logoutError))
-      .subscribe(() => {
-        console.info('Logged out successfully!');
-        localStorage.removeItem('state');
-        localStorage.removeItem('userpk');
-        localStorage.removeItem('username');
-        window.location.assign('');
-      });
+    this.http.post('/api/account/logout', {
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.logoutError)).subscribe(() => {
+      localStorage.removeItem('state');
+      localStorage.removeItem('userpk');
+      localStorage.removeItem('username');
+      window.location.assign('');
+    });
   }
 
   ngOnInit(): void {

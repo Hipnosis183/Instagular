@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { lastValueFrom, throwError, of } from 'rxjs';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { lastValueFrom, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { StoreService } from 'src/app/services/store.service';
 
@@ -13,7 +13,7 @@ import { StoreService } from 'src/app/services/store.service';
   styleUrls: ['./page-user.component.css']
 })
 
-export class PageUserComponent implements OnInit {
+export class PageUserComponent {
 
   constructor(
     private http: HttpClient,
@@ -21,10 +21,8 @@ export class PageUserComponent implements OnInit {
     private route: ActivatedRoute,
     public router: Router,
     private title: Title,
-    public store: StoreService
-  ) {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-  }
+    public store: StoreService,
+  ) { this.router.routeReuseStrategy.shouldReuseRoute = () => false; }
 
   feedSelected: string = 'timeline';
   feedLoaded: any = {
@@ -111,73 +109,93 @@ export class PageUserComponent implements OnInit {
   private profileError() {
     this.title.setTitle('Page not found · Instagular');
     this.userNotFound = true; return of();
-    return throwError(() => new Error('Profile error: cannot load user profile information.'));
+    return throwError(() => {
+      new Error('Profile error: cannot load user profile information.');
+    });
   }
 
   async loadProfile(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/user/profile', { id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem('state'), stories: true })
-        .pipe(catchError(this.profileError.bind(this)))).then(async (data: any) => {
-          console.info('Profile loaded successfully!');
-          this.userProfile = data;
-          this.title.setTitle(`${data.full_name ? data.full_name : data.username} (@${data.username})`);
-        });
+      this.http.post<any>('/api/user/profile', {
+        id: this.route.snapshot.paramMap.get('id'), stories: true,
+        session: localStorage.getItem('state'),
+      }).pipe(catchError(this.profileError.bind(this)))).then((data) => {
+        this.userProfile = data;
+        this.title.setTitle(`${data.full_name ? data.full_name : data.username} (@${data.username})`);
+      });
   }
 
   private userError() {
-    return throwError(() => new Error('User error: cannot load user media.'));
+    return throwError(() => {
+      new Error('User error: cannot load user media.');
+    });
   }
 
   async loadUser(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/feed/user', { feed: localStorage.getItem('feed'), id: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem('state') })
-        .pipe(catchError(this.userError))).then((data: any) => {
-          console.info('User loaded successfully!');
-          localStorage.setItem('feed', data.feed);
-          this.userPosts = this.userPosts.concat(data.posts);
-        });
+      this.http.post<any>('/api/feed/user', {
+        feed: localStorage.getItem('feed'),
+        id: this.route.snapshot.paramMap.get('id'),
+        session: localStorage.getItem('state'),
+      }).pipe(catchError(this.userError))).then((data) => {
+        localStorage.setItem('feed', data.feed);
+        this.userPosts = this.userPosts.concat(data.posts);
+      });
   }
 
   private reelsError() {
-    return throwError(() => new Error('Reels error: cannot load user reels feed.'));
+    return throwError(() => {
+      new Error('Reels error: cannot load user reels feed.');
+    });
   }
 
   async loadReels(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/feed/reels', { id: this.userProfile.pk, session: localStorage.getItem('state'), cursor: localStorage.getItem('reels') })
-        .pipe(catchError(this.reelsError))).then((data: any) => {
-          console.info('User reels feed loaded successfully!');
-          localStorage.setItem('reels', data.cursor);
-          this.userReels = this.userReels.concat(data.posts);
-        });
+      this.http.post<any>('/api/feed/reels', {
+        id: this.userProfile.pk,
+        cursor: localStorage.getItem('reels'),
+        session: localStorage.getItem('state'),
+      }).pipe(catchError(this.reelsError))).then((data) => {
+        localStorage.setItem('reels', data.cursor);
+        this.userReels = this.userReels.concat(data.posts);
+      });
   }
 
   private videoError() {
-    return throwError(() => new Error('Video error: cannot load user Video (IGTV) feed.'));
+    return throwError(() => {
+      new Error('Video error: cannot load user Video (IGTV) feed.');
+    });
   }
 
   async loadVideo(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/feed/video', { feed: localStorage.getItem('video'), id: this.userProfile.pk, name: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem('state') })
-        .pipe(catchError(this.videoError))).then((data: any) => {
-          console.info('User Video feed loaded successfully!');
-          localStorage.setItem('video', data.feed);
-          this.userVideos = this.userVideos.concat(data.posts);
-        });
+      this.http.post<any>('/api/feed/video', {
+        feed: localStorage.getItem('video'),
+        id: this.userProfile.pk,
+        name: this.route.snapshot.paramMap.get('id'),
+        session: localStorage.getItem('state'),
+      }).pipe(catchError(this.videoError))).then((data) => {
+        localStorage.setItem('video', data.feed);
+        this.userVideos = this.userVideos.concat(data.posts);
+      });
   }
 
   private taggedError() {
-    return throwError(() => new Error('Tagged error: cannot load user tagged posts feed.'));
+    return throwError(() => {
+      new Error('Tagged error: cannot load user tagged posts feed.');
+    });
   }
 
   async loadTagged(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/feed/tagged', { feed: localStorage.getItem('tagged'), id: this.userProfile.pk, session: localStorage.getItem('state') })
-        .pipe(catchError(this.taggedError))).then((data: any) => {
-          console.info('User tagged feed loaded successfully!');
-          localStorage.setItem('tagged', data.feed);
-          this.userTagged = this.userTagged.concat(data.posts);
-        });
+      this.http.post<any>('/api/feed/tagged', {
+        feed: localStorage.getItem('tagged'),
+        id: this.userProfile.pk,
+        session: localStorage.getItem('state'),
+      }).pipe(catchError(this.taggedError))).then((data) => {
+        localStorage.setItem('tagged', data.feed);
+        this.userTagged = this.userTagged.concat(data.posts);
+      });
   }
 
   loadSaved(): void {
@@ -187,41 +205,48 @@ export class PageUserComponent implements OnInit {
   }
 
   private storiesError() {
-    return throwError(() => new Error('Stories error: cannot load stories tray information.'));
+    return throwError(() => {
+      new Error('Stories error: cannot load stories tray information.');
+    });
   }
 
   async loadStories(): Promise<void> {
-    await lastValueFrom(this.http.post<object[]>('/api/highlights/highlights_tray', { id: this.userProfile.pk, session: localStorage.getItem('state') })
-      .pipe(catchError(this.storiesError))).then((data: any) => {
-        console.info('Stories tray loaded successfully!');
-        this.userStories = this.userStories.concat(data);
-      });
+    await lastValueFrom(this.http.post<any>('/api/highlights/highlights_tray', {
+      id: this.userProfile.pk,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.storiesError))).then((data) => {
+      this.userStories = this.userStories.concat(data);
+    });
   }
 
   private followError() {
-    return throwError(() => new Error('Following error: could not follow user.'));
+    return throwError(() => {
+      new Error('Following error: could not follow user.');
+    });
   }
 
   followUser(): void {
-    this.http.post('/api/friendship/follow', { userId: this.userProfile.pk, session: localStorage.getItem('state') })
-      .pipe(catchError(this.followError))
-      .subscribe((data) => {
-        console.info('User followed successfully!');
-        this.userProfile.friendship.following = true;
-      });
+    this.http.post('/api/friendship/follow', {
+      userId: this.userProfile.pk,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.followError)).subscribe(() => {
+      this.userProfile.friendship.following = true;
+    });
   }
 
   private unfollowError() {
-    return throwError(() => new Error('Unfollowing error: could not unfollow user.'));
+    return throwError(() => {
+      new Error('Unfollowing error: could not unfollow user.');
+    });
   }
 
   unfollowUser(): void {
-    this.http.post('/api/friendship/unfollow', { userId: this.userProfile.pk, session: localStorage.getItem('state') })
-      .pipe(catchError(this.unfollowError))
-      .subscribe((data) => {
-        console.info('User unfollowed successfully :(');
-        this.userProfile.friendship.following = false;
-      });
+    this.http.post('/api/friendship/unfollow', {
+      userId: this.userProfile.pk,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.unfollowError)).subscribe(() => {
+      this.userProfile.friendship.following = false;
+    });
   }
 
   listIndex: number = 0;
@@ -229,19 +254,21 @@ export class PageUserComponent implements OnInit {
   usersList: any[] = [];
 
   private followersError() {
-    return throwError(() => new Error('Followers error: cannot load followers information.'));
+    return throwError(() => {
+      new Error('Followers error: cannot load followers information.');
+    });
   }
 
   loadFollowers(): void {
-    this.http.post<object[]>('/api/feed/followers', { feed: localStorage.getItem('follow'), id: this.userProfile.pk, session: localStorage.getItem('state') })
-      .pipe(catchError(this.followersError))
-      .subscribe((data: any) => {
-        console.info('Followers loaded successfully!');
-        localStorage.setItem('follow', data.feed);
-        this.listIndex = 0;
-        this.listTitle = 'Followers';
-        this.usersList = this.usersList.concat(data.followers);
-      });
+    this.http.post<any>('/api/feed/followers', {
+      feed: localStorage.getItem('follow'),
+      id: this.userProfile.pk,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.followersError)).subscribe((data) => {
+      localStorage.setItem('follow', data.feed);
+      this.listIndex = 0; this.listTitle = 'Followers';
+      this.usersList = this.usersList.concat(data.followers);
+    });
   }
 
   private followingError() {
@@ -249,15 +276,15 @@ export class PageUserComponent implements OnInit {
   }
 
   loadFollowing(): void {
-    this.http.post<object[]>('/api/feed/following', { feed: localStorage.getItem('follow'), id: this.userProfile.pk, session: localStorage.getItem('state') })
-      .pipe(catchError(this.followingError))
-      .subscribe((data: any) => {
-        console.info('Following loaded successfully!');
-        localStorage.setItem('follow', data.feed);
-        this.listIndex = 1;
-        this.listTitle = 'Following';
-        this.usersList = this.usersList.concat(data.following);
-      });
+    this.http.post<any>('/api/feed/following', {
+      feed: localStorage.getItem('follow'),
+      id: this.userProfile.pk,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.followingError)).subscribe((data) => {
+      localStorage.setItem('follow', data.feed);
+      this.listIndex = 1; this.listTitle = 'Following';
+      this.usersList = this.usersList.concat(data.following);
+    });
   }
 
   loadUserPage(username: string): void {

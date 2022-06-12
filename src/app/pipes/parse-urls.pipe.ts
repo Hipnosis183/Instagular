@@ -1,8 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'parseUrls'
-})
+@Pipe({ name: 'parseUrls' })
 
 export class ParseUrlsPipe implements PipeTransform {
 

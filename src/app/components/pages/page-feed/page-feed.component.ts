@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -9,24 +9,26 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./page-feed.component.css']
 })
 
-export class PageFeedComponent implements OnInit {
+export class PageFeedComponent {
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) { }
 
   feedPosts: any[] = [];
   feedStories: any[] = [];
 
   private feedError() {
-    return throwError(() => new Error('Feed error: cannot load feed information.'));
+    return throwError(() => {
+      new Error('Feed error: cannot load feed information.');
+    });
   }
 
   async loadFeed(reload?: boolean): Promise<void> {
     if (reload) { localStorage.removeItem('feed'); }
-    await lastValueFrom(this.http.post<object[]>('/api/feed/timeline', { feed: localStorage.getItem("feed"), session: localStorage.getItem("state") })
-      .pipe(catchError(this.feedError))).then((data: any) => {
-        console.info('Feed loaded successfully!');
+    await lastValueFrom(
+      this.http.post<any>('/api/feed/timeline', {
+        feed: localStorage.getItem('feed'),
+        session: localStorage.getItem('state'),
+      }).pipe(catchError(this.feedError))).then((data) => {
         localStorage.setItem('feed', data.feed);
         if (reload) { this.feedPosts = []; }
         this.feedPosts = this.feedPosts.concat(data.posts);
@@ -34,13 +36,16 @@ export class PageFeedComponent implements OnInit {
   }
 
   private storiesError() {
-    return throwError(() => new Error('Stories error: cannot load stories tray information.'));
+    return throwError(() => {
+      new Error('Stories error: cannot load stories tray information.');
+    });
   }
 
   async loadStories(reload?: boolean): Promise<void> {
-    await lastValueFrom(this.http.post<object[]>('/api/feed/reels_tray', { session: localStorage.getItem("state") })
-      .pipe(catchError(this.storiesError))).then((data: any) => {
-        console.info('Stories tray loaded successfully!');
+    await lastValueFrom(
+      this.http.post<any>('/api/feed/reels_tray', {
+        session: localStorage.getItem('state'),
+      }).pipe(catchError(this.storiesError))).then((data) => {
         if (reload) { this.feedStories = []; }
         this.feedStories = this.feedStories.concat(data);
       });

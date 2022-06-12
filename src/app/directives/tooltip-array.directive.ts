@@ -1,9 +1,9 @@
-import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
+import { Directive, ElementRef, Input } from '@angular/core';
 import tippy, { createSingleton } from 'tippy.js';
 
 @Directive({ selector: '[tooltipArray]' })
 
-export class TooltipArrayDirective implements AfterViewInit {
+export class TooltipArrayDirective {
 
   constructor(private elementRef: ElementRef) { }
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'viewer-users',
@@ -6,19 +6,18 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./viewer-users.component.css']
 })
 
-export class ViewerUsersComponent implements OnInit {
+export class ViewerUsersComponent {
 
   constructor() { }
 
-  @Output() closeSend = new EventEmitter();
-  @Output() userSend = new EventEmitter();
-  @Output() onScroll = new EventEmitter();
-
   @Input() usersList: any[] = [];
   @Input() title: string = 'Users';
+  @Output() closeSend = new EventEmitter();
+  @Output() userSend = new EventEmitter();
 
   hideIntersect: boolean = true;
   stopIntersect: boolean = false;
+  @Output() onScroll = new EventEmitter();
 
   onIntersection(): void {
     this.hideIntersect = true;
@@ -26,11 +25,8 @@ export class ViewerUsersComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    const feed: any = localStorage.getItem("follow");
+    const feed: any = localStorage.getItem('follow');
     this.hideIntersect = JSON.parse(feed).moreAvailable ? false : true;
     this.stopIntersect = JSON.parse(feed).moreAvailable ? false : true;
-  }
-
-  ngOnInit(): void {
   }
 }

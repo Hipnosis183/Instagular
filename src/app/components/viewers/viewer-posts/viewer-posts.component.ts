@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { StoreService } from 'src/app/services/store.service';
   styleUrls: ['./viewer-posts.component.css']
 })
 
-export class ViewerPostsComponent implements OnInit {
+export class ViewerPostsComponent {
 
   constructor(public store: StoreService) { }
 
@@ -15,12 +15,6 @@ export class ViewerPostsComponent implements OnInit {
   @Input() feedIndex: any;
   @Output() nextPost = new EventEmitter();
   @Output() prevPost = new EventEmitter();
-
-  @Output() likeSend = new EventEmitter();
-  @Output() unlikeSend = new EventEmitter();
-  @Output() saveSend = new EventEmitter();
-  @Output() unsaveSend = new EventEmitter();
-  @Output() closeSend = new EventEmitter();
 
   carouselIndex = 0;
 
@@ -71,6 +65,12 @@ export class ViewerPostsComponent implements OnInit {
       }
     }
   }
+
+  @Output() likeSend = new EventEmitter();
+  @Output() unlikeSend = new EventEmitter();
+  @Output() saveSend = new EventEmitter();
+  @Output() unsaveSend = new EventEmitter();
+  @Output() closeSend = new EventEmitter();
 
   saveMedia(feedPost: any, collection: any): void {
     const ids = { media: feedPost.id, collection: collection.collection_id };

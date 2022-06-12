@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { lastValueFrom, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { StoreService } from 'src/app/services/store.service';
@@ -12,55 +12,59 @@ import { StoreService } from 'src/app/services/store.service';
   styleUrls: ['./media-saved.component.css']
 })
 
-export class MediaSavedComponent implements OnInit {
+export class MediaSavedComponent {
 
   constructor(
     private http: HttpClient,
     private location: Location,
     private route: ActivatedRoute,
-    private store: StoreService
+    private store: StoreService,
   ) { }
 
-  @Input() feedCollections: any[] = [];
-  @Output() onScroll = new EventEmitter();
-
   feedCollection: any[] = [];
+  @Input() feedCollections: any[] = [];
 
   private savedError() {
-    return throwError(() => new Error('Collection error: cannot load user saved collection feed.'));
+    return throwError(() => {
+      new Error('Collection error: cannot load user saved collection feed.');
+    });
   }
 
   async loadSavedAll(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/feed/saved_all', { feed: localStorage.getItem('collection'), session: localStorage.getItem('state') })
-        .pipe(catchError(this.savedError))).then((data: any) => {
-          console.info('All user saved posts loaded successfully!');
-          localStorage.setItem('collection', data.feed);
-          this.feedCollection = this.feedCollection.concat(data.posts);
-          this.urlUpdate('/all-posts');
-        });
+      this.http.post<any>('/api/feed/saved_all', {
+        feed: localStorage.getItem('collection'),
+        session: localStorage.getItem('state'),
+      }).pipe(catchError(this.savedError))).then((data) => {
+        localStorage.setItem('collection', data.feed);
+        this.feedCollection = this.feedCollection.concat(data.posts);
+        this.urlUpdate('/all-posts');
+      });
   }
 
   async loadSavedCollection(id: string, reload?: boolean): Promise<void> {
     if (reload) { localStorage.removeItem('collection'); }
     await lastValueFrom(
-      this.http.post<any>('/api/feed/saved_collection', { feed: localStorage.getItem('collection'), id: id, session: localStorage.getItem('state') })
-        .pipe(catchError(this.savedError))).then((data: any) => {
-          console.info('User collection posts loaded successfully!');
-          localStorage.setItem('collection', data.feed);
-          if (reload) { this.feedCollection = []; }
-          this.feedCollection = this.feedCollection.concat(data.posts);
-          this.urlUpdate('/_/' + id);
-        });
+      this.http.post<any>('/api/feed/saved_collection', {
+        feed: localStorage.getItem('collection'), id: id,
+        session: localStorage.getItem('state'),
+      }).pipe(catchError(this.savedError))).then((data) => {
+        localStorage.setItem('collection', data.feed);
+        if (reload) { this.feedCollection = []; }
+        this.feedCollection = this.feedCollection.concat(data.posts);
+        this.urlUpdate('/_/' + id);
+      });
   }
 
-  selectedCollection: any;
   loadedCollection: boolean = false;
+  selectedCollection: any = null;
 
   async openCollection(collection: any): Promise<void> {
     this.selectedCollection = collection;
     // Check if the selected collection is general or specific.
-    (collection.collection_id == 'ALL_MEDIA_AUTO_COLLECTION') ? await this.loadSavedAll() : await this.loadSavedCollection(collection.collection_id);
+    (collection.collection_id == 'ALL_MEDIA_AUTO_COLLECTION')
+      ? await this.loadSavedAll()
+      : await this.loadSavedCollection(collection.collection_id);
     this.loadedCollection = true;
   }
 
@@ -115,6 +119,7 @@ export class MediaSavedComponent implements OnInit {
 
   hideIntersect: boolean = true;
   stopIntersect: boolean = false;
+  @Output() onScroll = new EventEmitter();
 
   onIntersection(): void {
     this.hideIntersect = true;

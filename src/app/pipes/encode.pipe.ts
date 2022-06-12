@@ -3,18 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { throwError, Observable, map } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-@Pipe({
-  name: 'encode'
-})
+@Pipe({ name: 'encode' })
 
 export class EncodePipe implements PipeTransform {
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) { }
 
   private encodeError() {
-    return throwError(() => new Error('Encoding error: wrong url or network error.'));
+    return throwError(() => {
+      new Error('Encoding error: wrong url or network error.');
+    });
   }
 
   transform(value: string, video = false): Observable<any> {

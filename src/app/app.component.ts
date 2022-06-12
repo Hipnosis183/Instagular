@@ -10,12 +10,6 @@ export class AppComponent {
   loadSession = false;
 
   ngOnInit(): void {
-    if (localStorage.getItem("state") != null) {
-      console.info('Session found!');
-      this.loadSession = true;
-    } else {
-      console.info('Session not found.');
-      this.loadSession = false;
-    }
+    this.loadSession = (localStorage.getItem('state') != null) ? true : false;
   }
 }

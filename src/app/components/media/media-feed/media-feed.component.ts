@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -10,19 +10,17 @@ import { StoreService } from 'src/app/services/store.service';
   styleUrls: ['./media-feed.component.css']
 })
 
-export class MediaFeedComponent implements OnInit {
+export class MediaFeedComponent {
 
   constructor(
     private http: HttpClient,
-    private store: StoreService
+    private store: StoreService,
   ) { }
 
+  feedIndex: any = { current: null, total: null };
+  feedPost: any = null;
   @Input() feedPosts: any[] = [];
   @Input() hideHeader: boolean = false;
-  @Output() onScroll = new EventEmitter();
-
-  feedPost: any = null;
-  feedIndex: any = { current: null, total: null };
 
   openMedia(post: any): void {
     this.feedPost = post;
@@ -44,82 +42,87 @@ export class MediaFeedComponent implements OnInit {
     this.feedPost = this.feedPosts[this.feedIndex.current];
   }
 
+  private likeError() {
+    return throwError(() => {
+      new Error('Media error: could not like the media.');
+    });
+  }
+
+  likeMedia(id: string): void {
+    this.http.post('/api/media/like', {
+      mediaId: id, session: localStorage.getItem('state'),
+    }).pipe(catchError(this.likeError)).subscribe(() => {
+      let i = this.feedPosts.findIndex((res) => res.id == id);
+      this.feedPosts[i].has_liked = true;
+    });
+  }
+
+  private unlikeError() {
+    return throwError(() => {
+      new Error('Media error: could not unlike the media.');
+    });
+  }
+
+  unlikeMedia(id: string): void {
+    this.http.post('/api/media/unlike', {
+      mediaId: id, session: localStorage.getItem('state'),
+    }).pipe(catchError(this.unlikeError)).subscribe(() => {
+      let i = this.feedPosts.findIndex((res) => res.id == id);
+      this.feedPosts[i].has_liked = false;
+    });
+  }
+
+  private saveError() {
+    return throwError(() => {
+      new Error('Media error: could not save the media.');
+    });
+  }
+
+  saveMedia(ids: any): void {
+    this.http.post('/api/media/save', {
+      collectionId: ids.collection, mediaId: ids.media,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.saveError)).subscribe(() => {
+      let i = this.feedPosts.findIndex((res) => res.id == ids.media);
+      this.feedPosts[i].has_viewer_saved = true;
+      if (ids.collection) {
+        if (this.feedPosts[i].saved_collection_ids) {
+          this.feedPosts[i].saved_collection_ids.push(ids.collection);
+        } else {
+          this.feedPosts[i].saved_collection_ids = [ids.collection];
+        }
+      } this.store.loadSaved();
+    });
+  }
+
+  private unsaveError() {
+    return throwError(() => {
+      new Error('Media error: could not unsave the media.');
+    });
+  }
+
+  unsaveMedia(ids: any): void {
+    this.http.post('/api/media/unsave', {
+      collectionId: ids.collection, mediaId: ids.media,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.unsaveError)).subscribe(() => {
+      let i = this.feedPosts.findIndex((res) => res.id == ids.media);
+      this.feedPosts[i].has_viewer_saved = ids.collection ? true : false;
+      if (ids.collection) {
+        this.feedPosts[i].saved_collection_ids.splice(this.feedPosts[i].saved_collection_ids.indexOf(ids.collection), 1);
+      } else {
+        this.feedPosts[i].saved_collection_ids = [];
+      } this.store.loadSaved();
+    });
+  }
+
   hideIntersect: boolean = true;
   stopIntersect: boolean = false;
+  @Output() onScroll = new EventEmitter();
 
   onIntersection(): void {
     this.hideIntersect = true;
     this.onScroll.emit();
-  }
-
-  private likeError() {
-    return throwError(() => new Error('Media error: could not like the media.'));
-  }
-
-  likeMedia(id: string): void {
-    this.http.post('/api/media/like', { session: localStorage.getItem("state"), mediaId: id })
-      .pipe(catchError(this.likeError))
-      .subscribe((data) => {
-        console.info('Media liked successfully!');
-        let i = this.feedPosts.findIndex((res) => res.id == id);
-        this.feedPosts[i].has_liked = true;
-      });
-  }
-
-  private unlikeError() {
-    return throwError(() => new Error('Media error: could not unlike the media.'));
-  }
-
-  unlikeMedia(id: string): void {
-    this.http.post('/api/media/unlike', { session: localStorage.getItem("state"), mediaId: id })
-      .pipe(catchError(this.unlikeError))
-      .subscribe((data) => {
-        console.info('Media unliked successfully!');
-        let i = this.feedPosts.findIndex((res) => res.id == id);
-        this.feedPosts[i].has_liked = false;
-      });
-  }
-
-  private saveError() {
-    return throwError(() => new Error('Media error: could not save the media.'));
-  }
-
-  saveMedia(ids: any): void {
-    this.http.post('/api/media/save', { session: localStorage.getItem("state"), mediaId: ids.media, collectionId: ids.collection })
-      .pipe(catchError(this.saveError))
-      .subscribe((data) => {
-        console.info('Media saved successfully!');
-        let i = this.feedPosts.findIndex((res) => res.id == ids.media);
-        this.feedPosts[i].has_viewer_saved = true;
-        if (ids.collection) {
-          if (this.feedPosts[i].saved_collection_ids) {
-            this.feedPosts[i].saved_collection_ids.push(ids.collection);
-          } else {
-            this.feedPosts[i].saved_collection_ids = [ids.collection];
-          }
-        }
-        this.store.loadSaved();
-      });
-  }
-
-  private unsaveError() {
-    return throwError(() => new Error('Media error: could not unsave the media.'));
-  }
-
-  unsaveMedia(ids: any): void {
-    this.http.post('/api/media/unsave', { session: localStorage.getItem("state"), mediaId: ids.media, collectionId: ids.collection })
-      .pipe(catchError(this.unsaveError))
-      .subscribe((data) => {
-        console.info('Media unsaved successfully!');
-        let i = this.feedPosts.findIndex((res) => res.id == ids.media);
-        this.feedPosts[i].has_viewer_saved = ids.collection ? true : false;
-        if (ids.collection) {
-          this.feedPosts[i].saved_collection_ids.splice(this.feedPosts[i].saved_collection_ids.indexOf(ids.collection), 1);
-        } else {
-          this.feedPosts[i].saved_collection_ids = [];
-        }
-        this.store.loadSaved();
-      });
   }
 
   @Input() feedStorage: string = '';
@@ -135,8 +138,5 @@ export class MediaFeedComponent implements OnInit {
       this.hideIntersect = JSON.parse(feed).moreAvailable ? false : true;
       this.stopIntersect = JSON.parse(feed).moreAvailable ? false : true;
     }
-  }
-
-  ngOnInit(): void {
   }
 }

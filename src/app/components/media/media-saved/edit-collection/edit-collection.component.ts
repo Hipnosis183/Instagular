@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -9,20 +9,19 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./edit-collection.component.css']
 })
 
-export class EditCollectionComponent implements OnInit {
+export class EditCollectionComponent {
 
   constructor(private http: HttpClient) { }
 
-  @Output() onEdit = new EventEmitter();
-  @Output() onClose = new EventEmitter();
-
+  collectionPosts: any[] = [];
   @Input() collection: any;
   @Input() collectionSelected: any;
-
-  collectionPosts: any[] = [];
+  @Output() onEdit = new EventEmitter();
 
   private editError() {
-    return throwError(() => new Error('Collection error: cannot edit collection.'));
+    return throwError(() => {
+      new Error('Collection error: cannot edit collection.');
+    });
   }
 
   collectionEdit(): void {
@@ -36,33 +35,39 @@ export class EditCollectionComponent implements OnInit {
       } if (post.add) { addPosts.push(post.id); }
     }
     // Edit collection with the new information.
-    this.http.post<string>('/api/collection/edit', { id: this.collection.collection_id, name: this.collection.collection_name, add: addPosts, remove: removePosts, session: localStorage.getItem('state') })
-      .pipe(catchError(this.editError))
-      .subscribe((data) => {
-        console.info('Collection updated successfully!');
-        localStorage.removeItem('collectionEdit');
-        this.onEdit.emit();
-      });
+    this.http.post<string>('/api/collection/edit', {
+      id: this.collection.collection_id,
+      name: this.collection.collection_name,
+      add: addPosts, remove: removePosts,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.editError)).subscribe(() => {
+      localStorage.removeItem('collectionEdit');
+      this.onEdit.emit();
+    });
   }
 
   async collectionGetPosts(more?: boolean): Promise<void> {
     if (!more) { localStorage.removeItem('collectionEdit'); }
     await lastValueFrom(
-      this.http.post<any>('/api/feed/saved_all', { feed: localStorage.getItem('collectionEdit'), session: localStorage.getItem('state') })
-        .pipe(catchError(this.editError))).then((data: any) => {
-          localStorage.setItem('collectionEdit', data.feed);
-          for (let post of this.collectionSelected) {
-            let k = data.posts.findIndex((res: any) => res.id == post.id);
-            if (data.posts[k]) {
-              data.posts[k].add = true;
-              data.posts[k].removeable = true;
-            }
+      this.http.post<any>('/api/feed/saved_all', {
+        feed: localStorage.getItem('collectionEdit'),
+        session: localStorage.getItem('state'),
+      }).pipe(catchError(this.editError))).then((data) => {
+        localStorage.setItem('collectionEdit', data.feed);
+        for (let post of this.collectionSelected) {
+          let k = data.posts.findIndex((res: any) => res.id == post.id);
+          if (data.posts[k]) {
+            data.posts[k].add = true;
+            data.posts[k].removeable = true;
           }
-          this.collectionPosts = this.collectionPosts.concat(data.posts);
-          this.hideIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
-          this.stopIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
-        });
+        }
+        this.collectionPosts = this.collectionPosts.concat(data.posts);
+        this.hideIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
+        this.stopIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
+      });
   }
+
+  @Output() onClose = new EventEmitter();
 
   collectionEditClose(): void {
     localStorage.removeItem('collectionEdit');

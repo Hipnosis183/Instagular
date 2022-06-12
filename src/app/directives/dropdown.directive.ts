@@ -1,13 +1,13 @@
-import { AfterViewInit, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 import tippy from 'tippy.js';
 
 @Directive({ selector: '[dropdown]' })
 
-export class DropdownDirective implements AfterViewInit {
+export class DropdownDirective {
 
   constructor(
     private elementRef: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
   ) { }
 
   @Input() dropdown!: HTMLElement;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -9,19 +9,19 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./create-collection.component.css']
 })
 
-export class CreateCollectionComponent implements OnInit {
+export class CreateCollectionComponent {
 
   constructor(private http: HttpClient) { }
 
-  @Output() onCreate = new EventEmitter();
-  @Output() onClose = new EventEmitter();
-  @Input() fromPost: string = '';
-
   collectionName: string = '';
   collectionPosts: any[] = [];
+  @Input() fromPost: string = '';
+  @Output() onCreate = new EventEmitter();
 
   private createError() {
-    return throwError(() => new Error('Collection error: cannot create collection.'));
+    return throwError(() => {
+      new Error('Collection error: cannot create collection.');
+    });
   }
 
   collectionCreate(): void {
@@ -36,26 +36,29 @@ export class CreateCollectionComponent implements OnInit {
       }
     }
     // Create new collection.
-    this.http.post<string>('/api/collection/create', { name: this.collectionName, medias: selectedPosts, session: localStorage.getItem('state') })
-      .pipe(catchError(this.createError))
-      .subscribe((data) => {
-        console.info('Collection created successfully!');
-        localStorage.removeItem('collectionCreate');
-        this.onCreate.emit();
-      });
+    this.http.post<string>('/api/collection/create', {
+      medias: selectedPosts, name: this.collectionName,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.createError)).subscribe(() => {
+      localStorage.removeItem('collectionCreate');
+      this.onCreate.emit();
+    });
   }
 
   collectionGetPosts(more?: boolean): void {
     if (!more) { localStorage.removeItem('collectionCreate'); }
-    this.http.post<any>('/api/feed/saved_all', { feed: localStorage.getItem('collectionCreate'), session: localStorage.getItem('state') })
-      .pipe(catchError(this.createError))
-      .subscribe((data: any) => {
-        localStorage.setItem('collectionCreate', data.feed);
-        this.collectionPosts = this.collectionPosts.concat(data.posts);
-        this.hideIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
-        this.stopIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
-      });
+    this.http.post<any>('/api/feed/saved_all', {
+      feed: localStorage.getItem('collectionCreate'),
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.createError)).subscribe((data) => {
+      localStorage.setItem('collectionCreate', data.feed);
+      this.collectionPosts = this.collectionPosts.concat(data.posts);
+      this.hideIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
+      this.stopIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
+    });
   }
+
+  @Output() onClose = new EventEmitter();
 
   collectionCreateClose(): void {
     localStorage.removeItem('collectionCreate');

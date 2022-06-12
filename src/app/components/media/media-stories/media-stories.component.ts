@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { debounce } from 'src/app/utils/debounce';
 
 @Component({
@@ -7,12 +7,9 @@ import { debounce } from 'src/app/utils/debounce';
   styleUrls: ['./media-stories.component.css']
 })
 
-export class MediaStoriesComponent implements OnInit {
+export class MediaStoriesComponent {
 
   constructor() { }
-
-  @Input() feedStories: any[] = [];
-  @Output() onReload = new EventEmitter();
 
   feedLoaded: boolean = true;
   originIndex: number = 0;
@@ -27,6 +24,8 @@ export class MediaStoriesComponent implements OnInit {
     this.storiesShow = false;
   }
 
+  @Output() onReload = new EventEmitter();
+
   reloadFeed(feed: string): void {
     this.feedLoaded = false;
     this.selectModel = null;
@@ -35,6 +34,7 @@ export class MediaStoriesComponent implements OnInit {
 
   selectModel: any = null;
   _selectModel: any = null;
+  @Input() feedStories: any[] = [];
 
   updateValueDebounced = debounce(() => this.updateValue(), 1000);
   updateValue(): void {
@@ -56,8 +56,5 @@ export class MediaStoriesComponent implements OnInit {
     if (changes['feedStories'].currentValue.length > 0) {
       this.feedLoaded = true;
     }
-  }
-
-  ngOnInit(): void {
   }
 }

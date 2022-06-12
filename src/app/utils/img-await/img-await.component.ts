@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'img-await',
@@ -6,10 +6,9 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./img-await.component.css']
 })
 
-export class ImgAwaitComponent implements OnInit {
+export class ImgAwaitComponent {
 
   constructor() { }
-
   display = 0;
 
   _source: any;
@@ -24,8 +23,5 @@ export class ImgAwaitComponent implements OnInit {
 
   loaded(): void {
     this.display = 1;
-  }
-
-  ngOnInit(): void {
   }
 }

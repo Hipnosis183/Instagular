@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { FormBuilder } from '@angular/forms';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -10,32 +10,26 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./page-login.component.css']
 })
 
-export class PageLoginComponent implements OnInit {
+export class PageLoginComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
   ) { }
 
-  loginForm = this.formBuilder.group({
-    username: '',
-    password: ''
-  });
+  loginForm = this.formBuilder.group({ username: '', password: '' });
 
   private loginError() {
-    return throwError(() => new Error('Login error: incorrect username or password.'));
+    return throwError(() => {
+      new Error('Login error: incorrect username or password.');
+    });
   }
 
   loginUser(): void {
     this.http.post<string>('/api/account/login', this.loginForm.value)
-      .pipe(catchError(this.loginError))
-      .subscribe((data) => {
-        console.info('Logged in successfully!');
+      .pipe(catchError(this.loginError)).subscribe((data) => {
         localStorage.setItem('state', JSON.stringify(data));
         window.location.reload();
       });
-  }
-
-  ngOnInit(): void {
   }
 }

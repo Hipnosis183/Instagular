@@ -9,12 +9,12 @@ const routes: Routes = [
   { path: ':id', component: PageUserComponent },
   { path: ':id/:tab', component: PageUserComponent },
   { path: ':id/:tab/:c_name', component: PageUserComponent },
-  { path: ':id/:tab/:c_name/:c_id', component: PageUserComponent }
+  { path: ':id/:tab/:c_name/:c_id', component: PageUserComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 
 export class AppRoutingModule { }

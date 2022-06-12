@@ -17,12 +17,13 @@ export class StoreService {
 
   loadSaved(more?: boolean): void {
     if (!more) { localStorage.removeItem('saved'); }
-    this.http.post<any>('/api/feed/saved', { feed: localStorage.getItem('saved'), id: localStorage.getItem('userpk'), session: localStorage.getItem('state') })
-      .pipe(catchError(this.savedError))
-      .subscribe((data: any) => {
-        console.info('User saved feed loaded successfully!');
-        localStorage.setItem('saved', data.feed);
-        store.savedPosts = more ? store.savedPosts.concat(data.collections) : data.collections;
-      });
+    this.http.post<any>('/api/feed/saved', {
+      feed: localStorage.getItem('saved'),
+      id: localStorage.getItem('userpk'),
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.savedError)).subscribe((data) => {
+      localStorage.setItem('saved', data.feed);
+      store.savedPosts = more ? store.savedPosts.concat(data.collections) : data.collections;
+    });
   }
 }

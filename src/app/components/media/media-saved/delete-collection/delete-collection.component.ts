@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -9,32 +9,31 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./delete-collection.component.css']
 })
 
-export class DeleteCollectionComponent implements OnInit {
+export class DeleteCollectionComponent {
 
   constructor(private http: HttpClient) { }
 
-  @Output() onDelete = new EventEmitter();
-  @Output() onCancel = new EventEmitter();
-
   @Input() collectionId: string = '';
+  @Output() onDelete = new EventEmitter();
 
   private deleteError() {
-    return throwError(() => new Error('Collection error: cannot delete collection.'));
+    return throwError(() => {
+      new Error('Collection error: cannot delete collection.');
+    });
   }
 
   collectionDelete(): void {
-    this.http.post<string>('/api/collection/delete', { id: this.collectionId, session: localStorage.getItem('state') })
-      .pipe(catchError(this.deleteError))
-      .subscribe((data) => {
-        console.info('Collection deleted successfully :(');
-        this.onDelete.emit();
-      });
+    this.http.post<string>('/api/collection/delete', {
+      id: this.collectionId,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.deleteError)).subscribe(() => {
+      this.onDelete.emit();
+    });
   }
+
+  @Output() onCancel = new EventEmitter();
 
   collectionDeleteCancel(): void {
     this.onCancel.emit();
-  }
-
-  ngOnInit(): void {
   }
 }

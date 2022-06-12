@@ -1,12 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  name: 'dateAgo'
-})
+@Pipe({ name: 'dateAgo' })
 
 export class DateAgoPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
+  transform(value: any): any {
     if (value) {
       const seconds = Math.floor((+new Date() - (+new Date(value) * 1000)) / 1000);
       const intervals: any = {

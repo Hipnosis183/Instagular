@@ -1,10 +1,10 @@
-import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { delay, filter } from 'rxjs/operators';
 
 @Directive({ selector: '[infiniteScroll]' })
 
-export class InfiniteScrollDirective implements OnDestroy, OnInit, AfterViewInit {
+export class InfiniteScrollDirective {
 
   constructor(private element: ElementRef) { }
 

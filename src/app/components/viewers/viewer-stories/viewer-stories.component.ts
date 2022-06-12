@@ -1,6 +1,6 @@
-import { Component, EventEmitter, HostListener, OnInit, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { lastValueFrom, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -10,25 +10,22 @@ import { catchError } from 'rxjs/operators';
   styleUrls: ['./viewer-stories.component.css']
 })
 
-export class ViewerStoriesComponent implements OnInit {
+export class ViewerStoriesComponent {
 
   constructor(
     private http: HttpClient,
-    public router: Router
+    public router: Router,
   ) { }
 
-  @Output() closeSend = new EventEmitter();
-
+  feedIndex: number = 0;
+  feedStoriesSeen: any[] = [];
   @Input() feedStories: any[] = [];
   @Input() seenStories: boolean = true;
-  feedStoriesSeen: any[] = [];
-  feedIndex: number = 0;
-
-  @Input() originIndex: number = 0;
-  originSeen: boolean = false;
 
   private storiesError() {
-    return throwError(() => new Error('Stories error: cannot load stories media information.'));
+    return throwError(() => {
+      new Error('Stories error: cannot load stories media information.');
+    });
   }
 
   async loadStories(index: number): Promise<void> {
@@ -45,13 +42,12 @@ export class ViewerStoriesComponent implements OnInit {
     }
     // Fetch selected stories media.
     let data: any = await lastValueFrom(
-      this.http.post<object[]>('/api/feed/reels_media', { session: localStorage.getItem("state"), stories: stories })
-        .pipe(catchError(this.storiesError))).then((data) => {
-          console.info('Stories media loaded successfully!'); return data;
-        });
+      this.http.post<any>('/api/feed/reels_media', {
+        stories: stories, session: localStorage.getItem('state'),
+      }).pipe(catchError(this.storiesError))).then((data) => { return data; });
     // Load the media items into the stories feed array.
     for (let media in data) {
-      let index = this.feedStories.findIndex((story) => story.id == data[media].id)
+      let index = this.feedStories.findIndex((story) => story.id == data[media].id);
       if (typeof (index) == 'number') { this.feedStories[index].items = data[media].items; }
     } this.openStories();
   }
@@ -64,10 +60,15 @@ export class ViewerStoriesComponent implements OnInit {
     this.storySeen();
   }
 
+  @Output() closeSend = new EventEmitter();
+
   closeStories(): void {
     if ((this.feedStoriesSeen.length > 0) && this.seenStories) {
       // Request watched stories to be marked as seen.
-      this.http.post('/api/media/seen', { session: localStorage.getItem("state"), stories: this.feedStoriesSeen }).subscribe();
+      this.http.post('/api/media/seen', {
+        stories: this.feedStoriesSeen,
+        session: localStorage.getItem('state'),
+      }).subscribe();
     }
     this.feedStoriesSeen = [];
     this.closeSend.emit();
@@ -97,6 +98,9 @@ export class ViewerStoriesComponent implements OnInit {
       this.storySeen();
     }
   }
+
+  originSeen: boolean = false;
+  @Input() originIndex: number = 0;
 
   async storiesNextSkip(): Promise<void> {
     // Close the viewer if it's the last story for the last user.
@@ -167,7 +171,10 @@ export class ViewerStoriesComponent implements OnInit {
   loadUserPage(username: string): void {
     if ((this.feedStoriesSeen.length > 0) && this.seenStories) {
       // Request watched stories to be marked as seen.
-      this.http.post('/api/media/seen', { session: localStorage.getItem("state"), stories: this.feedStoriesSeen }).subscribe();
+      this.http.post('/api/media/seen', {
+        stories: this.feedStoriesSeen,
+        session: localStorage.getItem('state'),
+      }).subscribe();
     }
     this.router.navigate(['/' + username]);
   }
