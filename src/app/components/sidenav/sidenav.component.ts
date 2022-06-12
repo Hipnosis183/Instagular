@@ -61,7 +61,9 @@ export class SidenavComponent implements OnInit {
       .subscribe(() => {
         console.info('Logged out successfully!');
         localStorage.removeItem('state');
-        window.location.reload();
+        localStorage.removeItem('userpk');
+        localStorage.removeItem('username');
+        window.location.assign('');
       });
   }
 

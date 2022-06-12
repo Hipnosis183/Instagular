@@ -1,4 +1,4 @@
-const { IgApiClient } = require('instagram-private-api');
+const { IgApiClient: Client } = require('instagram-private-api');
 
 const fetch = require('node-fetch');
 module.exports.encode = (req, res, next) => {
@@ -25,22 +25,12 @@ module.exports.encode = (req, res, next) => {
 
 module.exports.like = (req, res, next) => {
   ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
     try {
-      // Load the state from a previous session.
-      await client.state.deserialize(req.body.session);
       // Like the selected media.
-      await client.media.like({
-        mediaId: req.body.mediaId,
-        moduleInfo: {
-          module_name: 'profile',
-          user_id: client.state.cookieUserId,
-          username: req.cookies.seed,
-        }
-      });
+      await client.media.like({ mediaId: req.body.mediaId, moduleInfo: { module_name: 'profile' } });
       res.status(200);
       res.send();
     } catch (e) {
@@ -52,13 +42,10 @@ module.exports.like = (req, res, next) => {
 
 module.exports.save = (req, res, next) => {
   ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
     try {
-      // Load the state from a previous session.
-      await client.state.deserialize(req.body.session);
       // Save the selected media.
       await client.media.save(req.body.mediaId, req.body.collectionId ? [req.body.collectionId] : []);
       res.status(200);
@@ -72,37 +59,29 @@ module.exports.save = (req, res, next) => {
 
 module.exports.seen = (req, res, next) => {
   ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
-    // Load the state from a previous session.
+    // Create client instance an load session state.
+    const client = new Client();
     await client.state.deserialize(req.body.session);
-    // Mark selected stories as seen.
-    await client.story.seen(req.body.stories);
-    res.status(200);
-    res.send();
+    try {
+      // Mark selected stories as seen.
+      await client.story.seen(req.body.stories);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
   })();
 };
 
 module.exports.unlike = (req, res, next) => {
   ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
     try {
-      // Load the state from a previous session.
-      await client.state.deserialize(req.body.session);
       // Unlike the selected media.
-      await client.media.unlike({
-        mediaId: req.body.mediaId,
-        moduleInfo: {
-          module_name: 'profile',
-          user_id: client.state.cookieUserId,
-          username: req.cookies.seed,
-        }
-      });
+      await client.media.unlike({ mediaId: req.body.mediaId, moduleInfo: { module_name: 'profile' } });
       res.status(200);
       res.send();
     } catch (e) {
@@ -114,13 +93,10 @@ module.exports.unlike = (req, res, next) => {
 
 module.exports.unsave = (req, res, next) => {
   ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
     try {
-      // Load the state from a previous session.
-      await client.state.deserialize(req.body.session);
       // Unsave the selected media.
       await client.media.unsave(req.body.mediaId, req.body.collectionId ? [req.body.collectionId] : null);
       res.status(200);
@@ -134,13 +110,10 @@ module.exports.unsave = (req, res, next) => {
 
 module.exports.video = (req, res, next) => {
   ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
     try {
-      // Load the state from a previous session.
-      await client.state.deserialize(req.body.session);
       // Get Video/IGTV media object information.
       const mediaVideo = await client.video.info(req.body.id);
       // Create custom object to return data.

@@ -1,17 +1,13 @@
-const { IgApiClient } = require('instagram-private-api');
+const { IgApiClient: Client } = require('instagram-private-api');
 
 module.exports.create = (req, res, next) => {
   ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
     try {
-      // Load the state from a previous session.
-      await client.state.deserialize(req.body.session);
       // Create collection with the given information.
       await client.collections.create(req.body.name, req.body.medias);
-      // Return request status.
       res.status(200);
       res.send();
     } catch (e) {
@@ -23,16 +19,12 @@ module.exports.create = (req, res, next) => {
 
 module.exports.delete = (req, res, next) => {
   ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
     try {
-      // Load the state from a previous session.
-      await client.state.deserialize(req.body.session);
       // Delete selected collection.
       await client.collections.delete(req.body.id);
-      // Return request status.
       res.status(200);
       res.send();
     } catch (e) {
@@ -44,16 +36,12 @@ module.exports.delete = (req, res, next) => {
 
 module.exports.edit = (req, res, next) => {
   ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
     try {
-      // Load the state from a previous session.
-      await client.state.deserialize(req.body.session);
       // Edit collection with the given information.
       await client.collections.edit(req.body.id, req.body.name, req.body.add, req.body.remove);
-      // Return request status.
       res.status(200);
       res.send();
     } catch (e) {

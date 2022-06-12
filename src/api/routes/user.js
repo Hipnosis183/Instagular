@@ -1,15 +1,11 @@
-const { IgApiClient } = require('instagram-private-api');
+const { IgApiClient: Client } = require('instagram-private-api');
 
 module.exports.profile = (req, res, next) => {
   ; (async () => {
-    // Create new Instagram client instance.
-    const client = new IgApiClient();
-    // Generate fake device information based on seed.
-    client.state.generateDevice(req.cookies.seed);
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
     try {
-      // Load the state from a previous session.
-      await client.state.deserialize(req.body.session);
-      // Set the user id.
       const userId = req.body.id ? await client.user.getIdByUsername(req.body.id) : client.state.cookieUserId;
       // Get current user profile information.
       let userProfile = await client.user.info(userId);
@@ -30,7 +26,7 @@ module.exports.profile = (req, res, next) => {
       }
       // Return user profile information.
       res.status(200);
-      res.send(JSON.stringify(userProfile));
+      res.json(userProfile);
     } catch (e) {
       res.status(400);
       res.send(e);
