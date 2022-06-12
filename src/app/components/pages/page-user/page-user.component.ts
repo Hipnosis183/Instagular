@@ -158,10 +158,10 @@ export class PageUserComponent implements OnInit {
 
   async loadVideo(): Promise<void> {
     await lastValueFrom(
-      this.http.post<any>('/api/feed/video', { id: this.userProfile.pk, name: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem('state'), cursor: localStorage.getItem('video') })
+      this.http.post<any>('/api/feed/video', { feed: localStorage.getItem('video'), id: this.userProfile.pk, name: this.route.snapshot.paramMap.get('id'), session: localStorage.getItem('state') })
         .pipe(catchError(this.videoError))).then((data: any) => {
           console.info('User Video feed loaded successfully!');
-          localStorage.setItem('video', data.cursor);
+          localStorage.setItem('video', data.feed);
           this.userVideos = this.userVideos.concat(data.posts);
         });
   }

@@ -28,7 +28,7 @@ export class MediaVideoComponent implements OnInit {
 
   openMedia(post: any): void {
     // If the media information hasn't been requested yet.
-    if (!post.node.instangular) {
+    if (!post.node.instagular) {
       this.http.post('/api/media/video', { session: localStorage.getItem('state'), id: post.node.shortcode })
         .pipe(catchError(this.mediaError))
         .subscribe((data) => {
@@ -37,12 +37,12 @@ export class MediaVideoComponent implements OnInit {
           this.feedIndex.current = this.feedPosts.findIndex((res) => res.node.id == post.node.id);
           this.feedIndex.total = this.feedPosts.length - 1;
           // Store results to avoid further request for the selected media.
-          this.feedPosts[this.feedIndex.current].node.instangular = data;
+          this.feedPosts[this.feedIndex.current].node.instagular = data;
         });
     } else {
-      console.info('Media information already loaded.')
+      console.info('Media information already loaded.');
       this.feedIndex.current = this.feedPosts.findIndex((res) => res.node.id == post.node.id);
-      this.feedPost = this.feedPosts[this.feedIndex.current].node.instangular;
+      this.feedPost = this.feedPosts[this.feedIndex.current].node.instagular;
     }
   }
 
@@ -53,36 +53,36 @@ export class MediaVideoComponent implements OnInit {
   prevPost(): void {
     this.feedIndex.current--;
     // If the media information hasn't been requested yet.
-    if (!this.feedPosts[this.feedIndex.current].node.instangular) {
+    if (!this.feedPosts[this.feedIndex.current].node.instagular) {
       this.http.post('/api/media/video', { session: localStorage.getItem('state'), id: this.feedPosts[this.feedIndex.current].node.shortcode })
         .pipe(catchError(this.mediaError))
         .subscribe((data) => {
           console.info('Media information loaded successfully!');
           this.feedPost = data;
           // Store results to avoid further request for the selected media.
-          this.feedPosts[this.feedIndex.current].node.instangular = data;
+          this.feedPosts[this.feedIndex.current].node.instagular = data;
         });
     } else {
       console.info('Media information already loaded.')
-      this.feedPost = this.feedPosts[this.feedIndex.current].node.instangular;
+      this.feedPost = this.feedPosts[this.feedIndex.current].node.instagular;
     }
   }
 
   nextPost(): void {
     this.feedIndex.current++;
     // If the media information hasn't been requested yet.
-    if (!this.feedPosts[this.feedIndex.current].node.instangular) {
+    if (!this.feedPosts[this.feedIndex.current].node.instagular) {
       this.http.post('/api/media/video', { session: localStorage.getItem('state'), id: this.feedPosts[this.feedIndex.current].node.shortcode })
         .pipe(catchError(this.mediaError))
         .subscribe((data) => {
           console.info('Media information loaded successfully!');
           this.feedPost = data;
           // Store results to avoid further request for the selected media.
-          this.feedPosts[this.feedIndex.current].node.instangular = data;
+          this.feedPosts[this.feedIndex.current].node.instagular = data;
         });
     } else {
       console.info('Media information already loaded.')
-      this.feedPost = this.feedPosts[this.feedIndex.current].node.instangular;
+      this.feedPost = this.feedPosts[this.feedIndex.current].node.instagular;
     }
   }
 
@@ -121,9 +121,9 @@ export class MediaVideoComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    const cursor: any = localStorage.getItem('video');
-    this.hideIntersect = cursor ? false : true;
-    this.stopIntersect = cursor ? false : true;
+    const feed: any = localStorage.getItem('video');
+    this.hideIntersect = JSON.parse(feed).moreAvailable ? false : true;
+    this.stopIntersect = JSON.parse(feed).moreAvailable ? false : true;
   }
 
   ngOnInit(): void {
