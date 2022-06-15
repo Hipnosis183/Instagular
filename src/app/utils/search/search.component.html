@@ -1,49 +1,63 @@
 <div *ngIf="!small" class="search">
-  <input [(ngModel)]="selectModel" [dropdown]="searchBox" dropdownPlace="bottom" placeholder="Search" (input)="updateValueDebounced()" />
+  <input [(ngModel)]="selectModel" [dropdown]="searchBox" dropdownPlace="bottom" placeholder="Search" (click)="loadRecent()" (input)="_updateValue()" />
   <img src="/assets/images/search-lite.svg" class="search-icon">
   <img *ngIf="selectModel" (click)="clearValue()" src="/assets/images/close-circle.svg" class="search-clear">
   <div #searchBox>
-    <div *ngIf="queryResults.length > 0" class="search-modal">
-      <div *ngFor="let user of queryResults" [routerLink]="'/' + user.username" class="search-item">
-        <img-await [source]="user.profile_pic_url" class="search-image"></img-await>
-        <div class="flex flex-col">
-          <div class="flex space-x-2">
-            <div class="text-main">{{ user.full_name ? user.full_name : user.username }}</div>
-            <img *ngIf="user.is_verified" src="/assets/images/verified.svg">
+    <div *ngIf="!selectModel && !isLoading && store.state.recentSearches.length > 0" class="search-header">
+      <div class="recent-text">Recent</div>
+      <div dropdownIgnore (click)="clearRecent()" class="recent-clear">Clear All</div>
+    </div>
+    <div *ngIf="queryResults.length > 0" [hidden]="isLoading" class="search-modal">
+      <div *ngFor="let user of queryResults" [class]="selectModel ? 'pr-3' :'pr-7'" class="search-item">
+        <div (click)="loadProfile(user)">
+          <img-await [source]="user.profile_pic_url" class="search-image"></img-await>
+          <div class="search-text">
+            <div class="flex space-x-2">
+              <div class="text-main">{{ user.full_name ? user.full_name : user.username }}</div>
+              <img *ngIf="user.is_verified" src="/assets/images/verified.svg">
+            </div>
+            <div class="text-sub">@{{ user.username }}</div>
           </div>
-          <div class="text-sub">@{{ user.username }}</div>
         </div>
+        <img *ngIf="!selectModel" dropdownIgnore src="/assets/images/close.svg">
       </div>
     </div>
-    <div *ngIf="!selectModel" class="search-none">No recent searches.</div>
-    <div *ngIf="selectModel && !queryFinished" class="search-none">Searching...</div>
-    <div *ngIf="selectModel && queryFinished && queryResults.length == 0" class="search-none">No results found.</div>
+    <div *ngIf="!selectModel && store.state.recentSearches.length == 0" class="search-none">No recent searches.</div>
+    <div *ngIf="selectModel && isLoading" class="search-none">Searching...</div>
+    <div *ngIf="selectModel && !isLoading && queryFinished && queryResults.length == 0" class="search-none">No results found.</div>
   </div>
 </div>
 <div *ngIf="small" class="search-s">
-  <button [dropdown]="searchBox" dropdownPlace="right-start">
+  <button [dropdown]="searchBox" dropdownPlace="right-start" (click)="loadRecent()">
     <img [src]="'/assets/images/search.svg'">
   </button>
   <div #searchBox>
     <div class="search-s-bar">
-      <input dropdownIgnore [(ngModel)]="selectModel" placeholder="Search" (input)="updateValueDebounced()" />
+      <input dropdownIgnore [(ngModel)]="selectModel" placeholder="Search" (input)="_updateValue()" />
       <img dropdownIgnore src="/assets/images/search-lite.svg" class="search-s-icon">
       <img dropdownIgnore *ngIf="selectModel" (click)="clearValue()" src="/assets/images/close-circle.svg" class="search-s-clear">
     </div>
-    <div *ngIf="queryResults.length > 0" class="search-modal">
-      <div *ngFor="let user of queryResults" [routerLink]="'/' + user.username" class="search-item">
-        <img-await [source]="user.profile_pic_url" class="search-image"></img-await>
-        <div class="flex flex-col">
-          <div class="flex space-x-2">
-            <div class="text-main">{{ user.full_name ? user.full_name : user.username }}</div>
-            <img *ngIf="user.is_verified" src="/assets/images/verified.svg">
+    <div *ngIf="!selectModel && !isLoading && store.state.recentSearches.length > 0" class="search-header">
+      <div class="recent-text">Recent</div>
+      <div dropdownIgnore (click)="clearRecent()" class="recent-clear">Clear All</div>
+    </div>
+    <div *ngIf="queryResults.length > 0" [hidden]="isLoading" class="search-modal">
+      <div *ngFor="let user of queryResults" [class]="selectModel ? 'pr-3' :'pr-7'" class="search-item">
+        <div (click)="loadProfile(user)">
+          <img-await [source]="user.profile_pic_url" class="search-image"></img-await>
+          <div class="search-text">
+            <div class="flex space-x-2">
+              <div class="text-main">{{ user.full_name ? user.full_name : user.username }}</div>
+              <img *ngIf="user.is_verified" src="/assets/images/verified.svg">
+            </div>
+            <div class="text-sub">@{{ user.username }}</div>
           </div>
-          <div class="text-sub">@{{ user.username }}</div>
         </div>
+        <img *ngIf="!selectModel" dropdownIgnore (click)="hideRecent(user.pk)" src="/assets/images/close.svg">
       </div>
     </div>
-    <div *ngIf="!selectModel" class="search-none">No recent searches.</div>
-    <div *ngIf="selectModel && !queryFinished" class="search-none">Searching...</div>
-    <div *ngIf="selectModel && queryFinished && queryResults.length == 0" class="search-none">No results found.</div>
+    <div *ngIf="!selectModel && store.state.recentSearches.length == 0" class="search-none">No recent searches.</div>
+    <div *ngIf="selectModel && isLoading" class="search-none">Searching...</div>
+    <div *ngIf="selectModel && !isLoading && queryFinished && queryResults.length == 0" class="search-none">No results found.</div>
   </div>
 </div>

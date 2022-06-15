@@ -48,6 +48,10 @@ router.post('/media/video', media.video);
 
 // Search route endpoints.
 const search = require('./search');
+router.post('/search/recent', search.recent);
+router.post('/search/recent_clear', search.recent_clear);
+router.post('/search/recent_hide', search.recent_hide);
+router.post('/search/recent_register', search.recent_register);
 router.post('/search/users', search.users);
 
 // User route endpoints.
