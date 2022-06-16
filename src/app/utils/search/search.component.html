@@ -1,3 +1,11 @@
+<dialog *ngIf="_clearRecent">
+  <div class="flex flex-col">
+    <div class="clear-title">Clear Search History?</div>
+    <div class="clear-subtitle">You won't be able to undo this. If you clear your search history, you may still see accounts you've searched for as suggested results.</div>
+  </div>
+  <div (click)="clearRecent()" class="clear-button clear">Clear</div>
+  <div (click)="clearRecentOpen()" class="clear-button cancel">Cancel</div>
+</dialog>
 <div *ngIf="!small" class="search">
   <input [(ngModel)]="selectModel" [dropdown]="searchBox" dropdownPlace="bottom" placeholder="Search" (click)="loadRecent()" (input)="_updateValue()" />
   <img src="/assets/images/search-lite.svg" class="search-icon">
@@ -5,7 +13,7 @@
   <div #searchBox>
     <div *ngIf="!selectModel && !isLoading && store.state.recentSearches.length > 0" class="search-header">
       <div class="recent-text">Recent</div>
-      <div dropdownIgnore (click)="clearRecent()" class="recent-clear">Clear All</div>
+      <div (click)="clearRecentOpen()" class="recent-clear">Clear All</div>
     </div>
     <div *ngIf="queryResults.length > 0" [hidden]="isLoading" class="search-modal">
       <div *ngFor="let user of queryResults" class="search-item">
@@ -45,7 +53,7 @@
     </div>
     <div *ngIf="!selectModel && !isLoading && store.state.recentSearches.length > 0" class="search-header">
       <div class="recent-text">Recent</div>
-      <div dropdownIgnore (click)="clearRecent()" class="recent-clear">Clear All</div>
+      <div (click)="clearRecentOpen()" class="recent-clear">Clear All</div>
     </div>
     <div *ngIf="queryResults.length > 0" [hidden]="isLoading" class="search-modal">
       <div *ngFor="let user of queryResults" class="search-item">

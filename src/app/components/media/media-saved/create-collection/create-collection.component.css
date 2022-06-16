@@ -6,7 +6,7 @@
   @apply h-full object-cover w-full;
 }
 .collection-name input {
-  @apply bg-slate-100 font-light px-5 py-4 w-full;
+  @apply bg-slate-50 font-light px-5 py-4 w-full;
 }
 .collection-name textarea:focus, input:focus{
   outline: none;
@@ -35,12 +35,6 @@
 .create-button div {
   @apply absolute h-full top-0 w-full;
 }
-.create-container {
-  @apply fixed flex h-full items-center justify-center left-0 top-0 w-full z-20;
-}
-.create-contents {
-  @apply absolute flex h-full items-center justify-center w-full;
-}
 .create-header {
   @apply flex h-[70px] items-center justify-center relative;
 }
@@ -49,10 +43,4 @@
 }
 .create-header img {
   @apply absolute cursor-pointer mr-6 right-0 w-4;
-}
-.create-modal {
-  @apply bg-slate-100 divide-slate-200 divide-y-[1px] rounded-xl text-slate-800 w-[400px];
-}
-.create-overlay {
-  @apply bg-black bg-opacity-60 h-full w-full;
 }

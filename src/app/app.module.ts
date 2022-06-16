@@ -23,6 +23,7 @@ import { ViewerStoriesComponent } from './components/viewers/viewer-stories/view
 import { ViewerUsersComponent } from './components/viewers/viewer-users/viewer-users.component';
 
 // Utility components.
+import { DialogComponent } from './utils/dialog/dialog.component';
 import { ImgAwaitComponent } from './utils/img-await/img-await.component';
 import { SearchComponent } from './utils/search/search.component';
 
@@ -58,6 +59,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     ViewerStoriesComponent,
     ViewerUsersComponent,
     // Utility components.
+    DialogComponent,
     ImgAwaitComponent,
     SearchComponent,
     // Directives.

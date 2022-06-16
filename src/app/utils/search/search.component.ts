@@ -77,12 +77,19 @@ export class SearchComponent {
     }
   }
 
+  _clearRecent: boolean = false;
+
+  clearRecentOpen(): void {
+    this._clearRecent = !this._clearRecent;
+  }
+
   clearRecent(): void {
     this.http.post<any>('/api/search/recent_clear', {
       session: localStorage.getItem('state'),
     }).pipe(catchError(this.recentError)).subscribe(() => {
       this.store.state.recentSearches = [];
       this.queryResults = [];
+      this.clearRecentOpen();
     });
   }
 
@@ -108,7 +115,7 @@ export class SearchComponent {
       id: user.pk, session: localStorage.getItem('state'),
     }).pipe(catchError(this.recentError)).subscribe(() => {
       const i = this.store.state.recentSearches.findIndex((res: any) => res.pk == user.pk);
-      if (i) { this.store.state.recentSearches.splice(i, 1); }
+      if (i >= 0) { this.store.state.recentSearches.splice(i, 1); }
       this.store.state.recentSearches.unshift(user);
       this.router.navigate(['/' + user.username]);
     });

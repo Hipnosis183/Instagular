@@ -1,0 +1,16 @@
+:host {
+  display: block;
+}
+
+.dialog-container {
+  @apply fixed flex h-full items-center justify-center left-0 top-0 w-full z-20;
+}
+.dialog-contents {
+  @apply absolute flex h-full items-center justify-center w-full;
+}
+.dialog-modal {
+  @apply bg-slate-50 rounded-xl text-slate-800 w-[400px];
+}
+.dialog-overlay {
+  @apply bg-black bg-opacity-60 h-full w-full;
+}
