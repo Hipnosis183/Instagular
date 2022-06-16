@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { DelayService } from 'src/app/services/delay.service';
 import { StoreService } from 'src/app/services/store.service';
-import { debounce } from 'src/app/utils/debounce';
 
 @Component({
   selector: 'search',
@@ -15,6 +15,7 @@ import { debounce } from 'src/app/utils/debounce';
 export class SearchComponent {
 
   constructor(
+    private delay: DelayService,
     private http: HttpClient,
     public router: Router,
     public store: StoreService,
@@ -38,7 +39,7 @@ export class SearchComponent {
     this.isLoading = true;
     this.updateValueDebounced();
   }
-  updateValueDebounced = debounce(() => this.updateValue(), 2000);
+  updateValueDebounced = this.delay.debounce(() => this.updateValue(), 2000);
   updateValue(): void {
     if (this.selectModel && this.selectModel.length > 0) {
       this.http.post<any>('/api/search/users', {

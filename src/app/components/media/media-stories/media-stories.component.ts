@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { debounce } from 'src/app/utils/debounce';
+import { DelayService } from 'src/app/services/delay.service';
 
 @Component({
   selector: 'media-stories',
@@ -9,7 +9,7 @@ import { debounce } from 'src/app/utils/debounce';
 
 export class MediaStoriesComponent {
 
-  constructor() { }
+  constructor(private delay: DelayService) { }
 
   feedLoaded: boolean = true;
   originIndex: number = 0;
@@ -36,7 +36,7 @@ export class MediaStoriesComponent {
   _selectModel: any = null;
   @Input() feedStories: any[] = [];
 
-  updateValueDebounced = debounce(() => this.updateValue(), 1000);
+  updateValueDebounced = this.delay.debounce(() => this.updateValue(), 1000);
   updateValue(): void {
     this._selectModel = this.selectModel;
     if (this.selectModel && this.selectModel.length > 0) {
