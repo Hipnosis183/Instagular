@@ -40,17 +40,14 @@
 .search-icon {
   @apply absolute h-10 p-[11px];
 }
+.search-icons {
+  @apply absolute flex flex-col h-full justify-evenly right-2 w-4;
+}
 .search-image {
-  @apply min-w-[3rem] overflow-hidden rounded-full w-12;
+  @apply h-12 min-h-[3rem] min-w-[3rem] overflow-hidden rounded-full w-12;
 }
 .search-item {
-  @apply hover:bg-slate-100 cursor-pointer flex items-center pl-3 py-2 relative w-full;
-}
-.search-item > div {
-  @apply contents space-x-4;
-}
-.search-item > img {
-  @apply absolute right-2 w-3;
+  @apply hover:bg-slate-100 cursor-pointer flex items-center pl-3 pr-7 py-2 relative w-full;
 }
 .search-modal {
   @apply overflow-x-hidden overflow-y-auto w-[280px] whitespace-nowrap;
@@ -58,6 +55,9 @@
 }
 .search-none {
   @apply cursor-default py-2 text-center text-sub w-[280px];
+}
+.search-picture {
+  @apply border-2 flex p-0.5 rounded-full;
 }
 .search-text {
   @apply flex flex-col overflow-hidden;

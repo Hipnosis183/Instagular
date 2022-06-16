@@ -10,12 +10,15 @@
    height="24"
    width="24"
    viewBox="0 0 24 24"
+   fill="none"
+   stroke="#334155"
+   stroke-width="2px"
    version="1.1"
-   id="svg4"
-   sodipodi:docname="profile-21.svg"
+   id="svg6"
+   sodipodi:docname="lock0.svg"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
   <metadata
-     id="metadata10">
+     id="metadata12">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -26,7 +29,7 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs8" />
+     id="defs10" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -38,18 +41,18 @@
      inkscape:pageshadow="2"
      inkscape:window-width="1600"
      inkscape:window-height="833"
-     id="namedview6"
+     id="namedview8"
      showgrid="false"
-     inkscape:zoom="19.666667"
-     inkscape:cx="6.3559329"
-     inkscape:cy="13.151654"
+     inkscape:zoom="9.8333333"
+     inkscape:cx="12"
+     inkscape:cy="12"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg4" />
+     inkscape:current-layer="svg6" />
   <path
-     id="circle830"
-     style="fill:none;fill-opacity:1;stroke:#1e293b;stroke-width:2.19986534;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
-     d="m 20.67348,18.993724 c 0,2.788012 -3.470072,3.906343 -8.759118,3.906343 -5.1177696,0 -8.5878424,-1.118331 -8.5878424,-3.906343 0,-5.07169 5.0115553,-7.33178 8.5878424,-7.33178 3.576287,0 8.759118,2.374275 8.759118,7.33178 z M 16.962505,6.1480754 A 5.0481423,5.0481423 0 0 1 11.914362,11.196218 5.0481423,5.0481423 0 0 1 6.86622,6.1480754 5.0481423,5.0481423 0 0 1 11.914362,1.0999329 5.0481423,5.0481423 0 0 1 16.962505,6.1480754 Z"
+     id="path4"
+     d="m 5.4303713,9.6607103 c -0.679748,-5.7044455 1.6433589,-8.276612 6.5690847,-8.3821089 5.158472,0.1054969 7.227081,2.7266053 6.570173,8.3821089 M 1.1963568,16.101459 c 0,-5.762088 1.4051751,-6.6223773 10.8041872,-6.6223773 9.400099,0 10.803099,0.8602893 10.803099,6.6223773 0,5.759913 -1.403,6.620202 -10.803099,6.620202 -9.3990121,0 -10.8041872,-0.860289 -10.8041872,-6.620202"
+     style="stroke-width:2.39271307;stroke-miterlimit:4;stroke-dasharray:none"
      inkscape:connector-curvature="0" />
 </svg>
