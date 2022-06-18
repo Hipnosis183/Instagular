@@ -49,12 +49,11 @@ export class MediaFeedComponent {
   }
 
   likeMedia(id: string): void {
+    let i = this.feedPosts.findIndex((res) => res.id == id);
+    this.feedPosts[i].has_liked = true;
     this.http.post('/api/media/like', {
       mediaId: id, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.likeError)).subscribe(() => {
-      let i = this.feedPosts.findIndex((res) => res.id == id);
-      this.feedPosts[i].has_liked = true;
-    });
+    }).pipe(catchError(this.likeError));
   }
 
   private unlikeError() {
@@ -64,12 +63,11 @@ export class MediaFeedComponent {
   }
 
   unlikeMedia(id: string): void {
+    let i = this.feedPosts.findIndex((res) => res.id == id);
+    this.feedPosts[i].has_liked = false;
     this.http.post('/api/media/unlike', {
       mediaId: id, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.unlikeError)).subscribe(() => {
-      let i = this.feedPosts.findIndex((res) => res.id == id);
-      this.feedPosts[i].has_liked = false;
-    });
+    }).pipe(catchError(this.unlikeError));
   }
 
   private saveError() {
@@ -79,19 +77,18 @@ export class MediaFeedComponent {
   }
 
   saveMedia(ids: any): void {
+    let i = this.feedPosts.findIndex((res) => res.id == ids.media);
+    this.feedPosts[i].has_viewer_saved = true;
+    if (ids.collection) {
+      if (this.feedPosts[i].saved_collection_ids) {
+        this.feedPosts[i].saved_collection_ids.push(ids.collection);
+      } else { this.feedPosts[i].saved_collection_ids = [ids.collection]; }
+    }
     this.http.post('/api/media/save', {
       collectionId: ids.collection, mediaId: ids.media,
       session: localStorage.getItem('state'),
     }).pipe(catchError(this.saveError)).subscribe(() => {
-      let i = this.feedPosts.findIndex((res) => res.id == ids.media);
-      this.feedPosts[i].has_viewer_saved = true;
-      if (ids.collection) {
-        if (this.feedPosts[i].saved_collection_ids) {
-          this.feedPosts[i].saved_collection_ids.push(ids.collection);
-        } else {
-          this.feedPosts[i].saved_collection_ids = [ids.collection];
-        }
-      } this.store.loadSaved();
+      this.store.loadSaved();
     });
   }
 
@@ -102,17 +99,17 @@ export class MediaFeedComponent {
   }
 
   unsaveMedia(ids: any): void {
+    let i = this.feedPosts.findIndex((res) => res.id == ids.media);
+    this.feedPosts[i].has_viewer_saved = ids.collection ? true : false;
+    if (ids.collection) {
+      let k = this.feedPosts[i].saved_collection_ids.indexOf(ids.collection);
+      this.feedPosts[i].saved_collection_ids.splice(k, 1);
+    } else { this.feedPosts[i].saved_collection_ids = []; }
     this.http.post('/api/media/unsave', {
       collectionId: ids.collection, mediaId: ids.media,
       session: localStorage.getItem('state'),
     }).pipe(catchError(this.unsaveError)).subscribe(() => {
-      let i = this.feedPosts.findIndex((res) => res.id == ids.media);
-      this.feedPosts[i].has_viewer_saved = ids.collection ? true : false;
-      if (ids.collection) {
-        this.feedPosts[i].saved_collection_ids.splice(this.feedPosts[i].saved_collection_ids.indexOf(ids.collection), 1);
-      } else {
-        this.feedPosts[i].saved_collection_ids = [];
-      } this.store.loadSaved();
+      this.store.loadSaved();
     });
   }
 

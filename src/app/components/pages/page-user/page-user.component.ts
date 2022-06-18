@@ -24,19 +24,28 @@ export class PageUserComponent {
     public store: StoreService,
   ) { this.router.routeReuseStrategy.shouldReuseRoute = () => false; }
 
-  feedSelected: string = 'timeline';
+  feedSelect: string = 'timeline';
+  feedSelected: any = {
+    timeline: false,
+    reels: false,
+    video: false,
+    tagged: false
+  };
   feedLoaded: any = {
     timeline: false,
     reels: false,
     video: false,
     tagged: false,
-    saved: false
+    saved: false,
+    followers: false,
+    following: false,
   };
 
   async feedTimeline(): Promise<void> {
-    this.feedSelected = 'timeline';
+    this.feedSelect = 'timeline';
     this.location.go(this.userProfile.username);
-    if (!this.feedLoaded.timeline) {
+    if (!this.feedSelected.timeline) {
+      this.feedSelected.timeline = true;
       await this.loadUser();
       this.feedLoaded.timeline = true;
     }
@@ -44,9 +53,10 @@ export class PageUserComponent {
 
   async feedReels(): Promise<void> {
     if (this.userProfile.total_clips_count) {
-      this.feedSelected = 'reels';
+      this.feedSelect = 'reels';
       this.location.go(this.userProfile.username + '/reels');
-      if (!this.feedLoaded.reels) {
+      if (!this.feedSelected.reels) {
+        this.feedSelected.reels = true;
         await this.loadReels();
         this.feedLoaded.reels = true;
       }
@@ -55,9 +65,10 @@ export class PageUserComponent {
 
   async feedVideo(): Promise<void> {
     if (this.userProfile.has_videos) {
-      this.feedSelected = 'video';
+      this.feedSelect = 'video';
       this.location.go(this.userProfile.username + '/channel');
-      if (!this.feedLoaded.video) {
+      if (!this.feedSelected.video) {
+        this.feedSelected.video = true;
         await this.loadVideo();
         this.feedLoaded.video = true;
       }
@@ -66,9 +77,10 @@ export class PageUserComponent {
 
   async feedTagged(): Promise<void> {
     if (this.userProfile.usertags_count) {
-      this.feedSelected = 'tagged';
+      this.feedSelect = 'tagged';
       this.location.go(this.userProfile.username + '/tagged');
-      if (!this.feedLoaded.tagged) {
+      if (!this.feedSelected.tagged) {
+        this.feedSelected.tagged = true;
         await this.loadTagged();
         this.feedLoaded.tagged = true;
       }
@@ -79,7 +91,7 @@ export class PageUserComponent {
 
   async feedSaved(): Promise<void> {
     if (this.userProfile.has_saved_items) {
-      this.feedSelected = 'saved';
+      this.feedSelect = 'saved';
       this.location.go(this.userProfile.username + '/saved' + this.feedSavedUrl);
     } else { this.feedTimeline(); }
   }
@@ -226,12 +238,11 @@ export class PageUserComponent {
   }
 
   followUser(): void {
+    this.userProfile.friendship.following = true;
     this.http.post('/api/friendship/follow', {
       userId: this.userProfile.pk,
       session: localStorage.getItem('state'),
-    }).pipe(catchError(this.followError)).subscribe(() => {
-      this.userProfile.friendship.following = true;
-    });
+    }).pipe(catchError(this.followError));
   }
 
   private unfollowError() {
@@ -241,17 +252,17 @@ export class PageUserComponent {
   }
 
   unfollowUser(): void {
+    this.userProfile.friendship.following = false;
     this.http.post('/api/friendship/unfollow', {
       userId: this.userProfile.pk,
       session: localStorage.getItem('state'),
-    }).pipe(catchError(this.unfollowError)).subscribe(() => {
-      this.userProfile.friendship.following = false;
-    });
+    }).pipe(catchError(this.unfollowError));
   }
 
-  listIndex: number = 0;
-  listTitle: string = '';
-  usersList: any[] = [];
+  userFollowers: any[] = [];
+  userFollowing: any[] = [];
+  showFollowers: boolean = false;
+  showFollowing: boolean = false;
 
   private followersError() {
     return throwError(() => {
@@ -259,54 +270,64 @@ export class PageUserComponent {
     });
   }
 
+  _loadFollowers(): void {
+    this.openFollowers();
+    if (!this.feedLoaded.followers) {
+      this.loadFollowers();
+      this.feedLoaded.followers = true;
+    }
+  }
   loadFollowers(): void {
     this.http.post<any>('/api/feed/followers', {
-      feed: localStorage.getItem('follow'),
+      feed: localStorage.getItem('followers'),
       id: this.userProfile.pk,
       session: localStorage.getItem('state'),
     }).pipe(catchError(this.followersError)).subscribe((data) => {
-      localStorage.setItem('follow', data.feed);
-      this.listIndex = 0; this.listTitle = 'Followers';
-      this.usersList = this.usersList.concat(data.followers);
+      localStorage.setItem('followers', data.feed);
+      this.userFollowers = this.userFollowers.concat(data.followers);
     });
+  }
+
+  openFollowers(): void {
+    this.showFollowers = !this.showFollowers;
   }
 
   private followingError() {
     return throwError(() => new Error('Following error: cannot load following information.'));
   }
 
+  _loadFollowing(): void {
+    this.openFollowing();
+    if (!this.feedLoaded.following) {
+      this.loadFollowing();
+      this.feedLoaded.following = true;
+    }
+  }
   loadFollowing(): void {
     this.http.post<any>('/api/feed/following', {
-      feed: localStorage.getItem('follow'),
+      feed: localStorage.getItem('following'),
       id: this.userProfile.pk,
       session: localStorage.getItem('state'),
     }).pipe(catchError(this.followingError)).subscribe((data) => {
-      localStorage.setItem('follow', data.feed);
-      this.listIndex = 1; this.listTitle = 'Following';
-      this.usersList = this.usersList.concat(data.following);
+      localStorage.setItem('following', data.feed);
+      this.userFollowing = this.userFollowing.concat(data.following);
     });
   }
 
-  loadUserPage(username: string): void {
-    localStorage.removeItem('follow');
-    this.router.navigate(['/' + username]);
+  openFollowing(): void {
+    this.showFollowing = !this.showFollowing;
   }
 
-  closeUsers(): void {
-    this.usersList = [];
-    localStorage.removeItem('follow');
-  }
-
-  storiesShow: boolean = false;
+  showStories: boolean = false;
 
   openStories(): void {
     if (this.userProfile.reels) {
-      this.storiesShow = true;
+      this.showStories = true;
     }
   }
 
   closeStories(): void {
-    this.storiesShow = false;
+    this.showStories = false;
   }
 
   async ngOnInit(): Promise<void> {
@@ -316,7 +337,8 @@ export class PageUserComponent {
     localStorage.removeItem('video');
     localStorage.removeItem('tagged');
     localStorage.removeItem('collection');
-    localStorage.removeItem('follow');
+    localStorage.removeItem('followers');
+    localStorage.removeItem('following');
     await this.loadProfile();
     await this.loadStories();
     this.loadSaved();

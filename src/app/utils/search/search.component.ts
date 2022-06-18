@@ -64,10 +64,10 @@ export class SearchComponent {
 
   loadRecent(): void {
     if (!this.store.state.recentLoaded) {
+      this.store.state.recentLoaded = true;
       this.http.post<any>('/api/search/recent', {
         session: localStorage.getItem('state'),
       }).pipe(catchError(this.recentError)).subscribe((data) => {
-        this.store.state.recentLoaded = true;
         this.store.state.recentSearches = data;
         this.queryResults = data;
       });
@@ -85,23 +85,21 @@ export class SearchComponent {
   }
 
   clearRecent(): void {
+    this.store.state.recentSearches = [];
+    this.queryResults = [];
+    this.clearRecentOpen();
     this.http.post<any>('/api/search/recent_clear', {
       session: localStorage.getItem('state'),
-    }).pipe(catchError(this.recentError)).subscribe(() => {
-      this.store.state.recentSearches = [];
-      this.queryResults = [];
-      this.clearRecentOpen();
-    });
+    }).pipe(catchError(this.recentError));
   }
 
   hideRecent(pk: string | number): void {
+    const i = this.store.state.recentSearches.findIndex((res: any) => res.pk == pk);
+    this.store.state.recentSearches.splice(i, 1);
+    this.queryResults = this.store.state.recentSearches;
     this.http.post<any>('/api/search/recent_hide', {
       user: pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.recentError)).subscribe(() => {
-      const i = this.store.state.recentSearches.findIndex((res: any) => res.pk == pk);
-      this.store.state.recentSearches.splice(i, 1);
-      this.queryResults = this.store.state.recentSearches;
-    });
+    }).pipe(catchError(this.recentError));
   }
 
   clearValue(): void {

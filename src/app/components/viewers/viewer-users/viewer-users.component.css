@@ -1,6 +1,6 @@
 .options-body {
   @apply divide-slate-200 divide-y-[1px] overflow-y-scroll rounded-b-3xl;
-  max-height: calc(100% - 70px);
+  max-height: calc(100vh - 200px);
 }
 .options-header {
   @apply flex h-[70px] items-center justify-center relative text-slate-800;
@@ -12,14 +12,11 @@
   @apply absolute cursor-pointer mr-6 right-0 w-4;
 }
 .options-item {
-  @apply cursor-pointer flex items-center pl-4 py-2 space-x-4 w-full;
+  @apply hover:bg-slate-200 cursor-pointer flex items-center pl-4 py-2 space-x-4 w-full;
+  transition: background-color 0.2s;
 }
 .options-image {
   @apply overflow-hidden rounded-full w-12;
-}
-.options-modal {
-  @apply bg-slate-100 divide-slate-200 divide-y-[1px] my-10 overflow-hidden rounded-3xl w-[400px];
-  height: calc(100% - 5rem);
 }
 .options-text {
   @apply flex flex-col;
@@ -30,14 +27,4 @@
 }
 .text-sub {
   @apply font-light text-slate-600;
-}
-
-.viewer-container {
-  @apply fixed flex h-full items-center justify-center left-0 top-0 w-full z-20;
-}
-.viewer-contents {
-  @apply absolute flex h-full items-center justify-center w-full;
-}
-.viewer-overlay {
-  @apply bg-black bg-opacity-60 h-full w-full;
 }

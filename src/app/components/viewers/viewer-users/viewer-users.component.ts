@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'viewer-users',
@@ -8,12 +9,15 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 export class ViewerUsersComponent {
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   @Input() usersList: any[] = [];
-  @Input() title: string = 'Users';
+  @Input() usersTitle: string = 'Users';
   @Output() closeSend = new EventEmitter();
-  @Output() userSend = new EventEmitter();
+
+  loadUserPage(username: string): void {
+    this.router.navigate(['/' + username]);
+  }
 
   hideIntersect: boolean = true;
   stopIntersect: boolean = false;
@@ -24,9 +28,13 @@ export class ViewerUsersComponent {
     this.onScroll.emit();
   }
 
-  ngOnChanges(): void {
-    const feed: any = localStorage.getItem('follow');
-    this.hideIntersect = JSON.parse(feed).moreAvailable ? false : true;
-    this.stopIntersect = JSON.parse(feed).moreAvailable ? false : true;
+  @Input() feedStorage: string = '';
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['usersList'].firstChange) {
+      const feed: any = localStorage.getItem(this.feedStorage);
+      this.hideIntersect = JSON.parse(feed).moreAvailable ? false : true;
+      this.stopIntersect = JSON.parse(feed).moreAvailable ? false : true;
+    }
   }
 }

@@ -1,7 +1,10 @@
-<viewer-stories *ngIf="storiesShow" [feedStories]="[userProfile.reels]" [seenStories]="userProfile.friendship.following"
+<viewer-stories *ngIf="showStories" [feedStories]="[userProfile.reels]" [seenStories]="userProfile.friendship.following"
   [originIndex]="0" (closeSend)="closeStories()"></viewer-stories>
-<viewer-users *ngIf="usersList.length > 0" (onScroll)="listIndex == 0 ? loadFollowers() : loadFollowing()"
-  [title]="listTitle" [usersList]="usersList" (userSend)="loadUserPage($event)" (closeSend)="closeUsers()">
+<viewer-users [hidden]="!showFollowers" feedStorage="followers" usersTitle="Followers" [usersList]="userFollowers"
+  (closeSend)="openFollowers()" (onScroll)="loadFollowers()">
+</viewer-users>
+<viewer-users [hidden]="!showFollowing" feedStorage="following" usersTitle="Following" [usersList]="userFollowing"
+  (closeSend)="openFollowing()" (onScroll)="loadFollowing()">
 </viewer-users>
 <div *ngIf="userProfile" class="user-container">
   <div (click)="openStories()" class="user-stories"
@@ -31,12 +34,12 @@
         <div class="text-sub">Posts</div>
       </div>
       <div class="cursor-pointer user-stat"
-        (click)="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following) ? loadFollowers() : null">
+        (click)="userProfile.follower_count > 0 && (!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following)) ? _loadFollowers() : null">
         <div class="text-main">{{ userProfile.follower_count | shortNumber }}</div>
         <div class="text-sub">Followers</div>
       </div>
       <div class="cursor-pointer user-stat"
-        (click)="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following) ? loadFollowing() : null">
+        (click)="userProfile.following_count > 0 && (!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following)) ? _loadFollowing() : null">
         <div class="text-main">{{ userProfile.following_count | shortNumber }}</div>
         <div class="text-sub">Following</div>
       </div>
@@ -56,36 +59,36 @@
     <media-stories [feedStories]="userStories"></media-stories>
     <div tooltipArray tooltipArrayPlace="bottom" class="feed-select">
       <div (click)="feedTimeline()" attr.tooltipItem="{{ userProfile.media_count }} Posts"
-        [class]="feedSelected == 'timeline' ? 'bg-slate-200' : ''">
+        [class]="feedSelect == 'timeline' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-posts.svg">
         <p>POSTS</p>
       </div>
       <div *ngIf="userProfile.total_clips_count" attr.tooltipItem="{{ userProfile.total_clips_count }} Clips"
-        (click)="feedReels()" [class]="feedSelected == 'reels' ? 'bg-slate-200' : ''">
+        (click)="feedReels()" [class]="feedSelect == 'reels' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-reels.svg">
         <p>REELS</p>
       </div>
       <div *ngIf="userProfile.has_videos" attr.tooltipItem="{{ userProfile.total_igtv_videos }} IGTVs"
-        (click)="feedVideo()" [class]="feedSelected == 'video' ? 'bg-slate-200' : ''">
+        (click)="feedVideo()" [class]="feedSelect == 'video' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-videos.svg">
         <p>VIDEOS</p>
       </div>
       <div *ngIf="userProfile.usertags_count" attr.tooltipItem="{{ userProfile.usertags_count }} Posts"
-        (click)="feedTagged()" [class]="feedSelected == 'tagged' ? 'bg-slate-200' : ''">
+        (click)="feedTagged()" [class]="feedSelect == 'tagged' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-tagged.svg">
         <p>TAGGED</p>
       </div>
       <div *ngIf="userProfile.has_saved_items" attr.tooltipItem="{{ store.state.savedPosts.length }} Collections"
-        (click)="feedSaved()" [class]="feedSelected == 'saved' ? 'bg-slate-200' : ''">
+        (click)="feedSaved()" [class]="feedSelect == 'saved' ? 'bg-slate-200' : ''">
         <img src="/assets/images/user-saved.svg">
         <p>SAVED</p>
       </div>
     </div>
-    <media-feed *ngIf="feedLoaded.timeline" [hidden]="feedSelected != 'timeline'" [feedPosts]="userPosts" [feedStorage]="'feed'" [hideHeader]="true" (onScroll)="loadUser()"></media-feed>
-    <media-reels *ngIf="feedLoaded.reels" [hidden]="feedSelected != 'reels'" [feedPosts]="userReels" (onScroll)="loadReels()"></media-reels>
-    <media-video *ngIf="feedLoaded.video" [hidden]="feedSelected != 'video'" [feedPosts]="userVideos" (onScroll)="loadVideo()"></media-video>
-    <media-feed *ngIf="feedLoaded.tagged" [hidden]="feedSelected != 'tagged'" [feedPosts]="userTagged" [feedStorage]="'tagged'" (onScroll)="loadTagged()"></media-feed>
-    <media-saved *ngIf="feedLoaded.saved" [hidden]="feedSelected != 'saved'" [feedCollections]="store.state.savedPosts"
+    <media-feed *ngIf="feedLoaded.timeline" [hidden]="feedSelect != 'timeline'" [feedPosts]="userPosts" [feedStorage]="'feed'" [hideHeader]="true" (onScroll)="loadUser()"></media-feed>
+    <media-reels *ngIf="feedLoaded.reels" [hidden]="feedSelect != 'reels'" [feedPosts]="userReels" (onScroll)="loadReels()"></media-reels>
+    <media-video *ngIf="feedLoaded.video" [hidden]="feedSelect != 'video'" [feedPosts]="userVideos" (onScroll)="loadVideo()"></media-video>
+    <media-feed *ngIf="feedLoaded.tagged" [hidden]="feedSelect != 'tagged'" [feedPosts]="userTagged" [feedStorage]="'tagged'" (onScroll)="loadTagged()"></media-feed>
+    <media-saved *ngIf="feedLoaded.saved" [hidden]="feedSelect != 'saved'" [feedCollections]="store.state.savedPosts"
       (onScroll)="store.loadSaved(true)" (onUpdate)="feedSavedUrl = $event"></media-saved>
   </ng-template>
   <ng-template #block>
