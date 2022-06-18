@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { lastValueFrom, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -19,6 +20,7 @@ export class MediaSavedComponent {
     private location: Location,
     private route: ActivatedRoute,
     private store: StoreService,
+    private title: Title,
   ) { }
 
   feedCollection: any[] = [];
@@ -58,6 +60,7 @@ export class MediaSavedComponent {
 
   loadedCollection: boolean = false;
   selectedCollection: any = null;
+  userPageTitle: string = this.title.getTitle();
 
   async openCollection(collection: any): Promise<void> {
     this.selectedCollection = collection;
@@ -66,12 +69,14 @@ export class MediaSavedComponent {
       ? await this.loadSavedAll()
       : await this.loadSavedCollection(collection.collection_id);
     this.loadedCollection = true;
+    this.title.setTitle(collection.collection_name + ' • Saved');
   }
 
   closeCollection(): void {
     this.feedCollection = [];
     this.loadedCollection = false;
     localStorage.removeItem('collection');
+    this.title.setTitle(this.userPageTitle);
     this.urlUpdate();
   }
 
@@ -139,11 +144,13 @@ export class MediaSavedComponent {
           await this.loadSavedCollection(c_id);
           this.selectedCollection = exists;
           this.loadedCollection = true;
+          this.title.setTitle(exists.collection_name + ' • Saved');
         } else { this.urlUpdate(); }
       } else if (c_name == 'all-posts') {
         await this.loadSavedAll();
         this.selectedCollection = this.feedCollections[0];
         this.loadedCollection = true;
+        this.title.setTitle(this.feedCollections[0].collection_name + ' • Saved');
       } else { this.urlUpdate(); }
     }
   }

@@ -119,7 +119,7 @@ export class PageUserComponent {
   }
 
   private profileError() {
-    this.title.setTitle('Page not found · Instagular');
+    this.title.setTitle('Page not found • Instagular');
     this.userNotFound = true; return of();
     return throwError(() => {
       new Error('Profile error: cannot load user profile information.');
