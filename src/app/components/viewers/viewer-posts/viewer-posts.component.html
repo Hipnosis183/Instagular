@@ -70,13 +70,15 @@
       </ng-template>
     </div>
     <div class="prev-button">
-      <img *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" (click)="carouselPrev()"
-        src="/assets/images/chevron-left.svg" class="carousel">
+      <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" class="carousel">
+        <img src="/assets/images/chevron-left.svg" (click)="carouselPrev()">
+      </div>
       <img *ngIf="feedIndex.current > 0" (click)="postPrev()" src="/assets/images/chevron-d-left.svg">
     </div>
     <div class="next-button">
-      <img *ngIf="feedPost.instagular.full.length > 1 && carouselIndex < feedPost.instagular.full.length - 1"
-        (click)="carouselNext()" src="/assets/images/chevron-right.svg" class="carousel">
+      <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex < feedPost.instagular.full.length - 1" class="carousel">
+        <img src="/assets/images/chevron-right.svg" (click)="carouselNext()">
+      </div>
       <img *ngIf="feedIndex.current < feedIndex.total" (click)="postNext()" src="/assets/images/chevron-d-right.svg">
     </div>
     <div (click)="closeSend.emit()" class="close-button">

@@ -8,7 +8,7 @@
   @apply absolute cursor-pointer m-4 right-0 top-0;
 }
 .next-button {
-  @apply absolute flex flex-col justify-center h-full right-0 z-[1];
+  @apply absolute flex flex-col justify-center h-full right-0 w-[52px] z-[1];
 }
 .prev-button {
   @apply absolute flex flex-col justify-center h-full ml-[320px] z-[1];
@@ -19,7 +19,7 @@
 }
 .next-button .carousel,
 .prev-button .carousel {
-  @apply absolute -mt-20 !important;
+  @apply absolute -mt-24 !important;
 }
 
 .sidenav-header {
