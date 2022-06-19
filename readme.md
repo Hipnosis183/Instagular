@@ -9,21 +9,22 @@
 
 ![](/src/assets/screens/0.png)
 
-This project implements its own backend API server using a custom, personal fork of [instagram-private-api](https://github.com/Hipnosis183/instagram-private-api) to connect/interface to Instagram, acting as a middleware between the Instagular client and the Instagram server.
+This project implements its own backend API server using a custom updated fork of [instagram-private-api](https://github.com/Hipnosis183/instagram-private-api) to connect/interface to Instagram, acting as a middleware between the Instagular client and the Instagram server.
 
 The app is fully compatible with Instagram routing structure, so it's possible to replace the domain with Instagular's and continue navigating right away.
 
-While the app should be safe to use normally, there's the possibility for the user account to get blocked if too many request are made in a short period of time, so keep this in mind when using the app.
+While the app should be safe to use in general, there's still the possibility for the user account to get blocked if too many request are made in a short period of time, so keep this in mind when using the app.
 
 ## Implemented features
 
 - Login/logout with persistent session on local storage.
 - Feeds with auto pagination management.
 - Fullscreen media viewer, with high quality photos and videos play.
-- Profile user pages.
+- Profile user pages (posts, reels, videos, tagged).
 - Stories/highlights support.
-- Like/unlike posts, follow/unfollow users.
+- User interaction (like/unlike, follow/unfollow).
 - High/original quality media download.
+- Saved collections management.
 - Users search bar.
 
 Planned features:
@@ -36,6 +37,8 @@ Planned features:
 
 ## Getting started
 
-For now, Instagular is only runnable locally, but eventually (when it reaches a fully-featured state, and I get a domain name) it'll be available online, as well as a dedicated desktop app.
+For now, Instagular is only runnable locally, but eventually, when it reaches a fully-featured state, it'll be available online, as well as a dedicated desktop app.
 
-For your (and mine) convenience, after installing the dependencies (`npm install`), just run the API backend server with `runapi` and then the app client with `runapp`.
+Install both server and client dependencies by running `npm install` in the root and `src/api` directories. Then, just run the API backend server with `runapi` and then the app client with `runapp` if you're on Linux, or run `npm run dev` under the server directory and `npm run start` on root for the client on Windows.
+
+> :warning: Important Note: Since the app is fully dependant on the private api library, which is actively being developed in tandem, make sure to always keep it updated, otherwise unsupported features will break the client functionality.
