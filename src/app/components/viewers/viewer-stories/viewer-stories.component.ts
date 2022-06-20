@@ -106,7 +106,7 @@ export class ViewerStoriesComponent {
     // Close the viewer if it's the last story for the last user.
     if ((this.feedIndex == (this.feedStories.length - 1) ||
       (!this.originSeen && this.feedStories[this.feedIndex + 1].seen == this.feedStories[this.feedIndex + 1].latest_reel_media))) {
-      this.closeStories();
+      setTimeout(() => { this.closeStories(); });
     } else {
       // Get user stories if the selected user has none loaded yet.
       if (!this.feedStories[this.feedIndex + 1].items) { await this.loadStories(this.feedIndex + 1); }
@@ -136,6 +136,10 @@ export class ViewerStoriesComponent {
       } else if (this.feedIndex > this.originIndex || this.storiesIndex > 0) {
         this.storiesPrev();
       }
+    }
+    // Close viewer if the escape key is pressed.
+    if (event.key == 'Escape') {
+      this.closeStories();
     }
   }
 

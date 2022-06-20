@@ -64,6 +64,10 @@ export class ViewerPostsComponent {
         this.postPrev();
       }
     }
+    // Close viewer if the escape key is pressed.
+    if (event.key == 'Escape') {
+      this.closeSend.emit();
+    }
   }
 
   @Output() likeSend = new EventEmitter();

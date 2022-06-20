@@ -28,6 +28,7 @@ import { ImgAwaitComponent } from './utils/img-await/img-await.component';
 import { SearchComponent } from './utils/search/search.component';
 
 // Directives.
+import { AutoFocusDirective } from './directives/auto-focus.directive';
 import { DropdownDirective } from './directives/dropdown.directive';
 import { InfiniteScrollDirective } from './directives/infinite-scroll.directive';
 import { TooltipArrayDirective } from './directives/tooltip-array.directive';
@@ -63,6 +64,7 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     ImgAwaitComponent,
     SearchComponent,
     // Directives.
+    AutoFocusDirective,
     DropdownDirective,
     InfiniteScrollDirective,
     TooltipArrayDirective,

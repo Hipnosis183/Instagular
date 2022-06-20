@@ -3,7 +3,7 @@
     <div>{{ usersTitle }}</div>
     <img src="/assets/images/close.svg" (click)="closeSend.emit()">
   </div>
-  <div *ngIf="usersList.length > 0" class="options-body">
+  <div autoFocus tabindex="0" *ngIf="usersList.length > 0" class="options-body">
     <div *ngFor="let user of usersList" (click)="loadUserPage(user.username)" class="options-item">
       <img-await [source]="user.profile_pic_url" class="options-image"></img-await>
       <div class="options-text">

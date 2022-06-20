@@ -2,6 +2,9 @@
   @apply divide-slate-200 divide-y-[1px] overflow-y-scroll rounded-b-3xl;
   max-height: calc(100vh - 200px);
 }
+.options-body:focus {
+  outline: none;
+}
 .options-header {
   @apply flex h-[70px] items-center justify-center relative text-slate-800;
 }
