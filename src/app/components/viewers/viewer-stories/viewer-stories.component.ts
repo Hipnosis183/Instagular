@@ -77,14 +77,17 @@ export class ViewerStoriesComponent {
   storiesPrev(): void {
     if (this.storiesIndex == 0) {
       this.storiesIndex = this.feedStories[this.feedIndex - 1].items.length - 1;
+      this.loadThumbs();
       this.feedIndex--;
     } else {
       this.storiesIndex--;
     }
+    this.storyIndexUpdate();
   }
 
   storiesPrevSkip(): void {
     this.storiesIndex = 0;
+    this.loadThumbs();
     this.feedIndex--;
     this.storyIndex();
   }
@@ -95,6 +98,7 @@ export class ViewerStoriesComponent {
       await this.storiesNextSkip();
     } else {
       this.storiesIndex++;
+      this.storyIndexUpdate();
       this.storySeen();
     }
   }
@@ -111,6 +115,7 @@ export class ViewerStoriesComponent {
       // Get user stories if the selected user has none loaded yet.
       if (!this.feedStories[this.feedIndex + 1].items) { await this.loadStories(this.feedIndex + 1); }
       this.storiesIndex = 0;
+      this.loadThumbs();
       this.feedIndex++;
       this.storyIndex();
       this.storySeen();
@@ -119,6 +124,7 @@ export class ViewerStoriesComponent {
 
   @HostListener('window:keydown', ['$event'])
   keyEvent(event: KeyboardEvent) {
+    event.preventDefault();
     // Go to the next story if the right arrow key is pressed.
     if (event.key == 'ArrowRight') {
       if (event.ctrlKey) {
@@ -143,12 +149,45 @@ export class ViewerStoriesComponent {
     }
   }
 
+  expandedThumbs: boolean = false;
+  loadedThumbs: boolean = false;
+
+  expandThumbs(): void {
+    this.expandedThumbs = !this.expandedThumbs;
+    if (!this.loadedThumbs) {
+      this.loadedThumbs = true;
+    }
+  }
+
+  loadThumbs(): void {
+    if (!this.expandedThumbs) {
+      this.loadedThumbs = false;
+    }
+  }
+
+  storySelect(index: number): void {
+    this.storiesIndex = index;
+    this.storyIndexUpdate();
+  }
+
   storyIndex(): void {
     // Set user stories starting index point to the first story not seen yet.
     for (let [i, item] of this.feedStories[this.feedIndex].items.entries()) {
       if (item.taken_at > this.feedStories[this.feedIndex].seen) {
-        this.storiesIndex = i; break;
+        this.storiesIndex = i;
+        this.storyIndexUpdate(); break;
       }
+    }
+  }
+
+  storyIndexUpdate(): void {
+    let element: any = document.querySelector('.count-dots');
+    if (element) {
+      let child = element.children.item(this.storiesIndex);
+      // Activate element without focusing.
+      element.blur();
+      // Center selected dot in the parent container.
+      child.scrollIntoView({ behavior: 'smooth', inline: 'center' });
     }
   }
 

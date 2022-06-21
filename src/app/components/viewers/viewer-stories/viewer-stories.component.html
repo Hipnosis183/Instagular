@@ -1,8 +1,26 @@
 <div autoFocus tabindex="0" class="viewer-container">
   <div class="viewer-overlay"></div>
   <div *ngIf="feedStories[feedIndex].items" class="viewer-contents">
+    <div class="thumbs-container">
+      <div class="bg-slate-50 h-full">
+        <div *ngIf="loadedThumbs" [class]="!expandedThumbs ? 'hidden' : 'grid'" class="thumbs-panel">
+          <div *ngFor="let item of feedStories[feedIndex].items; index as i" (click)="storySelect(i)"
+            [class]="i == storiesIndex ? 'border-blue-500' : 'border-transparent hover:border-blue-400'">
+            <img-await [source]="item.image_versions2.candidates[item.image_versions2.candidates.length - 1].url"></img-await>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div *ngIf="feedStories.length > 1 && (feedIndex > originIndex && storiesIndex > 0)" (click)="storiesPrevSkip()" class="nav-buttton-d">
+          <img src="/assets/images/chevron-d-left.svg">
+        </div>
+        <div tooltip="Thumbnails" tooltipPlace="right" (click)="expandThumbs()" class="thumbs-expand">
+          <div [class]="expandedThumbs ? 'expanded' : 'collapsed'"></div>
+        </div>
+      </div>
+    </div>
     <div class="flex justify-center w-full">
-      <div class="prev-button relative">
+      <div class="nav-buttton">
         <img *ngIf="feedIndex > originIndex || storiesIndex > 0; else prevButton" (click)="storiesPrev()"
           src="/assets/images/chevron-left.svg">
         <ng-template #prevButton>
@@ -24,17 +42,21 @@
           <div class="text-date">{{ feedStories[feedIndex].items[storiesIndex].taken_at | dateAgo }}</div>
         </div>
       </div>
-      <img-await *ngIf="feedStories[feedIndex].items[storiesIndex].media_type == 1; else tempVideo" class="viewer-media"
+      <div class="viewer-count">
+        <div tabindex="0" class="count-dots">
+          <div *ngFor="let media of feedStories[feedIndex].items; index as i" (click)="storySelect(i)">
+            <div [class]="i == storiesIndex ? 'bg-blue-500' : 'bg-slate-100'" class="count-dot"></div>
+          </div>
+        </div>
+      </div>
+      <img-await *ngIf="feedStories[feedIndex].items[storiesIndex].media_type == 1" class="viewer-media"
         [source]="feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url">
       </img-await>
-      <div *ngIf="feedStories[feedIndex].items[storiesIndex].media_type == 2; else tempVideo" class="viewer-media">
+      <div *ngIf="feedStories[feedIndex].items[storiesIndex].media_type == 2" class="viewer-media">
         <video autoplay controls loop [muted]="true"
           [src]="feedStories[feedIndex].items[storiesIndex].video_versions[0].url | encode:true | async"></video>
       </div>
-      <ng-template #tempVideo>
-        <div class="aspect-[9/16]"></div>
-      </ng-template>
-      <div class="next-button relative">
+      <div class="nav-buttton">
         <img (click)="storiesNext()" src="/assets/images/chevron-right.svg">
         <div *ngIf="feedStories[feedIndex].reel_type == 'highlight_reel'" class="user-container-r">
           <div class="flex flex-col items-start mt-8">
@@ -56,20 +78,11 @@
         </div>
       </div>
     </div>
-    <div *ngIf="feedStories.length > 1 && (feedIndex > originIndex && storiesIndex > 0)" (click)="storiesPrevSkip()"
-      class="absolute prev-button">
-      <img src="/assets/images/chevron-d-left.svg">
-    </div>
-    <div *ngIf="feedStories.length > 1" (click)="storiesNextSkip()" class="absolute next-button right-0">
+    <div *ngIf="feedStories.length > 1" (click)="storiesNextSkip()" class="nav-buttton-d right-0">
       <img src="/assets/images/chevron-d-right.svg">
     </div>
     <div (click)="closeStories()" class="close-button">
       <img src="/assets/images/close.svg">
-    </div>
-    <div class="viewer-count">
-      <div *ngFor="let media of feedStories[feedIndex].items; index as i">
-        <div class="count-dot" [class]="i == storiesIndex ? 'bg-blue-500' : 'bg-slate-100'"></div>
-      </div>
     </div>
   </div>
 </div>
