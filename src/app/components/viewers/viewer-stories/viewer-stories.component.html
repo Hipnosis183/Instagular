@@ -53,8 +53,8 @@
         [source]="feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url">
       </img-await>
       <div *ngIf="feedStories[feedIndex].items[storiesIndex].media_type == 2" class="viewer-media">
-        <video autoplay controls loop [muted]="true"
-          [src]="feedStories[feedIndex].items[storiesIndex].video_versions[0].url | encode:true | async"></video>
+        <video autoplay controls loop [muted]="true" [src]="feedStories[feedIndex].items[storiesIndex].video_versions[0].url | encode:true | async"
+          [poster]="feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url | encode | async"></video>
       </div>
       <div class="nav-buttton">
         <img (click)="storiesNext()" src="/assets/images/chevron-right.svg">

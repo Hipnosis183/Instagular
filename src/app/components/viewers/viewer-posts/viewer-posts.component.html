@@ -52,7 +52,8 @@
     <div *ngIf="feedPost.instagular.media_type[carouselIndex] == 2 || feedPost.instagular.media_type[carouselIndex] == 3" class="viewer-media">
       <div *ngIf="feedPost.video_duration < 60; then play; else block"></div>
       <ng-template #play>
-        <video autoplay controls loop [muted]="true" [src]="feedPost.instagular.full[carouselIndex] | encode:true | async"></video>
+        <video autoplay controls loop [muted]="true" [src]="feedPost.instagular.full[carouselIndex] | encode:true | async"
+          [poster]="feedPost.instagular.thumb[carouselIndex] | encode | async"></video>
       </ng-template>
       <ng-template #block>
         <div class="viewer-text">
