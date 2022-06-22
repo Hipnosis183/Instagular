@@ -30,15 +30,43 @@ export class ViewerStoriesComponent {
 
   async loadStories(index: number): Promise<void> {
     let stories = [];
-    // Set amount of stories media to get ahead.
-    let count = 10;
-    if (index + count > this.feedStories.length) {
-      // Avoid index overflow if count is greater than max.
-      count = this.feedStories.length - index;
+    stories.push(this.feedStories[index].id);
+    // Set amount of stories media to get behind/ahead.
+    const count = 12;
+    let countLeft = count / 2;
+    let countRight = count / 2;
+    // Add fetch slots for stories ahead if previous items are already loaded.
+    if (index == 0 || (index > 0 && this.feedStories[index - 1].items)) {
+      countRight = countRight + (count / 2);
     }
-    for (let i = index; i < (index + count); i++) {
-      // Add stories to get the media for.
-      stories.push(this.feedStories[i].id);
+    // Add fetch slots for stories behind if following items are already loaded.
+    if (index == this.feedStories.length - 1
+      || index < this.feedStories.length - 1 && this.feedStories[index + 1].items) {
+      countLeft = countLeft + (count / 2);
+    }
+    // Avoid index underflow if count is negative.
+    if (index - countLeft < 0) { countLeft = index + 1; } else { countLeft++; }
+    // Avoid index overflow if count is greater than max.
+    if (index + countRight > this.feedStories.length) {
+      countRight = this.feedStories.length - index;
+    } else { countRight++; }
+    // Manage stories behind.
+    if (index > 0 && !this.feedStories[index - 1].items) {
+      for (let i = index - 1; i > (index - countLeft); i--) {
+        if (!this.feedStories[i].items) {
+          // Add stories for media fetch.
+          stories.push(this.feedStories[i].id);
+        }
+      }
+    }
+    // Manage stories ahead.
+    if (index < this.feedStories.length - 1 && !this.feedStories[index + 1].items) {
+      for (let i = index + 1; i < (index + countRight); i++) {
+        if (!this.feedStories[i].items) {
+          // Add stories for media fetch.
+          stories.push(this.feedStories[i].id);
+        }
+      }
     }
     // Fetch selected stories media.
     let data: any = await lastValueFrom(
@@ -74,19 +102,21 @@ export class ViewerStoriesComponent {
     this.closeSend.emit();
   }
 
-  storiesPrev(): void {
+  async storiesPrev(): Promise<void> {
     if (this.storiesIndex == 0) {
-      this.storiesIndex = this.feedStories[this.feedIndex - 1].items.length - 1;
-      this.loadThumbs();
-      this.feedIndex--;
+      await this.storiesPrevSkip(true);
     } else {
       this.storiesIndex--;
+      this.storyIndexUpdate();
     }
-    this.storyIndexUpdate();
   }
 
-  storiesPrevSkip(): void {
-    this.storiesIndex = 0;
+  async storiesPrevSkip(index?: boolean): Promise<void> {
+    // Get user stories if the selected user has none loaded yet.
+    if (!this.feedStories[this.feedIndex - 1].items) {
+      await this.loadStories(this.feedIndex - 1);
+    }
+    this.storiesIndex = index ? this.feedStories[this.feedIndex - 1].items.length - 1 : 0;
     this.loadThumbs();
     this.feedIndex--;
     this.storyIndex();
@@ -113,7 +143,9 @@ export class ViewerStoriesComponent {
       setTimeout(() => { this.closeStories(); });
     } else {
       // Get user stories if the selected user has none loaded yet.
-      if (!this.feedStories[this.feedIndex + 1].items) { await this.loadStories(this.feedIndex + 1); }
+      if (!this.feedStories[this.feedIndex + 1].items) {
+        await this.loadStories(this.feedIndex + 1);
+      }
       this.storiesIndex = 0;
       this.loadThumbs();
       this.feedIndex++;
@@ -123,24 +155,24 @@ export class ViewerStoriesComponent {
   }
 
   @HostListener('window:keydown', ['$event'])
-  keyEvent(event: KeyboardEvent) {
+  async keyEvent(event: KeyboardEvent) {
     event.preventDefault();
     // Go to the next story if the right arrow key is pressed.
     if (event.key == 'ArrowRight') {
       if (event.ctrlKey) {
         if (this.feedStories.length > 1) {
-          this.storiesNextSkip();
+          await this.storiesNextSkip();
         }
-      } else { this.storiesNext(); }
+      } else { await this.storiesNext(); }
     }
     // Go to the previous story if the left arrow key is pressed.
     if (event.key == 'ArrowLeft') {
       if (event.ctrlKey) {
-        if (this.feedStories.length > 1 && (this.feedIndex > this.originIndex && this.storiesIndex > 0)) {
-          this.storiesPrevSkip();
+        if (this.feedStories.length > 1 && this.feedIndex > 0) {
+          await this.storiesPrevSkip();
         }
-      } else if (this.feedIndex > this.originIndex || this.storiesIndex > 0) {
-        this.storiesPrev();
+      } else if (this.feedIndex > 0 || this.storiesIndex > 0) {
+        await this.storiesPrev();
       }
     }
     // Close viewer if the escape key is pressed.
@@ -172,23 +204,27 @@ export class ViewerStoriesComponent {
 
   storyIndex(): void {
     // Set user stories starting index point to the first story not seen yet.
-    for (let [i, item] of this.feedStories[this.feedIndex].items.entries()) {
-      if (item.taken_at > this.feedStories[this.feedIndex].seen) {
-        this.storiesIndex = i;
-        this.storyIndexUpdate(); break;
+    if (this.feedStories[this.feedIndex].seen) {
+      for (let [i, item] of this.feedStories[this.feedIndex].items.entries()) {
+        if (item.taken_at > this.feedStories[this.feedIndex].seen) {
+          this.storiesIndex = i;
+          this.storyIndexUpdate(); break;
+        }
       }
-    }
+    } else { this.storyIndexUpdate(); }
   }
 
   storyIndexUpdate(): void {
-    let element: any = document.querySelector('.count-dots');
-    if (element) {
-      let child = element.children.item(this.storiesIndex);
-      // Activate element without focusing.
-      element.blur();
-      // Center selected dot in the parent container.
-      child.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-    }
+    setTimeout(() => {
+      let element: any = document.querySelector('.count-dots');
+      if (element) {
+        let child = element.children.item(this.storiesIndex);
+        // Activate element without focusing.
+        element.blur();
+        // Center selected dot in the parent container.
+        child.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+      }
+    });
   }
 
   storySeen(): void {

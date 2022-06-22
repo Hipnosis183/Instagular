@@ -11,7 +11,7 @@
         </div>
       </div>
       <div>
-        <div *ngIf="feedStories.length > 1 && (feedIndex > originIndex && storiesIndex > 0)" (click)="storiesPrevSkip()" class="nav-buttton-d">
+        <div *ngIf="feedStories.length > 1 && feedIndex > 0" (click)="storiesPrevSkip()" class="nav-buttton-d">
           <img src="/assets/images/chevron-d-left.svg">
         </div>
         <div tooltip="Thumbnails" tooltipPlace="right" (click)="expandThumbs()" class="thumbs-expand">
@@ -21,7 +21,7 @@
     </div>
     <div class="flex justify-center w-full">
       <div class="nav-buttton">
-        <img *ngIf="feedIndex > originIndex || storiesIndex > 0; else prevButton" (click)="storiesPrev()"
+        <img *ngIf="feedIndex > 0 || storiesIndex > 0; else prevButton" (click)="storiesPrev()"
           src="/assets/images/chevron-left.svg">
         <ng-template #prevButton>
           <div class="m-3 w-7"></div>
