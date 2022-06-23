@@ -14,7 +14,7 @@
         <div *ngIf="feedStories.length > 1 && feedIndex > 0" (click)="storiesPrevSkip()" class="nav-buttton-d">
           <img src="/assets/images/chevron-d-left.svg">
         </div>
-        <div tooltip="Thumbnails" tooltipPlace="right" (click)="expandThumbs()" class="thumbs-expand">
+        <div tooltip="Thumbnails" tooltipPlace="right" tooltipTheme="lite" (click)="expandThumbs()" class="thumbs-expand">
           <div [class]="expandedThumbs ? 'expanded' : 'collapsed'"></div>
         </div>
       </div>
@@ -39,7 +39,8 @@
               <div class="text-sub">@{{ feedStories[feedIndex].user.username }}</div>
             </div>
           </div>
-          <div class="text-date">{{ feedStories[feedIndex].items[storiesIndex].taken_at | dateAgo }}</div>
+          <div [tooltip]="feedStories[feedIndex].items[storiesIndex].taken_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
+            tooltipPlace="bottom" tooltipTheme="lite" class="text-date">{{ feedStories[feedIndex].items[storiesIndex].taken_at | dateAgo }}</div>
         </div>
       </div>
       <div class="viewer-count">
@@ -65,14 +66,14 @@
           </div>
         </div>
         <div class="user-container-r">
-          <div *ngIf="feedStories[feedIndex].items[storiesIndex].audience == 'besties'">
+          <div *ngIf="feedStories[feedIndex].items[storiesIndex].audience == 'besties'" tooltip="Close Friends" tooltipPlace="right" tooltipTheme="lite">
             <img class="h-8" src="/assets/images/besties.svg">
           </div>
-          <div *ngIf="!seenStories">
+          <div *ngIf="!seenStories" tooltip="Anonymous View" tooltipPlace="right" tooltipTheme="lite">
             <img class="h-7" src="/assets/images/anon.svg">
           </div>
           <a [href]="(feedStories[feedIndex].items[storiesIndex].media_type == 1 ? feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url : feedStories[feedIndex].items[storiesIndex].video_versions[0].url) + '&se=0&dl=1'"
-            target="_blank" rel="noopener noreferrer">
+            target="_blank" rel="noopener noreferrer" tooltip="Download" tooltipPlace="right" tooltipTheme="lite">
             <img class="h-6" src="/assets/images/download-lite.svg">
           </a>
         </div>

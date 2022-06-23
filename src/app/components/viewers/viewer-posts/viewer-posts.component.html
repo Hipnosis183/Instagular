@@ -23,7 +23,8 @@
         </div>
         <div *ngIf="feedPost.location" class="sidenav-location">{{ feedPost.location.name }}</div>
         <div class="sidenav-stats">
-          <div class="text-sub">{{ feedPost.taken_at * 1000 | date }}</div>
+          <div [tooltip]="feedPost.taken_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
+            tooltipPlace="bottom" class="text-sub">{{ feedPost.taken_at * 1000 | date }}</div>
           <div class="flex">
             <div class="mr-4 text-main">{{ feedPost.like_count | shortNumber }}</div>
             <img [src]="'/assets/images/' + (feedPost.has_liked ? 'like-fill.svg' : 'like.svg')"

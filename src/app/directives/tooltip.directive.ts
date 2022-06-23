@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input } from '@angular/core';
+import { Directive, ElementRef, Input, SimpleChanges } from '@angular/core';
 import tippy from 'tippy.js';
 
 @Directive({ selector: '[tooltip]' })
@@ -7,7 +7,7 @@ export class TooltipDirective {
 
   constructor(private elementRef: ElementRef) { }
 
-  @Input() tooltip!: string;
+  @Input() tooltip!: any;
   @Input() tooltipOffset?: any = [0, 10];
   @Input() tooltipPlace?: any = 'top';
   @Input() tooltipTheme?: string = 'tooltip';
@@ -22,5 +22,11 @@ export class TooltipDirective {
       placement: this.tooltipPlace,
       theme: this.tooltipTheme,
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['tooltip'].previousValue) {
+      this.elementRef.nativeElement._tippy.setContent(this.tooltip);
+    }
   }
 }
