@@ -4,10 +4,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class DateAgoPipe implements PipeTransform {
 
-  transform(value: any): any {
+  transform(value: any, short = false): any {
     if (value) {
       const seconds = Math.floor((+new Date() - (+new Date(value) * 1000)) / 1000);
-      const intervals: any = {
+      const intervals: any = !short ? {
         'year': 31536000,
         'month': 2592000,
         'week': 604800,
@@ -15,13 +15,21 @@ export class DateAgoPipe implements PipeTransform {
         'hour': 3600,
         'minute': 60,
         'second': 1
+      } : {
+        'y': 31536000,
+        'm': 2592000,
+        'w': 604800,
+        'd': 86400,
+        'h': 3600,
+        'min': 60,
+        's': 1
       };
 
       let counter;
       for (const i in intervals) {
         counter = Math.floor(seconds / intervals[i]);
         if (counter > 0) {
-          return counter + ' ' + i + (counter === 1 ? ' ago' : 's ago');
+          return short ? counter + i : counter + ' ' + i + (counter === 1 ? ' ago' : 's ago');
         }
       }
     }

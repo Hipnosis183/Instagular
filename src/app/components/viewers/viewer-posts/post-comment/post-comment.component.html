@@ -1,0 +1,28 @@
+<div *ngIf="!small">
+  <div class="comment-container">
+    <div [routerLink]="['/' + comment.user.username]" class="comment-user">
+      <img-await [source]="comment.user.profile_pic_url"></img-await>
+      <div class="flex flex-col">
+        <div class="text-main">{{ comment.user.full_name }}</div>
+        <div class="text-sub">{{ comment.user.username }}</div>
+      </div>
+    </div>
+    <div class="comment-info">
+      <div [tooltip]="comment.created_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
+        class="text-sub">{{ comment.created_at | dateAgo:true }}</div>
+      <div class="comment-like">
+        <div class="text-main">{{ comment.comment_like_count | shortNumber }}</div>
+        <img [src]="'/assets/images/' + (comment.has_liked_comment ? 'like-fill.svg' : 'like.svg')"
+          (click)="comment.has_liked ? null : null">
+      </div>
+    </div>
+  </div>
+  <div [innerHTML]="comment.text | parseUrls" class="comment-text"></div>
+</div>
+<div *ngIf="small" class="comment-container-s">
+  <img-await [routerLink]="['/' + comment.user.username]" [source]="comment.user.profile_pic_url"></img-await>
+  <div class="comment-text-s">
+    <b [routerLink]="['/' + comment.user.username]">{{ comment.user.username }}&ensp;</b>
+    <p [innerHTML]="comment.text | parseUrls"></p>
+  </div>
+</div>

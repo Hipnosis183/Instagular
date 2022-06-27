@@ -1,0 +1,50 @@
+.comment-container {
+  @apply flex items-center justify-between mb-2 w-full;
+}
+.comment-info {
+  @apply cursor-default flex flex-col items-end;
+}
+.comment-like {
+  @apply flex items-center space-x-1;
+}
+.comment-like img {
+  @apply cursor-pointer h-4 mt-0.5 object-contain w-4;
+}
+.comment-text {
+  @apply cursor-default flex font-light text-slate-900;
+}
+::ng-deep .comment-text a {
+  @apply contents mr-1;
+}
+.comment-user {
+  @apply cursor-pointer flex items-center space-x-2;
+}
+:host ::ng-deep .comment-user img {
+  @apply h-10 object-cover rounded-full w-10;
+}
+
+.comment-container-s {
+  @apply flex items-center mb-4 space-x-4 w-full;
+}
+:host ::ng-deep .comment-container-s img {
+  @apply cursor-pointer h-8 object-cover rounded-full min-w-[2rem];
+}
+.comment-text-s {
+  @apply comment-text;
+}
+.comment-text-s b {
+  @apply cursor-pointer;
+}
+::ng-deep .comment-text-s * {
+  @apply contents;
+}
+::ng-deep .comment-text-s a {
+  @apply mr-1;
+}
+
+.text-main {
+  @apply text-lg text-slate-800;
+}
+.text-sub {
+  @apply font-light text-slate-600;
+}

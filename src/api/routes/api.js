@@ -14,6 +14,7 @@ router.post('/collection/edit', collection.edit);
 
 // Feed route endpoints.
 const feed = require('./feed');
+router.post('/feed/comments', feed.comments);
 router.post('/feed/followers', feed.followers);
 router.post('/feed/following', feed.following);
 router.post('/feed/reels', feed.reels);

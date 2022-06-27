@@ -4,35 +4,38 @@
   <div class="viewer-overlay"></div>
   <div class="viewer-contents">
     <div class="viewer-sidenav">
-      <div class="sidenav-user">
-        <img [dropdown]="moreOptions" tooltip="More Options" src="/assets/images/more.svg" class="more-button">
+      <div class="sidenav-post">
+        <img [dropdown]="moreOptions" tooltip="More Options" tooltipPlace="right" src="/assets/images/more.svg" class="more-button">
         <div #moreOptions>
           <span (click)="downloadMedia()">
             <p>Download</p>
             <img src="/assets/images/download.svg" class="ml-3 w-[18px]">
           </span>
         </div>
-        <img-await [source]="feedPost.user.profile_pic_url" class="sidenav-image"></img-await>
-        <div [routerLink]="['/' + feedPost.user.username]" class="sidenav-header">
-          <div class="sidenav-name">
-            <div class="text-main">{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}
+        <div class="sidenav-user">
+          <div [routerLink]="['/' + feedPost.user.username]" class="sidenav-header">
+            <img-await [source]="feedPost.user.profile_pic_url" class="sidenav-image"></img-await>
+            <div class="sidenav-username">
+              <div class="sidenav-name">
+                <div>{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}</div>
+                <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
+              </div>
+              <div class="text-sub text-lg">@{{ feedPost.user.username }}</div>
             </div>
-            <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
           </div>
-          <div class="text-sub">@{{ feedPost.user.username }}</div>
+          <div *ngIf="feedPost.location" class="sidenav-location">{{ feedPost.location.name }}</div>
         </div>
-        <div *ngIf="feedPost.location" class="sidenav-location">{{ feedPost.location.name }}</div>
         <div class="sidenav-stats">
           <div [tooltip]="feedPost.taken_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
-            tooltipPlace="bottom" class="text-sub">{{ feedPost.taken_at * 1000 | date }}</div>
+            class="text-sub">{{ feedPost.taken_at | dateAgo }}</div>
           <div class="flex">
             <div class="mr-4 text-main">{{ feedPost.like_count | shortNumber }}</div>
             <img [src]="'/assets/images/' + (feedPost.has_liked ? 'like-fill.svg' : 'like.svg')"
               (click)="feedPost.has_liked ? unlikeSend.emit(feedPost.id) : likeSend.emit(feedPost.id)"
-              class="cursor-pointer mr-4 object-contain">
+              class="cursor-pointer mr-4">
             <img [src]="'/assets/images/' + (feedPost.has_viewer_saved ? 'save-fill.svg' : 'save.svg')"
               (click)="feedPost.has_viewer_saved ? unsaveSend.emit({ media: feedPost.id }) : saveSend.emit({ media: feedPost.id })"
-              [dropdown]="savePost" [dropdownHover]="true" class="cursor-pointer object-contain">
+              [dropdown]="savePost" [dropdownHover]="true" class="cursor-pointer">
             <div #savePost>
               <span (click)="collectionCreateOpen()" class="create-button">&nbsp;+&ensp;NEW COLLECTION&nbsp;</span>
               <div *ngFor="let collection of store.state.savedPosts">
@@ -44,9 +47,26 @@
             </div>
           </div>
         </div>
-        <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls " class="text-main w-full"></div>
+        <div class="sidenav-comments">
+          <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls" class="sidenav-caption"></div>
+          <div *ngIf="!feedPost.comments_disabled && feedPost.preview_comments.length > 0">
+            <div *ngIf="feedPost.caption" class="separator"></div>
+            <div *ngFor="let preview of feedPost.preview_comments">
+              <post-comment [comment]="preview" [small]="true"></post-comment>
+            </div>
+            <div (click)="postComments.openComments()" class="more">
+              <div class="line"></div>
+              <div class="text">View all comments ({{ feedPost.comment_count }})</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div (click)="postComments.openComments()" class="comments-button">
+        <img src="/assets/images/comment.svg">
+        <div>Comments ({{ feedPost.comments_disabled ? '0' : feedPost.comment_count }})</div>
       </div>
     </div>
+    <post-comments #postComments [feedPost]="feedPost"></post-comments>
     <img-await *ngIf="feedPost.instagular.media_type[carouselIndex] == 1" class="viewer-media"
       [source]="feedPost.instagular.full[carouselIndex]">
     </img-await>

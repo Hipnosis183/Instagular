@@ -1,5 +1,27 @@
 const { IgApiClient: Client } = require('instagram-private-api');
 
+module.exports.comments = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Load comments feed object.
+      const feedComments = client.feed.mediaComments(req.body.id);
+      // Load the state of the feed if present.
+      if (req.body.feed) { feedComments.deserialize(req.body.feed); }
+      // Get comments from the feed object.
+      const comments = await feedComments.items();
+      // Return comments feed list and state.
+      res.status(200);
+      res.json({ feed: feedComments.serialize(), comments: comments });
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
 module.exports.followers = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.

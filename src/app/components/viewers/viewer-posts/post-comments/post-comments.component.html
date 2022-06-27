@@ -1,0 +1,25 @@
+<div *ngIf="loadedComments" [hidden]="!showComments">
+  <div class="comments-container">
+    <div class="comments-header">
+      <img src="/assets/images/comment.svg" class="h-5 -ml-9 mr-4">
+      <div>Comments ({{ feedPost.comment_count }})</div>
+      <img (click)="openComments()" src="/assets/images/close.svg" class="close" />
+    </div>
+    <div class="comments-contents">
+      <div *ngFor="let comment of feedComments; index as i" class="flex flex-col w-full">
+        <post-comment [comment]="comment"></post-comment>
+        <div *ngIf="comment.child_comment_count > 0" (click)="showReplies(i)" class="comments-replies">
+          <div class="line"></div>
+          <div class="text">{{ replyComments[i] ? 'Hide' : 'View' }} replies ({{ comment.child_comment_count }})</div>
+        </div>
+        <div *ngIf="replyComments[i]" class="mb-4 mt-2 pl-4 space-y-4">
+          <div *ngFor="let reply of comment.preview_child_comments">
+            <post-comment [comment]="reply"></post-comment>
+          </div>
+        </div>
+      </div>
+      <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-full"
+        [class]="hideIntersect ? 'hidden' : 'block'"></div>
+    </div>
+  </div>
+</div>
