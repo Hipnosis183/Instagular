@@ -47,7 +47,7 @@ export class MediaReelsComponent {
     this.feedPost.has_liked = true;
     this.http.post('/api/media/like', {
       mediaId: id, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.likeError));
+    }).pipe(catchError(this.likeError)).subscribe();
   }
 
   private unlikeError() {
@@ -60,7 +60,7 @@ export class MediaReelsComponent {
     this.feedPost.has_liked = false;
     this.http.post('/api/media/unlike', {
       mediaId: id, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.unlikeError));
+    }).pipe(catchError(this.unlikeError)).subscribe();
   }
 
   hideIntersect: boolean = true;

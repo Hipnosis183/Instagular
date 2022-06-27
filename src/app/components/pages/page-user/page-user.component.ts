@@ -242,7 +242,7 @@ export class PageUserComponent {
     this.http.post('/api/friendship/follow', {
       userId: this.userProfile.pk,
       session: localStorage.getItem('state'),
-    }).pipe(catchError(this.followError));
+    }).pipe(catchError(this.followError)).subscribe();
   }
 
   private unfollowError() {
@@ -256,7 +256,7 @@ export class PageUserComponent {
     this.http.post('/api/friendship/unfollow', {
       userId: this.userProfile.pk,
       session: localStorage.getItem('state'),
-    }).pipe(catchError(this.unfollowError));
+    }).pipe(catchError(this.unfollowError)).subscribe();
   }
 
   userFollowers: any[] = [];

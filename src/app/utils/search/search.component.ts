@@ -90,7 +90,7 @@ export class SearchComponent {
     this.clearRecentOpen();
     this.http.post<any>('/api/search/recent_clear', {
       session: localStorage.getItem('state'),
-    }).pipe(catchError(this.recentError));
+    }).pipe(catchError(this.recentError)).subscribe();
   }
 
   hideRecent(pk: string | number): void {
@@ -99,7 +99,7 @@ export class SearchComponent {
     this.queryResults = this.store.state.recentSearches;
     this.http.post<any>('/api/search/recent_hide', {
       user: pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.recentError));
+    }).pipe(catchError(this.recentError)).subscribe();
   }
 
   clearValue(): void {
