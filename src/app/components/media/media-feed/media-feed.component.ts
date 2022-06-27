@@ -51,7 +51,8 @@ export class MediaFeedComponent {
   likeMedia(id: string): void {
     let i = this.feedPosts.findIndex((res) => res.id == id);
     this.feedPosts[i].has_liked = true;
-    this.http.post('/api/media/like', {
+    this.feedPosts[i].like_count++;
+    this.http.post('/api/media/like_media', {
       mediaId: id, session: localStorage.getItem('state'),
     }).pipe(catchError(this.likeError)).subscribe();
   }
@@ -65,7 +66,8 @@ export class MediaFeedComponent {
   unlikeMedia(id: string): void {
     let i = this.feedPosts.findIndex((res) => res.id == id);
     this.feedPosts[i].has_liked = false;
-    this.http.post('/api/media/unlike', {
+    this.feedPosts[i].like_count--;
+    this.http.post('/api/media/unlike_media', {
       mediaId: id, session: localStorage.getItem('state'),
     }).pipe(catchError(this.unlikeError)).subscribe();
   }

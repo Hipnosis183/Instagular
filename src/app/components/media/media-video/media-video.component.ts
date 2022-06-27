@@ -87,7 +87,8 @@ export class MediaVideoComponent {
 
   likeMedia(id: string): void {
     this.feedPost.has_liked = true;
-    this.http.post('/api/media/like', {
+    this.feedPost.like_count++;
+    this.http.post('/api/media/like_media', {
       mediaId: id, session: localStorage.getItem('state'),
     }).pipe(catchError(this.likeError)).subscribe();
   }
@@ -100,7 +101,8 @@ export class MediaVideoComponent {
 
   unlikeMedia(id: string): void {
     this.feedPost.has_liked = false;
-    this.http.post('/api/media/unlike', {
+    this.feedPost.like_count--;
+    this.http.post('/api/media/unlike_media', {
       mediaId: id, session: localStorage.getItem('state'),
     }).pipe(catchError(this.unlikeError)).subscribe();
   }

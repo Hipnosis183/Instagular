@@ -13,7 +13,7 @@
       <div class="comment-like">
         <div class="text-main">{{ comment.comment_like_count | shortNumber }}</div>
         <img [src]="'/assets/images/' + (comment.has_liked_comment ? 'like-fill.svg' : 'like.svg')"
-          (click)="comment.has_liked ? null : null">
+          (click)="comment.has_liked_comment ? unlikeComment() : likeComment()">
       </div>
     </div>
   </div>

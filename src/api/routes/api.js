@@ -35,15 +35,17 @@ router.post('/friendship/unfollow', friendship.unfollow);
 
 // Highlights route endpoints.
 const highlights = require('./highlights');
-router.post('/highlights/highlights_tray', highlights.highlightsTray);
+router.post('/highlights/highlights_tray', highlights.highlights_tray);
 
 // Media route endpoints.
 const media = require('./media');
 router.post('/media/encode', media.encode);
-router.post('/media/like', media.like);
+router.post('/media/like_comment', media.like_comment);
+router.post('/media/like_media', media.like_media);
 router.post('/media/save', media.save);
 router.post('/media/seen', media.seen);
-router.post('/media/unlike', media.unlike);
+router.post('/media/unlike_comment', media.unlike_comment);
+router.post('/media/unlike_media', media.unlike_media);
 router.post('/media/unsave', media.unsave);
 router.post('/media/video', media.video);
 

@@ -23,7 +23,24 @@ module.exports.encode = (req, res, next) => {
   })();
 };
 
-module.exports.like = (req, res, next) => {
+module.exports.like_comment = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Like the selected comment.
+      await client.media.likeComment(req.body.id);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
+module.exports.like_media = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.
     const client = new Client();
@@ -74,7 +91,24 @@ module.exports.seen = (req, res, next) => {
   })();
 };
 
-module.exports.unlike = (req, res, next) => {
+module.exports.unlike_comment = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Unike the selected comment.
+      await client.media.unlikeComment(req.body.id);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
+module.exports.unlike_media = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.
     const client = new Client();

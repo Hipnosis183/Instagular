@@ -1,6 +1,6 @@
 const { IgApiClient: Client } = require('instagram-private-api');
 
-module.exports.highlightsTray = (req, res, next) => {
+module.exports.highlights_tray = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.
     const client = new Client();
