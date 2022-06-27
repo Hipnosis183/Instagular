@@ -175,10 +175,10 @@ export class ViewerStoriesComponent {
         await this.storiesPrev();
       }
     }
+    // Close thumbs panel if the space key is pressed.
+    if (event.key == ' ') { this.expandThumbs(); }
     // Close viewer if the escape key is pressed.
-    if (event.key == 'Escape') {
-      this.closeStories();
-    }
+    if (event.key == 'Escape') { this.closeStories(); }
   }
 
   expandedThumbs: boolean = false;

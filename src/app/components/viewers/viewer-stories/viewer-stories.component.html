@@ -11,7 +11,7 @@
         </div>
       </div>
       <div>
-        <div *ngIf="feedStories.length > 1 && feedIndex > 0" (click)="storiesPrevSkip()" class="nav-buttton-d">
+        <div *ngIf="feedStories.length > 1 && feedIndex > 0" (click)="storiesPrevSkip()" class="nav-button-d">
           <img src="/assets/images/chevron-d-left.svg">
         </div>
         <div tooltip="Thumbnails" tooltipPlace="right" tooltipTheme="lite" (click)="expandThumbs()" class="thumbs-expand">
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="flex justify-center w-full">
-      <div class="nav-buttton">
+      <div class="nav-button">
         <img *ngIf="feedIndex > 0 || storiesIndex > 0; else prevButton" (click)="storiesPrev()"
           src="/assets/images/chevron-left.svg">
         <ng-template #prevButton>
@@ -57,7 +57,7 @@
         <video autoplay controls loop [muted]="true" [src]="feedStories[feedIndex].items[storiesIndex].video_versions[0].url | encode:true | async"
           [poster]="feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url | encode | async"></video>
       </div>
-      <div class="nav-buttton">
+      <div class="nav-button">
         <img (click)="storiesNext()" src="/assets/images/chevron-right.svg">
         <div *ngIf="feedStories[feedIndex].reel_type == 'highlight_reel'" class="user-container-r">
           <div class="flex flex-col items-start mt-8">
@@ -79,7 +79,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="feedStories.length > 1" (click)="storiesNextSkip()" class="nav-buttton-d right-0">
+    <div *ngIf="feedStories.length > 1" (click)="storiesNextSkip()" class="nav-button-d right-0">
       <img src="/assets/images/chevron-d-right.svg">
     </div>
     <div (click)="closeStories()" class="close-button">

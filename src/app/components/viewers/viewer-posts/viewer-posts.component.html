@@ -3,8 +3,9 @@
 <div autoFocus tabindex="0" class="viewer-container">
   <div class="viewer-overlay"></div>
   <div class="viewer-contents">
-    <div class="viewer-sidenav">
-      <div class="sidenav-post">
+    <div class="viewer-panel" [class]="expandedPanel ? 'flex' : 'hidden'">
+      <post-comments #postComments [feedPost]="feedPost"></post-comments>
+      <div class="panel-post">
         <img [dropdown]="moreOptions" tooltip="More Options" tooltipPlace="right" src="/assets/images/more.svg" class="more-button">
         <div #moreOptions>
           <span (click)="downloadMedia()">
@@ -12,20 +13,20 @@
             <img src="/assets/images/download.svg" class="ml-3 w-[18px]">
           </span>
         </div>
-        <div class="sidenav-user">
-          <div [routerLink]="['/' + feedPost.user.username]" class="sidenav-header">
-            <img-await [source]="feedPost.user.profile_pic_url" class="sidenav-image"></img-await>
-            <div class="sidenav-username">
-              <div class="sidenav-name">
+        <div class="panel-user">
+          <div [routerLink]="['/' + feedPost.user.username]" class="panel-header">
+            <img-await [source]="feedPost.user.profile_pic_url" class="panel-image"></img-await>
+            <div class="panel-username">
+              <div class="panel-name">
                 <div>{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}</div>
                 <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
               </div>
               <div class="text-sub text-lg">@{{ feedPost.user.username }}</div>
             </div>
           </div>
-          <div *ngIf="feedPost.location" class="sidenav-location">{{ feedPost.location.name }}</div>
+          <div *ngIf="feedPost.location" class="panel-location">{{ feedPost.location.name }}</div>
         </div>
-        <div class="sidenav-stats">
+        <div class="panel-stats">
           <div [tooltip]="feedPost.taken_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
             class="text-sub">{{ feedPost.taken_at | dateAgo }}</div>
           <div class="flex">
@@ -47,8 +48,8 @@
             </div>
           </div>
         </div>
-        <div class="sidenav-comments">
-          <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls" class="sidenav-caption"></div>
+        <div class="panel-comments">
+          <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls" class="panel-caption"></div>
           <div *ngIf="!feedPost.comments_disabled && feedPost.preview_comments.length > 0">
             <div *ngIf="feedPost.caption" class="separator"></div>
             <div *ngFor="let preview of feedPost.preview_comments">
@@ -66,34 +67,45 @@
         <div>Comments ({{ feedPost.comments_disabled ? '0' : feedPost.comment_count }})</div>
       </div>
     </div>
-    <post-comments #postComments [feedPost]="feedPost"></post-comments>
-    <img-await *ngIf="feedPost.instagular.media_type[carouselIndex] == 1" class="viewer-media"
-      [source]="feedPost.instagular.full[carouselIndex]">
-    </img-await>
-    <div *ngIf="feedPost.instagular.media_type[carouselIndex] == 2 || feedPost.instagular.media_type[carouselIndex] == 3" class="viewer-media">
-      <div *ngIf="feedPost.video_duration < 60; then play; else block"></div>
-      <ng-template #play>
-        <video autoplay controls loop [muted]="true" [src]="feedPost.instagular.full[carouselIndex] | encode:true | async"
-          [poster]="feedPost.instagular.thumb[carouselIndex] | encode | async"></video>
-      </ng-template>
-      <ng-template #block>
-        <div class="viewer-text">
-          <p>
-            This video is longer than a minute, and it's not suitable to be converted and displayed by the app.
-            You can still open the original video in a new tab and watch it externally.
-          </p>
-          <button (click)="openMedia()">WATCH IN NEW TAB</button>
+    <div class="z-[2]">
+      <div class="nav-button">
+        <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" class="carousel">
+          <img src="/assets/images/chevron-left.svg" (click)="carouselPrev()">
         </div>
-        <img-await [source]="feedPost.instagular.thumb[0]" class="viewer-image"></img-await>
-      </ng-template>
-    </div>
-    <div class="prev-button">
-      <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" class="carousel">
-        <img src="/assets/images/chevron-left.svg" (click)="carouselPrev()">
+        <img *ngIf="feedIndex.current > 0" (click)="postPrev()" src="/assets/images/chevron-d-left.svg">
       </div>
-      <img *ngIf="feedIndex.current > 0" (click)="postPrev()" src="/assets/images/chevron-d-left.svg">
+      <div [tooltip]="(expandedPanel ? 'Collapse' : 'Expand') + ' Panel'" tooltipPlace="right" tooltipTheme="lite"
+        (click)="expandPanel()" class="panel-expand" [class]="expandedPanel ? 'opacity-100' : 'opacity-90'">
+        <div [class]="expandedPanel ? 'expanded' : 'collapsed'"></div>
+      </div>
     </div>
-    <div class="next-button">
+    <div class="relative w-full">
+      <img-await *ngIf="feedPost.instagular.media_type[carouselIndex] == 1" class="viewer-media"
+        [source]="feedPost.instagular.full[carouselIndex]"></img-await>
+      <div *ngIf="feedPost.instagular.media_type[carouselIndex] == 2 || feedPost.instagular.media_type[carouselIndex] == 3" class="viewer-media">
+        <div *ngIf="feedPost.video_duration < 60; then play; else block"></div>
+        <ng-template #play>
+          <video autoplay controls loop [muted]="true" [src]="feedPost.instagular.full[carouselIndex] | encode:true | async"
+            [poster]="feedPost.instagular.thumb[carouselIndex] | encode | async"></video>
+        </ng-template>
+        <ng-template #block>
+          <div class="viewer-text">
+            <p>
+              This video is longer than a minute, and it's not suitable to be converted and displayed by the app.
+              You can still open the original video in a new tab and watch it externally.
+            </p>
+            <button (click)="openMedia()">WATCH IN NEW TAB</button>
+          </div>
+          <img-await [source]="feedPost.instagular.thumb[0]" class="viewer-image"></img-await>
+        </ng-template>
+      </div>
+      <div *ngIf="feedPost.instagular.full.length > 1" class="viewer-count">
+        <div *ngFor="let media of feedPost.instagular.full; index as i">
+          <div class="count-dot" [class]="i == carouselIndex ? 'bg-blue-500' : 'bg-slate-100'"></div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-button right-0 w-[52px]">
       <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex < feedPost.instagular.full.length - 1" class="carousel">
         <img src="/assets/images/chevron-right.svg" (click)="carouselNext()">
       </div>
@@ -101,11 +113,6 @@
     </div>
     <div (click)="closeSend.emit()" class="close-button">
       <img src="/assets/images/close.svg">
-    </div>
-    <div *ngIf="feedPost.instagular.full.length > 1" class="viewer-count">
-      <div *ngFor="let media of feedPost.instagular.full; index as i">
-        <div class="count-dot" [class]="i == carouselIndex ? 'bg-blue-500' : 'bg-slate-100'"></div>
-      </div>
     </div>
   </div>
 </div>

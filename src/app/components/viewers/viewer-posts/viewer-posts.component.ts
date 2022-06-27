@@ -64,10 +64,10 @@ export class ViewerPostsComponent {
         this.postPrev();
       }
     }
+    // Close side panel if the space key is pressed.
+    if (event.key == ' ') { this.expandPanel(); }
     // Close viewer if the escape key is pressed.
-    if (event.key == 'Escape') {
-      this.closeSend.emit();
-    }
+    if (event.key == 'Escape') { this.closeSend.emit(); }
   }
 
   @Output() likeSend = new EventEmitter();
@@ -101,6 +101,12 @@ export class ViewerPostsComponent {
     // Reload collections.
     this.store.loadSaved();
     this.collectionCreate = false;
+  }
+
+  expandedPanel: boolean = true;
+
+  expandPanel(): void {
+    this.expandedPanel = !this.expandedPanel;
   }
 
   ngOnInit(): void {

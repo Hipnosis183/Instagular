@@ -1,5 +1,5 @@
 .comments-container {
-  @apply absolute bg-slate-100 flex flex-col h-screen w-[380px];
+  @apply absolute bg-slate-100 flex flex-col h-screen w-[380px] z-[1];
 }
 .comments-contents {
   @apply overflow-y-auto p-4 space-y-4;
