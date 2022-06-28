@@ -14,20 +14,22 @@ export class ParseUrlsPipe implements PipeTransform {
       text = text.replace(this.urls, function replacer($1, $2, $3) {
         let url: any = $1;
         let urlClean: any = url.replace("" + $3 + "://", "");
-
         return "<a href=\"" + url + "\" target=\"_blank\">" + urlClean + "</a>";
       });
     }
     if (text.match(this.hashtags)) {
       text = text.replace(this.hashtags, "<a href=\"/$2\" class=\"hashtag-link\">$1$2</a>");
       text = text.replaceAll("href=\"/#", "href=\"/");
+      return text;
     }
     if (text.match(this.mentions)) {
       text = text.replace(this.mentions, "<a href=\"/$2\" class=\"handle-link\">$1$2</a>");
       text = text.replaceAll("href=\"/@", "href=\"/");
+      return text;
     }
     if (text.match(this.emails)) {
       text = text.replace(this.emails, "<a href=\"mailto:$1\">$1</a>");
+      return text;
     }
     return text;
   }
