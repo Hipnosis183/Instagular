@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -15,6 +15,7 @@ export class PostCommentComponent {
 
   @Input() comment: any;
   @Input() small: boolean = false;
+  @Output() replySend = new EventEmitter();
 
   private likeError() {
     return throwError(() => {

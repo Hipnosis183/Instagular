@@ -15,6 +15,7 @@ router.post('/collection/edit', collection.edit);
 // Feed route endpoints.
 const feed = require('./feed');
 router.post('/feed/comments', feed.comments);
+router.post('/feed/comments_replies', feed.comments_replies);
 router.post('/feed/followers', feed.followers);
 router.post('/feed/following', feed.following);
 router.post('/feed/reels', feed.reels);
@@ -39,6 +40,7 @@ router.post('/highlights/highlights_tray', highlights.highlights_tray);
 
 // Media route endpoints.
 const media = require('./media');
+router.post('/media/comment', media.comment);
 router.post('/media/encode', media.encode);
 router.post('/media/like_comment', media.like_comment);
 router.post('/media/like_media', media.like_media);

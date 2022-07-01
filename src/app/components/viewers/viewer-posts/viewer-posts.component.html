@@ -57,14 +57,14 @@
             </div>
             <div (click)="postComments.openComments()" class="more">
               <div class="line"></div>
-              <div class="text">View all comments ({{ feedPost.comment_count }})</div>
+              <div class="text">View all comments ({{ feedPost.comment_count | shortNumber }})</div>
             </div>
           </div>
         </div>
       </div>
       <div (click)="postComments.openComments()" class="comments-button">
         <img src="/assets/images/comment.svg">
-        <div>Comments ({{ feedPost.comments_disabled ? '0' : feedPost.comment_count }})</div>
+        <div>Comments ({{ feedPost.comments_disabled ? '0' : feedPost.comment_count | shortNumber }})</div>
       </div>
     </div>
     <div class="z-[2]">

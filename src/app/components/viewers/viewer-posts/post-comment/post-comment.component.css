@@ -4,38 +4,52 @@
 .comment-info {
   @apply cursor-default flex flex-col items-end;
 }
-.comment-like {
-  @apply flex items-center space-x-1;
+.comment-like,
+.comment-more {
+  @apply flex items-center space-x-2;
 }
-.comment-like img {
+.comment-like > img {
   @apply cursor-pointer h-4 mt-0.5 object-contain w-4;
 }
+.comment-more > img {
+  @apply cursor-pointer h-4 w-4;
+  transform: rotate(90deg);
+}
+.comment-more .dropdown img {
+  @apply ml-3 opacity-90 w-[16px];
+}
+.comment-more .dropdown span {
+  @apply justify-between;
+}
 .comment-text {
-  @apply cursor-default flex font-light text-slate-900;
+  @apply cursor-default flex font-light overflow-x-hidden text-slate-900;
 }
 ::ng-deep .comment-text a {
   @apply contents mr-1;
 }
 .comment-user {
-  @apply cursor-pointer flex items-center space-x-2;
+  @apply cursor-pointer flex items-center overflow-x-hidden space-x-2;
 }
-:host ::ng-deep .comment-user img {
-  @apply h-10 object-cover rounded-full w-10;
+.comment-user img-await {
+  @apply h-10 min-w-[2.5rem] w-10;
+}
+:host ::ng-deep .comment-user img-await img {
+  @apply object-cover rounded-full;
 }
 
 .comment-container-s {
   @apply flex items-center mb-4 space-x-4 w-full;
 }
-:host ::ng-deep .comment-container-s img {
+:host ::ng-deep .comment-container-s img-await img {
   @apply cursor-pointer h-8 object-cover rounded-full min-w-[2rem];
 }
 .comment-text-s {
-  @apply comment-text;
+  @apply cursor-default inline-block font-light text-slate-900;
 }
 .comment-text-s b {
-  @apply cursor-pointer;
+  @apply contents cursor-pointer;
 }
-::ng-deep .comment-text-s * {
+.comment-text-s p {
   @apply contents;
 }
 ::ng-deep .comment-text-s a {

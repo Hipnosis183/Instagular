@@ -14,11 +14,36 @@
   @apply absolute cursor-pointer h-full mr-6 right-0 w-3;
 }
 .comments-replies {
+  @apply flex flex-col w-full;
+}
+.comments-replies .comments {
+  @apply mb-4 mt-2 pl-4 space-y-4;
+}
+.comments-replies .display {
   @apply cursor-pointer flex items-center ml-2 my-2;
 }
 .comments-replies .line {
   @apply bg-slate-400 h-px w-8;
 }
+.comments-replies .load {
+  @apply flex items-center mb-2;
+}
 .comments-replies .text {
   @apply font-light ml-2 text-slate-600;
+}
+.comments-send {
+  @apply bg-slate-50 border-t-[1px] border-t-slate-200 flex min-h-[4rem] items-center mt-auto;
+}
+.comments-send > img {
+  @apply h-max mr-4;
+  transform: rotate(44deg);
+}
+.comments-send input {
+  @apply bg-slate-50 font-light px-5 py-4 w-full;
+}
+.comments-send textarea:focus, input:focus{
+  outline: none;
+}
+.comments-send .replybox {
+  @apply absolute bg-slate-50 border-y-[1px] border-y-slate-200 cursor-default flex items-center justify-between -mt-[6.6rem] px-4 py-2 w-full;
 }

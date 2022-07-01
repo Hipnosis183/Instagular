@@ -1,5 +1,22 @@
 const { IgApiClient: Client } = require('instagram-private-api');
 
+module.exports.comment = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Comment on the selected media.
+      const comment = await client.media.comment({ mediaId: req.body.mediaId, text: req.body.text, replyToCommentId: req.body.reply });
+      res.status(200);
+      res.json(comment);
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
 const fetch = require('node-fetch');
 module.exports.encode = (req, res, next) => {
   ; (async () => {

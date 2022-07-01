@@ -22,6 +22,28 @@ module.exports.comments = (req, res, next) => {
   })();
 };
 
+module.exports.comments_replies = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Load replies feed object.
+      const feedReplies = client.feed.mediaCommentsChild(req.body.mediaId, req.body.commentId);
+      // Load the state of the feed if present.
+      if (req.body.feed) { feedReplies.deserialize(req.body.feed); }
+      // Get replies from the feed object.
+      const replies = await feedReplies.items();
+      // Return replies feed list and state.
+      res.status(200);
+      res.json({ feed: feedReplies.serialize(), replies: replies });
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
 module.exports.followers = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.

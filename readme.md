@@ -22,7 +22,7 @@ While the app should be safe to use in general, there's still the possibility fo
 - Fullscreen media viewer, with high quality photos and videos play.
 - Profile user pages (posts, reels, videos, tagged).
 - Stories/highlights support.
-- User interaction (like/unlike, follow/unfollow).
+- User interaction (like/unlike, follow/unfollow, comments).
 - High/original quality media download.
 - Saved collections management.
 - Users search bar.

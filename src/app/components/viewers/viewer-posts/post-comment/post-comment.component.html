@@ -3,13 +3,25 @@
     <div [routerLink]="['/' + comment.user.username]" class="comment-user">
       <img-await [source]="comment.user.profile_pic_url"></img-await>
       <div class="flex flex-col">
-        <div class="text-main">{{ comment.user.full_name }}</div>
+        <div class="flex space-x-1 whitespace-nowrap">
+          <div class="text-main">{{ comment.user.full_name ? comment.user.full_name : comment.user.username }}</div>
+          <img *ngIf="comment.user.is_verified" src="/assets/images/verified.svg">
+        </div>
         <div class="text-sub">{{ comment.user.username }}</div>
       </div>
     </div>
     <div class="comment-info">
-      <div [tooltip]="comment.created_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
-        class="text-sub">{{ comment.created_at | dateAgo:true }}</div>
+      <div class="comment-more">
+        <div [tooltip]="comment.created_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
+          class="text-sub">{{ comment.created_at | dateAgo:true }}</div>
+        <img [dropdown]="moreOptions" [dropdownOffset]="[4, 10]" dropdownPlace="bottom-end" src="/assets/images/more.svg">
+        <div #moreOptions class="dropdown">
+          <span (click)="replySend.emit({ pk: comment.pk, user: comment.user.username, reply: comment.parent_comment_id })">
+            <p>Reply</p>
+            <img src="/assets/images/reply.svg">
+          </span>
+        </div>
+      </div>
       <div class="comment-like">
         <div class="text-main">{{ comment.comment_like_count | shortNumber }}</div>
         <img [src]="'/assets/images/' + (comment.has_liked_comment ? 'like-fill.svg' : 'like.svg')"
@@ -22,7 +34,10 @@
 <div *ngIf="small" class="comment-container-s">
   <img-await [routerLink]="['/' + comment.user.username]" [source]="comment.user.profile_pic_url"></img-await>
   <div class="comment-text-s">
-    <b [routerLink]="['/' + comment.user.username]">{{ comment.user.username }}&ensp;</b>
+    <div class="inline-flex">
+      <b [routerLink]="['/' + comment.user.username]">{{ comment.user.username }}&ensp;</b>
+      <img *ngIf="comment.user.is_verified" src="/assets/images/verified.svg" class="-ml-1 mr-2">
+    </div>
     <p [innerHTML]="comment.text | parseUrls"></p>
   </div>
 </div>
