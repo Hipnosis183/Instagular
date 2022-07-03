@@ -142,6 +142,40 @@ module.exports.like = (req, res, next) => {
   })();
 };
 
+module.exports.likes_hide = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Hide the like and view counts for the selected media.
+      await client.media.likeVisibilityUpdate(req.body.id, true);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
+module.exports.likes_unhide = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Unhide the like and view counts for the selected media.
+      await client.media.likeVisibilityUpdate(req.body.id, false);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
 module.exports.save = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.

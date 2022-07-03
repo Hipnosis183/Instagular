@@ -48,6 +48,8 @@ router.post('/media/comments_enable', media.comments_enable);
 router.post('/media/comments_disable', media.comments_disable);
 router.post('/media/encode', media.encode);
 router.post('/media/like', media.like);
+router.post('/media/likes_hide', media.likes_hide);
+router.post('/media/likes_unhide', media.likes_unhide);
 router.post('/media/save', media.save);
 router.post('/media/seen', media.seen);
 router.post('/media/unlike', media.unlike);

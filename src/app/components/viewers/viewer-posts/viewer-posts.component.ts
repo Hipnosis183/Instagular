@@ -82,6 +82,26 @@ export class ViewerPostsComponent {
   @Output() unsaveSend = new EventEmitter();
   @Output() closeSend = new EventEmitter();
 
+  private likesError() {
+    return throwError(() => {
+      new Error('Likes error: couldn\'t toggle like/view counts.');
+    });
+  }
+
+  likesHide(): void {
+    this.feedPost.like_and_view_counts_disabled = true;
+    this.http.post('/api/media/likes_hide', {
+      id: this.feedPost.pk, session: localStorage.getItem('state'),
+    }).pipe(catchError(this.likesError)).subscribe();
+  }
+
+  likesUnhide(): void {
+    this.feedPost.like_and_view_counts_disabled = false;
+    this.http.post('/api/media/likes_unhide', {
+      id: this.feedPost.pk, session: localStorage.getItem('state'),
+    }).pipe(catchError(this.likesError)).subscribe();
+  }
+
   private commentsError() {
     return throwError(() => {
       new Error('Comments error: couldn\'t toggle comments visibility state.');

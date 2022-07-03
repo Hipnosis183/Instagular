@@ -12,6 +12,10 @@
             <img src="/assets/images/download.svg" class="mr-3 w-[18px]">
             <p>Download</p>
           </span>
+          <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.like_and_view_counts_disabled ? likesUnhide() : likesHide()">
+            <img src="/assets/images/like.svg" class="mr-3 w-[18px]">
+            <p>{{ feedPost.like_and_view_counts_disabled ? 'Unhide' : 'Hide' }} Like Count</p>
+          </span>
           <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.comments_disabled ? commentsEnable() : commentsDisable()">
             <img src="/assets/images/visibility.svg" class="mr-3 w-[18px]">
             <p>{{ feedPost.comments_disabled ? 'Enable' : 'Disable' }} Comments</p>
@@ -34,7 +38,7 @@
           <div [tooltip]="feedPost.taken_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
             class="text-sub">{{ feedPost.taken_at | dateAgo }}</div>
           <div class="flex">
-            <div *ngIf="!feedPost.like_and_view_counts_disabled" class="mr-4 text-main">{{ feedPost.like_count | shortNumber }}</div>
+            <div *ngIf="!feedPost.like_and_view_counts_disabled" class="counter">{{ feedPost.like_count | shortNumber }}</div>
             <img [src]="'/assets/images/' + (feedPost.has_liked ? 'like-fill.svg' : 'like.svg')"
               (click)="feedPost.has_liked ? unlikeSend.emit(feedPost.id) : likeSend.emit(feedPost.id)"
               class="cursor-pointer mr-4">
