@@ -17,7 +17,7 @@
               <img src="/assets/images/activity-fill-lite.svg">
               <p>{{ post.node.edge_liked_by.count | shortNumber }}</p>
             </div>
-            <div>
+            <div *ngIf="!post.node.comments_disabled">
               <img src="/assets/images/comment-fill.svg">
               <p>{{ post.node.edge_media_to_comment.count | shortNumber }}</p>
             </div>

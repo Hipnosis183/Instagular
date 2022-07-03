@@ -44,6 +44,8 @@ router.post('/media/comment', media.comment);
 router.post('/media/comment_delete', media.comment_delete);
 router.post('/media/comment_like', media.comment_like);
 router.post('/media/comment_unlike', media.comment_unlike);
+router.post('/media/comments_enable', media.comments_enable);
+router.post('/media/comments_disable', media.comments_disable);
 router.post('/media/encode', media.encode);
 router.post('/media/like', media.like);
 router.post('/media/save', media.save);

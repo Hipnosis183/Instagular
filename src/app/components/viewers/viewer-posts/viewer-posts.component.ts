@@ -1,4 +1,7 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
@@ -9,7 +12,10 @@ import { StoreService } from 'src/app/services/store.service';
 
 export class ViewerPostsComponent {
 
-  constructor(public store: StoreService) { }
+  constructor(
+    private http: HttpClient,
+    public store: StoreService,
+  ) { }
 
   @Input() feedPost: any;
   @Input() feedIndex: any;
@@ -75,6 +81,29 @@ export class ViewerPostsComponent {
   @Output() saveSend = new EventEmitter();
   @Output() unsaveSend = new EventEmitter();
   @Output() closeSend = new EventEmitter();
+
+  private commentsError() {
+    return throwError(() => {
+      new Error('Comments error: couldn\'t toggle comments visibility state.');
+    });
+  }
+
+  commentsEnable(): void {
+    this.feedPost.comment_count = 0;
+    this.feedPost.comments_disabled = false;
+    this.http.post('/api/media/comments_enable', {
+      id: this.feedPost.pk, session: localStorage.getItem('state'),
+    }).pipe(catchError(this.commentsError)).subscribe();
+  }
+
+  commentsDisable(): void {
+    this.feedPost.comment_count = 0;
+    this.feedPost.comments_disabled = true;
+    this.feedPost.preview_comments = [];
+    this.http.post('/api/media/comments_disable', {
+      id: this.feedPost.pk, session: localStorage.getItem('state'),
+    }).pipe(catchError(this.commentsError)).subscribe();
+  }
 
   saveMedia(feedPost: any, collection: any): void {
     const ids = { media: feedPost.id, collection: collection.collection_id };

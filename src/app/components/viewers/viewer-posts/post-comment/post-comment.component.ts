@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'post-comment',
@@ -11,9 +12,10 @@ import { catchError } from 'rxjs/operators';
 
 export class PostCommentComponent {
 
-  constructor(private http: HttpClient) { }
-
-  userPk: any = localStorage.getItem('userpk');
+  constructor(
+    private http: HttpClient,
+    public store: StoreService,
+  ) { }
 
   @Input() post: any;
   @Input() comment: any;

@@ -13,11 +13,11 @@
       <div class="post-container">
         <div class="post-footer">
           <div class="post-stats">
-            <div>
+            <div *ngIf="!post.like_and_view_counts_disabled">
               <img src="/assets/images/activity-fill-lite.svg">
               <p>{{ post.like_count | shortNumber }}</p>
             </div>
-            <div>
+            <div *ngIf="!post.comments_disabled">
               <img src="/assets/images/comment-fill.svg">
               <p>{{ post.comment_count | shortNumber }}</p>
             </div>

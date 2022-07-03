@@ -68,6 +68,40 @@ module.exports.comment_unlike = (req, res, next) => {
   })();
 };
 
+module.exports.comments_enable = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Enable comments for the selected media.
+      await client.media.commentsEnable(req.body.id);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
+module.exports.comments_disable = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Disable comments for the selected media.
+      await client.media.commentsDisable(req.body.id);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
 const fetch = require('node-fetch');
 module.exports.encode = (req, res, next) => {
   ; (async () => {
