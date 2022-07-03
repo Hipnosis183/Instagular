@@ -30,6 +30,9 @@
 .panel-caption {
   @apply cursor-default text-main w-full;
 }
+.panel-coauthor {
+  @apply -mr-6 outline outline-slate-50 panel-image z-[1];
+}
 .panel-comments {
   @apply max-h-full overflow-y-auto p-4 w-full;
 }
@@ -63,16 +66,16 @@
   transform: rotate(225deg);
 }
 .panel-header {
-  @apply cursor-pointer flex flex-col items-center;
+  @apply cursor-default flex flex-col items-center;
 }
 .panel-image {
-  @apply mb-5 min-h-[100px] overflow-hidden rounded-full w-[100px];
+  @apply cursor-pointer mb-5 min-h-[100px] overflow-hidden rounded-full w-[100px];
 }
 .panel-location {
   @apply cursor-default max-w-full mt-2 overflow-hidden text-sub whitespace-nowrap;
 }
 .panel-name {
-  @apply flex space-x-2;
+  @apply flex space-x-2 text-center;
 }
 .panel-name div {
   @apply font-light text-[22px] text-slate-800;

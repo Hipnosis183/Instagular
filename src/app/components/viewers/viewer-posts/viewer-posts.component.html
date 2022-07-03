@@ -22,16 +22,44 @@
           </span>
         </div>
         <div class="panel-user">
-          <div [routerLink]="['/' + feedPost.user.username]" class="panel-header">
-            <img-await [source]="feedPost.user.profile_pic_url" class="panel-image"></img-await>
-            <div class="panel-username">
-              <div class="panel-name">
-                <div>{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}</div>
-                <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
+          <div *ngIf="!feedPost.coauthor_producers; then single; else multi"></div>
+          <ng-template #single>
+            <div [routerLink]="['/' + feedPost.user.username]" class="panel-header">
+              <img-await [source]="feedPost.user.profile_pic_url" class="panel-image"></img-await>
+              <div class="panel-username">
+                <div class="panel-name">
+                  <div>{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}</div>
+                  <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
+                </div>
+                <div class="text-sub text-lg">@{{ feedPost.user.username }}</div>
               </div>
-              <div class="text-sub text-lg">@{{ feedPost.user.username }}</div>
             </div>
-          </div>
+          </ng-template>
+          <ng-template #multi>
+            <div class="panel-header">
+              <div class="flex">
+                <img-await [routerLink]="['/' + feedPost.user.username]" [source]="feedPost.user.profile_pic_url" class="panel-coauthor"></img-await>
+                <img-await [routerLink]="['/' + feedPost.coauthor_producers[0].username]" [source]="feedPost.coauthor_producers[0].profile_pic_url" class="panel-image"></img-await>
+              </div>
+              <div class="flex flex-col items-center">
+                <div [routerLink]="['/' + feedPost.user.username]" class="panel-username">
+                  <div class="panel-name">
+                    <div>{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}</div>
+                    <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
+                  </div>
+                  <div class="text-sub text-lg">@{{ feedPost.user.username }}</div>
+                </div>
+                <div class="mt-1 text-slate-700">&#65291;</div>
+                <div [routerLink]="['/' + feedPost.coauthor_producers[0].username]" class="panel-username">
+                  <div class="panel-name">
+                    <div>{{ feedPost.coauthor_producers[0].full_name ? feedPost.coauthor_producers[0].full_name : feedPost.coauthor_producers[0].username }}</div>
+                    <img *ngIf="feedPost.coauthor_producers[0].is_verified" src="/assets/images/verified.svg">
+                  </div>
+                  <div class="text-sub text-lg">@{{ feedPost.coauthor_producers[0].username }}</div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
           <div *ngIf="feedPost.location" class="panel-location">{{ feedPost.location.name }}</div>
         </div>
         <div class="panel-stats">
