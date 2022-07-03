@@ -53,9 +53,11 @@ export class PostCommentsComponent {
   }
 
   openComments(): void {
-    if (!this.feedPost.comments_disabled) {
-      if (!this.loadedComments) { this.loadComments(); }
-      this.showComments = !this.showComments;
+    if (this.feedPost.comment_count > 0) {
+      if (!this.feedPost.comments_disabled) {
+        if (!this.loadedComments) { this.loadComments(); }
+        this.showComments = !this.showComments;
+      }
     }
   }
 

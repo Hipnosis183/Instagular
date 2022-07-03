@@ -50,7 +50,7 @@
         </div>
         <div class="panel-comments">
           <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls" class="panel-caption"></div>
-          <div *ngIf="!feedPost.comments_disabled && feedPost.preview_comments.length > 0">
+          <div *ngIf="!feedPost.comments_disabled && (feedPost.preview_comments && feedPost.preview_comments.length > 0)">
             <div *ngIf="feedPost.caption" class="separator"></div>
             <div *ngFor="let preview of feedPost.preview_comments">
               <post-comment [comment]="preview" [small]="true"></post-comment>
@@ -83,7 +83,12 @@
       <img-await *ngIf="feedPost.instagular.media_type[carouselIndex] == 1" class="viewer-media"
         [source]="feedPost.instagular.full[carouselIndex]"></img-await>
       <div *ngIf="feedPost.instagular.media_type[carouselIndex] == 2 || feedPost.instagular.media_type[carouselIndex] == 3" class="viewer-media">
-        <div *ngIf="feedPost.video_duration < 60; then play; else block"></div>
+        <div *ngIf="feedPost.carousel_media_count">
+          <div *ngIf="feedPost.carousel_media_count && feedPost.carousel_media[carouselIndex].video_duration < 60; then play; else block"></div>
+        </div>
+        <div *ngIf="!feedPost.carousel_media_count">
+          <div *ngIf="!feedPost.carousel_media_count && feedPost.video_duration < 60; then play; else block"></div>
+        </div>
         <ng-template #play>
           <video autoplay controls loop [muted]="true" [src]="feedPost.instagular.full[carouselIndex] | encode:true | async"
             [poster]="feedPost.instagular.thumb[carouselIndex] | encode | async"></video>

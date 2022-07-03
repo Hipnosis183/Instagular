@@ -120,6 +120,9 @@
 .viewer-media {
   @apply h-full w-full;
 }
+.viewer-media > * {
+  @apply contents;
+}
 .viewer-media video,
 :host ::ng-deep .viewer-media img {
   @apply h-full object-contain w-full;
