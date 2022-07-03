@@ -59,21 +59,14 @@ export class PostCommentsComponent {
     }
   }
 
-  repliesComments: any[] = [];
-  stateComments: any[] = [];
-
-  showReplies(i: number): void {
-    if (this.repliesComments[i]) {
-      this.repliesComments[i] = !this.repliesComments[i];
-    } else { this.repliesComments[i] = true; }
-    if (!this.loadedReplies) { return; }
-    if (this.feedComments[i].preview_child_comments.length == 0) {
-      this.loadReplies(i);
-    }
-  }
-
   textComment: string = '';
   sendingComment: boolean = false;
+
+  private sendError() {
+    return throwError(() => {
+      new Error('Comment error: cannot send comment/reply.');
+    });
+  }
 
   sendComment(): void {
     if (!(this.textComment.length > 0) || this.sendingComment) { return; }
@@ -81,7 +74,7 @@ export class PostCommentsComponent {
     this.http.post<string>('/api/media/comment', {
       mediaId: this.feedPost.pk, text: this.textComment,
       reply: this.commentReply.pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.commentsError)).subscribe((data: any) => {
+    }).pipe(catchError(this.sendError)).subscribe((data: any) => {
       data.comment_like_count = 0;
       if (this.commentReply.pk) {
         data.child_comment_count = 0;
@@ -102,6 +95,30 @@ export class PostCommentsComponent {
     });
   }
 
+  private deleteError() {
+    return throwError(() => {
+      new Error('Comment error: could not delete the comment.');
+    });
+  }
+
+  deleteComment(comment: any): void {
+    if (comment.reply) {
+      const i = this.feedComments.findIndex((res) => res.pk == comment.reply);
+      const k = this.feedComments[i].preview_child_comments.findIndex((res: any) => res.pk == comment.pk);
+      this.feedComments[i].preview_child_comments.splice(k, 1);
+      this.feedComments[i].child_comment_count--;
+      this.feedPost.comment_count--;
+    } else {
+      const i = this.feedComments.findIndex((res) => res.pk == comment.pk);
+      this.feedPost.comment_count -= this.feedComments[i].child_comment_count + 1;
+      this.feedComments.splice(i, 1);
+    }
+    this.http.post('/api/media/comment_delete', {
+      mediaId: this.feedPost.pk, commentId: comment.pk,
+      session: localStorage.getItem('state'),
+    }).pipe(catchError(this.deleteError)).subscribe();
+  }
+
   commentReply: any = { pk: null, user: null, reply: null };
 
   removeReply(): void {
@@ -112,6 +129,19 @@ export class PostCommentsComponent {
     if (comment.reply) {
       this.textComment = '@' + comment.user + ' ';
     } this.commentReply = comment;
+  }
+
+  repliesComments: any[] = [];
+  stateComments: any[] = [];
+
+  showReplies(i: number): void {
+    if (this.repliesComments[i]) {
+      this.repliesComments[i] = !this.repliesComments[i];
+    } else { this.repliesComments[i] = true; }
+    if (!this.loadedReplies) { return; }
+    if (this.feedComments[i].preview_child_comments.length == 0) {
+      this.loadReplies(i);
+    }
   }
 
   hideIntersect: boolean = true;

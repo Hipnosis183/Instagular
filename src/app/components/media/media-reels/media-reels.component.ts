@@ -46,7 +46,7 @@ export class MediaReelsComponent {
   likeMedia(id: string): void {
     this.feedPost.has_liked = true;
     this.feedPost.like_count++;
-    this.http.post('/api/media/like_media', {
+    this.http.post('/api/media/like', {
       mediaId: id, session: localStorage.getItem('state'),
     }).pipe(catchError(this.likeError)).subscribe();
   }
@@ -60,7 +60,7 @@ export class MediaReelsComponent {
   unlikeMedia(id: string): void {
     this.feedPost.has_liked = false;
     this.feedPost.like_count--;
-    this.http.post('/api/media/unlike_media', {
+    this.http.post('/api/media/unlike', {
       mediaId: id, session: localStorage.getItem('state'),
     }).pipe(catchError(this.unlikeError)).subscribe();
   }

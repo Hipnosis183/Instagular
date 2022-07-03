@@ -20,6 +20,11 @@
             <p>Reply</p>
             <img src="/assets/images/reply.svg">
           </span>
+          <span *ngIf="(post == userPk) || (comment.user.pk == userPk)"
+            (click)="deleteSend.emit({ pk: comment.pk, reply: comment.parent_comment_id })">
+            <p>Delete</p>
+            <img src="/assets/images/trash.svg">
+          </span>
         </div>
       </div>
       <div class="comment-like">

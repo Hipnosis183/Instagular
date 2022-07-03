@@ -7,19 +7,19 @@
     </div>
     <div class="comments-contents">
       <div *ngFor="let comment of feedComments; index as i" class="comments-replies">
-        <post-comment [comment]="comment" (replySend)="addReply($event)"></post-comment>
+        <post-comment [comment]="comment" [post]="feedPost.pk" (deleteSend)="deleteComment($event)" (replySend)="addReply($event)"></post-comment>
         <div *ngIf="comment.child_comment_count > 0" (click)="showReplies(i)" class="display">
           <div class="line"></div>
           <div class="text">{{ repliesComments[i] ? 'Hide' : 'View' }} replies ({{ comment.child_comment_count }})</div>
         </div>
         <div *ngIf="comment.child_comment_count > 0" [hidden]="!repliesComments[i]" class="comments">
-          <div *ngIf="stateComments[i] && stateComments[i].moreAvailable" (click)="loadReplies(i)"
-              [class]="loadedReplies ? 'cursor-pointer' : 'cursor-not-allowed'" class="load">
+          <div *ngIf="(comment.child_comment_count - comment.preview_child_comments.length) > 0 || (stateComments[i] && stateComments[i].moreAvailable)"
+              (click)="loadReplies(i)" [class]="loadedReplies ? 'cursor-pointer' : 'cursor-not-allowed'" class="load">
             <div class="line"></div>
             <div class="text">Load more comments ({{ comment.child_comment_count - comment.preview_child_comments.length }})</div>
           </div>
           <div *ngFor="let reply of comment.preview_child_comments">
-            <post-comment [comment]="reply" (replySend)="addReply($event)"></post-comment>
+            <post-comment [comment]="reply" [post]="feedPost.pk" (deleteSend)="deleteComment($event)" (replySend)="addReply($event)"></post-comment>
           </div>
         </div>
       </div>

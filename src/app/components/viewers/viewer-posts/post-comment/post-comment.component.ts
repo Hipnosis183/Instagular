@@ -13,8 +13,12 @@ export class PostCommentComponent {
 
   constructor(private http: HttpClient) { }
 
+  userPk: any = localStorage.getItem('userpk');
+
+  @Input() post: any;
   @Input() comment: any;
   @Input() small: boolean = false;
+  @Output() deleteSend = new EventEmitter();
   @Output() replySend = new EventEmitter();
 
   private likeError() {
@@ -26,7 +30,7 @@ export class PostCommentComponent {
   likeComment(): void {
     this.comment.has_liked_comment = true;
     this.comment.comment_like_count++;
-    this.http.post('/api/media/like_comment', {
+    this.http.post('/api/media/comment_like', {
       id: this.comment.pk, session: localStorage.getItem('state'),
     }).pipe(catchError(this.likeError)).subscribe();
   }
@@ -40,7 +44,7 @@ export class PostCommentComponent {
   unlikeComment(): void {
     this.comment.has_liked_comment = false;
     this.comment.comment_like_count--;
-    this.http.post('/api/media/unlike_comment', {
+    this.http.post('/api/media/comment_unlike', {
       id: this.comment.pk, session: localStorage.getItem('state'),
     }).pipe(catchError(this.unlikeError)).subscribe();
   }
