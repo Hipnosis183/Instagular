@@ -39,6 +39,9 @@
 :host ::ng-deep .post-image img {
   @apply h-full object-cover w-full;
 }
+.post-pinned {
+  @apply left-0 post-type !important;
+}
 .post-profile {
   @apply h-8 overflow-hidden rounded-full w-8;
 }

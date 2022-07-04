@@ -81,6 +81,38 @@ export class ViewerPostsComponent {
   @Output() saveSend = new EventEmitter();
   @Output() unsaveSend = new EventEmitter();
   @Output() closeSend = new EventEmitter();
+  @Output() pinSend = new EventEmitter();
+  @Output() unpinSend = new EventEmitter();
+
+  private postError() {
+    return throwError(() => {
+      new Error('Likes error: couldn\'t toggle like/view counts.');
+    });
+  }
+
+  _postPin: boolean = false;
+
+  postPinOpen(): void {
+    this._postPin = !this._postPin;
+  }
+
+  postPin(): void {
+    if (this.feedIndex.pin && !this._postPin) { this.postPinOpen(); return; }
+    else { this._postPin = false; }
+    this.feedPost.timeline_pinned_user_ids = [this.feedPost.user.pk];
+    this.pinSend.emit(this.feedIndex.current);
+    this.http.post('/api/user/post_pin', {
+      id: this.feedPost.pk, session: localStorage.getItem('state'),
+    }).pipe(catchError(this.postError)).subscribe();
+  }
+
+  postUnpin(): void {
+    this.feedPost.timeline_pinned_user_ids = null;
+    this.unpinSend.emit(this.feedIndex.current);
+    this.http.post('/api/user/post_unpin', {
+      id: this.feedPost.pk, session: localStorage.getItem('state'),
+    }).pipe(catchError(this.postError)).subscribe();
+  }
 
   private likesError() {
     return throwError(() => {

@@ -26,6 +26,7 @@ export class MediaFeedComponent {
     this.feedPost = post;
     this.feedIndex.current = this.feedPosts.findIndex((res) => res.id == post.id);
     this.feedIndex.total = this.feedPosts.length - 1;
+    this.pinStateUpdate();
   }
 
   closeMedia(): void {
@@ -113,6 +114,50 @@ export class MediaFeedComponent {
     }).pipe(catchError(this.unsaveError)).subscribe(() => {
       this.store.loadSaved();
     });
+  }
+
+  pinStateUpdate(): void {
+    // Indicate if pin slots are full.
+    if (this.feedPosts.length > 2) {
+      this.feedIndex.pin = this.feedPosts[2].timeline_pinned_user_ids ? true : false;
+    }
+  }
+
+  pinUpdate(index: number): void {
+    this.feedPosts.unshift(this.feedPosts.splice(index, 1)[0]);
+    if (this.feedIndex.pin) {
+      this.feedPosts[3].timeline_pinned_user_ids = null;
+      let k = this.feedPosts.length;
+      for (let i = 4; i < this.feedPosts.length; i++) {
+        if (this.feedPosts[3].taken_at > this.feedPosts[i].taken_at) {
+          k = i - 1; break;
+        }
+      }
+      const post = this.feedPosts.splice(3, 1)[0];
+      if (k == this.feedPosts.length) {
+        if (this.stopIntersect) {
+          this.feedPosts.splice(k, 0, post);
+        }
+      } else { this.feedPosts.splice(k, 0, post); }
+    } this.pinStateUpdate();
+  }
+
+  unpinUpdate(index: number): void {
+    this.feedPosts[index].timeline_pinned_user_ids = null;
+    let k = this.feedPosts.length;
+    for (let i = index + 1; i < this.feedPosts.length; i++) {
+      if ((this.feedPosts[index].taken_at > this.feedPosts[i].taken_at)
+        && !this.feedPosts[i].timeline_pinned_user_ids) {
+        k = i - 1; break;
+      }
+    }
+    const post = this.feedPosts.splice(index, 1)[0];
+    if (k == this.feedPosts.length) {
+      if (this.stopIntersect) {
+        this.feedPosts.splice(k, 0, post);
+      }
+    } else { this.feedPosts.splice(k, 0, post); }
+    this.pinStateUpdate();
   }
 
   hideIntersect: boolean = true;

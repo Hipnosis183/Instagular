@@ -1,3 +1,11 @@
+<dialog *ngIf="_postPin">
+  <div class="flex flex-col">
+    <div class="pin-title">Pin limit reached</div>
+    <div class="pin-subtitle">Are you sure you want to pin this post? You can only pin up to three posts to your profile. Pinning this post will replace your oldest pinned post.</div>
+  </div>
+  <div (click)="postPin()" class="pin-button confirm">Confirm</div>
+  <div (click)="postPinOpen()" class="pin-button cancel">Cancel</div>
+</dialog>
 <create-collection *ngIf="collectionCreate" [fromPost]="feedPost.id"
   (onCreate)="collectionCreated()" (onClose)="collectionCreateOpen()"></create-collection>
 <div autoFocus tabindex="0" class="viewer-container">
@@ -12,13 +20,17 @@
             <img src="/assets/images/download.svg" class="mr-3 w-[18px]">
             <p>Download</p>
           </span>
+          <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.timeline_pinned_user_ids ? postUnpin() : postPin()">
+            <img src="/assets/images/pin.svg" class="mr-3 w-[18px]">
+            <p>{{ feedPost.timeline_pinned_user_ids ? 'Unpin' : 'Pin' }} to your profile</p>
+          </span>
           <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.like_and_view_counts_disabled ? likesUnhide() : likesHide()">
             <img src="/assets/images/like.svg" class="mr-3 w-[18px]">
-            <p>{{ feedPost.like_and_view_counts_disabled ? 'Unhide' : 'Hide' }} Like Count</p>
+            <p>{{ feedPost.like_and_view_counts_disabled ? 'Unhide' : 'Hide' }} like count</p>
           </span>
           <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.comments_disabled ? commentsEnable() : commentsDisable()">
             <img src="/assets/images/visibility.svg" class="mr-3 w-[18px]">
-            <p>{{ feedPost.comments_disabled ? 'Enable' : 'Disable' }} Comments</p>
+            <p>{{ feedPost.comments_disabled ? 'Enable' : 'Disable' }} comments</p>
           </span>
         </div>
         <div class="panel-user">

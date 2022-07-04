@@ -66,6 +66,8 @@ router.post('/search/users', search.users);
 
 // User route endpoints.
 const user = require('./user');
+router.post('/user/post_pin', user.post_pin);
+router.post('/user/post_unpin', user.post_unpin);
 router.post('/user/profile', user.profile);
 
 module.exports = router;
