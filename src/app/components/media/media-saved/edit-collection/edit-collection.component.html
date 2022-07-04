@@ -1,4 +1,4 @@
-<dialog *ngIf="collectionPosts.length > 0" [divide]="true">
+<modal *ngIf="collectionPosts.length > 0" [divide]="true">
   <div class="edit-header">
     <div>Edit Collection</div>
     <img src="/assets/images/close.svg" (click)="collectionEditClose()">
@@ -20,4 +20,4 @@
     (click)="collectionEdit()" class="edit-button">Update
     <div *ngIf="!(collection.collection_name.length > 0)" tooltip="Enter a name for the collection" tooltipTheme="error" [tooltipOffset]="[0, -10]"></div>
   </div>
-</dialog>
+</modal>

@@ -2,15 +2,22 @@
   display: contents;
 }
 
-.dialog-container {
-  @apply fixed flex h-full items-center justify-center left-0 top-0 w-full z-20;
+.button {
+  @apply cursor-pointer flex justify-center relative text-lg w-full;
+  transition: background-color 0.2s;
 }
-.dialog-contents {
-  @apply absolute flex h-full items-center justify-center w-full;
+.button.default {
+  @apply hover:bg-slate-200 pb-4 pt-3 rounded-b-xl !important;
 }
-.dialog-modal {
-  @apply bg-slate-50 rounded-xl text-slate-800 w-[400px];
+.button.blue {
+  @apply hover:bg-blue-100 border-y-[1px] border-solid border-y-slate-200 hover:border-y-blue-200 font-bold py-3 text-blue-600 !important;
 }
-.dialog-overlay {
-  @apply bg-black bg-opacity-60 h-full w-full;
+.button.red {
+  @apply hover:bg-red-100 border-y-[1px] border-solid border-y-slate-200 hover:border-y-red-200 font-bold py-3 text-red-600 !important;
+}
+.title {
+  @apply cursor-default flex font-light h-[60px] items-center justify-center relative text-xl;
+}
+.subtitle {
+  @apply cursor-default pb-5 pt-1 px-7 text-center text-slate-600;
 }

@@ -1,4 +1,4 @@
-<dialog *ngIf="collectionPosts.length > 0 || fromPost.length > 0" [divide]="true">
+<modal *ngIf="collectionPosts.length > 0 || fromPost.length > 0" [divide]="true">
   <div class="create-header">
     <div>New Collection</div>
     <img src="/assets/images/close.svg" (click)="collectionCreateClose()">
@@ -20,4 +20,4 @@
     (click)="collectionCreate()" class="create-button">Create
     <div *ngIf="!(collectionName.length > 0)" tooltip="Enter a name for the collection" tooltipTheme="error" [tooltipOffset]="[0, -10]"></div>
   </div>
-</dialog>
+</modal>

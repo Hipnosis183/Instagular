@@ -1,11 +1,5 @@
-<dialog *ngIf="_postPin">
-  <div class="flex flex-col">
-    <div class="pin-title">Pin limit reached</div>
-    <div class="pin-subtitle">Are you sure you want to pin this post? You can only pin up to three posts to your profile. Pinning this post will replace your oldest pinned post.</div>
-  </div>
-  <div (click)="postPin()" class="pin-button confirm">Confirm</div>
-  <div (click)="postPinOpen()" class="pin-button cancel">Cancel</div>
-</dialog>
+<dialog *ngIf="_postPin" title="Pin limit reached" subtitle="Are you sure you want to pin this post? You can only pin up to three posts to your profile. Pinning this post will replace your oldest pinned post."
+  buttonText="Confirm" (onOk)="postPin()" (onCancel)="postPinOpen()"></dialog>
 <create-collection *ngIf="collectionCreate" [fromPost]="feedPost.id"
   (onCreate)="collectionCreated()" (onClose)="collectionCreateOpen()"></create-collection>
 <div autoFocus tabindex="0" class="viewer-container">

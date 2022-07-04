@@ -1,4 +1,4 @@
-<dialog [divide]="true">
+<modal [divide]="true">
   <div class="options-header">
     <div>{{ usersTitle }}</div>
     <img src="/assets/images/close.svg" (click)="closeSend.emit()">
@@ -18,4 +18,4 @@
       [class]="hideIntersect ? 'hidden' : 'block'"></div>
   </div>
   <div *ngIf="usersList.length == 0" class="cursor-default py-6 text-center text-sub w-full">Loading...</div>
-</dialog>
+</modal>

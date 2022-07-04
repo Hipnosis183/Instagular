@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'dialog',
@@ -10,5 +10,11 @@ export class DialogComponent {
 
   constructor() { }
 
-  @Input() divide: boolean = false;
+  @Input() title: string = '';
+  @Input() subtitle: string = '';
+  @Input() buttonText: string = 'Ok';
+  @Input() buttonTheme: string = 'blue';
+
+  @Output() onOk = new EventEmitter();
+  @Output() onCancel = new EventEmitter();
 }

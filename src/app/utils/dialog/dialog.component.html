@@ -1,8 +1,8 @@
-<div class="dialog-container">
-  <div class="dialog-overlay"></div>
-  <div class="dialog-contents">
-    <div class="dialog-modal" [class]="divide ? 'divide-slate-200 divide-y-[1px]' : ''">
-      <ng-content></ng-content>
-    </div>
+<modal>
+  <div class="flex flex-col">
+    <div class="title">{{ title }}</div>
+    <div class="subtitle">{{ subtitle }}</div>
   </div>
-</div>
+  <div (click)="onOk.emit()" class="button" [class]="buttonTheme">{{ buttonText }}</div>
+  <div (click)="onCancel.emit()" class="button default">Cancel</div>
+</modal>
