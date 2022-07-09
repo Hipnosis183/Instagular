@@ -15,6 +15,8 @@ The app is fully compatible with Instagram routing structure, so it's possible t
 
 While the app should be safe to use in general (I personally use it myself), there's still the possibility for the user account to get blocked if too many actions/requests are made in a short period of time, or if a feature is not implemented correctly. Therefore, I won't take responsability for any damages caused to your account, so use at your own risk.
 
+> :warning: Warning: Avoid comments creation for now (or use at your own risk) until further testing is done. Is possible that the comments are treated as spam by default. I lost some test accounts due to spam, and this could've been the cause, among others. I already implemented a potential solution to this problem, but can't risk more accounts just for this. If you can confirm that it works fine, let me know.
+
 ## Implemented features
 
 - Login/logout with persistent session on local storage.

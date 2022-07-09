@@ -6,6 +6,9 @@ module.exports.create = (req, res, next) => {
     const client = new Client();
     await client.state.deserialize(req.body.session);
     try {
+      // Check to avoid the comment being treated as spam.
+      await client.media.checkOffensiveComment(req.body.text, req.body.mediaId);
+      await new Promise(resolve => setTimeout(resolve, 500));
       // Comment on the selected media.
       const comment = await client.media.comment({ mediaId: req.body.mediaId, text: req.body.text, replyToCommentId: req.body.reply });
       res.status(200);
