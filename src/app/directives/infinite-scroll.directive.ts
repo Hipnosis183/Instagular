@@ -8,8 +8,8 @@ export class InfiniteScrollDirective {
 
   constructor(private element: ElementRef) { }
 
-  @Input() stop?: boolean = false;
-  @Output() intersect = new EventEmitter<HTMLElement>();
+  @Input() stopIntersect?: boolean = false;
+  @Output() onIntersect = new EventEmitter<HTMLElement>();
 
   private observer: IntersectionObserver | undefined;
   private subject$ = new Subject<{
@@ -26,7 +26,7 @@ export class InfiniteScrollDirective {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['stop'].currentValue) {
+    if (changes['stopIntersect'].currentValue) {
       this.stopObserver();
     }
   }
@@ -72,7 +72,7 @@ export class InfiniteScrollDirective {
       .subscribe(async ({ entry, observer }) => {
         const target = entry.target as HTMLElement;
         const isStillVisible = await this.isIntersecting(target);
-        if (isStillVisible) { this.intersect.emit(target); }
+        if (isStillVisible) { this.onIntersect.emit(target); }
       });
   }
 

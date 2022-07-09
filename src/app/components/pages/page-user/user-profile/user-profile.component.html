@@ -1,0 +1,51 @@
+<viewer-stories *ngIf="loadStories" [feedStories]="[userProfile.reels]" [seenStories]="userProfile.friendship.following"
+  [originIndex]="0" (onClose)="loadStories = false"></viewer-stories>
+<viewer-users [hidden]="!loadFollowers" feedStorage="followers" usersTitle="Followers" [usersList]="userFollowers"
+  (onClose)="loadFollowers = false" (onScroll)="__loadFollowers()"></viewer-users>
+<viewer-users [hidden]="!loadFollowing" feedStorage="following" usersTitle="Following" [usersList]="userFollowing"
+  (onClose)="loadFollowing = false" (onScroll)="__loadFollowing()"></viewer-users>
+<div *ngIf="userProfile" class="user-container">
+  <div (click)="openStories()" class="user-stories" [ngClass]="[userProfile.reels ? 'cursor-pointer' : 'border-none',
+    userProfile.reels ? userProfile.reels.seen < userProfile.reels.latest_reel_media ? userProfile.reels.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200' : '']">
+    <img-await [source]="userProfile.hd_profile_pic_url_info.url"></img-await>
+  </div>
+  <div>
+    <div class="user-header">
+      <div class="text-main text-[32px]">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}</div>
+      <img *ngIf="userProfile.is_verified" src="/assets/images/verified.svg">
+      <button *ngIf="userProfile.username != userName"
+        (click)="userProfile.friendship.following ? unfollowUser() : followUser()"
+        [class]="userProfile.friendship.following ? 'lite' : 'color'">
+        {{ userProfile.friendship.following ? 'Following' : 'Follow' }}
+      </button>
+      <div *ngIf="userProfile.friendship.followed_by" class="pl-2 user-stats">
+        <div class="text-sub">•</div>
+        <div class="text-sub">Follows you</div>
+      </div>
+    </div>
+    <div class="user-stats">
+      <div class="text-sub">@{{ userProfile.username }}</div>
+      <div class="text-sub">•</div>
+      <div class="user-stat">
+        <div class="text-main">{{ userProfile.media_count | shortNumber }}</div>
+        <div class="text-sub">Posts</div>
+      </div>
+      <div class="cursor-pointer user-stat"
+        (click)="userProfile.follower_count > 0 && (!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following)) ? _loadFollowers() : null">
+        <div class="text-main">{{ userProfile.follower_count | shortNumber }}</div>
+        <div class="text-sub">Followers</div>
+      </div>
+      <div class="cursor-pointer user-stat"
+        (click)="userProfile.following_count > 0 && (!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following)) ? _loadFollowing() : null">
+        <div class="text-main">{{ userProfile.following_count | shortNumber }}</div>
+        <div class="text-sub">Following</div>
+      </div>
+    </div>
+    <div [innerHTML]="userProfile.biography | parseUrls " class="user-bio"></div>
+    <div *ngIf="userProfile.external_url" class="user-link">
+      <img src="/assets/images/link.svg">
+      <a [href]="userProfile.external_url" target="_blank" rel="noopener noreferrer">
+        {{ userProfile.external_url }}</a>
+    </div>
+  </div>
+</div>

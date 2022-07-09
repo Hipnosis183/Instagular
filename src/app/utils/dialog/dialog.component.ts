@@ -8,8 +8,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 export class DialogComponent {
 
-  constructor() { }
-
   @Input() title: string = '';
   @Input() subtitle: string = '';
   @Input() buttonText: string = 'Ok';

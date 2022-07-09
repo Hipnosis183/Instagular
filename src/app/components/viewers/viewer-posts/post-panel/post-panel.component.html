@@ -1,0 +1,107 @@
+<dialog *ngIf="postPin" title="Pin limit reached" subtitle="Are you sure you want to pin this post? You can only pin up to three posts to your profile. Pinning this post will replace your oldest pinned post."
+  buttonText="Confirm" (onOk)="_postPin()" (onCancel)="postPin = false"></dialog>
+<create-collection *ngIf="collectionCreate" [fromPost]="feedPost.id" (onCreate)="_collectionCreate($event)"
+  (onClose)="collectionCreate = false"></create-collection>
+<div class="panel-container">
+  <post-comments #postComments [feedPost]="feedPost"></post-comments>
+  <div class="panel-post">
+    <img [dropdown]="moreOptions" tooltip="More Options" tooltipPlace="right" src="/assets/images/more.svg" class="button-more">
+    <div #moreOptions class="panel-more">
+      <span (click)="downloadMedia()">
+        <img src="/assets/images/download.svg">
+        <p>Download</p>
+      </span>
+      <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.timeline_pinned_user_ids ? postUnpin() : _postPin()">
+        <img src="/assets/images/pin.svg">
+        <p>{{ feedPost.timeline_pinned_user_ids ? 'Unpin' : 'Pin' }} to your profile</p>
+      </span>
+      <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.like_and_view_counts_disabled ? likesUnhide() : likesHide()">
+        <img src="/assets/images/like.svg">
+        <p>{{ feedPost.like_and_view_counts_disabled ? 'Unhide' : 'Hide' }} like count</p>
+      </span>
+      <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.comments_disabled ? commentsEnable() : commentsDisable()">
+        <img src="/assets/images/visibility.svg">
+        <p>{{ feedPost.comments_disabled ? 'Enable' : 'Disable' }} comments</p>
+      </span>
+    </div>
+    <div class="panel-user">
+      <div *ngIf="!feedPost.coauthor_producers; then single; else multi"></div>
+      <ng-template #single>
+        <div [routerLink]="['/' + feedPost.user.username]" class="panel-header">
+          <img-await [source]="feedPost.user.profile_pic_url" class="panel-image"></img-await>
+          <div class="panel-username">
+            <div class="panel-name">
+              <div>{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}</div>
+              <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
+            </div>
+            <div class="text-sub text-lg">@{{ feedPost.user.username }}</div>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template #multi>
+        <div class="panel-header">
+          <div class="flex">
+            <img-await [routerLink]="['/' + feedPost.user.username]" [source]="feedPost.user.profile_pic_url" class="panel-coauthor"></img-await>
+            <img-await [routerLink]="['/' + feedPost.coauthor_producers[0].username]"
+              [source]="feedPost.coauthor_producers[0].profile_pic_url" class="panel-image"></img-await>
+          </div>
+          <div class="flex flex-col items-center">
+            <div [routerLink]="['/' + feedPost.user.username]" class="panel-username">
+              <div class="panel-name">
+                <div>{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}</div>
+                <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
+              </div>
+              <div class="text-sub text-lg">@{{ feedPost.user.username }}</div>
+            </div>
+            <div class="mt-1 text-slate-700">&#65291;</div>
+            <div [routerLink]="['/' + feedPost.coauthor_producers[0].username]" class="panel-username">
+              <div class="panel-name">
+                <div>{{ feedPost.coauthor_producers[0].full_name ? feedPost.coauthor_producers[0].full_name : feedPost.coauthor_producers[0].username }}</div>
+                <img *ngIf="feedPost.coauthor_producers[0].is_verified" src="/assets/images/verified.svg">
+              </div>
+              <div class="text-sub text-lg">@{{ feedPost.coauthor_producers[0].username }}</div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      <div *ngIf="feedPost.location" class="panel-location">{{ feedPost.location.name }}</div>
+    </div>
+    <div class="panel-stats">
+      <div [tooltip]="feedPost.taken_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'" class="text-sub">{{ feedPost.taken_at | dateAgo }}</div>
+      <div class="flex">
+        <div *ngIf="!feedPost.like_and_view_counts_disabled" class="counter">{{ feedPost.like_count | shortNumber }}</div>
+        <img [src]="'/assets/images/' + (feedPost.has_liked ? 'like-fill.svg' : 'like.svg')"
+          (click)="feedPost.has_liked ? unlikeMedia(feedPost) : likeMedia(feedPost)" class="cursor-pointer mr-4">
+        <img [src]="'/assets/images/' + (feedPost.has_viewer_saved ? 'save-fill.svg' : 'save.svg')" [dropdownHover]="true"
+          (click)="feedPost.has_viewer_saved ? unsaveMedia(feedPost) : saveMedia(feedPost)" [dropdown]="savePost" class="cursor-pointer">
+        <div #savePost>
+          <span (click)="collectionCreate = true" class="button-create">&nbsp;+&ensp;NEW COLLECTION&nbsp;</span>
+          <div *ngFor="let collection of store.state.savedPosts">
+            <span *ngIf="collection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="saveCollection(feedPost, collection)" class="panel-saved">
+              <img-await *ngIf="collection.cover_media_list" [source]="collection.cover_media_list[0].image_versions2.candidates[1].url"></img-await>
+              <p [class]="feedPost.saved_collection_ids ? feedPost.saved_collection_ids.includes(collection.collection_id) ? 'font-bold' : '' : ''">
+                {{ collection.collection_name }}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-comments">
+      <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls" class="panel-caption"></div>
+      <div *ngIf="!feedPost.comments_disabled && (feedPost.preview_comments && feedPost.preview_comments.length > 0)">
+        <div *ngIf="feedPost.caption" class="separator"></div>
+        <div *ngFor="let preview of feedPost.preview_comments">
+          <post-comment [comment]="preview" [commentSmall]="true"></post-comment>
+        </div>
+        <div (click)="postComments.openComments()" class="more">
+          <div class="line"></div>
+          <div class="text">View all comments ({{ feedPost.comment_count | shortNumber }})</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div (click)="postComments.openComments()" class="button-comments">
+    <img src="/assets/images/comment.svg">
+    <div>Comments ({{ feedPost.comments_disabled ? '0' : feedPost.comment_count | shortNumber }})</div>
+  </div>
+</div>

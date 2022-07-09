@@ -1,110 +1,31 @@
-.close-button {
+.button-close {
   @apply absolute bg-slate-100 cursor-pointer m-3 p-[0.45rem] right-0 rounded-full w-7 z-[1];
 }
-.comments-button {
-  @apply bg-slate-50 hover:bg-slate-200 border-t-[1px] border-t-slate-200 hover:border-t-slate-300 cursor-pointer flex h-16 items-center justify-center text-main w-full;
-  transition: background-color 0.2s, border 0.2s;
-}
-.comments-button div {
-  @apply font-light text-slate-800 text-xl;
-}
-.comments-button img {
-  @apply h-5 -ml-9 mr-4;
-}
-.create-button {
-  @apply hover:bg-blue-200 py-2 text-blue-500 font-medium !important;
-}
-.more-button {
-  @apply absolute cursor-pointer m-4 right-0 top-0;
-}
-.nav-button {
-  @apply absolute flex flex-col justify-center h-full z-[1];
-}
-.nav-button img {
-  @apply bg-slate-100 cursor-pointer m-3 p-1.5 rounded-full w-7;
-}
-.nav-button .carousel {
-  @apply absolute -mt-24 !important;
-}
-
-.panel-caption {
-  @apply cursor-default text-main w-full;
-}
-.panel-coauthor {
-  @apply -mr-6 outline outline-slate-50 panel-image z-[1];
-}
-.panel-comments {
-  @apply max-h-full overflow-y-auto p-4 w-full;
-}
-.panel-comments .line {
-  @apply bg-slate-400 h-px w-8;
-}
-.panel-comments .more {
-  @apply cursor-pointer flex items-center ml-4 mt-4;
-}
-.panel-comments .separator {
-  @apply bg-slate-300 h-px mx-auto my-6 w-4/5;
-}
-.panel-comments .text {
-  @apply ml-2 text-sub;
-}
-.panel-expand {
+.button-expand {
   @apply absolute bg-slate-50 bottom-0 cursor-pointer flex h-16 items-center hover:opacity-100 px-2 z-[1];
   transition: opacity 0.2s;
 }
-.panel-expand div {
+.button-expand div {
   @apply border-r-[1px] border-r-slate-800 border-t-[1px] border-t-slate-800 h-[10px] w-[10px];
 }
-.panel-expand div.collapsed {
+.button-expand div.collapsed {
   margin-left: 0.25rem;
   margin-right: 0.5rem;
   transform: rotate(45deg);
 }
-.panel-expand div.expanded {
+.button-expand div.expanded {
   margin-left: 0.5rem;
   margin-right: 0.25rem;
   transform: rotate(225deg);
 }
-.panel-header {
-  @apply cursor-default flex flex-col items-center;
+.button-nav {
+  @apply absolute flex flex-col justify-center h-full z-[1];
 }
-.panel-image {
-  @apply cursor-pointer mb-5 min-h-[100px] overflow-hidden rounded-full w-[100px];
+.button-nav img {
+  @apply bg-slate-100 cursor-pointer m-3 p-1.5 rounded-full w-7;
 }
-.panel-location {
-  @apply cursor-default max-w-full mt-2 overflow-hidden text-sub whitespace-nowrap;
-}
-.panel-name {
-  @apply flex space-x-2 text-center;
-}
-.panel-name div {
-  @apply font-light text-[22px] text-slate-800;
-}
-.panel-name img {
-  @apply -mr-8 !important;
-}
-.panel-stats {
-  @apply bg-slate-50 border-y-[1px] border-y-slate-200 cursor-default flex items-center justify-between px-4 py-2 w-full;
-}
-.panel-stats .counter {
-  @apply flex items-center leading-none mr-4 text-main !important;
-}
-.panel-post {
-  @apply flex flex-col items-center w-full;
-  height: calc(100% - 61px);
-}
-.panel-user {
-  @apply bg-slate-50 flex flex-col items-center p-6 w-full;
-}
-.panel-username {
-  @apply cursor-pointer flex flex-col items-center;
-}
-
-.text-main {
-  @apply text-lg text-slate-800;
-}
-.text-sub {
-  @apply font-light text-slate-600;
+.button-nav .carousel {
+  @apply absolute -mt-24 !important;
 }
 
 .viewer-container {
@@ -135,15 +56,6 @@
 }
 .viewer-overlay {
   @apply bg-black bg-opacity-90 h-full w-full;
-}
-.viewer-panel {
-  @apply bg-slate-100 flex-col h-screen max-w-[380px] min-w-[380px] relative;
-}
-.viewer-saved {
-  @apply flex items-center space-x-4;
-}
-:host ::ng-deep .viewer-saved img {
-  @apply h-8 object-cover rounded w-8;
 }
 .viewer-text {
   @apply absolute flex flex-col h-full items-center justify-center space-y-10 text-center text-slate-100 w-full z-[1];

@@ -13,15 +13,11 @@ export class MediaStoriesComponent {
 
   feedLoaded: boolean = true;
   originIndex: number = 0;
-  storiesShow: boolean = false;
+  openStories: boolean = false;
 
-  openStories(index: number): void {
+  _openStories(index: number): void {
     this.originIndex = index;
-    this.storiesShow = true;
-  }
-
-  closeStories(): void {
-    this.storiesShow = false;
+    this.openStories = true;
   }
 
   @Output() onReload = new EventEmitter();

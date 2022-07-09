@@ -1,24 +1,24 @@
-<create-collection *ngIf="collectionCreate" (onCreate)="collectionCreated()" (onClose)="collectionCreateOpen()"></create-collection>
+<create-collection *ngIf="collectionCreate" (onCreate)="_collectionCreate()" (onClose)="collectionCreate = false"></create-collection>
 <div *ngIf="!loadedCollection" class="mt-6 px-5">
-  <div (click)="collectionCreateOpen()" class="collection-create">+&emsp;NEW COLLECTION</div>
+  <div (click)="collectionCreate = true" class="collection-create">+&emsp;NEW COLLECTION</div>
 </div>
-<edit-collection *ngIf="collectionEdit" (onEdit)="collectionEdited()" (onClose)="collectionEditOpen()"
+<edit-collection *ngIf="collectionEdit" (onEdit)="_collectionEdit()" (onClose)="collectionEdit = false"
   [collection]="selectedCollection" [collectionSelected]="feedCollection"></edit-collection>
 <delete-collection *ngIf="collectionDelete" [collectionId]="selectedCollection.collection_id"
-  (onDelete)="collectionDeleted()" (onCancel)="collectionDeleteOpen()"></delete-collection>
+  (onDelete)="_collectionDelete()" (onCancel)="collectionDelete = false"></delete-collection>
 <div *ngIf="loadedCollection" class="flex mt-6 px-5 space-x-5">
   <div (click)="closeCollection()" class="collection-back">&#11148;&emsp;GO BACK TO COLLETIONS</div>
-  <div *ngIf="selectedCollection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="collectionEditOpen()"
+  <div *ngIf="selectedCollection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="collectionEdit = true"
     class="collection-create">{{ feedCollection.length > 0 ? 'EDIT COLLETION' : '+&emsp;ADD TO COLLECTION'}}</div>
-  <div *ngIf="selectedCollection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="collectionDeleteOpen()"
+  <div *ngIf="selectedCollection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="collectionDelete = true"
     class="collection-delete">&#215;&emsp;DELETE COLLETION</div>
 </div>
 <div *ngIf="loadedCollection">
   <div *ngIf="feedCollection.length > 0; then feed; else empty"></div>
 </div>
 <ng-template #feed>
-  <media-feed [feedPosts]="feedCollection" [feedStorage]="'collection'" (onReturn)="closeCollection()"
-    (onScroll)="openCollection(selectedCollection.collection_id)"></media-feed>
+  <media-feed [feedPosts]="feedCollection" [feedSaved]="true" [feedStorage]="'collection'"
+    (onReturn)="closeCollection()" (onScroll)="openCollection(selectedCollection.collection_id)"></media-feed>
 </ng-template>
 <ng-template #empty>
   <div class="empty-container">
@@ -30,28 +30,9 @@
 <div *ngIf="feedCollections" [hidden]="loadedCollection" class="feed-container">
   <div class="feed-grid">
     <div *ngFor="let collection of feedCollections" class="feed-collection">
-      <div class="collection-header">
-        <p>{{ collection.collection_media_count | shortNumber }}</p>
-      </div>
-      <div class="collection-container">
-        <div class="collection-footer">
-          <p>{{ collection.collection_name }}</p>
-        </div>
-        <div (click)="openCollection(collection)" class="collection-gradient"></div>
-      </div>
-      <div *ngIf="collection.cover_media_list" class="collection-grid"
-        [class]="collection.cover_media_list[2] ? 'grid-cols-2 grid-rows-2' : collection.cover_media_list[1] ? 'grid-cols-2' : ''">
-        <img-await [source]="collection.cover_media_list[0].image_versions2.candidates[1].url"
-          *ngIf="collection.cover_media_list[0]" class="collection-image"></img-await>
-        <img-await [source]="collection.cover_media_list[1].image_versions2.candidates[1].url"
-          *ngIf="collection.cover_media_list[1]" class="collection-image"></img-await>
-        <img-await [source]="collection.cover_media_list[2].image_versions2.candidates[1].url" class="collection-image"
-          *ngIf="collection.cover_media_list[2]" [class]="collection.cover_media_list[3] ? '' : 'col-span-2'"></img-await>
-        <img-await [source]="collection.cover_media_list[3].image_versions2.candidates[1].url"
-          *ngIf="collection.cover_media_list[3]" class="collection-image"></img-await>
-      </div>
+      <collection [collection]="collection" (onOpen)="openCollection(collection)"></collection>
     </div>
   </div>
-  <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-px"
-    [class]="hideIntersect ? 'hidden' : 'block'"></div>
+  <div infiniteScroll (onIntersect)="onIntersection()" [stopIntersect]="stopIntersect"
+    [class]="hideIntersect ? 'hidden' : 'block'" class="h-px w-px"></div>
 </div>

@@ -1,0 +1,29 @@
+<div *ngIf="!searchSmall" class="search">
+  <dialog *ngIf="clearRecent" title="Clear Search History?" subtitle="You won't be able to undo this. If you clear your search history, you may still see accounts you've searched for as suggested results."
+    buttonText="Clear" (onOk)="searchBox._clearRecent()" (onCancel)="clearRecent = false"></dialog>
+  <input [(ngModel)]="selectModel" [dropdown]="searchDialog" dropdownPlace="bottom" placeholder="Search"
+    (click)="searchBox.loadRecent()" (input)="searchBox._updateValue()" />
+  <img src="/assets/images/search-lite.svg" class="search-icon">
+  <img *ngIf="selectModel" (click)="searchBox.clearValue()" src="/assets/images/close-circle.svg" class="search-clear">
+  <div #searchDialog>
+    <search-box (onClear)="selectModel = ''" (onClearAll)="clearRecent = !clearRecent"
+      #searchBox [selectModel]="selectModel"></search-box>
+  </div>
+</div>
+<div *ngIf="searchSmall" class="search-s">
+  <dialog *ngIf="clearRecent" title="Clear Search History?" subtitle="You won't be able to undo this. If you clear your search history, you may still see accounts you've searched for as suggested results."
+    buttonText="Clear" (onOk)="searchBox._clearRecent()" (onCancel)="clearRecent = false"></dialog>
+  <button [dropdown]="searchDialog" dropdownPlace="right-start" (click)="searchBox.loadRecent()">
+    <img [src]="'/assets/images/search.svg'">
+  </button>
+  <div #searchDialog>
+    <div class="search-s-bar">
+      <input dropdownIgnore [(ngModel)]="selectModel" placeholder="Search" (input)="searchBox._updateValue()" />
+      <img dropdownIgnore src="/assets/images/search-lite.svg" class="search-s-icon">
+      <img dropdownIgnore *ngIf="selectModel" (click)="searchBox.clearValue()" src="/assets/images/close-circle.svg"
+        class="search-s-clear">
+    </div>
+    <search-box (onClear)="selectModel = ''" (onClearAll)="clearRecent = !clearRecent"
+      #searchBox [selectModel]="selectModel"></search-box>
+  </div>
+</div>

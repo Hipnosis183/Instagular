@@ -1,7 +1,7 @@
 <modal [divide]="true">
   <div class="options-header">
     <div>{{ usersTitle }}</div>
-    <img src="/assets/images/close.svg" (click)="closeSend.emit()">
+    <img src="/assets/images/close.svg" (click)="onClose.emit()">
   </div>
   <div autoFocus tabindex="0" *ngIf="usersList.length > 0" class="options-body">
     <div *ngFor="let user of usersList" (click)="loadUserPage(user.username)" class="options-item">
@@ -14,8 +14,8 @@
         <div class="text-sub">@{{ user.username }}</div>
       </div>
     </div>
-    <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-full"
-      [class]="hideIntersect ? 'hidden' : 'block'"></div>
+    <div infiniteScroll (onIntersect)="onIntersection()" [stopIntersect]="stopIntersect"
+      [class]="hideIntersect ? 'hidden' : 'block'" class="h-px w-px"></div>
   </div>
   <div *ngIf="usersList.length == 0" class="cursor-default py-6 text-center text-sub w-full">Loading...</div>
 </modal>

@@ -1,9 +1,9 @@
 <div autoFocus tabindex="0" class="viewer-container">
   <div class="viewer-overlay"></div>
   <div *ngIf="feedStories[feedIndex].items" class="viewer-contents">
-    <div class="thumbs-container">
+    <div class="viewer-thumbs">
       <div class="bg-slate-50 h-full">
-        <div *ngIf="loadedThumbs" [class]="!expandedThumbs ? 'hidden' : 'grid'" class="thumbs-panel">
+        <div *ngIf="loadedThumbs" [class]="!expandedThumbs ? 'hidden' : 'grid'" class="viewer-panel">
           <div *ngFor="let item of feedStories[feedIndex].items; index as i" (click)="storySelect(i)"
             [class]="i == storiesIndex ? 'border-blue-500' : 'border-transparent hover:border-blue-400'">
             <img-await [source]="item.image_versions2.candidates[item.image_versions2.candidates.length - 1].url"></img-await>
@@ -11,37 +11,22 @@
         </div>
       </div>
       <div>
-        <div *ngIf="feedStories.length > 1 && feedIndex > 0" (click)="storiesPrevSkip()" class="nav-button-d">
+        <div *ngIf="feedStories.length > 1 && feedIndex > 0" (click)="storiesPrevSkip()" class="button-nav-d">
           <img src="/assets/images/chevron-d-left.svg">
         </div>
-        <div tooltip="Thumbnails" tooltipPlace="right" tooltipTheme="lite" (click)="expandThumbs()" class="thumbs-expand">
+        <div tooltip="Thumbnails" tooltipPlace="right" tooltipTheme="lite" (click)="expandThumbs()" class="button-expand">
           <div [class]="expandedThumbs ? 'expanded' : 'collapsed'"></div>
         </div>
       </div>
     </div>
     <div class="flex justify-center w-full">
-      <div class="nav-button">
-        <img *ngIf="feedIndex > 0 || storiesIndex > 0; else prevButton" (click)="storiesPrev()"
-          src="/assets/images/chevron-left.svg">
+      <div class="button-nav">
+        <img *ngIf="feedIndex > 0 || storiesIndex > 0; else prevButton" (click)="storiesPrev()" src="/assets/images/chevron-left.svg">
         <ng-template #prevButton>
           <div class="m-3 w-7"></div>
         </ng-template>
-        <div class="user-container-l">
-          <div (click)="loadUserPage(feedStories[feedIndex].user.username)" class="user-contents">
-            <img-await [source]="feedStories[feedIndex].user.profile_pic_url" class="user-profile"></img-await>
-            <div class="flex flex-col items-end">
-              <div class="flex">
-                <div class="text-main">{{ feedStories[feedIndex].user.full_name ? feedStories[feedIndex].user.full_name
-                  : feedStories[feedIndex].user.username }}</div>
-                <img *ngIf="feedStories[feedIndex].user.is_verified" src="/assets/images/verified.svg"
-                  class="ml-2 mr-4">
-              </div>
-              <div class="text-sub">@{{ feedStories[feedIndex].user.username }}</div>
-            </div>
-          </div>
-          <div [tooltip]="feedStories[feedIndex].items[storiesIndex].taken_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
-            tooltipPlace="bottom" tooltipTheme="lite" class="text-date">{{ feedStories[feedIndex].items[storiesIndex].taken_at | dateAgo }}</div>
-        </div>
+        <stories-user [feedStories]="feedStories" [feedIndex]="feedIndex" [storiesIndex]="storiesIndex"
+          (onUser)="loadUserPage($event)"></stories-user>
       </div>
       <div class="viewer-count">
         <div tabindex="0" class="count-dots">
@@ -57,15 +42,15 @@
         <video autoplay controls loop [muted]="true" [src]="feedStories[feedIndex].items[storiesIndex].video_versions[0].url | encode:true | async"
           [poster]="feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url | encode | async"></video>
       </div>
-      <div class="nav-button">
+      <div class="button-nav viewer-more">
         <img (click)="storiesNext()" src="/assets/images/chevron-right.svg">
-        <div *ngIf="feedStories[feedIndex].reel_type == 'highlight_reel'" class="user-container-r">
-          <div class="flex flex-col items-start mt-8">
+        <div *ngIf="feedStories[feedIndex].reel_type == 'highlight_reel'">
+          <div class="text-more">
             <div class="text-main">{{ feedStories[feedIndex].title }}</div>
             <div class="text-sub">{{ (storiesIndex + 1) + '/' + feedStories[feedIndex].media_count }}</div>
           </div>
         </div>
-        <div class="user-container-r">
+        <div>
           <div *ngIf="feedStories[feedIndex].items[storiesIndex].audience == 'besties'" tooltip="Close Friends" tooltipPlace="right" tooltipTheme="lite">
             <img class="h-8" src="/assets/images/besties.svg">
           </div>
@@ -79,10 +64,10 @@
         </div>
       </div>
     </div>
-    <div *ngIf="feedStories.length > 1" (click)="storiesNextSkip()" class="nav-button-d right-0">
+    <div *ngIf="feedStories.length > 1" (click)="storiesNextSkip()" class="button-nav-d right-0">
       <img src="/assets/images/chevron-d-right.svg">
     </div>
-    <div (click)="closeStories()" class="close-button">
+    <div (click)="closeStories()" class="button-close">
       <img src="/assets/images/close.svg">
     </div>
   </div>

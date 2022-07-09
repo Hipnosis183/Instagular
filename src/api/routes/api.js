@@ -12,6 +12,15 @@ router.post('/collection/create', collection.create);
 router.post('/collection/delete', collection.delete);
 router.post('/collection/edit', collection.edit);
 
+// Comment route endpoints.
+const comment = require('./comment');
+router.post('/comment/create', comment.create);
+router.post('/comment/delete', comment.delete);
+router.post('/comment/like', comment.like);
+router.post('/comment/unlike', comment.unlike);
+router.post('/comment/comments_enable', comment.comments_enable);
+router.post('/comment/comments_disable', comment.comments_disable);
+
 // Feed route endpoints.
 const feed = require('./feed');
 router.post('/feed/comments', feed.comments);
@@ -36,16 +45,10 @@ router.post('/friendship/unfollow', friendship.unfollow);
 
 // Highlights route endpoints.
 const highlights = require('./highlights');
-router.post('/highlights/highlights_tray', highlights.highlights_tray);
+router.post('/highlights/tray', highlights.tray);
 
 // Media route endpoints.
 const media = require('./media');
-router.post('/media/comment', media.comment);
-router.post('/media/comment_delete', media.comment_delete);
-router.post('/media/comment_like', media.comment_like);
-router.post('/media/comment_unlike', media.comment_unlike);
-router.post('/media/comments_enable', media.comments_enable);
-router.post('/media/comments_disable', media.comments_disable);
 router.post('/media/encode', media.encode);
 router.post('/media/like', media.like);
 router.post('/media/likes_hide', media.likes_hide);

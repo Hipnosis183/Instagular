@@ -1,110 +1,24 @@
-<viewer-stories *ngIf="showStories" [feedStories]="[userProfile.reels]" [seenStories]="userProfile.friendship.following"
-  [originIndex]="0" (closeSend)="closeStories()"></viewer-stories>
-<viewer-users [hidden]="!showFollowers" feedStorage="followers" usersTitle="Followers" [usersList]="userFollowers"
-  (closeSend)="openFollowers()" (onScroll)="loadFollowers()">
-</viewer-users>
-<viewer-users [hidden]="!showFollowing" feedStorage="following" usersTitle="Following" [usersList]="userFollowing"
-  (closeSend)="openFollowing()" (onScroll)="loadFollowing()">
-</viewer-users>
-<div *ngIf="userProfile" class="user-container">
-  <div (click)="openStories()" class="user-stories"
-    [ngClass]="[userProfile.reels ? 'cursor-pointer' : 'border-none', userProfile.reels ? userProfile.reels.seen < userProfile.reels.latest_reel_media ? userProfile.reels.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200' : '']">
-    <img-await [source]="userProfile.hd_profile_pic_url_info.url" class="user-image"></img-await>
-  </div>
-  <div>
-    <div class="user-header">
-      <div class="text-main text-[32px]">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}
-      </div>
-      <img *ngIf="userProfile.is_verified" src="/assets/images/verified.svg">
-      <div *ngIf="userProfile.username != userName"
-        (click)="userProfile.friendship.following ? unfollowUser() : followUser()" class="follow-button"
-        [class]="userProfile.friendship.following ? 'follow-light' : 'follow-color'">
-        {{ userProfile.friendship.following ? 'Following' : 'Follow' }}
-      </div>
-      <div *ngIf="userProfile.friendship.followed_by" class="pl-2 user-stats">
-        <div class="text-sub">•</div>
-        <div class="text-sub">Follows you</div>
-      </div>
-    </div>
-    <div class="user-stats">
-      <div class="text-sub">@{{ userProfile.username }}</div>
-      <div class="text-sub">•</div>
-      <div class="user-stat">
-        <div class="text-main">{{ userProfile.media_count | shortNumber }}</div>
-        <div class="text-sub">Posts</div>
-      </div>
-      <div class="cursor-pointer user-stat"
-        (click)="userProfile.follower_count > 0 && (!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following)) ? _loadFollowers() : null">
-        <div class="text-main">{{ userProfile.follower_count | shortNumber }}</div>
-        <div class="text-sub">Followers</div>
-      </div>
-      <div class="cursor-pointer user-stat"
-        (click)="userProfile.following_count > 0 && (!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following)) ? _loadFollowing() : null">
-        <div class="text-main">{{ userProfile.following_count | shortNumber }}</div>
-        <div class="text-sub">Following</div>
-      </div>
-    </div>
-    <div [innerHTML]="userProfile.biography | parseUrls " class="cursor-default my-5 text-main"></div>
-    <div *ngIf="userProfile.external_url" class="user-link">
-      <img src="/assets/images/link.svg">
-      <a [href]="userProfile.external_url" target="_blank" rel="noopener noreferrer">
-        {{ userProfile.external_url }}
-      </a>
-    </div>
-  </div>
-</div>
+<user-profile [userProfile]="userProfile"></user-profile>
 <div *ngIf="userProfile">
   <div *ngIf="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following); then allow; else block"></div>
   <ng-template #allow>
     <media-stories [feedStories]="userStories"></media-stories>
-    <div tooltipArray tooltipArrayPlace="bottom" class="feed-select">
-      <div (click)="feedTimeline()" attr.tooltipItem="{{ userProfile.media_count }} Posts"
-        [class]="feedSelect == 'timeline' ? 'bg-slate-200' : ''">
-        <img src="/assets/images/user-posts.svg">
-        <p>POSTS</p>
-      </div>
-      <div *ngIf="userProfile.total_clips_count" attr.tooltipItem="{{ userProfile.total_clips_count }} Clips"
-        (click)="feedReels()" [class]="feedSelect == 'reels' ? 'bg-slate-200' : ''">
-        <img src="/assets/images/user-reels.svg">
-        <p>REELS</p>
-      </div>
-      <div *ngIf="userProfile.has_videos" attr.tooltipItem="{{ userProfile.total_igtv_videos }} IGTVs"
-        (click)="feedVideo()" [class]="feedSelect == 'video' ? 'bg-slate-200' : ''">
-        <img src="/assets/images/user-videos.svg">
-        <p>VIDEOS</p>
-      </div>
-      <div *ngIf="userProfile.usertags_count" attr.tooltipItem="{{ userProfile.usertags_count }} Posts"
-        (click)="feedTagged()" [class]="feedSelect == 'tagged' ? 'bg-slate-200' : ''">
-        <img src="/assets/images/user-tagged.svg">
-        <p>TAGGED</p>
-      </div>
-      <div *ngIf="userProfile.has_saved_items" attr.tooltipItem="{{ store.state.savedPosts.length }} Collections"
-        (click)="feedSaved()" [class]="feedSelect == 'saved' ? 'bg-slate-200' : ''">
-        <img src="/assets/images/user-saved.svg">
-        <p>SAVED</p>
-      </div>
+    <user-feeds #userFeeds [userProfile]="userProfile"></user-feeds>
+    <div *ngIf="!userProfile.media_count && userFeeds.feedSelect != 'saved'" class="error-noposts">
+      <img src="/assets/images/camera.svg">
+      <div class="text-main">No posts yet</div>
+      <div class="text-sub">This user hasn't made any posts yet.</div>
     </div>
-    <media-feed *ngIf="feedLoaded.timeline" [hidden]="feedSelect != 'timeline'" [feedPosts]="userPosts" [feedStorage]="'feed'" [hideHeader]="true" (onScroll)="loadUser()"></media-feed>
-    <media-reels *ngIf="feedLoaded.reels" [hidden]="feedSelect != 'reels'" [feedPosts]="userReels" (onScroll)="loadReels()"></media-reels>
-    <media-video *ngIf="feedLoaded.video" [hidden]="feedSelect != 'video'" [feedPosts]="userVideos" (onScroll)="loadVideo()"></media-video>
-    <media-feed *ngIf="feedLoaded.tagged" [hidden]="feedSelect != 'tagged'" [feedPosts]="userTagged" [feedStorage]="'tagged'" (onScroll)="loadTagged()"></media-feed>
-    <media-saved *ngIf="feedLoaded.saved" [hidden]="feedSelect != 'saved'" [feedCollections]="store.state.savedPosts"
-      (onScroll)="store.loadSaved(true)" (onUpdate)="feedSavedUrl = $event"></media-saved>
   </ng-template>
   <ng-template #block>
-    <div class="error-container mt-24">
+    <div class="error-private">
       <img src="/assets/images/lock.svg">
       <div class="text-main">This account is private</div>
       <div class="text-sub">Follow to see their photos and videos.</div>
     </div>
   </ng-template>
-  <div *ngIf="!userProfile.media_count" class="error-container mt-[4.5rem]">
-    <img src="/assets/images/camera.svg">
-    <div class="text-main">No posts yet</div>
-    <div class="text-sub">This user hasn't made any posts yet.</div>
-  </div>
 </div>
-<div *ngIf="userNotFound" class="error-container">
+<div *ngIf="userNotFound" class="error-notfound">
   <img src="/assets/images/slash.svg">
   <div class="text-main">This page is not available</div>
   <div class="text-sub">The link you followed may be broken, or the page may have been removed.</div>

@@ -7,27 +7,38 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MediaFeedComponent } from './components/media/media-feed/media-feed.component';
+import { FeedPostComponent } from './components/media/media-feed/feed-post/feed-post.component';
 import { MediaReelsComponent } from './components/media/media-reels/media-reels.component';
+import { ReelsPostComponent } from './components/media/media-reels/reels-post/reels-post.component';
 import { MediaSavedComponent } from './components/media/media-saved/media-saved.component';
+import { CollectionComponent } from './components/media/media-saved/collection/collection.component';
 import { CreateCollectionComponent } from './components/media/media-saved/create-collection/create-collection.component';
 import { EditCollectionComponent } from './components/media/media-saved/edit-collection/edit-collection.component';
 import { DeleteCollectionComponent } from './components/media/media-saved/delete-collection/delete-collection.component';
 import { MediaStoriesComponent } from './components/media/media-stories/media-stories.component';
 import { MediaVideoComponent } from './components/media/media-video/media-video.component';
+import { VideoPostComponent } from './components/media/media-video/video-post/video-post.component';
 import { PageFeedComponent } from './components/pages/page-feed/page-feed.component';
 import { PageLoginComponent } from './components/pages/page-login/page-login.component';
 import { PageUserComponent } from './components/pages/page-user/page-user.component';
+import { UserFeedsComponent } from './components/pages/page-user/user-feeds/user-feeds.component';
+import { UserProfileComponent } from './components/pages/page-user/user-profile/user-profile.component';
+import { SearchComponent } from './components/search/search.component';
+import { SearchBoxComponent } from './components/search/search-box/search-box.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { UserOptionsComponent } from './components/sidenav/user-options/user-options.component';
 import { ViewerPostsComponent } from './components/viewers/viewer-posts/viewer-posts.component';
 import { PostCommentComponent } from './components/viewers/viewer-posts/post-comment/post-comment.component';
 import { PostCommentsComponent } from './components/viewers/viewer-posts/post-comments/post-comments.component';
+import { PostPanelComponent } from './components/viewers/viewer-posts/post-panel/post-panel.component';
 import { ViewerStoriesComponent } from './components/viewers/viewer-stories/viewer-stories.component';
+import { StoriesUserComponent } from './components/viewers/viewer-stories/stories-user/stories-user.component';
 import { ViewerUsersComponent } from './components/viewers/viewer-users/viewer-users.component';
 
 // Utility components.
 import { DialogComponent } from './utils/dialog/dialog.component';
 import { ImgAwaitComponent } from './utils/img-await/img-await.component';
-import { SearchComponent } from './utils/search/search.component';
+import { ModalComponent } from './utils/modal/modal.component';
 
 // Directives.
 import { AutoFocusDirective } from './directives/auto-focus.directive';
@@ -41,33 +52,43 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { EncodePipe } from './pipes/encode.pipe';
 import { ParseUrlsPipe } from './pipes/parse-urls.pipe';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
-import { ModalComponent } from './utils/modal/modal.component';
 
 @NgModule({
   declarations: [
     // App components.
     AppComponent,
     MediaFeedComponent,
+    FeedPostComponent,
     MediaReelsComponent,
+    ReelsPostComponent,
     MediaSavedComponent,
+    CollectionComponent,
     CreateCollectionComponent,
     EditCollectionComponent,
     DeleteCollectionComponent,
     MediaStoriesComponent,
     MediaVideoComponent,
+    VideoPostComponent,
     PageFeedComponent,
     PageLoginComponent,
     PageUserComponent,
+    UserFeedsComponent,
+    UserProfileComponent,
+    SearchComponent,
+    SearchBoxComponent,
     SidenavComponent,
+    UserOptionsComponent,
     ViewerPostsComponent,
     PostCommentComponent,
     PostCommentsComponent,
+    PostPanelComponent,
     ViewerStoriesComponent,
+    StoriesUserComponent,
     ViewerUsersComponent,
     // Utility components.
     DialogComponent,
     ImgAwaitComponent,
-    SearchComponent,
+    ModalComponent,
     // Directives.
     AutoFocusDirective,
     DropdownDirective,
@@ -79,7 +100,6 @@ import { ModalComponent } from './utils/modal/modal.component';
     EncodePipe,
     ParseUrlsPipe,
     ShortNumberPipe,
-    ModalComponent,
   ],
   imports: [
     AppRoutingModule,

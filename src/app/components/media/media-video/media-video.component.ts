@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { MediaService } from 'src/app/services/media.service';
 
 @Component({
   selector: 'media-video',
@@ -11,24 +9,16 @@ import { catchError } from 'rxjs/operators';
 
 export class MediaVideoComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(private media: MediaService) { }
 
   feedIndex: any = { current: null, total: null };
   feedPost: any = null;
   @Input() feedPosts: any[] = [];
 
-  private mediaError() {
-    return throwError(() => {
-      new Error('Media error: could not load media information.');
-    });
-  }
-
   openMedia(post: any): void {
     // If the media information hasn't been requested yet.
     if (!post.node.instagular) {
-      this.http.post('/api/media/video', {
-        id: post.node.shortcode, session: localStorage.getItem('state'),
-      }).pipe(catchError(this.mediaError)).subscribe((data) => {
+      this.media.video(post.node.shortcode).then((data) => {
         this.feedPost = data;
         this.feedIndex.current = this.feedPosts.findIndex((res) => res.node.id == post.node.id);
         this.feedIndex.total = this.feedPosts.length - 1;
@@ -41,18 +31,11 @@ export class MediaVideoComponent {
     }
   }
 
-  closeMedia(): void {
-    this.feedPost = null;
-  }
-
   prevPost(): void {
     this.feedIndex.current--;
     // If the media information hasn't been requested yet.
     if (!this.feedPosts[this.feedIndex.current].node.instagular) {
-      this.http.post('/api/media/video', {
-        id: this.feedPosts[this.feedIndex.current].node.shortcode,
-        session: localStorage.getItem('state'),
-      }).pipe(catchError(this.mediaError)).subscribe((data) => {
+      this.media.video(this.feedPosts[this.feedIndex.current].node.shortcode).then((data) => {
         this.feedPost = data;
         // Store results to avoid further request for the selected media.
         this.feedPosts[this.feedIndex.current].node.instagular = data;
@@ -66,10 +49,7 @@ export class MediaVideoComponent {
     this.feedIndex.current++;
     // If the media information hasn't been requested yet.
     if (!this.feedPosts[this.feedIndex.current].node.instagular) {
-      this.http.post('/api/media/video', {
-        id: this.feedPosts[this.feedIndex.current].node.shortcode,
-        session: localStorage.getItem('state'),
-      }).pipe(catchError(this.mediaError)).subscribe((data) => {
+      this.media.video(this.feedPosts[this.feedIndex.current].node.shortcode).then((data) => {
         this.feedPost = data;
         // Store results to avoid further request for the selected media.
         this.feedPosts[this.feedIndex.current].node.instagular = data;
@@ -77,34 +57,6 @@ export class MediaVideoComponent {
     } else {
       this.feedPost = this.feedPosts[this.feedIndex.current].node.instagular;
     }
-  }
-
-  private likeError() {
-    return throwError(() => {
-      new Error('Media error: could not like the media.');
-    });
-  }
-
-  likeMedia(id: string): void {
-    this.feedPost.has_liked = true;
-    this.feedPost.like_count++;
-    this.http.post('/api/media/like', {
-      mediaId: id, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.likeError)).subscribe();
-  }
-
-  private unlikeError() {
-    return throwError(() => {
-      new Error('Media error: could not unlike the media.');
-    });
-  }
-
-  unlikeMedia(id: string): void {
-    this.feedPost.has_liked = false;
-    this.feedPost.like_count--;
-    this.http.post('/api/media/unlike', {
-      mediaId: id, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.unlikeError)).subscribe();
   }
 
   hideIntersect: boolean = true;

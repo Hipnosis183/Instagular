@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { CollectionService } from 'src/app/services/collection.service';
+import { FeedService } from 'src/app/services/feed.service';
 
 @Component({
   selector: 'create-collection',
@@ -11,18 +10,15 @@ import { catchError } from 'rxjs/operators';
 
 export class CreateCollectionComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private collection: CollectionService,
+    private feed: FeedService,
+  ) { }
 
   collectionName: string = '';
   collectionPosts: any[] = [];
   @Input() fromPost: string = '';
   @Output() onCreate = new EventEmitter();
-
-  private createError() {
-    return throwError(() => {
-      new Error('Collection error: cannot create collection.');
-    });
-  }
 
   collectionCreate(): void {
     if (!(this.collectionName.length > 0)) { return; }
@@ -36,22 +32,13 @@ export class CreateCollectionComponent {
       }
     }
     // Create new collection.
-    this.http.post<string>('/api/collection/create', {
-      medias: selectedPosts, name: this.collectionName,
-      session: localStorage.getItem('state'),
-    }).pipe(catchError(this.createError)).subscribe(() => {
-      localStorage.removeItem('collectionCreate');
-      this.onCreate.emit();
-    });
+    this.collection.create(selectedPosts, this.collectionName)
+      .then((data) => { this.onCreate.emit(data); });
   }
 
   collectionGetPosts(more?: boolean): void {
     if (!more) { localStorage.removeItem('collectionCreate'); }
-    this.http.post<any>('/api/feed/saved_all', {
-      feed: localStorage.getItem('collectionCreate'),
-      session: localStorage.getItem('state'),
-    }).pipe(catchError(this.createError)).subscribe((data) => {
-      localStorage.setItem('collectionCreate', data.feed);
+    this.feed.savedAll('collectionCreate').then((data: any) => {
       this.collectionPosts = this.collectionPosts.concat(data.posts);
       this.hideIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
       this.stopIntersect = JSON.parse(data.feed).moreAvailable ? false : true;

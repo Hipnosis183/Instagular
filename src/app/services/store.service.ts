@@ -1,28 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { FeedService } from 'src/app/services/feed.service';
 import store from 'src/app/app.store';
 
 @Injectable({ providedIn: 'root' })
 
 export class StoreService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private feed: FeedService) { }
   state: any = store;
-
-  private savedError() {
-    return throwError(() => new Error('Saved error: cannot load user saved posts feed.'));
-  }
 
   loadSaved(more?: boolean): void {
     if (!more) { localStorage.removeItem('saved'); }
-    this.http.post<any>('/api/feed/saved', {
-      feed: localStorage.getItem('saved'),
-      id: localStorage.getItem('userpk'),
-      session: localStorage.getItem('state'),
-    }).pipe(catchError(this.savedError)).subscribe((data) => {
-      localStorage.setItem('saved', data.feed);
+    this.feed.saved().then((data: any) => {
       store.savedPosts = more ? store.savedPosts.concat(data.collections) : data.collections;
     });
   }

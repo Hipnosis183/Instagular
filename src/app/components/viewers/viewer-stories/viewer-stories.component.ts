@@ -1,8 +1,7 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { lastValueFrom, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { FeedService } from 'src/app/services/feed.service';
+import { MediaService } from 'src/app/services/media.service';
 
 @Component({
   selector: 'viewer-stories',
@@ -13,20 +12,15 @@ import { catchError } from 'rxjs/operators';
 export class ViewerStoriesComponent {
 
   constructor(
-    private http: HttpClient,
-    public router: Router,
+    private feed: FeedService,
+    private media: MediaService,
+    private router: Router,
   ) { }
 
   feedIndex: number = 0;
   feedStoriesSeen: any[] = [];
   @Input() feedStories: any[] = [];
   @Input() seenStories: boolean = true;
-
-  private storiesError() {
-    return throwError(() => {
-      new Error('Stories error: cannot load stories media information.');
-    });
-  }
 
   async loadStories(index: number): Promise<void> {
     let stories = [];
@@ -53,7 +47,7 @@ export class ViewerStoriesComponent {
     // Manage stories behind.
     if (index > 0 && !this.feedStories[index - 1].items) {
       for (let i = index - 1; i > (index - countLeft); i--) {
-        if (!this.feedStories[i].items) {
+        if (this.feedStories[i] && !this.feedStories[i].items) {
           // Add stories for media fetch.
           stories.push(this.feedStories[i].id);
         }
@@ -62,17 +56,14 @@ export class ViewerStoriesComponent {
     // Manage stories ahead.
     if (index < this.feedStories.length - 1 && !this.feedStories[index + 1].items) {
       for (let i = index + 1; i < (index + countRight); i++) {
-        if (!this.feedStories[i].items) {
+        if (this.feedStories[i] && !this.feedStories[i].items) {
           // Add stories for media fetch.
           stories.push(this.feedStories[i].id);
         }
       }
     }
     // Fetch selected stories media.
-    let data: any = await lastValueFrom(
-      this.http.post<any>('/api/feed/reels_media', {
-        stories: stories, session: localStorage.getItem('state'),
-      }).pipe(catchError(this.storiesError))).then((data) => { return data; });
+    let data: any = await this.feed.reelsMedia(stories);
     // Load the media items into the stories feed array.
     for (let media in data) {
       let index = this.feedStories.findIndex((story) => story.id == data[media].id);
@@ -88,18 +79,14 @@ export class ViewerStoriesComponent {
     this.storySeen();
   }
 
-  @Output() closeSend = new EventEmitter();
+  @Output() onClose = new EventEmitter();
 
   closeStories(): void {
     if ((this.feedStoriesSeen.length > 0) && this.seenStories) {
       // Request watched stories to be marked as seen.
-      this.http.post('/api/media/seen', {
-        stories: this.feedStoriesSeen,
-        session: localStorage.getItem('state'),
-      }).subscribe();
-    }
-    this.feedStoriesSeen = [];
-    this.closeSend.emit();
+      this.media.seen(this.feedStoriesSeen);
+    } this.feedStoriesSeen = [];
+    this.onClose.emit();
   }
 
   async storiesPrev(): Promise<void> {
@@ -181,22 +168,6 @@ export class ViewerStoriesComponent {
     if (event.key == 'Escape') { this.closeStories(); }
   }
 
-  expandedThumbs: boolean = false;
-  loadedThumbs: boolean = false;
-
-  expandThumbs(): void {
-    this.expandedThumbs = !this.expandedThumbs;
-    if (!this.loadedThumbs) {
-      this.loadedThumbs = true;
-    }
-  }
-
-  loadThumbs(): void {
-    if (!this.expandedThumbs) {
-      this.loadedThumbs = false;
-    }
-  }
-
   storySelect(index: number): void {
     this.storiesIndex = index;
     this.storyIndexUpdate();
@@ -250,12 +221,24 @@ export class ViewerStoriesComponent {
   loadUserPage(username: string): void {
     if ((this.feedStoriesSeen.length > 0) && this.seenStories) {
       // Request watched stories to be marked as seen.
-      this.http.post('/api/media/seen', {
-        stories: this.feedStoriesSeen,
-        session: localStorage.getItem('state'),
-      }).subscribe();
+      this.media.seen(this.feedStoriesSeen);
+    } this.router.navigate(['/' + username]);
+  }
+
+  expandedThumbs: boolean = false;
+  loadedThumbs: boolean = false;
+
+  expandThumbs(): void {
+    this.expandedThumbs = !this.expandedThumbs;
+    if (!this.loadedThumbs) {
+      this.loadedThumbs = true;
     }
-    this.router.navigate(['/' + username]);
+  }
+
+  loadThumbs(): void {
+    if (!this.expandedThumbs) {
+      this.loadedThumbs = false;
+    }
   }
 
   ngOnInit(): void {

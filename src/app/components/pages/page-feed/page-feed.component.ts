@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { lastValueFrom, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { FeedService } from 'src/app/services/feed.service';
 
 @Component({
   selector: 'page-feed',
@@ -11,44 +9,24 @@ import { catchError } from 'rxjs/operators';
 
 export class PageFeedComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(private feed: FeedService) { }
 
   feedPosts: any[] = [];
   feedStories: any[] = [];
 
-  private feedError() {
-    return throwError(() => {
-      new Error('Feed error: cannot load feed information.');
-    });
-  }
-
   async loadFeed(reload?: boolean): Promise<void> {
     if (reload) { localStorage.removeItem('feed'); }
-    await lastValueFrom(
-      this.http.post<any>('/api/feed/timeline', {
-        feed: localStorage.getItem('feed'),
-        session: localStorage.getItem('state'),
-      }).pipe(catchError(this.feedError))).then((data) => {
-        localStorage.setItem('feed', data.feed);
-        if (reload) { this.feedPosts = []; }
-        this.feedPosts = this.feedPosts.concat(data.posts);
-      });
-  }
-
-  private storiesError() {
-    return throwError(() => {
-      new Error('Stories error: cannot load stories tray information.');
+    await this.feed.timeline().then((data) => {
+      if (reload) { this.feedPosts = []; }
+      this.feedPosts = this.feedPosts.concat(data.posts);
     });
   }
 
   async loadStories(reload?: boolean): Promise<void> {
-    await lastValueFrom(
-      this.http.post<any>('/api/feed/reels_tray', {
-        session: localStorage.getItem('state'),
-      }).pipe(catchError(this.storiesError))).then((data) => {
-        if (reload) { this.feedStories = []; }
-        this.feedStories = this.feedStories.concat(data);
-      });
+    await this.feed.reelsTray().then((data) => {
+      if (reload) { this.feedStories = []; }
+      this.feedStories = this.feedStories.concat(data);
+    });
   }
 
   async reloadFeed(feed: string): Promise<void> {

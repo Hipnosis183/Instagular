@@ -4,8 +4,6 @@ import { Injectable } from '@angular/core';
 
 export class DelayService {
 
-  constructor() { }
-
   debounce(func: Function, wait: number) {
     // Set timer.
     let timer: any;

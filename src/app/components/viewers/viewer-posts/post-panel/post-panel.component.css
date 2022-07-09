@@ -1,0 +1,91 @@
+.button-comments {
+  @apply bg-slate-50 hover:bg-slate-200 border-t-[1px] border-t-slate-200 hover:border-t-slate-300 cursor-pointer flex h-16 items-center justify-center text-lg text-slate-800 w-full;
+  transition: background-color 0.2s, border 0.2s;
+}
+.button-comments div {
+  @apply font-light text-slate-800 text-xl;
+}
+.button-comments img {
+  @apply h-5 -ml-9 mr-4;
+}
+.button-create {
+  @apply hover:bg-blue-200 py-2 text-blue-500 font-medium !important;
+}
+.button-more {
+  @apply absolute cursor-pointer m-4 right-0 top-0;
+}
+
+.panel-caption {
+  @apply cursor-default text-main w-full;
+}
+.panel-coauthor {
+  @apply -mr-6 outline outline-slate-50 panel-image z-[1];
+}
+.panel-comments {
+  @apply max-h-full overflow-y-auto p-4 w-full;
+}
+.panel-comments .line {
+  @apply bg-slate-400 h-px w-8;
+}
+.panel-comments .more {
+  @apply cursor-pointer flex items-center ml-4 mt-4;
+}
+.panel-comments .separator {
+  @apply bg-slate-300 h-px mx-auto my-6 w-4/5;
+}
+.panel-comments .text {
+  @apply ml-2 text-sub;
+}
+.panel-container {
+  @apply bg-slate-100 flex flex-col h-screen max-w-[380px] min-w-[380px] relative;
+}
+.panel-header {
+  @apply cursor-default flex flex-col items-center;
+}
+.panel-image {
+  @apply cursor-pointer mb-5 min-h-[100px] overflow-hidden rounded-full w-[100px];
+}
+.panel-location {
+  @apply cursor-default max-w-full mt-2 overflow-hidden text-sub whitespace-nowrap;
+}
+.panel-more img {
+  @apply mr-3 w-[18px];
+}
+.panel-name {
+  @apply flex space-x-2 text-center;
+}
+.panel-name div {
+  @apply font-light text-[22px] text-slate-800;
+}
+.panel-name img {
+  @apply -mr-8 !important;
+}
+.panel-saved {
+  @apply flex items-center space-x-4;
+}
+:host ::ng-deep .panel-saved img {
+  @apply h-8 object-cover rounded w-8;
+}
+.panel-stats {
+  @apply bg-slate-50 border-y-[1px] border-y-slate-200 cursor-default flex items-center justify-between px-4 py-2 w-full;
+}
+.panel-stats .counter {
+  @apply flex items-center leading-none mr-4 text-main !important;
+}
+.panel-post {
+  @apply flex flex-col items-center w-full;
+  height: calc(100% - 61px);
+}
+.panel-user {
+  @apply bg-slate-50 flex flex-col items-center p-6 w-full;
+}
+.panel-username {
+  @apply cursor-pointer flex flex-col items-center;
+}
+
+.text-main {
+  @apply text-lg text-slate-800;
+}
+.text-sub {
+  @apply font-light text-slate-600;
+}

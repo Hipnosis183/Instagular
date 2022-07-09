@@ -1,29 +1,16 @@
-.error-container {
+.error-notfound {
   @apply cursor-default flex flex-col h-full items-center justify-center w-full;
 }
-.error-container img {
+.error-noposts {
+  @apply error-notfound mt-[4.5rem];
+}
+.error-private {
+  @apply error-notfound mt-24;
+}
+.error-notfound img,
+.error-noposts img,
+.error-private img {
   @apply mb-6 w-24;
-}
-
-.feed-select {
-  @apply flex justify-center w-full;
-}
-.feed-select div {
-  @apply hover:bg-slate-200 cursor-pointer flex font-light items-center py-2 px-4 space-x-2 text-lg text-slate-800;
-  transition: background-color 0.2s;
-}
-.feed-select img {
-  @apply w-[18px];
-}
-
-.follow-button {
-  @apply cursor-pointer ml-4 px-4 py-1.5 rounded-lg !important;
-}
-.follow-color {
-  @apply bg-blue-500 text-slate-50;
-}
-.follow-light {
-  @apply bg-slate-200 text-slate-800;
 }
 
 .text-main {
@@ -31,32 +18,4 @@
 }
 .text-sub {
   @apply font-light text-slate-600;
-}
-
-.user-container {
-  @apply flex items-center justify-center mb-5 px-8 space-x-10 w-full;
-}
-.user-header {
-  @apply cursor-default flex items-center mb-0.5 space-x-2;
-}
-.user-header img {
-  @apply w-7;
-}
-.user-image {
-  @apply flex h-[200px] min-h-[200px] min-w-[200px] overflow-hidden rounded-full w-[200px];
-}
-.user-stories {
-  @apply border-[4px] p-[6px] rounded-full;
-}
-.user-link {
-  @apply flex items-center space-x-2;
-}
-.user-link img {
-  @apply h-4 w-4;
-}
-.user-stat {
-  @apply flex items-center space-x-1;
-}
-.user-stats {
-  @apply cursor-default flex space-x-4;
 }

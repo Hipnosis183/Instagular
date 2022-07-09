@@ -1,8 +1,4 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'viewer-posts',
@@ -12,17 +8,16 @@ import { StoreService } from 'src/app/services/store.service';
 
 export class ViewerPostsComponent {
 
-  constructor(
-    private http: HttpClient,
-    public store: StoreService,
-  ) { }
-
   @Input() feedPost: any;
   @Input() feedIndex: any;
-  @Output() nextPost = new EventEmitter();
-  @Output() prevPost = new EventEmitter();
+  @Output() onClose = new EventEmitter();
+  @Output() onNextPost = new EventEmitter();
+  @Output() onPrevPost = new EventEmitter();
+  @Output() onPin = new EventEmitter();
+  @Output() onUnpin = new EventEmitter();
 
   carouselIndex = 0;
+  expandedPanel: boolean = true;
 
   carouselPrev(): void {
     this.carouselIndex--;
@@ -34,16 +29,18 @@ export class ViewerPostsComponent {
 
   postPrev(): void {
     this.carouselIndex = 0;
-    this.prevPost.emit();
+    this.onPrevPost.emit();
   }
 
   postNext(): void {
     this.carouselIndex = 0;
-    this.nextPost.emit();
+    this.onNextPost.emit();
   }
 
   @HostListener('window:keydown', ['$event'])
   keyEvent(event: KeyboardEvent) {
+    // Return if an input element is being focused.
+    if (document.activeElement?.nodeName == 'INPUT') { return; }
     // Go to the next item in the carousel if the right arrow key is pressed.
     if (event.key == 'ArrowRight') {
       if (event.ctrlKey) {
@@ -71,123 +68,13 @@ export class ViewerPostsComponent {
       }
     }
     // Close side panel if the space key is pressed.
-    if (event.key == ' ') { this.expandPanel(); }
+    if (event.key == ' ') { this.expandedPanel = !this.expandedPanel; }
     // Close viewer if the escape key is pressed.
-    if (event.key == 'Escape') { this.closeSend.emit(); }
-  }
-
-  @Output() likeSend = new EventEmitter();
-  @Output() unlikeSend = new EventEmitter();
-  @Output() saveSend = new EventEmitter();
-  @Output() unsaveSend = new EventEmitter();
-  @Output() closeSend = new EventEmitter();
-  @Output() pinSend = new EventEmitter();
-  @Output() unpinSend = new EventEmitter();
-
-  private postError() {
-    return throwError(() => {
-      new Error('Likes error: couldn\'t toggle like/view counts.');
-    });
-  }
-
-  _postPin: boolean = false;
-
-  postPinOpen(): void {
-    this._postPin = !this._postPin;
-  }
-
-  postPin(): void {
-    if (this.feedIndex.pin && !this._postPin) { this.postPinOpen(); return; }
-    else { this._postPin = false; }
-    this.feedPost.timeline_pinned_user_ids = [this.feedPost.user.pk];
-    this.pinSend.emit(this.feedIndex.current);
-    this.http.post('/api/user/post_pin', {
-      id: this.feedPost.pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.postError)).subscribe();
-  }
-
-  postUnpin(): void {
-    this.feedPost.timeline_pinned_user_ids = null;
-    this.unpinSend.emit(this.feedIndex.current);
-    this.http.post('/api/user/post_unpin', {
-      id: this.feedPost.pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.postError)).subscribe();
-  }
-
-  private likesError() {
-    return throwError(() => {
-      new Error('Likes error: couldn\'t toggle like/view counts.');
-    });
-  }
-
-  likesHide(): void {
-    this.feedPost.like_and_view_counts_disabled = true;
-    this.http.post('/api/media/likes_hide', {
-      id: this.feedPost.pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.likesError)).subscribe();
-  }
-
-  likesUnhide(): void {
-    this.feedPost.like_and_view_counts_disabled = false;
-    this.http.post('/api/media/likes_unhide', {
-      id: this.feedPost.pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.likesError)).subscribe();
-  }
-
-  private commentsError() {
-    return throwError(() => {
-      new Error('Comments error: couldn\'t toggle comments visibility state.');
-    });
-  }
-
-  commentsEnable(): void {
-    this.feedPost.comment_count = 0;
-    this.feedPost.comments_disabled = false;
-    this.http.post('/api/media/comments_enable', {
-      id: this.feedPost.pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.commentsError)).subscribe();
-  }
-
-  commentsDisable(): void {
-    this.feedPost.comment_count = 0;
-    this.feedPost.comments_disabled = true;
-    this.feedPost.preview_comments = [];
-    this.http.post('/api/media/comments_disable', {
-      id: this.feedPost.pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.commentsError)).subscribe();
-  }
-
-  saveMedia(feedPost: any, collection: any): void {
-    const ids = { media: feedPost.id, collection: collection.collection_id };
-    if (feedPost.saved_collection_ids) {
-      !feedPost.saved_collection_ids.includes(collection.collection_id) ? this.saveSend.emit(ids) : this.unsaveSend.emit(ids);
-    } else { this.saveSend.emit(ids); }
+    if (event.key == 'Escape') { this.onClose.emit(); }
   }
 
   openMedia(): void {
     window.open(this.feedPost.instagular.full[this.carouselIndex] + '&se=0', '_blank');
-  }
-
-  downloadMedia(): void {
-    window.open(this.feedPost.instagular.full[this.carouselIndex] + '&se=0&dl=1', '_blank');
-  }
-
-  collectionCreate: boolean = false;
-
-  collectionCreateOpen(): void {
-    this.collectionCreate = !this.collectionCreate;
-  }
-
-  collectionCreated(): void {
-    // Reload collections.
-    this.store.loadSaved();
-    this.collectionCreate = false;
-  }
-
-  expandedPanel: boolean = true;
-
-  expandPanel(): void {
-    this.expandedPanel = !this.expandedPanel;
   }
 
   ngOnInit(): void {

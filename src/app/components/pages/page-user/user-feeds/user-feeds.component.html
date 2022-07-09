@@ -1,0 +1,35 @@
+<div tooltipArray tooltipArrayPlace="bottom" class="feed-select">
+  <div (click)="feedTimeline()" attr.tooltipItem="{{ userProfile.media_count | shortNumber }} Posts"
+    [class]="feedSelect == 'timeline' ? 'bg-slate-200' : ''">
+    <img src="/assets/images/user-posts.svg">
+    <p>POSTS</p>
+  </div>
+  <div *ngIf="userProfile.total_clips_count" attr.tooltipItem="{{ userProfile.total_clips_count | shortNumber }} Clips"
+    (click)="feedReels()" [class]="feedSelect == 'reels' ? 'bg-slate-200' : ''">
+    <img src="/assets/images/user-reels.svg">
+    <p>REELS</p>
+  </div>
+  <div *ngIf="userProfile.has_videos" attr.tooltipItem="{{ userProfile.total_igtv_videos | shortNumber }} IGTVs"
+    (click)="feedVideo()" [class]="feedSelect == 'video' ? 'bg-slate-200' : ''">
+    <img src="/assets/images/user-videos.svg">
+    <p>VIDEOS</p>
+  </div>
+  <div *ngIf="userProfile.usertags_count" attr.tooltipItem="{{ userProfile.usertags_count | shortNumber }} Posts"
+    (click)="feedTagged()" [class]="feedSelect == 'tagged' ? 'bg-slate-200' : ''">
+    <img src="/assets/images/user-tagged.svg">
+    <p>TAGGED</p>
+  </div>
+  <div *ngIf="userProfile.has_saved_items" attr.tooltipItem="{{ store.state.savedPosts.length }} Collections"
+    (click)="feedSaved()" [class]="feedSelect == 'saved' ? 'bg-slate-200' : ''">
+    <img src="/assets/images/user-saved.svg">
+    <p>SAVED</p>
+  </div>
+</div>
+<media-feed *ngIf="feedLoaded.timeline" [hidden]="feedSelect != 'timeline'" [feedPosts]="userPosts"
+  [feedStorage]="'feed'" [hideHeader]="true" (onScroll)="loadUser()"></media-feed>
+<media-reels *ngIf="feedLoaded.reels" [hidden]="feedSelect != 'reels'" [feedPosts]="userReels" (onScroll)="loadReels()"></media-reels>
+<media-video *ngIf="feedLoaded.video" [hidden]="feedSelect != 'video'" [feedPosts]="userVideos" (onScroll)="loadVideo()"></media-video>
+<media-feed *ngIf="feedLoaded.tagged" [hidden]="feedSelect != 'tagged'" [feedPosts]="userTagged"
+  [feedStorage]="'tagged'" (onScroll)="loadTagged()"></media-feed>
+<media-saved *ngIf="feedLoaded.saved" [hidden]="feedSelect != 'saved'" [feedCollections]="store.state.savedPosts"
+  (onScroll)="store.loadSaved(true)" (onUpdate)="feedSavedUrl = $event"></media-saved>

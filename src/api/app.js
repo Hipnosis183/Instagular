@@ -1,14 +1,14 @@
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const logger = require('morgan');
 const path = require('path');
-require('dotenv').config()
+require('dotenv').config();
 
 const app = express();
-const root = process.cwd().substring(0, process.cwd().length - 8)
-const port = 3200
+const root = process.cwd().substring(0, process.cwd().length - 8);
+const port = 3200;
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(`${root}/dist/instagular/`));
 
 app.get('/', (req, res) => {
-    res.sendFile(`${root}/dist/instagular/index.html`)
+    res.sendFile(`${root}/dist/instagular/index.html`);
 });
 
 const ApiRouter = require('./routes/api');

@@ -1,0 +1,30 @@
+.collection-container {
+  @apply absolute cursor-pointer h-full hover:opacity-100 opacity-0 w-full;
+  transition: opacity 0.2s;
+}
+.collection-footer {
+  @apply absolute bottom-0 flex items-end justify-between p-3 pointer-events-none w-full z-10;
+}
+.collection-footer img {
+  @apply h-6 w-6;
+  filter: drop-shadow(0px 2px 0px black);
+}
+.collection-header {
+  @apply absolute flex justify-end p-3 pointer-events-none w-full z-[1];
+}
+.collection-footer p,
+.collection-header p {
+  @apply font-semibold mr-1 text-lg text-white;
+  filter: drop-shadow(1px 1px 1px black);
+}
+.collection-gradient {
+  @apply absolute h-full w-full;
+  background: linear-gradient(to bottom, rgba(51, 65, 85, 0.5) -0%, rgba(51, 65, 85, 0.2) 20%, transparent 40% 60%, rgba(51, 65, 85, 0.2) 80%, rgba(51, 65, 85, 0.5) 100%);
+  filter: brightness(0.5);
+}
+.collection-grid {
+  @apply gap-0.5 grid h-full w-full;
+}
+:host ::ng-deep .collection-image img {
+  @apply h-full max-h-[280px] object-cover w-full;
+}

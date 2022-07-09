@@ -9,11 +9,11 @@ import { Router } from '@angular/router';
 
 export class ViewerUsersComponent {
 
-  constructor(public router: Router) { }
+  constructor(private router: Router) { }
 
   @Input() usersList: any[] = [];
   @Input() usersTitle: string = 'Users';
-  @Output() closeSend = new EventEmitter();
+  @Output() onClose = new EventEmitter();
 
   loadUserPage(username: string): void {
     this.router.navigate(['/' + username]);

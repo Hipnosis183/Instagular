@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { CommentService } from 'src/app/services/comment.service';
+import { FeedService } from 'src/app/services/feed.service';
 
 @Component({
   selector: 'post-comments',
@@ -11,7 +10,10 @@ import { catchError } from 'rxjs/operators';
 
 export class PostCommentsComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private comment: CommentService,
+    private feed: FeedService,
+  ) { }
 
   @Input() feedPost: any;
   feedComments: any[] = [];
@@ -19,19 +21,9 @@ export class PostCommentsComponent {
   loadedComments: boolean = false;
   loadedReplies: boolean = true;
 
-  private commentsError() {
-    return throwError(() => {
-      new Error('Comments error: cannot load post comments.');
-    });
-  }
-
   loadComments(): void {
     this.loadedComments = true;
-    this.http.post<string>('/api/feed/comments', {
-      id: this.feedPost.pk, feed: localStorage.getItem('comments'),
-      session: localStorage.getItem('state'),
-    }).pipe(catchError(this.commentsError)).subscribe((data: any) => {
-      localStorage.setItem('comments', data.feed);
+    this.feed.comments(this.feedPost.pk).then((data: any) => {
       this.feedComments = this.feedComments.concat(data.comments);
       this.onUpdated();
     });
@@ -40,16 +32,13 @@ export class PostCommentsComponent {
   loadReplies(i: number): void {
     if (!this.loadedReplies) { return; }
     this.loadedReplies = false;
-    this.http.post<string>('/api/feed/comments_replies', {
-      mediaId: this.feedPost.pk, commentId: this.feedComments[i].pk,
-      feed: JSON.stringify(this.stateComments[i]),
-      session: localStorage.getItem('state'),
-    }).pipe(catchError(this.commentsError)).subscribe((data: any) => {
-      this.feedComments[i].preview_child_comments = this.stateComments[i]
-        ? data.replies.concat(this.feedComments[i].preview_child_comments) : data.replies;
-      this.stateComments[i] = JSON.parse(data.feed);
-      this.loadedReplies = true;
-    });
+    this.feed.commentsReplies(this.feedPost.pk, this.feedComments[i].pk,
+      this.stateComments[i]).then((data: any) => {
+        this.feedComments[i].preview_child_comments = this.stateComments[i]
+          ? data.replies.concat(this.feedComments[i].preview_child_comments) : data.replies;
+        this.stateComments[i] = JSON.parse(data.feed);
+        this.loadedReplies = true;
+      });
   }
 
   openComments(): void {
@@ -64,23 +53,11 @@ export class PostCommentsComponent {
   textComment: string = '';
   sendingComment: boolean = false;
 
-  private sendError() {
-    return throwError(() => {
-      new Error('Comment error: cannot send comment/reply.');
-    });
-  }
-
   sendComment(): void {
     if (!(this.textComment.length > 0) || this.sendingComment) { return; }
     this.sendingComment = true;
-    this.http.post<string>('/api/media/comment', {
-      mediaId: this.feedPost.pk, text: this.textComment,
-      reply: this.commentReply.pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.sendError)).subscribe((data: any) => {
-      data.comment_like_count = 0;
+    this.comment.create(this.feedPost.pk, this.textComment, this.commentReply.pk).then((data) => {
       if (this.commentReply.pk) {
-        data.child_comment_count = 0;
-        data.preview_child_comments = [];
         const i = this.feedComments.findIndex((res) => res.pk == this.commentReply.reply ? this.commentReply.reply : this.commentReply.pk);
         if (this.feedComments[i].child_comment_count) {
           this.feedComments[i].child_comment_count++;
@@ -97,28 +74,16 @@ export class PostCommentsComponent {
     });
   }
 
-  private deleteError() {
-    return throwError(() => {
-      new Error('Comment error: could not delete the comment.');
-    });
-  }
-
-  deleteComment(comment: any): void {
+  commentDelete(comment: any, i: number): void {
     if (comment.reply) {
-      const i = this.feedComments.findIndex((res) => res.pk == comment.reply);
       const k = this.feedComments[i].preview_child_comments.findIndex((res: any) => res.pk == comment.pk);
       this.feedComments[i].preview_child_comments.splice(k, 1);
       this.feedComments[i].child_comment_count--;
       this.feedPost.comment_count--;
     } else {
-      const i = this.feedComments.findIndex((res) => res.pk == comment.pk);
       this.feedPost.comment_count -= this.feedComments[i].child_comment_count + 1;
       this.feedComments.splice(i, 1);
-    }
-    this.http.post('/api/media/comment_delete', {
-      mediaId: this.feedPost.pk, commentId: comment.pk,
-      session: localStorage.getItem('state'),
-    }).pipe(catchError(this.deleteError)).subscribe();
+    } this.comment.delete(comment.pk, this.feedPost.pk);
   }
 
   commentReply: any = { pk: null, user: null, reply: null };

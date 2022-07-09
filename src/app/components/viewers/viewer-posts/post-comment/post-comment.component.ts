@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { CommentService } from 'src/app/services/comment.service';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
@@ -13,41 +11,22 @@ import { StoreService } from 'src/app/services/store.service';
 export class PostCommentComponent {
 
   constructor(
-    private http: HttpClient,
+    private _comment: CommentService,
     public store: StoreService,
   ) { }
 
   @Input() post: any;
   @Input() comment: any;
-  @Input() small: boolean = false;
-  @Output() deleteSend = new EventEmitter();
-  @Output() replySend = new EventEmitter();
+  @Input() commentSmall: boolean = false;
 
-  private likeError() {
-    return throwError(() => {
-      new Error('Comment error: could not like the comment.');
-    });
-  }
+  @Output() onDelete = new EventEmitter();
+  @Output() onReply = new EventEmitter();
 
   likeComment(): void {
-    this.comment.has_liked_comment = true;
-    this.comment.comment_like_count++;
-    this.http.post('/api/media/comment_like', {
-      id: this.comment.pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.likeError)).subscribe();
-  }
-
-  private unlikeError() {
-    return throwError(() => {
-      new Error('Comment error: could not unlike the comment.');
-    });
+    this.comment = this._comment.like(this.comment);
   }
 
   unlikeComment(): void {
-    this.comment.has_liked_comment = false;
-    this.comment.comment_like_count--;
-    this.http.post('/api/media/comment_unlike', {
-      id: this.comment.pk, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.unlikeError)).subscribe();
+    this.comment = this._comment.unlike(this.comment);
   }
 }

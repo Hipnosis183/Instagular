@@ -1,1 +1,1 @@
-<img [hidden]="!display" [src]="source | encode | async" (load)="loaded()">
+<img [src]="source | encode | async" (load)="loaded()" [class]="!display ? 'hidden' : ''">

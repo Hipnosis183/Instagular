@@ -1,123 +1,17 @@
-<dialog *ngIf="_postPin" title="Pin limit reached" subtitle="Are you sure you want to pin this post? You can only pin up to three posts to your profile. Pinning this post will replace your oldest pinned post."
-  buttonText="Confirm" (onOk)="postPin()" (onCancel)="postPinOpen()"></dialog>
-<create-collection *ngIf="collectionCreate" [fromPost]="feedPost.id"
-  (onCreate)="collectionCreated()" (onClose)="collectionCreateOpen()"></create-collection>
 <div autoFocus tabindex="0" class="viewer-container">
   <div class="viewer-overlay"></div>
   <div class="viewer-contents">
-    <div class="viewer-panel" [class]="expandedPanel ? 'flex' : 'hidden'">
-      <post-comments #postComments [feedPost]="feedPost"></post-comments>
-      <div class="panel-post">
-        <img [dropdown]="moreOptions" tooltip="More Options" tooltipPlace="right" src="/assets/images/more.svg" class="more-button">
-        <div #moreOptions>
-          <span (click)="downloadMedia()">
-            <img src="/assets/images/download.svg" class="mr-3 w-[18px]">
-            <p>Download</p>
-          </span>
-          <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.timeline_pinned_user_ids ? postUnpin() : postPin()">
-            <img src="/assets/images/pin.svg" class="mr-3 w-[18px]">
-            <p>{{ feedPost.timeline_pinned_user_ids ? 'Unpin' : 'Pin' }} to your profile</p>
-          </span>
-          <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.like_and_view_counts_disabled ? likesUnhide() : likesHide()">
-            <img src="/assets/images/like.svg" class="mr-3 w-[18px]">
-            <p>{{ feedPost.like_and_view_counts_disabled ? 'Unhide' : 'Hide' }} like count</p>
-          </span>
-          <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.comments_disabled ? commentsEnable() : commentsDisable()">
-            <img src="/assets/images/visibility.svg" class="mr-3 w-[18px]">
-            <p>{{ feedPost.comments_disabled ? 'Enable' : 'Disable' }} comments</p>
-          </span>
-        </div>
-        <div class="panel-user">
-          <div *ngIf="!feedPost.coauthor_producers; then single; else multi"></div>
-          <ng-template #single>
-            <div [routerLink]="['/' + feedPost.user.username]" class="panel-header">
-              <img-await [source]="feedPost.user.profile_pic_url" class="panel-image"></img-await>
-              <div class="panel-username">
-                <div class="panel-name">
-                  <div>{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}</div>
-                  <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
-                </div>
-                <div class="text-sub text-lg">@{{ feedPost.user.username }}</div>
-              </div>
-            </div>
-          </ng-template>
-          <ng-template #multi>
-            <div class="panel-header">
-              <div class="flex">
-                <img-await [routerLink]="['/' + feedPost.user.username]" [source]="feedPost.user.profile_pic_url" class="panel-coauthor"></img-await>
-                <img-await [routerLink]="['/' + feedPost.coauthor_producers[0].username]" [source]="feedPost.coauthor_producers[0].profile_pic_url" class="panel-image"></img-await>
-              </div>
-              <div class="flex flex-col items-center">
-                <div [routerLink]="['/' + feedPost.user.username]" class="panel-username">
-                  <div class="panel-name">
-                    <div>{{ feedPost.user.full_name ? feedPost.user.full_name : feedPost.user.username }}</div>
-                    <img *ngIf="feedPost.user.is_verified" src="/assets/images/verified.svg">
-                  </div>
-                  <div class="text-sub text-lg">@{{ feedPost.user.username }}</div>
-                </div>
-                <div class="mt-1 text-slate-700">&#65291;</div>
-                <div [routerLink]="['/' + feedPost.coauthor_producers[0].username]" class="panel-username">
-                  <div class="panel-name">
-                    <div>{{ feedPost.coauthor_producers[0].full_name ? feedPost.coauthor_producers[0].full_name : feedPost.coauthor_producers[0].username }}</div>
-                    <img *ngIf="feedPost.coauthor_producers[0].is_verified" src="/assets/images/verified.svg">
-                  </div>
-                  <div class="text-sub text-lg">@{{ feedPost.coauthor_producers[0].username }}</div>
-                </div>
-              </div>
-            </div>
-          </ng-template>
-          <div *ngIf="feedPost.location" class="panel-location">{{ feedPost.location.name }}</div>
-        </div>
-        <div class="panel-stats">
-          <div [tooltip]="feedPost.taken_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
-            class="text-sub">{{ feedPost.taken_at | dateAgo }}</div>
-          <div class="flex">
-            <div *ngIf="!feedPost.like_and_view_counts_disabled" class="counter">{{ feedPost.like_count | shortNumber }}</div>
-            <img [src]="'/assets/images/' + (feedPost.has_liked ? 'like-fill.svg' : 'like.svg')"
-              (click)="feedPost.has_liked ? unlikeSend.emit(feedPost.id) : likeSend.emit(feedPost.id)"
-              class="cursor-pointer mr-4">
-            <img [src]="'/assets/images/' + (feedPost.has_viewer_saved ? 'save-fill.svg' : 'save.svg')"
-              (click)="feedPost.has_viewer_saved ? unsaveSend.emit({ media: feedPost.id }) : saveSend.emit({ media: feedPost.id })"
-              [dropdown]="savePost" [dropdownHover]="true" class="cursor-pointer">
-            <div #savePost>
-              <span (click)="collectionCreateOpen()" class="create-button">&nbsp;+&ensp;NEW COLLECTION&nbsp;</span>
-              <div *ngFor="let collection of store.state.savedPosts">
-                <span *ngIf="collection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="saveMedia(feedPost, collection)" class="viewer-saved">
-                  <img-await *ngIf="collection.cover_media_list" [source]="collection.cover_media_list[0].image_versions2.candidates[1].url"></img-await>
-                  <p [class]="feedPost.saved_collection_ids ? feedPost.saved_collection_ids.includes(collection.collection_id) ? 'font-bold' : '' : ''">{{ collection.collection_name }}</p>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel-comments">
-          <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls" class="panel-caption"></div>
-          <div *ngIf="!feedPost.comments_disabled && (feedPost.preview_comments && feedPost.preview_comments.length > 0)">
-            <div *ngIf="feedPost.caption" class="separator"></div>
-            <div *ngFor="let preview of feedPost.preview_comments">
-              <post-comment [comment]="preview" [small]="true"></post-comment>
-            </div>
-            <div (click)="postComments.openComments()" class="more">
-              <div class="line"></div>
-              <div class="text">View all comments ({{ feedPost.comment_count | shortNumber }})</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div (click)="postComments.openComments()" class="comments-button">
-        <img src="/assets/images/comment.svg">
-        <div>Comments ({{ feedPost.comments_disabled ? '0' : feedPost.comment_count | shortNumber }})</div>
-      </div>
-    </div>
+    <post-panel [hidden]="!expandedPanel" [feedPost]="feedPost" [feedIndex]="feedIndex" [carouselIndex]="carouselIndex"
+      (onPin)="onPin.emit($event)" (onUnpin)="onUnpin.emit($event)"></post-panel>
     <div class="z-[2]">
-      <div class="nav-button">
+      <div class="button-nav">
         <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" class="carousel">
           <img src="/assets/images/chevron-left.svg" (click)="carouselPrev()">
         </div>
         <img *ngIf="feedIndex.current > 0" (click)="postPrev()" src="/assets/images/chevron-d-left.svg">
       </div>
       <div [tooltip]="(expandedPanel ? 'Collapse' : 'Expand') + ' Panel'" tooltipPlace="right" tooltipTheme="lite"
-        (click)="expandPanel()" class="panel-expand" [class]="expandedPanel ? 'opacity-100' : 'opacity-90'">
+        (click)="expandedPanel = !expandedPanel" class="button-expand" [class]="expandedPanel ? 'opacity-100' : 'opacity-90'">
         <div [class]="expandedPanel ? 'expanded' : 'collapsed'"></div>
       </div>
     </div>
@@ -152,13 +46,13 @@
         </div>
       </div>
     </div>
-    <div class="nav-button right-0 w-[52px]">
+    <div class="button-nav right-0 w-[52px]">
       <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex < feedPost.instagular.full.length - 1" class="carousel">
         <img src="/assets/images/chevron-right.svg" (click)="carouselNext()">
       </div>
       <img *ngIf="feedIndex.current < feedIndex.total" (click)="postNext()" src="/assets/images/chevron-d-right.svg">
     </div>
-    <div (click)="closeSend.emit()" class="close-button">
+    <div (click)="onClose.emit()" class="button-close">
       <img src="/assets/images/close.svg">
     </div>
   </div>

@@ -1,0 +1,10 @@
+.feed-select {
+  @apply flex justify-center w-full;
+}
+.feed-select div {
+  @apply hover:bg-slate-200 cursor-pointer flex font-light items-center py-2 px-4 space-x-2 text-lg text-slate-800;
+  transition: background-color 0.2s;
+}
+.feed-select img {
+  @apply w-[18px];
+}

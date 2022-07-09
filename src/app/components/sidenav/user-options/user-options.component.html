@@ -1,0 +1,17 @@
+<div *ngIf="userProfile" class="sidenav-options" [class]="expandedSidenav ? 'w-[240px]' : 'w-[150px]'">
+  <span [routerLink]="['/' + userProfile.username]">
+    <img src="/assets/images/profile-circle.svg">
+    <p>Profile</p>
+  </span>
+  <span [routerLink]="['/' + userProfile.username + '/saved']">
+    <img src="/assets/images/save.svg">
+    <p>Saved</p>
+  </span>
+  <div class="sidenav-separate">
+    <div></div>
+  </div>
+  <span (click)="logoutUser()">
+    <img src="/assets/images/logout.svg">
+    <p>Log Out</p>
+  </span>
+</div>

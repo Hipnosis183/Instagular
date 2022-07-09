@@ -1,4 +1,4 @@
-<div *ngIf="!small">
+<div *ngIf="!commentSmall">
   <div class="comment-container">
     <div [routerLink]="['/' + comment.user.username]" class="comment-user">
       <img-await [source]="comment.user.profile_pic_url"></img-await>
@@ -12,16 +12,16 @@
     </div>
     <div class="comment-info">
       <div class="comment-more">
-        <div [tooltip]="comment.created_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'"
-          class="text-sub">{{ comment.created_at | dateAgo:true }}</div>
+        <div [tooltip]="comment.created_at * 1000 | date:'EEEE, MMMM d, y, h:mm:ss a'" class="text-sub">
+          {{ comment.created_at | dateAgo:true }}</div>
         <img [dropdown]="moreOptions" [dropdownOffset]="[4, 10]" dropdownPlace="bottom-end" src="/assets/images/more.svg">
         <div #moreOptions class="dropdown">
-          <span (click)="replySend.emit({ pk: comment.pk, user: comment.user.username, reply: comment.parent_comment_id })">
+          <span (click)="onReply.emit({ pk: comment.pk, user: comment.user.username, reply: comment.parent_comment_id })">
             <p>Reply</p>
             <img src="/assets/images/reply.svg">
           </span>
           <span *ngIf="(post == store.state.userPk) || (comment.user.pk == store.state.userPk)"
-            (click)="deleteSend.emit({ pk: comment.pk, reply: comment.parent_comment_id })">
+            (click)="onDelete.emit({ pk: comment.pk, reply: comment.parent_comment_id })">
             <p>Delete</p>
             <img src="/assets/images/trash.svg">
           </span>
@@ -36,7 +36,7 @@
   </div>
   <div [innerHTML]="comment.text | parseUrls" class="comment-text"></div>
 </div>
-<div *ngIf="small" class="comment-container-s">
+<div *ngIf="commentSmall" class="comment-container-s">
   <img-await [routerLink]="['/' + comment.user.username]" [source]="comment.user.profile_pic_url"></img-await>
   <div class="comment-text-s">
     <div class="inline-flex">

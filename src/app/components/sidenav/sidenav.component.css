@@ -51,15 +51,6 @@
 .sidenav-logo img {
   @apply cursor-pointer h-[40px];
 }
-.sidenav-options img {
-  @apply mr-4 w-[18px];
-}
-.sidenav-separate {
-  @apply h-px my-2 px-2 w-full;
-}
-.sidenav-separate div {
-  @apply bg-slate-200 h-full w-full;
-}
 .sidenav-user {
   @apply cursor-pointer flex items-center justify-center space-x-4 w-full;
 }

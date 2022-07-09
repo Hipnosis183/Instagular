@@ -13,11 +13,11 @@
       </div>
       <img-await [source]="post.instagular.thumb[0]" class="collection-image"></img-await>
     </div>
-    <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-px"
-      [class]="hideIntersect ? 'hidden' : 'block'"></div>
+    <div infiniteScroll (onIntersect)="onIntersection()" [stopIntersect]="stopIntersect"
+      [class]="hideIntersect ? 'hidden' : 'block'" class="h-px w-px"></div>
   </div>
-  <div [class]="{ 'mt-2': !(fromPost.length > 0), 'create': collectionName.length > 0, 'disable': !(collectionName.length > 0) }"
-    (click)="collectionCreate()" class="create-button">Create
+  <div (click)="collectionCreate()" class="create-button" [class]="{ 'mt-2': !(fromPost.length > 0),
+    'create': collectionName.length > 0, 'disable': !(collectionName.length > 0) }">Create
     <div *ngIf="!(collectionName.length > 0)" tooltip="Enter a name for the collection" tooltipTheme="error" [tooltipOffset]="[0, -10]"></div>
   </div>
 </modal>

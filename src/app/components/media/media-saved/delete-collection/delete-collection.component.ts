@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { CollectionService } from 'src/app/services/collection.service';
 
 @Component({
   selector: 'delete-collection',
@@ -11,29 +9,14 @@ import { catchError } from 'rxjs/operators';
 
 export class DeleteCollectionComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(private collection: CollectionService) { }
 
   @Input() collectionId: string = '';
+  @Output() onCancel = new EventEmitter();
   @Output() onDelete = new EventEmitter();
 
-  private deleteError() {
-    return throwError(() => {
-      new Error('Collection error: cannot delete collection.');
-    });
-  }
-
   collectionDelete(): void {
-    this.http.post<string>('/api/collection/delete', {
-      id: this.collectionId,
-      session: localStorage.getItem('state'),
-    }).pipe(catchError(this.deleteError)).subscribe(() => {
-      this.onDelete.emit();
-    });
-  }
-
-  @Output() onCancel = new EventEmitter();
-
-  collectionDeleteCancel(): void {
-    this.onCancel.emit();
+    this.collection.delete(this.collectionId)
+      .then(() => { this.onDelete.emit(); });
   }
 }

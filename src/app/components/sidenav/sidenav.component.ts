@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { StoreService } from 'src/app/services/store.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'sidenav',
@@ -14,9 +12,9 @@ import { StoreService } from 'src/app/services/store.service';
 export class SidenavComponent {
 
   constructor(
-    private http: HttpClient,
     public router: Router,
     private store: StoreService,
+    private user: UserService,
   ) { }
 
   expandedSidenav: boolean = true;
@@ -35,37 +33,12 @@ export class SidenavComponent {
 
   userProfile: any = null;
 
-  private profileError() {
-    return throwError(() => {
-      new Error('Profile error: cannot load user profile information.');
-    });
-  }
-
   loadProfile(): void {
-    this.http.post<string>('/api/user/profile', {
-      session: localStorage.getItem('state'),
-    }).pipe(catchError(this.profileError)).subscribe((data) => {
+    this.user.profile().then((data: any) => {
       this.userProfile = data;
-      localStorage.setItem('userpk', this.userProfile.pk);
-      localStorage.setItem('username', this.userProfile.username);
+      localStorage.setItem('userpk', data.pk);
+      localStorage.setItem('username', data.username);
       this.store.loadSaved();
-    });
-  }
-
-  private logoutError() {
-    return throwError(() => {
-      new Error('Logout error: no session active.');
-    });
-  }
-
-  logoutUser(): void {
-    this.http.post('/api/account/logout', {
-      session: localStorage.getItem('state'),
-    }).pipe(catchError(this.logoutError)).subscribe(() => {
-      localStorage.removeItem('state');
-      localStorage.removeItem('userpk');
-      localStorage.removeItem('username');
-      window.location.assign('');
     });
   }
 

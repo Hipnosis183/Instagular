@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Location } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { lastValueFrom, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { FeedService } from 'src/app/services/feed.service';
 import { StoreService } from 'src/app/services/store.service';
 
 @Component({
@@ -16,7 +14,7 @@ import { StoreService } from 'src/app/services/store.service';
 export class MediaSavedComponent {
 
   constructor(
-    private http: HttpClient,
+    private feed: FeedService,
     private location: Location,
     private route: ActivatedRoute,
     private store: StoreService,
@@ -26,36 +24,20 @@ export class MediaSavedComponent {
   feedCollection: any[] = [];
   @Input() feedCollections: any[] = [];
 
-  private savedError() {
-    return throwError(() => {
-      new Error('Collection error: cannot load user saved collection feed.');
-    });
-  }
-
   async loadSavedAll(): Promise<void> {
-    await lastValueFrom(
-      this.http.post<any>('/api/feed/saved_all', {
-        feed: localStorage.getItem('collection'),
-        session: localStorage.getItem('state'),
-      }).pipe(catchError(this.savedError))).then((data) => {
-        localStorage.setItem('collection', data.feed);
-        this.feedCollection = this.feedCollection.concat(data.posts);
-        this.urlUpdate('/all-posts');
-      });
+    await this.feed.savedAll('collection').then((data: any) => {
+      this.feedCollection = this.feedCollection.concat(data.posts);
+      this.urlUpdate('/all-posts');
+    });
   }
 
   async loadSavedCollection(id: string, reload?: boolean): Promise<void> {
     if (reload) { localStorage.removeItem('collection'); }
-    await lastValueFrom(
-      this.http.post<any>('/api/feed/saved_collection', {
-        feed: localStorage.getItem('collection'), id: id,
-        session: localStorage.getItem('state'),
-      }).pipe(catchError(this.savedError))).then((data) => {
-        localStorage.setItem('collection', data.feed);
-        if (reload) { this.feedCollection = []; }
-        this.feedCollection = this.feedCollection.concat(data.posts);
-        this.urlUpdate('/_/' + id);
-      });
+    await this.feed.savedCollection(id).then((data: any) => {
+      if (reload) { this.feedCollection = []; }
+      this.feedCollection = this.feedCollection.concat(data.posts);
+      this.urlUpdate('/_/' + id);
+    });
   }
 
   loadedCollection: boolean = false;
@@ -82,11 +64,7 @@ export class MediaSavedComponent {
 
   collectionCreate: boolean = false;
 
-  collectionCreateOpen(): void {
-    this.collectionCreate = !this.collectionCreate;
-  }
-
-  collectionCreated(): void {
+  _collectionCreate(): void {
     // Reload collections.
     this.store.loadSaved();
     this.feedCollections = this.store.state.savedPosts;
@@ -95,11 +73,7 @@ export class MediaSavedComponent {
 
   collectionEdit: boolean = false;
 
-  collectionEditOpen(): void {
-    this.collectionEdit = !this.collectionEdit;
-  }
-
-  async collectionEdited(): Promise<void> {
+  async _collectionEdit(): Promise<void> {
     // Reload collections.
     this.store.loadSaved();
     this.feedCollections = this.store.state.savedPosts;
@@ -110,11 +84,7 @@ export class MediaSavedComponent {
 
   collectionDelete: boolean = false;
 
-  collectionDeleteOpen(): void {
-    this.collectionDelete = !this.collectionDelete;
-  }
-
-  collectionDeleted(): void {
+  _collectionDelete(): void {
     // Reload collections.
     this.store.loadSaved();
     this.feedCollections = this.store.state.savedPosts;
@@ -122,13 +92,11 @@ export class MediaSavedComponent {
     this.closeCollection();
   }
 
-  hideIntersect: boolean = true;
-  stopIntersect: boolean = false;
-  @Output() onScroll = new EventEmitter();
+  @Output() onUpdate = new EventEmitter();
 
-  onIntersection(): void {
-    this.hideIntersect = true;
-    this.onScroll.emit();
+  urlUpdate(url: string = ''): void {
+    this.location.go(this.route.snapshot.paramMap.get('id') + '/saved' + url);
+    this.onUpdate.emit(url);
   }
 
   async loadUrl(): Promise<void> {
@@ -155,11 +123,13 @@ export class MediaSavedComponent {
     }
   }
 
-  @Output() onUpdate = new EventEmitter();
+  hideIntersect: boolean = true;
+  stopIntersect: boolean = false;
+  @Output() onScroll = new EventEmitter();
 
-  urlUpdate(url: string = ''): void {
-    this.location.go(this.route.snapshot.paramMap.get('id') + '/saved' + url);
-    this.onUpdate.emit(url);
+  onIntersection(): void {
+    this.hideIntersect = true;
+    this.onScroll.emit();
   }
 
   ngOnChanges(): void {

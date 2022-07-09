@@ -1,0 +1,22 @@
+<div class="post-header">
+  <div class="post-stat">
+    <p>{{ post.view_count | shortNumber }}</p>
+    <img src="/assets/images/play.svg">
+  </div>
+</div>
+<div class="post-container">
+  <div class="post-footer">
+    <div class="post-stats">
+      <div *ngIf="!post.like_and_view_counts_disabled">
+        <img src="/assets/images/activity-fill-lite.svg">
+        <p>{{ post.like_count | shortNumber }}</p>
+      </div>
+      <div *ngIf="!post.comments_disabled">
+        <img src="/assets/images/comment-fill.svg">
+        <p>{{ post.comment_count | shortNumber }}</p>
+      </div>
+    </div>
+  </div>
+  <div (click)="onOpen.emit()" class="post-gradient"></div>
+</div>
+<img-await [source]="post.instagular.thumb[0]" class="post-image"></img-await>

@@ -8,7 +8,6 @@ import { Component, Input } from '@angular/core';
 
 export class ImgAwaitComponent {
 
-  constructor() { }
   display = 0;
 
   _source: any;

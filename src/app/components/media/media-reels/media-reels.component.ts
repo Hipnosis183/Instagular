@@ -1,7 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'media-reels',
@@ -10,8 +7,6 @@ import { catchError } from 'rxjs/operators';
 })
 
 export class MediaReelsComponent {
-
-  constructor(private http: HttpClient) { }
 
   feedIndex: any = { current: null, total: null };
   feedPost: any = null;
@@ -23,10 +18,6 @@ export class MediaReelsComponent {
     this.feedIndex.total = this.feedPosts.length - 1;
   }
 
-  closeMedia(): void {
-    this.feedPost = null;
-  }
-
   prevPost(): void {
     this.feedIndex.current--;
     this.feedPost = this.feedPosts[this.feedIndex.current];
@@ -35,34 +26,6 @@ export class MediaReelsComponent {
   nextPost(): void {
     this.feedIndex.current++;
     this.feedPost = this.feedPosts[this.feedIndex.current];
-  }
-
-  private likeError() {
-    return throwError(() => {
-      new Error('Media error: could not like the media.');
-    });
-  }
-
-  likeMedia(id: string): void {
-    this.feedPost.has_liked = true;
-    this.feedPost.like_count++;
-    this.http.post('/api/media/like', {
-      mediaId: id, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.likeError)).subscribe();
-  }
-
-  private unlikeError() {
-    return throwError(() => {
-      new Error('Media error: could not unlike the media.');
-    });
-  }
-
-  unlikeMedia(id: string): void {
-    this.feedPost.has_liked = false;
-    this.feedPost.like_count--;
-    this.http.post('/api/media/unlike', {
-      mediaId: id, session: localStorage.getItem('state'),
-    }).pipe(catchError(this.unlikeError)).subscribe();
   }
 
   hideIntersect: boolean = true;

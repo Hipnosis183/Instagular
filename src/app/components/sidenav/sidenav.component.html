@@ -30,8 +30,7 @@
     </div>
     <div #userTarget *ngIf="userProfile" class="sidenav-user -ml-1">
       <img-await [dropdown]="userOptions" [dropdownOffset]="[0, 14]" dropdownPlace="top-start"
-        [dropdownTarget]="userTarget" [source]="userProfile.hd_profile_pic_url_info.url" class="sidenav-image">
-      </img-await>
+        [dropdownTarget]="userTarget" [source]="userProfile.hd_profile_pic_url_info.url" class="sidenav-image"></img-await>
       <div class="sidenav-header">
         <div class="text-main text-lg">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}</div>
         <div class="text-sub">@{{ userProfile.username }}</div>
@@ -44,7 +43,7 @@
     <div routerLink="/" class="sidenav-logo">
       <img src="/assets/images/icon.svg">
     </div>
-    <search [small]="true"></search>
+    <search [searchSmall]="true"></search>
     <div class="sidenav-buttons-s">
       <div tooltipArray tooltipArrayPlace="right">
         <button tooltipItem="Home" routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
@@ -73,40 +72,8 @@
   <div [class]="expandedSidenav ? 'expanded' : 'collapsed'"></div>
 </div>
 <div #userOptions>
-  <div *ngIf="userProfile" class="sidenav-options w-[240px]">
-    <span [routerLink]="['/' + userProfile.username]">
-      <img src="/assets/images/profile-circle.svg">
-      <p>Profile</p>
-    </span>
-    <span [routerLink]="['/' + userProfile.username + '/saved']">
-      <img src="/assets/images/save.svg">
-      <p>Saved</p>
-    </span>
-    <div class="sidenav-separate">
-      <div></div>
-    </div>
-    <span (click)="logoutUser()">
-      <img src="/assets/images/logout.svg">
-      <p>Log Out</p>
-    </span>
-  </div>
+  <user-options [userProfile]="userProfile"></user-options>
 </div>
 <div #userOptions_>
-  <div *ngIf="userProfile" class="sidenav-options w-[150px]">
-    <span [routerLink]="['/' + userProfile.username]">
-      <img src="/assets/images/profile-circle.svg">
-      <p>Profile</p>
-    </span>
-    <span [routerLink]="['/' + userProfile.username + '/saved']">
-      <img src="/assets/images/save.svg">
-      <p>Saved</p>
-    </span>
-    <div class="sidenav-separate">
-      <div></div>
-    </div>
-    <span (click)="logoutUser()">
-      <img src="/assets/images/logout.svg">
-      <p>Log Out</p>
-    </span>
-  </div>
+  <user-options [userProfile]="userProfile" [expandedSidenav]="false"></user-options>
 </div>

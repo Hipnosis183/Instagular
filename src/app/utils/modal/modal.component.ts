@@ -8,7 +8,5 @@ import { Component, Input } from '@angular/core';
 
 export class ModalComponent {
 
-  constructor() { }
-
   @Input() divide: boolean = false;
 }

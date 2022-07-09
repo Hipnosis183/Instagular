@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { lastValueFrom, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { CollectionService } from 'src/app/services/collection.service';
+import { FeedService } from 'src/app/services/feed.service';
 
 @Component({
   selector: 'edit-collection',
@@ -11,18 +10,15 @@ import { catchError } from 'rxjs/operators';
 
 export class EditCollectionComponent {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private collection_: CollectionService,
+    private feed: FeedService,
+  ) { }
 
   collectionPosts: any[] = [];
   @Input() collection: any;
   @Input() collectionSelected: any;
   @Output() onEdit = new EventEmitter();
-
-  private editError() {
-    return throwError(() => {
-      new Error('Collection error: cannot edit collection.');
-    });
-  }
 
   collectionEdit(): void {
     if (!(this.collection.collection_name.length > 0)) { return; }
@@ -35,36 +31,24 @@ export class EditCollectionComponent {
       } if (post.add) { addPosts.push(post.id); }
     }
     // Edit collection with the new information.
-    this.http.post<string>('/api/collection/edit', {
-      id: this.collection.collection_id,
-      name: this.collection.collection_name,
-      add: addPosts, remove: removePosts,
-      session: localStorage.getItem('state'),
-    }).pipe(catchError(this.editError)).subscribe(() => {
-      localStorage.removeItem('collectionEdit');
-      this.onEdit.emit();
-    });
+    this.collection_.edit(this.collection.collection_id, this.collection.collection_name,
+      addPosts, removePosts).then(() => { this.onEdit.emit(); });
   }
 
   async collectionGetPosts(more?: boolean): Promise<void> {
     if (!more) { localStorage.removeItem('collectionEdit'); }
-    await lastValueFrom(
-      this.http.post<any>('/api/feed/saved_all', {
-        feed: localStorage.getItem('collectionEdit'),
-        session: localStorage.getItem('state'),
-      }).pipe(catchError(this.editError))).then((data) => {
-        localStorage.setItem('collectionEdit', data.feed);
-        for (let post of this.collectionSelected) {
-          let k = data.posts.findIndex((res: any) => res.id == post.id);
-          if (data.posts[k]) {
-            data.posts[k].add = true;
-            data.posts[k].removeable = true;
-          }
+    this.feed.savedAll('collectionEdit').then((data: any) => {
+      for (let post of this.collectionSelected) {
+        let k = data.posts.findIndex((res: any) => res.id == post.id);
+        if (data.posts[k]) {
+          data.posts[k].add = true;
+          data.posts[k].removeable = true;
         }
-        this.collectionPosts = this.collectionPosts.concat(data.posts);
-        this.hideIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
-        this.stopIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
-      });
+      }
+      this.collectionPosts = this.collectionPosts.concat(data.posts);
+      this.hideIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
+      this.stopIntersect = JSON.parse(data.feed).moreAvailable ? false : true;
+    });
   }
 
   @Output() onClose = new EventEmitter();

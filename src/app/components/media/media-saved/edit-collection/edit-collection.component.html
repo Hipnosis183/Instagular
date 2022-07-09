@@ -13,8 +13,8 @@
       </div>
       <img-await [source]="post.instagular.thumb[0]" class="collection-image"></img-await>
     </div>
-    <div infiniteScroll (intersect)="onIntersection()" [stop]="stopIntersect" class="h-px w-px"
-      [class]="hideIntersect ? 'hidden' : 'block'"></div>
+    <div infiniteScroll (onIntersect)="onIntersection()" [stopIntersect]="stopIntersect"
+      [class]="hideIntersect ? 'hidden' : 'block'" class="h-px w-px"></div>
   </div>
   <div [class]="collection.collection_name.length > 0 ? 'edit' : 'cursor-not-allowed text-gray-400'"
     (click)="collectionEdit()" class="edit-button">Update

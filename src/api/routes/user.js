@@ -45,7 +45,7 @@ module.exports.profile = (req, res, next) => {
       let userProfile = await client.user.info(userId);
       // Get relationship data with the current user.
       userProfile.friendship = await client.friendship.show(userId);
-      if (req.body.stories) {
+      if (req.body.id) {
         // Load selected user reels media.
         const feedReels = client.feed.reelsMedia({ userIds: [userId] });
         userProfile.reels = Object.values((await feedReels.request()).reels)[0];

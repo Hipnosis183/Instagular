@@ -1,0 +1,19 @@
+.user-container {
+  @apply absolute flex flex-col items-end mt-4 mr-4 right-0 space-y-2 top-0 whitespace-nowrap;
+}
+.user-contents {
+  @apply cursor-pointer flex space-x-4;
+}
+.user-profile {
+  @apply h-14 rounded-full overflow-hidden w-14;
+}
+
+.text-date {
+  @apply cursor-default font-light text-slate-400;
+}
+.text-main {
+  @apply text-xl text-slate-200;
+}
+.text-sub {
+  @apply font-light text-lg text-slate-400;
+}

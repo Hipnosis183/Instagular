@@ -7,9 +7,9 @@ module.exports.create = (req, res, next) => {
     await client.state.deserialize(req.body.session);
     try {
       // Create collection with the given information.
-      await client.collections.create(req.body.name, req.body.medias);
+      const collection = await client.collections.create(req.body.name, req.body.medias);
       res.status(200);
-      res.send();
+      res.json(collection);
     } catch (e) {
       res.status(400);
       res.send(e);
