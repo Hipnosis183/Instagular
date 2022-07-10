@@ -6,20 +6,20 @@
     <user-feeds #userFeeds [userProfile]="userProfile"></user-feeds>
     <div *ngIf="!userProfile.media_count && userFeeds.feedSelect != 'saved'" class="error-noposts">
       <img src="/assets/images/camera.svg">
-      <div class="text-main">No posts yet</div>
-      <div class="text-sub">This user hasn't made any posts yet.</div>
+      <div class="text-main">{{ 'PAGE_USER.NO_POSTS.TITLE' | translate }}</div>
+      <div class="text-sub">{{ 'PAGE_USER.NO_POSTS.SUB' | translate }}</div>
     </div>
   </ng-template>
   <ng-template #block>
     <div class="error-private">
       <img src="/assets/images/lock.svg">
-      <div class="text-main">This account is private</div>
-      <div class="text-sub">Follow to see their photos and videos.</div>
+      <div class="text-main">{{ 'PAGE_USER.PRIVATE.TITLE' | translate }}</div>
+      <div class="text-sub">{{ 'PAGE_USER.PRIVATE.SUB' | translate }}</div>
     </div>
   </ng-template>
 </div>
 <div *ngIf="userNotFound" class="error-notfound">
   <img src="/assets/images/slash.svg">
-  <div class="text-main">This page is not available</div>
-  <div class="text-sub">The link you followed may be broken, or the page may have been removed.</div>
+  <div class="text-main">{{ 'PAGE_USER.NOT_FOUND.TITLE' | translate }}</div>
+  <div class="text-sub">{{ 'PAGE_USER.NOT_FOUND.SUB' | translate }}</div>
 </div>

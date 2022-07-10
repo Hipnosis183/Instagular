@@ -1,2 +1,2 @@
-<dialog title="Delete Collection?" subtitle="When you delete this collection, the photos and videos will still be saved."
-  buttonText="Delete" buttonTheme="red" (onOk)="collectionDelete()" (onCancel)="onCancel.emit()"></dialog>
+<dialog [title]="'MEDIA_SAVED.SAVED_DELETE.TITLE' | translate" [subtitle]="'MEDIA_SAVED.SAVED_DELETE.SUB' | translate"
+  [buttonText]="'GENERAL.DELETE' | translate" buttonTheme="red" (onOk)="collectionDelete()" (onCancel)="onCancel.emit()"></dialog>

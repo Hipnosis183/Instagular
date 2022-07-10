@@ -1,6 +1,6 @@
 <div *ngIf="!selectModel && loadedSearch && store.state.recentSearches.length > 0" class="search-header">
-  <div class="recent-text">Recent</div>
-  <div (click)="onClearAll.emit()" class="recent-clear">Clear All</div>
+  <div class="recent-text">{{ 'SEARCH.RECENT' | translate }}</div>
+  <div (click)="onClearAll.emit()" class="recent-clear">{{ 'SEARCH.CLEAR_ALL' | translate }}</div>
 </div>
 <div *ngIf="queryResults.length > 0" [hidden]="!loadedSearch" class="search-modal">
   <div *ngFor="let user of queryResults" class="search-item">
@@ -23,6 +23,6 @@
     </div>
   </div>
 </div>
-<div *ngIf="!selectModel && store.state.recentSearches.length == 0" class="search-none">No recent searches.</div>
-<div *ngIf="selectModel && !loadedSearch" class="search-none">Searching...</div>
-<div *ngIf="selectModel && loadedSearch && queryFinished && queryResults.length == 0" class="search-none">No results found.</div>
+<div *ngIf="!selectModel && store.state.recentSearches.length == 0" class="search-none">{{ 'SEARCH.NO_RECENT' | translate }}</div>
+<div *ngIf="selectModel && !loadedSearch" class="search-none">{{ 'SEARCH.SEARCHING' | translate }}</div>
+<div *ngIf="selectModel && loadedSearch && queryFinished && queryResults.length == 0" class="search-none">{{ 'SEARCH.NO_RESULTS' | translate }}</div>

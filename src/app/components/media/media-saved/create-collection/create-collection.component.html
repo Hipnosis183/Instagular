@@ -1,10 +1,10 @@
 <modal *ngIf="collectionPosts.length > 0 || fromPost.length > 0" [divide]="true">
   <div class="create-header">
-    <div>New Collection</div>
+    <div>{{ 'MEDIA_SAVED.COLLECTION.NEW' | translate }}</div>
     <img src="/assets/images/close.svg" (click)="collectionCreateClose()">
   </div>
   <div class="collection-name">
-    <input [(ngModel)]="collectionName" placeholder="Collection Name" type="text" />
+    <input [(ngModel)]="collectionName" [placeholder]="'MEDIA_SAVED.COLLECTION.NAME' | translate" type="text" />
   </div>
   <div *ngIf="!(fromPost.length > 0)" class="collection-grid">
     <div *ngFor="let post of collectionPosts" (click)="post.add ? post.add = !post.add : post.add = true" class="collection-post">
@@ -17,7 +17,8 @@
       [class]="hideIntersect ? 'hidden' : 'block'" class="h-px w-px"></div>
   </div>
   <div (click)="collectionCreate()" class="create-button" [class]="{ 'mt-2': !(fromPost.length > 0),
-    'create': collectionName.length > 0, 'disable': !(collectionName.length > 0) }">Create
-    <div *ngIf="!(collectionName.length > 0)" tooltip="Enter a name for the collection" tooltipTheme="error" [tooltipOffset]="[0, -10]"></div>
+    'create': collectionName.length > 0, 'disable': !(collectionName.length > 0) }">{{ 'GENERAL.CREATE' | translate }}
+    <div *ngIf="!(collectionName.length > 0)" [tooltip]="'MEDIA_SAVED.COLLECTION.ERROR' | translate"
+      tooltipTheme="error" [tooltipOffset]="[0, -10]"></div>
   </div>
 </modal>

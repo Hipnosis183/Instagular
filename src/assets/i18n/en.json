@@ -1,0 +1,151 @@
+{
+  "DATE": {
+    "AGO": "{{ counter }} {{ date }} ago",
+    "PLURAL": {},
+    "SHORT": {
+      "MINUTE": "min"
+    },
+    "SINGULAR": {
+      "YEAR": "year",
+      "MONTH": "month",
+      "WEEK": "week",
+      "DAY": "day",
+      "HOUR": "hour",
+      "MINUTE": "minute",
+      "SECOND": "second"
+    }
+  },
+  "GENERAL": {
+    "CANCEL": "Cancel",
+    "CONFIRM": "Confirm",
+    "CREATE": "Create",
+    "DELETE": "Delete",
+    "DISABLE": "Disable",
+    "DOWNLOAD": "Download",
+    "ENABLE": "Enable",
+    "HIDE": "Hide",
+    "INSTAGULAR": "Instagular",
+    "LOADING": "Loading...",
+    "OK": "Ok",
+    "UNHIDE": "Unhide",
+    "UPDATE": "Update",
+    "VIEW": "View"
+  },
+  "MEDIA_SAVED": {
+    "COLLECTION": {
+      "ADD": "Add to Collection",
+      "EDIT": "Edit Collection",
+      "ERROR": "Enter a name for the collection",
+      "DELETE": "Delete Collection",
+      "NAME": "Collection Name",
+      "NEW": "New Collection"
+    },
+    "GO_BACK": "Go Back to Collections",
+    "SAVED_DELETE": {
+      "TITLE": "Delete Collection?",
+      "SUB": "When you delete this collection, the photos and videos will still be saved."
+    },
+    "SAVED_TITLE": " • Saved",
+    "SAVED_EMPTY": {
+      "TITLE": "Start Saving",
+      "SUB": "Save photos and videos to your collection."
+    }
+  },
+  "MEDIA_STORIES": {
+    "FILTER": "Filter stories by username",
+    "RELOAD": "Refresh stories and/or posts feeds",
+    "RELOAD_ALL": "Reload All Feeds",
+    "RELOAD_POSTS": "Reload Posts Feed",
+    "RELOAD_STORIES": "Reload Stories Feed"
+  },
+  "PAGE_LOGIN": {
+    "LOGIN": "Log In",
+    "PASSWORD": "Password",
+    "USERNAME": "Username"
+  },
+  "PAGE_USER": {
+    "FOLLOW": "Follow",
+    "FOLLOWED_BY": "Follows you",
+    "FOLLOWERS": "Followers",
+    "FOLLOWING": "Following",
+    "NO_POSTS": {
+      "TITLE": "No posts yet",
+      "SUB": "This user hasn't made any posts yet."
+    },
+    "NOT_FOUND": {
+      "TITLE": "This page is not available",
+      "SUB": "The link you followed may be broken, or the page may have been removed."
+    },
+    "NOT_FOUND_TITLE": "Page not found • Instagular",
+    "PRIVATE": {
+      "TITLE": "This account is private",
+      "SUB": "Follow to see their photos and videos."
+    },
+    "TABS": {
+      "CLIPS": "Clips",
+      "COLLECTIONS": "Collections",
+      "IGTV": "IGTVs",
+      "POSTS": "Posts",
+      "REELS": "Reels",
+      "SAVED": "Saved",
+      "TAGGED": "Tagged",
+      "VIDEOS": "Videos"
+    }
+  },
+  "SEARCH": {
+    "CLEAR": "Clear",
+    "CLEAR_ALL": "Clear All",
+    "CLEAR_RECENT": {
+      "TITLE": "Clear Search History?",
+      "SUB": "You won't be able to undo this. If you clear your search history, you may still see accounts you've searched for as suggested results."
+    },
+    "NO_RECENT": "No recent searches.",
+    "NO_RESULTS": "No results found.",
+    "RECENT": "Recent",
+    "SEARCH": "Search",
+    "SEARCHING": "Searching..."
+  },
+  "SIDENAV": {
+    "ACTIVITY": "Activity",
+    "DIRECT": "Direct",
+    "EXPLORE": "Explore",
+    "HOME": "Home",
+    "LOG_OUT": "Log Out",
+    "PROFILE": "Profile",
+    "SAVED": "Saved",
+    "SETTINGS": "Settings"
+  },
+  "VIEWER_POSTS": {
+    "COLLAPSE": "Collapse",
+    "COMMENT_ADD": "Add a comment...",
+    "COMMENTS": "Comments",
+    "COMMENTS_ALL": "View all comments",
+    "COMMENTS_MORE": "Load more comments",
+    "EXPAND": "Expand",
+    "MORE_OPTIONS": "More Options",
+    "OPTIONS": {
+      "PIN_PROFILE": "{{ action }} to your profile",
+      "VIEW_COMMENTS": "{{ state }} comments",
+      "VIEW_LIKES": "{{ state }} like count"
+    },
+    "PANEL": "{{ state }} Panel",
+    "PIN": "Pin",
+    "PIN_LIMIT": {
+      "TITLE": "Pin Limit Reached",
+      "SUB": "Are you sure you want to pin this post? You can only pin up to three posts to your profile. Pinning this post will replace your oldest pinned post."
+    },
+    "REPLY": "Reply",
+    "REPLY_TO": "Reply to {{ user }}",
+    "UNPIN": "Unpin",
+    "VIEW_REPLIES": "{{ state }} replies",
+    "VIDEO_BLOCKED": {
+      "BUTTON": "Watch in New Tab",
+      "TEXT": "This video is longer than a minute, and it's not suitable to be converted and displayed by the app. You can still open the original video in a new tab and watch it externally."
+    }
+  },
+  "VIEWER_STORIES": {
+    "ANON": "Anonymous View",
+    "BESTIES": "Close Friends",
+    "THUMBS": "Thumbnails"
+  }
+}

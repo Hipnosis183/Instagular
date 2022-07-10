@@ -17,12 +17,12 @@
         <img [dropdown]="moreOptions" [dropdownOffset]="[4, 10]" dropdownPlace="bottom-end" src="/assets/images/more.svg">
         <div #moreOptions class="dropdown">
           <span (click)="onReply.emit({ pk: comment.pk, user: comment.user.username, reply: comment.parent_comment_id })">
-            <p>Reply</p>
+            <p>{{ 'VIEWER_POSTS.REPLY' | translate }}</p>
             <img src="/assets/images/reply.svg">
           </span>
           <span *ngIf="(post == store.state.userPk) || (comment.user.pk == store.state.userPk)"
             (click)="onDelete.emit({ pk: comment.pk, reply: comment.parent_comment_id })">
-            <p>Delete</p>
+            <p>{{ 'GENERAL.DELETE' | translate }}</p>
             <img src="/assets/images/trash.svg">
           </span>
         </div>

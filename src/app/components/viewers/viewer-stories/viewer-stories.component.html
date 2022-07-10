@@ -14,7 +14,7 @@
         <div *ngIf="feedStories.length > 1 && feedIndex > 0" (click)="storiesPrevSkip()" class="button-nav-d">
           <img src="/assets/images/chevron-d-left.svg">
         </div>
-        <div tooltip="Thumbnails" tooltipPlace="right" tooltipTheme="lite" (click)="expandThumbs()" class="button-expand">
+        <div [tooltip]="'VIEWER_STORIES.THUMBS' | translate" tooltipPlace="right" tooltipTheme="lite" (click)="expandThumbs()" class="button-expand">
           <div [class]="expandedThumbs ? 'expanded' : 'collapsed'"></div>
         </div>
       </div>
@@ -36,8 +36,7 @@
         </div>
       </div>
       <img-await *ngIf="feedStories[feedIndex].items[storiesIndex].media_type == 1" class="viewer-media"
-        [source]="feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url">
-      </img-await>
+        [source]="feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url"></img-await>
       <div *ngIf="feedStories[feedIndex].items[storiesIndex].media_type == 2" class="viewer-media">
         <video autoplay controls loop [muted]="true" [src]="feedStories[feedIndex].items[storiesIndex].video_versions[0].url | encode:true | async"
           [poster]="feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url | encode | async"></video>
@@ -51,14 +50,16 @@
           </div>
         </div>
         <div>
-          <div *ngIf="feedStories[feedIndex].items[storiesIndex].audience == 'besties'" tooltip="Close Friends" tooltipPlace="right" tooltipTheme="lite">
+          <div *ngIf="feedStories[feedIndex].items[storiesIndex].audience == 'besties'"
+            [tooltip]="'VIEWER_STORIES.BESTIES' | translate" tooltipPlace="right" tooltipTheme="lite">
             <img class="h-8" src="/assets/images/besties.svg">
           </div>
-          <div *ngIf="!seenStories" tooltip="Anonymous View" tooltipPlace="right" tooltipTheme="lite">
+          <div *ngIf="!seenStories" [tooltip]="'VIEWER_STORIES.ANON' | translate" tooltipPlace="right" tooltipTheme="lite">
             <img class="h-7" src="/assets/images/visibility-lite.svg">
           </div>
-          <a [href]="(feedStories[feedIndex].items[storiesIndex].media_type == 1 ? feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url : feedStories[feedIndex].items[storiesIndex].video_versions[0].url) + '&se=0&dl=1'"
-            target="_blank" rel="noopener noreferrer" tooltip="Download" tooltipPlace="right" tooltipTheme="lite">
+          <a [href]="(feedStories[feedIndex].items[storiesIndex].media_type == 1 ? feedStories[feedIndex].items[storiesIndex].image_versions2.candidates[0].url
+            : feedStories[feedIndex].items[storiesIndex].video_versions[0].url) + '&se=0&dl=1'" target="_blank" rel="noopener noreferrer"
+            [tooltip]="'GENERAL.DOWNLOAD' | translate" tooltipPlace="right" tooltipTheme="lite">
             <img class="h-6" src="/assets/images/download-lite.svg">
           </a>
         </div>

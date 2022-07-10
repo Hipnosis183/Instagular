@@ -10,8 +10,9 @@
         </div>
         <img *ngIf="feedIndex.current > 0" (click)="postPrev()" src="/assets/images/chevron-d-left.svg">
       </div>
-      <div [tooltip]="(expandedPanel ? 'Collapse' : 'Expand') + ' Panel'" tooltipPlace="right" tooltipTheme="lite"
-        (click)="expandedPanel = !expandedPanel" class="button-expand" [class]="expandedPanel ? 'opacity-100' : 'opacity-90'">
+      <div [tooltip]="'VIEWER_POSTS.PANEL' | translate: { state: (expandedPanel ? 'VIEWER_POSTS.COLLAPSE' : 'VIEWER_POSTS.EXPAND') | translate }"
+        tooltipPlace="right" tooltipTheme="lite" (click)="expandedPanel = !expandedPanel"
+        class="button-expand" [class]="expandedPanel ? 'opacity-100' : 'opacity-90'">
         <div [class]="expandedPanel ? 'expanded' : 'collapsed'"></div>
       </div>
     </div>
@@ -31,11 +32,8 @@
         </ng-template>
         <ng-template #block>
           <div class="viewer-text">
-            <p>
-              This video is longer than a minute, and it's not suitable to be converted and displayed by the app.
-              You can still open the original video in a new tab and watch it externally.
-            </p>
-            <button (click)="openMedia()">WATCH IN NEW TAB</button>
+            <p>{{ 'VIEWER_POSTS.VIDEO_BLOCKED.TEXT' | translate }}</p>
+            <button (click)="openMedia()">{{ 'VIEWER_POSTS.VIDEO_BLOCKED.BUTTON' | translate }}</button>
           </div>
           <img-await [source]="feedPost.instagular.thumb[0]" class="viewer-image"></img-await>
         </ng-template>

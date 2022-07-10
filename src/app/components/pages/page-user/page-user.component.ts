@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { HighlightsService } from 'src/app/services/highlights.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -16,6 +17,7 @@ export class PageUserComponent {
     private highlights: HighlightsService,
     private route: ActivatedRoute,
     private title: Title,
+    private translate: TranslateService,
     private user: UserService,
   ) { }
 
@@ -30,15 +32,17 @@ export class PageUserComponent {
         this.title.setTitle(`${data.full_name ? data.full_name : data.username} (@${data.username})`);
       });
     } catch {
-      this.title.setTitle('Page not found • Instagular');
+      this.title.setTitle(this.translate.instant('PAGE_USER.NOT_FOUND_TITLE'));
       this.userNotFound = true;
     }
   }
 
   async loadStories(): Promise<void> {
-    await this.highlights.tray(this.userProfile.pk).then((data) => {
-      this.userStories = this.userStories.concat(data);
-    });
+    if (!this.userNotFound) {
+      await this.highlights.tray(this.userProfile.pk).then((data) => {
+        this.userStories = this.userStories.concat(data);
+      });
+    }
   }
 
   async ngOnInit(): Promise<void> {
@@ -54,6 +58,6 @@ export class PageUserComponent {
   }
 
   ngOnDestroy(): void {
-    this.title.setTitle('Instagular');
+    this.title.setTitle(this.translate.instant('GENERAL.INSTAGULAR'));
   }
 }

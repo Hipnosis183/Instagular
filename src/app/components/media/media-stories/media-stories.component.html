@@ -3,28 +3,28 @@
 <div *ngIf="feedStories.length > 0" [class]="feedStories[0].reel_type != 'highlight_reel' ? 'flex' : 'block'">
   <div *ngIf="feedStories[0].reel_type == 'highlight_reel'" class="separator"></div>
   <div *ngIf="feedStories[0].reel_type != 'highlight_reel'" class="stories-buttons">
-    <div tooltip="Refresh stories and/or posts feeds" tooltipPlace="right" [dropdown]="reloadFeeds"
+    <div [tooltip]="'MEDIA_STORIES.RELOAD' | translate" tooltipPlace="right" [dropdown]="reloadFeeds"
       dropdownPlace="bottom-start" class="cursor-pointer stories-button">
       <img src="/assets/images/reload.svg" />
     </div>
     <div #reloadFeeds>
       <span (click)="reloadFeed('stories')">
-        <p>Reload Stories Feed</p>
+        <p>{{ 'MEDIA_STORIES.RELOAD_STORIES' | translate }}</p>
       </span>
       <span (click)="reloadFeed('timeline')">
-        <p>Reload Posts Feed</p>
+        <p>{{ 'MEDIA_STORIES.RELOAD_POSTS' | translate }}</p>
       </span>
       <span (click)="reloadFeed('all')">
-        <p>Reload All Feeds</p>
+        <p>{{ 'MEDIA_STORIES.RELOAD_ALL' | translate }}</p>
       </span>
     </div>
-    <div tooltip="Filter stories by username" tooltipPlace="right" [dropdown]="filterStories" [dropdownDelay]="[200, 200]"
+    <div [tooltip]="'MEDIA_STORIES.FILTER' | translate" tooltipPlace="right" [dropdown]="filterStories" [dropdownDelay]="[200, 200]"
       [dropdownHover]="true" [dropdownOffset]="[0, 14]" dropdownPlace="bottom-start" class="cursor-default stories-button">
       <img src="/assets/images/search.svg" />
     </div>
     <div #filterStories>
       <img *ngIf="selectModel" (click)="clearValue()" src="/assets/images/close-circle.svg" class="filter-clear">
-      <input [(ngModel)]="selectModel" placeholder="Search" (input)="updateValueDebounced()">
+      <input [(ngModel)]="selectModel" [placeholder]="'SEARCH.SEARCH' | translate" (input)="updateValueDebounced()">
     </div>
   </div>
   <div *ngIf="feedLoaded" tooltipArray [ngClass]="feedStories[0].reel_type == 'user_reel' ? 'stories-container-f' : 'stories-container-h'">

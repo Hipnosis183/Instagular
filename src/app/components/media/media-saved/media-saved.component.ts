@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Location } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { FeedService } from 'src/app/services/feed.service';
 import { StoreService } from 'src/app/services/store.service';
 
@@ -19,6 +20,7 @@ export class MediaSavedComponent {
     private route: ActivatedRoute,
     private store: StoreService,
     private title: Title,
+    private translate: TranslateService,
   ) { }
 
   feedCollection: any[] = [];
@@ -51,7 +53,7 @@ export class MediaSavedComponent {
       ? await this.loadSavedAll()
       : await this.loadSavedCollection(collection.collection_id);
     this.loadedCollection = true;
-    this.title.setTitle(collection.collection_name + ' • Saved');
+    this.title.setTitle(collection.collection_name + this.translate.instant('MEDIA_SAVED.SAVED_TITLE'));
   }
 
   closeCollection(): void {
@@ -112,13 +114,13 @@ export class MediaSavedComponent {
           await this.loadSavedCollection(c_id);
           this.selectedCollection = exists;
           this.loadedCollection = true;
-          this.title.setTitle(exists.collection_name + ' • Saved');
+          this.title.setTitle(exists.collection_name + this.translate.instant('MEDIA_SAVED.SAVED_TITLE'));
         } else { this.urlUpdate(); }
       } else if (c_name == 'all-posts') {
         await this.loadSavedAll();
         this.selectedCollection = this.feedCollections[0];
         this.loadedCollection = true;
-        this.title.setTitle(this.feedCollections[0].collection_name + ' • Saved');
+        this.title.setTitle(this.feedCollections[0].collection_name + this.translate.instant('MEDIA_SAVED.SAVED_TITLE'));
       } else { this.urlUpdate(); }
     }
   }

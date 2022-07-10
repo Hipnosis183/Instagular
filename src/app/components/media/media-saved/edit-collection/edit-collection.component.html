@@ -1,10 +1,10 @@
 <modal *ngIf="collectionPosts.length > 0" [divide]="true">
   <div class="edit-header">
-    <div>Edit Collection</div>
+    <div>{{ 'MEDIA_SAVED.COLLECTION.EDIT' | translate }}</div>
     <img src="/assets/images/close.svg" (click)="collectionEditClose()">
   </div>
   <div class="collection-name">
-    <input [(ngModel)]="collection.collection_name" placeholder="Collection Name" type="text" />
+    <input [(ngModel)]="collection.collection_name" [placeholder]="'MEDIA_SAVED.COLLECTION.NAME' | translate" type="text" />
   </div>
   <div class="collection-grid">
     <div *ngFor="let post of collectionPosts" (click)="post.add ? post.add = !post.add : post.add = true" class="collection-post">
@@ -17,7 +17,8 @@
       [class]="hideIntersect ? 'hidden' : 'block'" class="h-px w-px"></div>
   </div>
   <div [class]="collection.collection_name.length > 0 ? 'edit' : 'cursor-not-allowed text-gray-400'"
-    (click)="collectionEdit()" class="edit-button">Update
-    <div *ngIf="!(collection.collection_name.length > 0)" tooltip="Enter a name for the collection" tooltipTheme="error" [tooltipOffset]="[0, -10]"></div>
+    (click)="collectionEdit()" class="edit-button">{{ 'GENERAL.UPDATE' | translate }}
+    <div *ngIf="!(collection.collection_name.length > 0)" [tooltip]="'MEDIA_SAVED.COLLECTION.ERROR' | translate"
+      tooltipTheme="error" [tooltipOffset]="[0, -10]"></div>
   </div>
 </modal>

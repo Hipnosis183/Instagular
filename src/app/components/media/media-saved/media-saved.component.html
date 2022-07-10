@@ -1,30 +1,31 @@
 <create-collection *ngIf="collectionCreate" (onCreate)="_collectionCreate()" (onClose)="collectionCreate = false"></create-collection>
 <div *ngIf="!loadedCollection" class="mt-6 px-5">
-  <div (click)="collectionCreate = true" class="collection-create">+&emsp;NEW COLLECTION</div>
+  <div (click)="collectionCreate = true" class="collection-create">+&emsp;{{ 'MEDIA_SAVED.COLLECTION.NEW' | translate | uppercase }}</div>
 </div>
 <edit-collection *ngIf="collectionEdit" (onEdit)="_collectionEdit()" (onClose)="collectionEdit = false"
   [collection]="selectedCollection" [collectionSelected]="feedCollection"></edit-collection>
 <delete-collection *ngIf="collectionDelete" [collectionId]="selectedCollection.collection_id"
   (onDelete)="_collectionDelete()" (onCancel)="collectionDelete = false"></delete-collection>
-<div *ngIf="loadedCollection" class="flex mt-6 px-5 space-x-5">
-  <div (click)="closeCollection()" class="collection-back">&#11148;&emsp;GO BACK TO COLLETIONS</div>
+<div *ngIf="loadedCollection" class="collection-options">
+  <div (click)="closeCollection()" class="collection-back">&#11148;&emsp;{{ 'MEDIA_SAVED.GO_BACK' | translate | uppercase }}</div>
   <div *ngIf="selectedCollection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="collectionEdit = true"
-    class="collection-create">{{ feedCollection.length > 0 ? 'EDIT COLLETION' : '+&emsp;ADD TO COLLECTION'}}</div>
+    class="collection-create">{{ feedCollection.length > 0 ? ('MEDIA_SAVED.COLLECTION.EDIT' | translate | uppercase)
+    : ('+&emsp;' + ('MEDIA_SAVED.COLLECTION.ADD' | translate | uppercase)) }}</div>
   <div *ngIf="selectedCollection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="collectionDelete = true"
-    class="collection-delete">&#215;&emsp;DELETE COLLETION</div>
+    class="collection-delete">&#215;&emsp;{{ 'MEDIA_SAVED.COLLECTION.DELETE' | translate | uppercase }}</div>
 </div>
 <div *ngIf="loadedCollection">
   <div *ngIf="feedCollection.length > 0; then feed; else empty"></div>
 </div>
 <ng-template #feed>
-  <media-feed [feedPosts]="feedCollection" [feedSaved]="true" [feedStorage]="'collection'"
+  <media-feed [feedPosts]="feedCollection" [feedSaved]="true" feedStorage="collection"
     (onReturn)="closeCollection()" (onScroll)="openCollection(selectedCollection.collection_id)"></media-feed>
 </ng-template>
 <ng-template #empty>
   <div class="empty-container">
     <img src="/assets/images/save.svg">
-    <div class="text-main">Start Saving</div>
-    <div class="text-sub">Save photos and videos to your collection.</div>
+    <div class="text-main">{{ 'MEDIA_SAVED.SAVED_EMPTY.TITLE' | translate }}</div>
+    <div class="text-sub">{{ 'MEDIA_SAVED.SAVED_EMPTY.SUB' | translate }}</div>
   </div>
 </ng-template>
 <div *ngIf="feedCollections" [hidden]="loadedCollection" class="feed-container">

@@ -4,5 +4,5 @@
     <div class="subtitle">{{ subtitle }}</div>
   </div>
   <div (click)="onOk.emit()" class="button" [class]="buttonTheme">{{ buttonText }}</div>
-  <div (click)="onCancel.emit()" class="button default">Cancel</div>
+  <div (click)="onCancel.emit()" class="button default">{{ 'GENERAL.CANCEL' | translate }}</div>
 </modal>

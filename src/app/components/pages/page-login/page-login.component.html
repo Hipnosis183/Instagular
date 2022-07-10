@@ -3,12 +3,12 @@
     <img src="/assets/images/logo.svg">
     <form [formGroup]="loginForm">
       <div class="space-y-4">
-        <input formControlName="username" placeholder="Username" type="text" />
-        <input formControlName="password" placeholder="Password" type="password" />
+        <input formControlName="username" [placeholder]="'PAGE_LOGIN.USERNAME' | translate" type="text" />
+        <input formControlName="password" [placeholder]="'PAGE_LOGIN.PASSWORD' | translate" type="password" />
       </div>
     </form>
     <div class="login-buttons">
-      <button (click)="loginUser()">Log In</button>
+      <button (click)="loginUser()">{{ 'PAGE_LOGIN.LOGIN' | translate }}</button>
     </div>
   </div>
 </div>

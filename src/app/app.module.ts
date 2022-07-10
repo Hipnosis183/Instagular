@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // App components.
 import { AppComponent } from './app.component';
@@ -52,6 +54,22 @@ import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { EncodePipe } from './pipes/encode.pipe';
 import { ParseUrlsPipe } from './pipes/parse-urls.pipe';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
+
+// Translate service setup.
+import { Injector, APP_INITIALIZER } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
+function appInitializerFactory(translate: TranslateService) {
+  return () => {
+    translate.addLangs(['en']);
+    translate.setDefaultLang('en');
+    return translate.use('en').toPromise();
+  };
+}
 
 @NgModule({
   declarations: [
@@ -106,9 +124,20 @@ import { ShortNumberPipe } from './pipes/short-number.pipe';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
   ],
-  providers: [],
+  providers: [{
+    provide: APP_INITIALIZER, multi: true,
+    useFactory: appInitializerFactory,
+    deps: [TranslateService, Injector]
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

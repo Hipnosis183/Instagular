@@ -17,5 +17,5 @@
     <div infiniteScroll (onIntersect)="onIntersection()" [stopIntersect]="stopIntersect"
       [class]="hideIntersect ? 'hidden' : 'block'" class="h-px w-px"></div>
   </div>
-  <div *ngIf="usersList.length == 0" class="cursor-default py-6 text-center text-sub w-full">Loading...</div>
+  <div *ngIf="usersList.length == 0" class="options-loading">{{ 'GENERAL.LOADING' | translate }}</div>
 </modal>

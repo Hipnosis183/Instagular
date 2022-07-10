@@ -8,23 +8,23 @@
       <div>
         <button routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
           <img [src]="'/assets/images/' + (router.url == '/' ? 'feed-fill.svg' : 'feed.svg')">
-          <p>Home</p>
+          <p>{{ 'SIDENAV.HOME' | translate }}</p>
         </button>
         <button>
           <img [src]="'/assets/images/explore.svg'">
-          <p>Explore</p>
+          <p>{{ 'SIDENAV.EXPLORE' | translate }}</p>
         </button>
         <button>
           <img [src]="'/assets/images/direct.svg'">
-          <p>Direct</p>
+          <p>{{ 'SIDENAV.DIRECT' | translate }}</p>
         </button>
         <button>
           <img [src]="'/assets/images/activity.svg'">
-          <p>Activity</p>
+          <p>{{ 'SIDENAV.ACTIVITY' | translate }}</p>
         </button>
         <button>
           <img [src]="'/assets/images/settings.svg'">
-          <p>Settings</p>
+          <p>{{ 'SIDENAV.SETTINGS' | translate }}</p>
         </button>
       </div>
     </div>
@@ -46,19 +46,19 @@
     <search [searchSmall]="true"></search>
     <div class="sidenav-buttons-s">
       <div tooltipArray tooltipArrayPlace="right">
-        <button tooltipItem="Home" routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
+        <button [attr.tooltipItem]="'SIDENAV.HOME' | translate" routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
           <img [src]="'/assets/images/' + (router.url == '/' ? 'feed-fill.svg' : 'feed.svg')">
         </button>
-        <button tooltipItem="Explore">
+        <button [attr.tooltipItem]="'SIDENAV.EXPLORE' | translate">
           <img [src]="'/assets/images/explore.svg'">
         </button>
-        <button tooltipItem="Direct">
+        <button [attr.tooltipItem]="'SIDENAV.DIRECT' | translate">
           <img [src]="'/assets/images/direct.svg'">
         </button>
-        <button tooltipItem="Activity">
+        <button [attr.tooltipItem]="'SIDENAV.ACTIVITY' | translate">
           <img [src]="'/assets/images/activity.svg'">
         </button>
-        <button tooltipItem="Settings">
+        <button [attr.tooltipItem]="'SIDENAV.SETTINGS' | translate">
           <img [src]="'/assets/images/settings.svg'">
         </button>
       </div>

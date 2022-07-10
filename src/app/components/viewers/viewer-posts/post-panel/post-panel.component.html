@@ -1,27 +1,28 @@
-<dialog *ngIf="postPin" title="Pin limit reached" subtitle="Are you sure you want to pin this post? You can only pin up to three posts to your profile. Pinning this post will replace your oldest pinned post."
-  buttonText="Confirm" (onOk)="_postPin()" (onCancel)="postPin = false"></dialog>
+<dialog *ngIf="postPin" [title]="'VIEWER_POSTS.PIN_LIMIT.TITLE' | translate" [subtitle]="'VIEWER_POSTS.PIN_LIMIT.SUB' | translate"
+  [buttonText]="'GENERAL.CONFIRM' | translate" (onOk)="_postPin()" (onCancel)="postPin = false"></dialog>
 <create-collection *ngIf="collectionCreate" [fromPost]="feedPost.id" (onCreate)="_collectionCreate($event)"
   (onClose)="collectionCreate = false"></create-collection>
 <div class="panel-container">
   <post-comments #postComments [feedPost]="feedPost"></post-comments>
   <div class="panel-post">
-    <img [dropdown]="moreOptions" tooltip="More Options" tooltipPlace="right" src="/assets/images/more.svg" class="button-more">
+    <img [dropdown]="moreOptions" [tooltip]="'VIEWER_POSTS.MORE_OPTIONS' | translate"
+      tooltipPlace="right" src="/assets/images/more.svg" class="button-more">
     <div #moreOptions class="panel-more">
       <span (click)="downloadMedia()">
         <img src="/assets/images/download.svg">
-        <p>Download</p>
+        <p>{{ 'GENERAL.DOWNLOAD' | translate }}</p>
       </span>
       <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.timeline_pinned_user_ids ? postUnpin() : _postPin()">
         <img src="/assets/images/pin.svg">
-        <p>{{ feedPost.timeline_pinned_user_ids ? 'Unpin' : 'Pin' }} to your profile</p>
+        <p>{{ 'VIEWER_POSTS.OPTIONS.PIN_PROFILE' | translate: { action: (feedPost.timeline_pinned_user_ids ? 'VIEWER_POSTS.UNPIN' : 'VIEWER_POSTS.PIN') | translate } }}</p>
       </span>
       <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.like_and_view_counts_disabled ? likesUnhide() : likesHide()">
         <img src="/assets/images/like.svg">
-        <p>{{ feedPost.like_and_view_counts_disabled ? 'Unhide' : 'Hide' }} like count</p>
+        <p>{{ 'VIEWER_POSTS.OPTIONS.VIEW_LIKES' | translate: { state: (feedPost.like_and_view_counts_disabled ? 'GENERAL.UNHIDE' : 'GENERAL.HIDE') | translate } }}</p>
       </span>
       <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.comments_disabled ? commentsEnable() : commentsDisable()">
         <img src="/assets/images/visibility.svg">
-        <p>{{ feedPost.comments_disabled ? 'Enable' : 'Disable' }} comments</p>
+        <p>{{ 'VIEWER_POSTS.OPTIONS.VIEW_COMMENTS' | translate: { state: (feedPost.comments_disabled ? 'GENERAL.ENABLE' : 'GENERAL.DISABLE') | translate } }}</p>
       </span>
     </div>
     <div class="panel-user">
@@ -75,7 +76,7 @@
         <img [src]="'/assets/images/' + (feedPost.has_viewer_saved ? 'save-fill.svg' : 'save.svg')" [dropdownHover]="true"
           (click)="feedPost.has_viewer_saved ? unsaveMedia(feedPost) : saveMedia(feedPost)" [dropdown]="savePost" class="cursor-pointer">
         <div #savePost>
-          <span (click)="collectionCreate = true" class="button-create">&nbsp;+&ensp;NEW COLLECTION&nbsp;</span>
+          <span (click)="collectionCreate = true" class="button-create">&nbsp;+&ensp;{{ 'MEDIA_SAVED.COLLECTION.NEW' | translate | uppercase }}&nbsp;</span>
           <div *ngFor="let collection of store.state.savedPosts">
             <span *ngIf="collection.collection_id != 'ALL_MEDIA_AUTO_COLLECTION'" (click)="saveCollection(feedPost, collection)" class="panel-saved">
               <img-await *ngIf="collection.cover_media_list" [source]="collection.cover_media_list[0].image_versions2.candidates[1].url"></img-await>
@@ -95,13 +96,13 @@
         </div>
         <div (click)="postComments.openComments()" class="more">
           <div class="line"></div>
-          <div class="text">View all comments ({{ feedPost.comment_count | shortNumber }})</div>
+          <div class="text">{{ 'VIEWER_POSTS.COMMENTS_ALL' | translate }} ({{ feedPost.comment_count | shortNumber }})</div>
         </div>
       </div>
     </div>
   </div>
   <div (click)="postComments.openComments()" class="button-comments">
     <img src="/assets/images/comment.svg">
-    <div>Comments ({{ feedPost.comments_disabled ? '0' : feedPost.comment_count | shortNumber }})</div>
+    <div>{{ 'VIEWER_POSTS.COMMENTS' | translate }} ({{ feedPost.comments_disabled ? '0' : feedPost.comment_count | shortNumber }})</div>
   </div>
 </div>

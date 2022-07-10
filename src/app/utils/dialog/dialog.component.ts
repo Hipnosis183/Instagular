@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'dialog',
@@ -8,9 +9,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 export class DialogComponent {
 
+  constructor(private translate: TranslateService) { }
+
   @Input() title: string = '';
   @Input() subtitle: string = '';
-  @Input() buttonText: string = 'Ok';
+  @Input() buttonText: string = this.translate.instant('GENERAL.OK');
   @Input() buttonTheme: string = 'blue';
 
   @Output() onOk = new EventEmitter();

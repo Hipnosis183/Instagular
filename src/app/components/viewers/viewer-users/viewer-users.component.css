@@ -21,6 +21,9 @@
 .options-image {
   @apply overflow-hidden rounded-full w-12;
 }
+.options-loading {
+  @apply cursor-default py-6 text-center text-sub w-full;
+}
 .options-text {
   @apply flex flex-col;
 }
