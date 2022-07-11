@@ -1,0 +1,16 @@
+.option-container {
+  @apply flex flex-col justify-between w-full;
+}
+.option-contents {
+  @apply flex space-x-4 text-slate-700;
+}
+.option-contents button {
+  @apply bg-slate-100 hover:bg-slate-200 flex items-center px-4 py-2 rounded-lg space-x-2;
+  transition: background-color 0.2s;
+}
+.option-contents img {
+  @apply h-4;
+}
+.option-title {
+  @apply border-b-[1px] border-b-slate-200 font-light mb-3 pb-1 text-slate-800 text-xl;
+}

@@ -67,7 +67,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 function appInitializerFactory(translate: TranslateService) {
   return () => {
     let language = localStorage.getItem('language') || 'en';
-    translate.addLangs(['en']);
+    translate.addLangs(['en, es']);
     translate.setDefaultLang(language);
     return translate.use(language).toPromise();
   };

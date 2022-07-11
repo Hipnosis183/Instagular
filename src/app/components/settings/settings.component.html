@@ -1,0 +1,13 @@
+<div class="option-container">
+  <p class="option-title">{{ 'SETTINGS.LANGUAGE' | translate }}</p>
+  <div class="option-contents">
+    <button (click)="languageSelect('en')">
+      <img src="/assets/images/lang-en.svg">
+      <p>{{ 'SETTINGS.LANG.EN' | translate }}</p>
+    </button>
+    <button (click)="languageSelect('es')">
+      <img src="/assets/images/lang-es.svg">
+      <p>{{ 'SETTINGS.LANG.ES' | translate }}</p>
+    </button>
+  </div>
+</div>

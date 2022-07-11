@@ -6,13 +6,13 @@
       "MINUTE": "min"
     },
     "SINGULAR": {
-      "YEAR": "year",
-      "MONTH": "month",
-      "WEEK": "week",
       "DAY": "day",
       "HOUR": "hour",
       "MINUTE": "minute",
-      "SECOND": "second"
+      "MONTH": "month",
+      "SECOND": "second",
+      "WEEK": "week",
+      "YEAR": "year"
     }
   },
   "GENERAL": {
@@ -104,6 +104,13 @@
     "RECENT": "Recent",
     "SEARCH": "Search",
     "SEARCHING": "Searching..."
+  },
+  "SETTINGS": {
+    "LANG": {
+      "EN": "English",
+      "ES": "Spanish"
+    },
+    "LANGUAGE": "Language"
   },
   "SIDENAV": {
     "ACTIVITY": "Activity",

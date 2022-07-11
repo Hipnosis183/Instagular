@@ -1,0 +1,160 @@
+{
+  "DATE": {
+    "AGO": "hace {{ counter }} {{ date }}",
+    "PLURAL": {
+      "MONTH": "meses"
+    },
+    "SHORT": {
+      "MINUTE": "min"
+    },
+    "SINGULAR": {
+      "DAY": "día",
+      "HOUR": "hora",
+      "MINUTE": "minuto",
+      "MONTH": "mes",
+      "SECOND": "segundo",
+      "WEEK": "semana",
+      "YEAR": "año"
+    }
+  },
+  "GENERAL": {
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar",
+    "CREATE": "Crear",
+    "DELETE": "Eliminar",
+    "DISABLE": "Deshabilitar",
+    "DOWNLOAD": "Descargar",
+    "ENABLE": "Habilitar",
+    "HIDE": "Ocultar",
+    "INSTAGULAR": "Instagular",
+    "LOADING": "Cargando...",
+    "OK": "Aceptar",
+    "UNHIDE": "Mostrar",
+    "UPDATE": "Actualizar",
+    "VIEW": "Ver"
+  },
+  "MEDIA_SAVED": {
+    "COLLECTION": {
+      "ADD": "Añadir a Colección",
+      "EDIT": "Editar Colección",
+      "ERROR": "Ingresa un nombre para la colección",
+      "DELETE": "Eliminar Colección",
+      "NAME": "Nombre de la Colección",
+      "NEW": "Nueva Colección"
+    },
+    "GO_BACK": "Volver a Colecciones",
+    "SAVED_DELETE": {
+      "TITLE": "¿Eliminar Colección?",
+      "SUB": "Cuando elimines esta colección, las fotos y los videos permanecerán guardados."
+    },
+    "SAVED_TITLE": " • Guardado",
+    "SAVED_EMPTY": {
+      "TITLE": "Empezar a Guardar",
+      "SUB": "Guarda fotos y videos en tu colección."
+    }
+  },
+  "MEDIA_STORIES": {
+    "FILTER": "Filtrar historias por nombre de usuario",
+    "RELOAD": "Recargar los feeds de historias y/o publicaciones",
+    "RELOAD_ALL": "Recargar Todos los Feeds",
+    "RELOAD_POSTS": "Recargar Feeds de Publicaciones",
+    "RELOAD_STORIES": "Recargar Feeds de Historias"
+  },
+  "PAGE_LOGIN": {
+    "LOGIN": "Iniciar Sesión",
+    "PASSWORD": "Contraseña",
+    "USERNAME": "Nombre de Usuario"
+  },
+  "PAGE_USER": {
+    "FOLLOW": "Seguir",
+    "FOLLOWED_BY": "Te Sigue",
+    "FOLLOWERS": "Seguidores",
+    "FOLLOWING": "Siguiendo",
+    "NO_POSTS": {
+      "TITLE": "Aún no hay publicaciones",
+      "SUB": "Este usuario aún no ha hecho ninguna publicación."
+    },
+    "NOT_FOUND": {
+      "TITLE": "Esta página no está disponible",
+      "SUB": "Es posible que el enlace que seleccionaste no funcione o que se haya eliminado la página."
+    },
+    "NOT_FOUND_TITLE": "Página no encontrada • Instagular",
+    "PRIVATE": {
+      "TITLE": "Esta cuenta es privada",
+      "SUB": "Síguela para ver sus fotos y videos."
+    },
+    "TABS": {
+      "CLIPS": "Clips",
+      "COLLECTIONS": "Colecciones",
+      "IGTV": "IGTVs",
+      "POSTS": "Publicaciones",
+      "REELS": "Reels",
+      "SAVED": "Guardado",
+      "TAGGED": "Etiquetadas",
+      "VIDEOS": "Videos"
+    }
+  },
+  "SEARCH": {
+    "CLEAR": "Borrar",
+    "CLEAR_ALL": "Borrar Todo",
+    "CLEAR_RECENT": {
+      "TITLE": "¿Borrar Historial de Búsqueda?",
+      "SUB": "No podrás deshacer esta acción. Aunque borres el historial de búsqueda, es posible que veas cuentas que buscaste como resultados sugeridos."
+    },
+    "NO_RECENT": "No hay búsquedas recientes.",
+    "NO_RESULTS": "No se encontraron resultados.",
+    "RECENT": "Recientes",
+    "SEARCH": "Buscar",
+    "SEARCHING": "Buscando..."
+  },
+  "SETTINGS": {
+    "LANG": {
+      "EN": "Inglés",
+      "ES": "Español"
+    },
+    "LANGUAGE": "Idioma"
+  },
+  "SIDENAV": {
+    "ACTIVITY": "Actividad",
+    "DIRECT": "Mensajes",
+    "EXPLORE": "Explorar",
+    "HOME": "Inicio",
+    "LOG_OUT": "Cerrar Sesión",
+    "PROFILE": "Perfil",
+    "SAVED": "Guardado",
+    "SETTINGS": "Configuración"
+  },
+  "VIEWER_POSTS": {
+    "COLLAPSE": "Contraer",
+    "COMMENT_ADD": "Agregar un comentario...",
+    "COMMENTS": "Comentarios",
+    "COMMENTS_ALL": "Ver todos los comentarios",
+    "COMMENTS_MORE": "Cargar más comentarios",
+    "EXPAND": "Expandir",
+    "MORE_OPTIONS": "Más Opciones",
+    "OPTIONS": {
+      "PIN_PROFILE": "{{ action }} en tu perfil",
+      "VIEW_COMMENTS": "{{ state }} comentarios",
+      "VIEW_LIKES": "{{ state }} recuento de me gusta"
+    },
+    "PANEL": "{{ state }} Panel",
+    "PIN": "Fijar",
+    "PIN_LIMIT": {
+      "TITLE": "Se alcanzó el límite de publicaciones fijadas",
+      "SUB": "¿Seguro que quieres fijar esta publicación? Solo puedes fijar hasta tres publicaciones en tu perfil. Si fijas esta, reemplazará a la publicación fijada más antigua."
+    },
+    "REPLY": "Responder",
+    "REPLY_TO": "Responder a {{ user }}",
+    "UNPIN": "Desfijar",
+    "VIEW_REPLIES": "{{ state }} respuestas",
+    "VIDEO_BLOCKED": {
+      "BUTTON": "Ver en Nueva Pestaña",
+      "TEXT": "Este video dura más de un minuto, y no es óptimo para ser codificado y mostrado por la aplicación. Aún así, puedes abrir el video original en una pestaña nueva y verlo de forma externa."
+    }
+  },
+  "VIEWER_STORIES": {
+    "ANON": "Vista Anónima",
+    "BESTIES": "Mejores Amigos",
+    "THUMBS": "Miniaturas"
+  }
+}
