@@ -5,7 +5,7 @@
   @apply cursor-pointer flex space-x-4;
 }
 .user-profile {
-  @apply h-14 rounded-full overflow-hidden w-14;
+  @apply h-14 min-h-[3.5rem] min-w-[3.5rem] rounded-full overflow-hidden w-14;
 }
 
 .text-date {

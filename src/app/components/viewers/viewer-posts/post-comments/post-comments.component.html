@@ -29,13 +29,20 @@
         [class]="hideIntersect ? 'hidden' : 'block'" class="h-px w-px"></div>
     </div>
     <div class="comments-send">
-      <div *ngIf="commentReply.pk > 0" class="replybox">
-        <p class="font-light text-slate-700">{{ 'VIEWER_POSTS.REPLY_TO' | translate: { user: commentReply.user } }}</p>
-        <img (click)="removeReply()" src="/assets/images/close.svg" class="cursor-pointer w-3" />
-      </div>
-      <input [(ngModel)]="textComment" [placeholder]="'VIEWER_POSTS.COMMENT_ADD' | translate" type="text" (keydown.enter)="sendComment()" />
-      <img tooltip="Post Comment" src="/assets/images/direct.svg" (click)="sendComment()"
-        [class]="sendingComment ? 'cursor-not-allowed' : 'cursor-pointer'">
+      <div *ngIf="!feedPost.commenting_disabled_for_viewer; then allow; else block"></div>
+      <ng-template #allow>
+        <div *ngIf="commentReply.pk > 0" class="replybox">
+          <p class="font-light text-slate-700">{{ 'VIEWER_POSTS.REPLY_TO' | translate: { user: commentReply.user } }}</p>
+          <img (click)="removeReply()" src="/assets/images/close.svg" class="cursor-pointer w-3" />
+        </div>
+        <input [(ngModel)]="textComment" [placeholder]="'VIEWER_POSTS.COMMENT_ADD' | translate"
+          type="text" (keydown.enter)="sendComment()" />
+        <img tooltip="Post Comment" src="/assets/images/direct.svg" (click)="sendComment()"
+          [class]="sendingComment ? 'cursor-not-allowed' : 'cursor-pointer'">
+      </ng-template>
+      <ng-template #block>
+        <input disabled [placeholder]="'VIEWER_POSTS.COMMENTS_DISABLED' | translate" />
+      </ng-template>
     </div>
   </div>
 </div>

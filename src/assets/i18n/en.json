@@ -127,6 +127,7 @@
     "COMMENT_ADD": "Add a comment...",
     "COMMENTS": "Comments",
     "COMMENTS_ALL": "View all comments",
+    "COMMENTS_DISABLED": "Comments on this post have been limited.",
     "COMMENTS_MORE": "Load more comments",
     "EXPAND": "Expand",
     "MORE_OPTIONS": "More Options",
