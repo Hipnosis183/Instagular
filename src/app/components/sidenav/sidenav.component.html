@@ -22,7 +22,7 @@
           <img [src]="'/assets/images/activity.svg'">
           <p>{{ 'SIDENAV.ACTIVITY' | translate }}</p>
         </button>
-        <button>
+        <button routerLink="/settings" [class]="router.url == '/settings' ? 'bg-slate-200' : ''">
           <img [src]="'/assets/images/settings.svg'">
           <p>{{ 'SIDENAV.SETTINGS' | translate }}</p>
         </button>
@@ -45,8 +45,9 @@
     </div>
     <search [searchSmall]="true"></search>
     <div class="sidenav-buttons-s">
-      <div tooltipArray tooltipArrayPlace="right">
-        <button [attr.tooltipItem]="'SIDENAV.HOME' | translate" routerLink="/" [class]="router.url == '/' ? 'bg-slate-200' : ''">
+      <div *ngIf="store.state.languageUpdated" tooltipArray tooltipArrayPlace="right">
+        <button [attr.tooltipItem]="'SIDENAV.HOME' | translate" routerLink="/"
+          [class]="router.url == '/' ? 'bg-slate-200' : ''">
           <img [src]="'/assets/images/' + (router.url == '/' ? 'feed-fill.svg' : 'feed.svg')">
         </button>
         <button [attr.tooltipItem]="'SIDENAV.EXPLORE' | translate">
@@ -58,7 +59,8 @@
         <button [attr.tooltipItem]="'SIDENAV.ACTIVITY' | translate">
           <img [src]="'/assets/images/activity.svg'">
         </button>
-        <button [attr.tooltipItem]="'SIDENAV.SETTINGS' | translate">
+        <button [attr.tooltipItem]="'SIDENAV.SETTINGS' | translate" routerLink="/settings"
+          [class]="router.url == '/settings' ? 'bg-slate-200' : ''">
           <img [src]="'/assets/images/settings.svg'">
         </button>
       </div>

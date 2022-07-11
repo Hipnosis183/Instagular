@@ -1,6 +1,8 @@
 import { createStore } from "@stencil/store";
 
 const { state } = createStore({
+  languageSelected: localStorage.getItem('language') || 'en',
+  languageUpdated: true,
   recentLoaded: false,
   recentSearches: [],
   savedPosts: [],

@@ -27,6 +27,7 @@ import { UserFeedsComponent } from './components/pages/page-user/user-feeds/user
 import { UserProfileComponent } from './components/pages/page-user/user-profile/user-profile.component';
 import { SearchComponent } from './components/search/search.component';
 import { SearchBoxComponent } from './components/search/search-box/search-box.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { UserOptionsComponent } from './components/sidenav/user-options/user-options.component';
 import { ViewerPostsComponent } from './components/viewers/viewer-posts/viewer-posts.component';
@@ -65,9 +66,10 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 function appInitializerFactory(translate: TranslateService) {
   return () => {
+    let language = localStorage.getItem('language') || 'en';
     translate.addLangs(['en']);
-    translate.setDefaultLang('en');
-    return translate.use('en').toPromise();
+    translate.setDefaultLang(language);
+    return translate.use(language).toPromise();
   };
 }
 
@@ -94,6 +96,7 @@ function appInitializerFactory(translate: TranslateService) {
     UserProfileComponent,
     SearchComponent,
     SearchBoxComponent,
+    SettingsComponent,
     SidenavComponent,
     UserOptionsComponent,
     ViewerPostsComponent,

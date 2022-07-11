@@ -1,4 +1,4 @@
-<div *ngIf="userProfile" class="sidenav-options" [class]="expandedSidenav ? 'w-[240px]' : 'w-[150px]'">
+<div *ngIf="userProfile" class="sidenav-options" [class]="expandedSidenav ? 'w-[240px]' : 'w-[180px]'">
   <span [routerLink]="['/' + userProfile.username]">
     <img src="/assets/images/profile-circle.svg">
     <p>{{ 'SIDENAV.PROFILE' | translate }}</p>

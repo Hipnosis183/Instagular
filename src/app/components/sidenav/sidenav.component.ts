@@ -13,7 +13,7 @@ export class SidenavComponent {
 
   constructor(
     public router: Router,
-    private store: StoreService,
+    public store: StoreService,
     private user: UserService,
   ) { }
 
