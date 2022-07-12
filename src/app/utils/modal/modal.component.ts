@@ -9,4 +9,5 @@ import { Component, Input } from '@angular/core';
 export class ModalComponent {
 
   @Input() divide: boolean = false;
+  @Input() large: boolean = false;
 }

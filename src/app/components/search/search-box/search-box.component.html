@@ -2,11 +2,11 @@
   <div class="recent-text">{{ 'SEARCH.RECENT' | translate }}</div>
   <div (click)="onClearAll.emit()" class="recent-clear">{{ 'SEARCH.CLEAR_ALL' | translate }}</div>
 </div>
-<div *ngIf="queryResults.length > 0" [hidden]="!loadedSearch" class="search-modal">
+<div *ngIf="queryResults.length > 0" [hidden]="!loadedSearch" class="search-modal" [class]="searchSmall ? 'w-[350px]' : 'w-[280px]'">
   <div *ngFor="let user of queryResults" class="search-item">
-    <div (click)="loadProfile(user)" class="contents space-x-4">
-      <div [class]="user.latest_reel_media > 0 ? 'border-[#e16857]' : ''" class="search-picture">
-        <img-await [source]="user.profile_pic_url" class="search-image"></img-await>
+    <div (click)="loadProfile(user)" class="flex items-center space-x-4 w-full">
+      <div class="search-image" [class]="user.latest_reel_media > 0 ? 'border-[#e16857]' : ''">
+        <img-await [source]="user.profile_pic_url"></img-await>
       </div>
       <div class="search-text">
         <div class="flex space-x-2">
@@ -23,6 +23,8 @@
     </div>
   </div>
 </div>
-<div *ngIf="!selectModel && store.state.recentSearches.length == 0" class="search-none">{{ 'SEARCH.NO_RECENT' | translate }}</div>
-<div *ngIf="selectModel && !loadedSearch" class="search-none">{{ 'SEARCH.SEARCHING' | translate }}</div>
-<div *ngIf="selectModel && loadedSearch && queryFinished && queryResults.length == 0" class="search-none">{{ 'SEARCH.NO_RESULTS' | translate }}</div>
+<div [class]="searchSmall ? 'w-[350px]' : 'w-[280px]'">
+  <div *ngIf="!selectModel && store.state.recentSearches.length == 0" class="search-none">{{ 'SEARCH.NO_RECENT' | translate }}</div>
+  <div *ngIf="selectModel && !loadedSearch" class="search-none">{{ 'SEARCH.SEARCHING' | translate }}</div>
+  <div *ngIf="selectModel && loadedSearch && queryFinished && queryResults.length == 0" class="search-none">{{ 'SEARCH.NO_RESULTS' | translate }}</div>
+</div>

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { FriendshipService } from 'src/app/services/friendship.service';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'viewer-users',
@@ -9,14 +11,28 @@ import { Router } from '@angular/router';
 
 export class ViewerUsersComponent {
 
-  constructor(private router: Router) { }
+  constructor(
+    private friendship: FriendshipService,
+    private router: Router,
+    public store: StoreService,
+  ) { }
 
   @Input() usersList: any[] = [];
-  @Input() usersTitle: string = 'Users';
+  @Input() usersTitle: string = '';
   @Output() onClose = new EventEmitter();
 
   loadUserPage(username: string): void {
     this.router.navigate(['/' + username]);
+  }
+
+  followUser(i: number): void {
+    this.usersList[i].friendship.following = true;
+    this.friendship.follow(this.usersList[i].pk);
+  }
+
+  unfollowUser(i: number): void {
+    this.usersList[i].friendship.following = false;
+    this.friendship.unfollow(this.usersList[i].pk);
   }
 
   hideIntersect: boolean = true;

@@ -52,11 +52,19 @@ module.exports.followers = (req, res, next) => {
     try {
       const userId = req.body.id ? req.body.id : client.state.cookieUserId;
       // Get user followers information.
-      const followersFeed = client.feed.accountFollowers(userId);
+      const followersFeed = client.feed.accountFollowers({ id: userId, count: 24 });
       // Load the state of the feed if present.
       if (req.body.feed) { followersFeed.deserialize(req.body.feed); }
       // Load user followers. Feeds are auto paginated.
       let followers = !req.body.feed || followersFeed.isMoreAvailable() ? await followersFeed.items() : {};
+      let followersIds = followers.map((res) => { return res.pk; });
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Load followers friendship status, since it's not included in the previous call.
+      await client.friendship.showMany(followersIds).then((data) => {
+        for (let i = 0; i < followers.length; i++) {
+          followers[i].friendship = data[followers[i].pk];
+        }
+      });
       // Return user followers information.
       res.status(200);
       res.json({ feed: followersFeed.serialize(), followers: followers });
@@ -75,11 +83,19 @@ module.exports.following = (req, res, next) => {
     try {
       const userId = req.body.id ? req.body.id : client.state.cookieUserId;
       // Get user following information.
-      const followingFeed = client.feed.accountFollowing(userId);
+      const followingFeed = client.feed.accountFollowing({ id: userId, count: 24 });
       // Load the state of the feed if present.
       if (req.body.feed) { followingFeed.deserialize(req.body.feed); }
       // Load user following. Feeds are auto paginated.
       let following = !req.body.feed || followingFeed.isMoreAvailable() ? await followingFeed.items() : {};
+      let followingIds = following.map((res) => { return res.pk; });
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Load following friendship status, since it's not included in the previous call.
+      await client.friendship.showMany(followingIds).then((data) => {
+        for (let i = 0; i < following.length; i++) {
+          following[i].friendship = data[following[i].pk];
+        }
+      });
       // Return user following information.
       res.status(200);
       res.json({ feed: followingFeed.serialize(), following: following });
@@ -101,18 +117,17 @@ module.exports.reels = (req, res, next) => {
       // Initialize reels feed list.
       let cursor, reels = [];
       // Load clips in batches of 24 items. Feeds must be paginated manually.
-      await feedClips.items()
-        .then((res) => {
-          // Get feed cursor position.
-          cursor = res.cursor ? res.cursor : '';
-          // Get media data from urls.
-          res.items.forEach(async (clip) => {
-            // Process clip custom data.
-            clip.media.instagular = await postInfo(clip.media)
-            // Add clip to reels list.
-            reels.push(clip.media);
-          });
+      await feedClips.items().then((res) => {
+        // Get feed cursor position.
+        cursor = res.cursor ? res.cursor : '';
+        // Get media data from urls.
+        res.items.forEach(async (clip) => {
+          // Process clip custom data.
+          clip.media.instagular = await postInfo(clip.media)
+          // Add clip to reels list.
+          reels.push(clip.media);
         });
+      });
       // Return clips object.
       res.status(200);
       res.json({ cursor: cursor, posts: reels });
@@ -196,16 +211,15 @@ module.exports.saved_all = (req, res, next) => {
       // Initialize saved posts feed list.
       let posts = [];
       // Load all posts saved by the user. Feeds are auto paginated.
-      await feedSaved.items()
-        .then((res) => {
-          // Get media data from urls.
-          res.forEach(async (post) => {
-            // Process post custom data.
-            post.instagular = await postInfo(post)
-            // Add post to feed list.
-            posts.push(post);
-          });
+      await feedSaved.items().then((res) => {
+        // Get media data from urls.
+        res.forEach(async (post) => {
+          // Process post custom data.
+          post.instagular = await postInfo(post)
+          // Add post to feed list.
+          posts.push(post);
         });
+      });
       // Return saved posts feed list and state.
       res.status(200);
       res.json({ feed: feedSaved.serialize(), posts: posts });
@@ -229,16 +243,15 @@ module.exports.saved_collection = (req, res, next) => {
       // Initialize collection posts feed list.
       let posts = [];
       // Load all posts for the collection made by the user. Feeds are auto paginated.
-      await feedCollection.items()
-        .then((res) => {
-          // Get media data from urls.
-          res.forEach(async (post) => {
-            // Process post custom data.
-            post.instagular = await postInfo(post)
-            // Add post to feed list.
-            posts.push(post);
-          });
+      await feedCollection.items().then((res) => {
+        // Get media data from urls.
+        res.forEach(async (post) => {
+          // Process post custom data.
+          post.instagular = await postInfo(post)
+          // Add post to feed list.
+          posts.push(post);
         });
+      });
       // Return collection posts feed list and state.
       res.status(200);
       res.json({ feed: feedCollection.serialize(), posts: posts });
@@ -263,16 +276,15 @@ module.exports.tagged = (req, res, next) => {
       let posts = [];
       // Load most recent user tagged posts. Feeds are auto paginated.
       if (!req.body.feed || feedTagged.isMoreAvailable()) {
-        await feedTagged.items()
-          .then((res) => {
-            // Get media data from urls.
-            res.forEach(async (post) => {
-              // Process post custom data.
-              post.instagular = await postInfo(post)
-              // Add post to feed list.
-              posts.push(post);
-            });
+        await feedTagged.items().then((res) => {
+          // Get media data from urls.
+          res.forEach(async (post) => {
+            // Process post custom data.
+            post.instagular = await postInfo(post)
+            // Add post to feed list.
+            posts.push(post);
           });
+        });
       }
       // Return tagged feed posts list and state.
       res.status(200);
@@ -300,23 +312,22 @@ module.exports.timeline = (req, res, next) => {
       let index = req.body.feed ? 1 : 3;
       for (let i = 0; i < index; i++) {
         if ((!req.body.feed && i == 0) || feedTimeline.isMoreAvailable()) {
-          await feedTimeline.items()
-            .then((res) => {
-              // Get media data from urls.
-              res.forEach(async (post) => {
-                // Exclude ads processing.
-                if (post.product_type != 'ad') {
-                  // Process post custom data.
-                  post.instagular = await postInfo(post)
-                  // Add post to feed list.
-                  posts.push(post);
-                }
-              });
+          await feedTimeline.items().then((res) => {
+            // Get media data from urls.
+            res.forEach(async (post) => {
+              // Exclude ads processing.
+              if (post.product_type != 'ad') {
+                // Process post custom data.
+                post.instagular = await postInfo(post)
+                // Add post to feed list.
+                posts.push(post);
+              }
             });
+          });
         }
         // Wait 2 seconds for the next API request to avoid blocks.
         if ((i + 1) != index) {
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          await new Promise((resolve) => setTimeout(resolve, 2000));
         }
       }
       // Return timeline feed posts list and state.
@@ -344,16 +355,15 @@ module.exports.user = (req, res, next) => {
       let posts = [];
       // Load most recent user posts. Feeds are auto paginated.
       if (!req.body.feed || feedUser.isMoreAvailable()) {
-        await feedUser.items()
-          .then((res) => {
-            // Get media data from urls.
-            res.forEach(async (post) => {
-              // Process post custom data.
-              post.instagular = await postInfo(post)
-              // Add post to feed list.
-              posts.push(post);
-            });
+        await feedUser.items().then((res) => {
+          // Get media data from urls.
+          res.forEach(async (post) => {
+            // Process post custom data.
+            post.instagular = await postInfo(post)
+            // Add post to feed list.
+            posts.push(post);
           });
+        });
       }
       // Return user feed posts list and state.
       res.status(200);

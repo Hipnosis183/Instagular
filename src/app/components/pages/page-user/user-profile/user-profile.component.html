@@ -15,8 +15,8 @@
       <img *ngIf="userProfile.is_verified" src="/assets/images/verified.svg">
       <button *ngIf="userProfile.username != userName"
         (click)="userProfile.friendship.following ? unfollowUser() : followUser()"
-        [class]="userProfile.friendship.following ? 'lite' : 'color'">
-        {{ userProfile.friendship.following ? 'PAGE_USER.FOLLOWING' : 'PAGE_USER.FOLLOW' | translate }}
+        [class]="userProfile.friendship.following ? userProfile.friendship.is_bestie ? 'bestie' : 'lite' : 'color'">
+        {{ (userProfile.friendship.following ? 'PAGE_USER.FOLLOWING' : 'PAGE_USER.FOLLOW') | translate }}
       </button>
       <div *ngIf="userProfile.friendship.followed_by" class="pl-2 user-stats">
         <div class="text-sub">•</div>

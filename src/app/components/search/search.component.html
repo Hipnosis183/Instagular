@@ -7,7 +7,7 @@
   <img *ngIf="selectModel" (click)="searchBox.clearValue()" src="/assets/images/close-circle.svg" class="search-clear">
   <div #searchDialog>
     <search-box (onClear)="selectModel = ''" (onClearAll)="clearRecent = !clearRecent"
-      #searchBox [selectModel]="selectModel"></search-box>
+      #searchBox [selectModel]="selectModel" [searchSmall]="searchSmall"></search-box>
   </div>
 </div>
 <div *ngIf="searchSmall" class="search-s">
@@ -24,6 +24,6 @@
         class="search-s-clear">
     </div>
     <search-box (onClear)="selectModel = ''" (onClearAll)="clearRecent = !clearRecent"
-      #searchBox [selectModel]="selectModel"></search-box>
+      #searchBox [selectModel]="selectModel" [searchSmall]="searchSmall"></search-box>
   </div>
 </div>

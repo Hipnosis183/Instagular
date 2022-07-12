@@ -25,6 +25,7 @@ export class SearchBoxComponent {
   searchRecent: any[] = this.store.state.recentSearches;
 
   @Input() selectModel: string = '';
+  @Input() searchSmall: boolean = false;
   @Output() onClear = new EventEmitter();
   @Output() onClearAll = new EventEmitter();
 

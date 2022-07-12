@@ -1,17 +1,29 @@
-<modal [divide]="true">
+<modal [divide]="true" [large]="true">
   <div class="options-header">
     <div>{{ usersTitle }}</div>
     <img src="/assets/images/close.svg" (click)="onClose.emit()">
   </div>
   <div autoFocus tabindex="0" *ngIf="usersList.length > 0" class="options-body">
-    <div *ngFor="let user of usersList" (click)="loadUserPage(user.username)" class="options-item">
-      <img-await [source]="user.profile_pic_url" class="options-image"></img-await>
-      <div class="options-text">
-        <div class="flex space-x-2">
-          <div class="text-main">{{ user.full_name ? user.full_name : user.username }}</div>
-          <img *ngIf="user.is_verified" src="/assets/images/verified.svg">
+    <div *ngFor="let user of usersList; index as i" class="options-item">
+      <div (click)="loadUserPage(user.username)" class="flex items-center w-full">
+        <div class="options-image" [class]="user.latest_reel_media > 0 ? 'border-[#e16857]' : ''">
+          <img-await [source]="user.profile_pic_url"></img-await>
         </div>
-        <div class="text-sub">@{{ user.username }}</div>
+        <div class="options-text">
+          <div class="flex space-x-2">
+            <div class="text-main">{{ user.full_name ? user.full_name : user.username }}</div>
+            <img *ngIf="user.is_verified" src="/assets/images/verified.svg">
+          </div>
+          <div class="text-sub">@{{ user.username }}</div>
+        </div>
+      </div>
+      <div *ngIf="user.pk != store.state.userPk" class="options-icons">
+        <img *ngIf="user.friendship.is_feed_favorite" src="/assets/images/star-favorite.svg">
+        <img *ngIf="!user.friendship.following && user.is_private" src="/assets/images/lock-bold.svg" class="h-[18px]">
+        <button [class]="user.friendship.following ? user.friendship.is_bestie ? 'bestie' : 'lite' : 'color'"
+          (click)="user.friendship.following ? unfollowUser(i) : followUser(i)">
+          {{ (user.friendship.following ? 'PAGE_USER.FOLLOWING' : 'PAGE_USER.FOLLOW') | translate }}
+        </button>
       </div>
     </div>
     <div infiniteScroll (onIntersect)="onIntersection()" [stopIntersect]="stopIntersect"
