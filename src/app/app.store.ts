@@ -6,6 +6,7 @@ const { state } = createStore({
   recentLoaded: false,
   recentSearches: [],
   savedPosts: [],
+  userName: localStorage.getItem('username'),
   userPk: localStorage.getItem('userpk'),
 });
 

@@ -27,6 +27,7 @@
     "INSTAGULAR": "Instagular",
     "LOADING": "Loading...",
     "OK": "Ok",
+    "REMOVE": "Remove",
     "UNHIDE": "Unhide",
     "UPDATE": "Update",
     "VIEW": "View"
@@ -65,7 +66,9 @@
   },
   "PAGE_USER": {
     "FOLLOW": "Follow",
+    "FOLLOW_BACK": "Follow Back",
     "FOLLOWED_BY": "Follows you",
+    "FOLLOWER_REMOVE": "Remove follower",
     "FOLLOWERS": "Followers",
     "FOLLOWING": "Following",
     "NO_POSTS": {
@@ -80,6 +83,10 @@
     "PRIVATE": {
       "TITLE": "This account is private",
       "SUB": "Follow to see their photos and videos."
+    },
+    "REMOVE_FOLLOWER": {
+      "TITLE": "Remove Follower?",
+      "SUB": "Instagram won't tell {{ user }} they were removed from your followers."
     },
     "TABS": {
       "CLIPS": "Clips",

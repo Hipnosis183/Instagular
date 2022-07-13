@@ -12,7 +12,7 @@
   @apply flex items-center justify-center mb-5 px-8 space-x-10 w-full;
 }
 .user-header {
-  @apply cursor-default flex items-center mb-0.5 space-x-2;
+  @apply cursor-default flex items-center mb-0.5;
 }
 .user-header button {
   @apply cursor-pointer ml-4 px-6 py-1.5 rounded !important;
@@ -27,20 +27,20 @@
 .user-header button.lite {
   @apply bg-slate-200 hover:bg-slate-300 text-slate-700;
 }
-.user-header img {
-  @apply w-7;
+.user-link {
+  @apply flex items-center space-x-2;
+}
+.user-link img {
+  @apply h-4 w-4;
+}
+.user-more img {
+  @apply mr-3 w-[18px];
 }
 .user-stories {
   @apply border-[4px] p-[6px] rounded-full;
 }
 .user-stories img-await {
   @apply flex h-[200px] min-h-[200px] min-w-[200px] overflow-hidden rounded-full w-[200px];
-}
-.user-link {
-  @apply flex items-center space-x-2;
-}
-.user-link img {
-  @apply h-4 w-4;
 }
 .user-stat {
   @apply flex items-center space-x-1;

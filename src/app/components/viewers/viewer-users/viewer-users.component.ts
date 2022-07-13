@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { StoreService } from 'src/app/services/store.service';
 
@@ -13,6 +13,7 @@ export class ViewerUsersComponent {
 
   constructor(
     private friendship: FriendshipService,
+    private route: ActivatedRoute,
     private router: Router,
     public store: StoreService,
   ) { }
@@ -20,6 +21,7 @@ export class ViewerUsersComponent {
   @Input() usersList: any[] = [];
   @Input() usersTitle: string = '';
   @Output() onClose = new EventEmitter();
+  @Output() onRemove = new EventEmitter();
 
   loadUserPage(username: string): void {
     this.router.navigate(['/' + username]);
@@ -33,6 +35,16 @@ export class ViewerUsersComponent {
   unfollowUser(i: number): void {
     this.usersList[i].friendship.following = false;
     this.friendship.unfollow(this.usersList[i].pk);
+  }
+
+  userName: any = this.route.snapshot.paramMap.get('id');
+  removeFollower: any = null;
+
+  _removeFollower(i: number): void {
+    this.friendship.removeFollower(this.usersList[i].pk);
+    this.usersList.splice(i, 1);
+    this.removeFollower = null;
+    this.onRemove.emit();
   }
 
   hideIntersect: boolean = true;

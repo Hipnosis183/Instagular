@@ -18,7 +18,7 @@
 }
 
 .tippy-box[data-theme~='lite'] {
-  @apply bg-slate-100 text-slate-900 !important;
+  @apply bg-slate-100 text-slate-800 !important;
 }
 .tippy-box[data-theme~='lite'] > .tippy-arrow::before {
   transform: scale(0.75);

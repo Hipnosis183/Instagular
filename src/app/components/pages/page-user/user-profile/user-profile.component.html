@@ -1,7 +1,9 @@
+<dialog *ngIf="removeFollower" [title]="'PAGE_USER.REMOVE_FOLLOWER.TITLE' | translate" [subtitle]="'PAGE_USER.REMOVE_FOLLOWER.SUB' | translate: { user: userProfile.username }"
+  [buttonText]="'GENERAL.REMOVE' | translate" buttonTheme="red" (onOk)="_removeFollower()" (onCancel)="removeFollower = false"></dialog>
 <viewer-stories *ngIf="loadStories" [feedStories]="[userProfile.reels]" [seenStories]="userProfile.friendship.following"
   [originIndex]="0" (onClose)="loadStories = false"></viewer-stories>
 <viewer-users [hidden]="!loadFollowers" feedStorage="followers" [usersTitle]="'PAGE_USER.FOLLOWERS' | translate"
-  [usersList]="userFollowers" (onClose)="loadFollowers = false" (onScroll)="__loadFollowers()"></viewer-users>
+  [usersList]="userFollowers" (onClose)="loadFollowers = false" (onScroll)="__loadFollowers()" (onRemove)="__removeFollower()"></viewer-users>
 <viewer-users [hidden]="!loadFollowing" feedStorage="following" [usersTitle]="'PAGE_USER.FOLLOWING' | translate"
   [usersList]="userFollowing" (onClose)="loadFollowing = false" (onScroll)="__loadFollowing()"></viewer-users>
 <div *ngIf="userProfile" class="user-container">
@@ -11,16 +13,28 @@
   </div>
   <div>
     <div class="user-header">
-      <div class="text-main text-[32px]">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}</div>
-      <img *ngIf="userProfile.is_verified" src="/assets/images/verified.svg">
-      <button *ngIf="userProfile.username != userName"
-        (click)="userProfile.friendship.following ? unfollowUser() : followUser()"
-        [class]="userProfile.friendship.following ? userProfile.friendship.is_bestie ? 'bestie' : 'lite' : 'color'">
-        {{ (userProfile.friendship.following ? 'PAGE_USER.FOLLOWING' : 'PAGE_USER.FOLLOW') | translate }}
-      </button>
-      <div *ngIf="userProfile.friendship.followed_by" class="pl-2 user-stats">
-        <div class="text-sub">•</div>
-        <div class="text-sub">{{ 'PAGE_USER.FOLLOWED_BY' | translate }}</div>
+      <div class="space-x-2">
+        <div class="text-main text-[32px]">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}</div>
+        <img *ngIf="userProfile.is_verified" src="/assets/images/verified.svg" class="w-7">
+      </div>
+      <div *ngIf="userProfile.username != store.state.userName" class="contents">
+        <button (click)="userProfile.friendship.following ? unfollowUser() : followUser()"
+          [class]="userProfile.friendship.following ? userProfile.friendship.is_bestie ? 'bestie' : 'lite' : 'color'">
+          {{ (userProfile.friendship.following ? 'PAGE_USER.FOLLOWING' : userProfile.friendship.followed_by ? 'PAGE_USER.FOLLOW_BACK' : 'PAGE_USER.FOLLOW') | translate }}
+        </button>
+        <div *ngIf="userProfile.friendship.followed_by" class="pl-4 user-stats">
+          <div class="text-sub">•</div>
+          <div class="text-sub">{{ 'PAGE_USER.FOLLOWED_BY' | translate }}</div>
+        </div>
+        <div [tooltip]="'VIEWER_POSTS.MORE_OPTIONS' | translate" tooltipPlace="right" class="cursor-pointer ml-4">
+          <img [dropdown]="moreOptions" dropdownPlace="bottom" src="/assets/images/more.svg">
+        </div>
+        <div #moreOptions class="user-more">
+          <span *ngIf="userProfile.pk != store.state.userPk && userProfile.friendship.followed_by" (click)="removeFollower = true">
+            <img src="/assets/images/profile-cross.svg">
+            <p>{{ 'PAGE_USER.FOLLOWER_REMOVE' | translate }}</p>
+          </span>
+        </div>
       </div>
     </div>
     <div class="user-stats">

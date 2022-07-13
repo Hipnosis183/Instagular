@@ -1,4 +1,4 @@
-<modal [divide]="true" [large]="true">
+<modal [divide]="true" width="600px">
   <div class="options-header">
     <div>{{ usersTitle }}</div>
     <img src="/assets/images/close.svg" (click)="onClose.emit()">
@@ -22,8 +22,17 @@
         <img *ngIf="!user.friendship.following && user.is_private" src="/assets/images/lock-bold.svg" class="h-[18px]">
         <button [class]="user.friendship.following ? user.friendship.is_bestie ? 'bestie' : 'lite' : 'color'"
           (click)="user.friendship.following ? unfollowUser(i) : followUser(i)">
-          {{ (user.friendship.following ? 'PAGE_USER.FOLLOWING' : 'PAGE_USER.FOLLOW') | translate }}
+          {{ (user.friendship.following ? 'PAGE_USER.FOLLOWING' : userName == store.state.userName ? 'PAGE_USER.FOLLOW_BACK' : 'PAGE_USER.FOLLOW') | translate }}
         </button>
+        <div *ngIf="userName == store.state.userName" class="options-more">
+          <img [dropdown]="moreOptions" [dropdownOffset]="[0, 16]" dropdownPlace="bottom" src="/assets/images/more.svg">
+          <div #moreOptions class="w-max">
+            <span *ngIf="feedStorage == 'followers'" (click)="removeFollower = { user: user.username, i: i }">
+              <img src="/assets/images/profile-cross.svg">
+              <p>{{ 'PAGE_USER.FOLLOWER_REMOVE' | translate }}</p>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <div infiniteScroll (onIntersect)="onIntersection()" [stopIntersect]="stopIntersect"
@@ -31,3 +40,5 @@
   </div>
   <div *ngIf="usersList.length == 0" class="options-loading">{{ 'GENERAL.LOADING' | translate }}</div>
 </modal>
+<dialog *ngIf="feedStorage == 'followers' && removeFollower" [title]="'PAGE_USER.REMOVE_FOLLOWER.TITLE' | translate" [subtitle]="'PAGE_USER.REMOVE_FOLLOWER.SUB' | translate: { user: removeFollower.user }"
+  [buttonText]="'GENERAL.REMOVE' | translate" buttonTheme="red" (onOk)="_removeFollower(removeFollower.i)" (onCancel)="removeFollower = null"></dialog>

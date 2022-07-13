@@ -7,15 +7,21 @@ export class FriendshipService {
 
   constructor(private http: HttpClient) { }
 
-  follow(userId: any): void {
+  follow(id: any): void {
     this.http.post('/api/friendship/follow', {
-      userId: userId, session: localStorage.getItem('state'),
+      id: id, session: localStorage.getItem('state'),
     }).subscribe();
   }
 
-  unfollow(userId: any): void {
+  removeFollower(id: any): void {
+    this.http.post('/api/friendship/removeFollower', {
+      id: id, session: localStorage.getItem('state'),
+    }).subscribe();
+  }
+
+  unfollow(id: any): void {
     this.http.post('/api/friendship/unfollow', {
-      userId: userId, session: localStorage.getItem('state'),
+      id: id, session: localStorage.getItem('state'),
     }).subscribe();
   }
 }

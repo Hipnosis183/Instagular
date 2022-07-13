@@ -5,8 +5,10 @@
 <div class="panel-container">
   <post-comments #postComments [feedPost]="feedPost"></post-comments>
   <div class="panel-post">
-    <img [dropdown]="moreOptions" [tooltip]="'VIEWER_POSTS.MORE_OPTIONS' | translate"
-      tooltipPlace="right" src="/assets/images/more.svg" class="button-more">
+    <div [dropdown]="moreOptions" class="button-more">
+      <img [tooltip]="'VIEWER_POSTS.MORE_OPTIONS' | translate" [tooltipOffset]="[0, 25]"
+        tooltipPlace="right" tooltipTheme="lite" src="/assets/images/more.svg">
+    </div>
     <div #moreOptions class="panel-more">
       <span (click)="downloadMedia()">
         <img src="/assets/images/download.svg">

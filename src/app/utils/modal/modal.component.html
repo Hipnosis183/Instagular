@@ -1,7 +1,7 @@
 <div class="modal-container">
   <div class="modal-overlay"></div>
   <div class="modal-contents">
-    <div class="modal-modal" [ngClass]="[divide ? 'divide-slate-200 divide-y-[1px]' : '', large ? 'w-[600px]' : 'w-[400px]']">
+    <div class="modal-modal" [class]="divide ? 'divide-slate-200 divide-y-[1px]' : ''" [style]="'width: ' + width">
       <ng-content></ng-content>
     </div>
   </div>

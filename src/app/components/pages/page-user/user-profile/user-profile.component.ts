@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FeedService } from 'src/app/services/feed.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
+import { StoreService } from 'src/app/services/store.service';
 
 @Component({
   selector: 'user-profile',
@@ -13,10 +14,10 @@ export class UserProfileComponent {
   constructor(
     private feed: FeedService,
     private friendship: FriendshipService,
+    public store: StoreService,
   ) { }
 
   @Input() userProfile: any;
-  userName: any = localStorage.getItem('username');
 
   followUser(): void {
     this.userProfile.friendship.following = true;
@@ -26,6 +27,18 @@ export class UserProfileComponent {
   unfollowUser(): void {
     this.userProfile.friendship.following = false;
     this.friendship.unfollow(this.userProfile.pk);
+  }
+
+  removeFollower: boolean = false;
+
+  _removeFollower(): void {
+    this.userProfile.friendship.followed_by = false;
+    this.friendship.removeFollower(this.userProfile.pk);
+    this.removeFollower = false;
+  }
+
+  __removeFollower(): void {
+    this.userProfile.follower_count--;
   }
 
   userFollowers: any[] = [];

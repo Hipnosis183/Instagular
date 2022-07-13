@@ -15,7 +15,11 @@
   @apply absolute cursor-pointer mr-6 right-0 w-4;
 }
 .options-icons {
-  @apply absolute flex h-full items-center justify-evenly right-3;
+  @apply absolute bg-slate-50 flex h-full items-center justify-evenly right-2;
+  transition: background-color 0.2s;
+}
+.options-icons > img {
+  @apply ml-4;
 }
 .options-image {
   @apply border-2 flex mr-4 p-0.5 rounded-full;
@@ -24,11 +28,14 @@
   @apply h-12 min-h-[3rem] min-w-[3rem] overflow-hidden rounded-full w-12;
 }
 .options-item {
-  @apply hover:bg-slate-100 cursor-pointer flex items-center pl-4 pr-[11rem] py-2 relative w-full;
+  @apply hover:bg-slate-100 cursor-pointer flex items-center px-4 py-2 relative w-full;
   transition: background-color 0.2s;
 }
+.options-item:hover .options-icons {
+  @apply bg-slate-100;
+}
 .options-item button {
-  @apply cursor-pointer ml-4 px-6 py-1.5 rounded !important;
+  @apply cursor-pointer ml-4 mr-1 px-6 py-1.5 rounded !important;
   transition: background-color 0.2s;
 }
 .options-item button.bestie {
@@ -42,6 +49,12 @@
 }
 .options-loading {
   @apply cursor-default py-6 text-center text-sub w-full;
+}
+.options-more > img {
+  @apply h-[18px] ml-1 rotate-90;
+}
+.options-more span img {
+  @apply mr-3 w-[18px];
 }
 .options-text {
   @apply flex flex-col overflow-hidden;

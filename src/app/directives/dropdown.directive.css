@@ -1,5 +1,5 @@
 .tippy-box[data-theme~='dropdown'] {
-  @apply bg-slate-50 text-slate-900 text-base !important;
+  @apply bg-slate-50 text-slate-800 text-base !important;
   filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.5));
 }
 .tippy-box[data-theme~='dropdown'] > .tippy-content {

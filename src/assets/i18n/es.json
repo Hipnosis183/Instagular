@@ -29,6 +29,7 @@
     "INSTAGULAR": "Instagular",
     "LOADING": "Cargando...",
     "OK": "Aceptar",
+    "REMOVE": "Eliminar",
     "UNHIDE": "Mostrar",
     "UPDATE": "Actualizar",
     "VIEW": "Ver"
@@ -67,7 +68,9 @@
   },
   "PAGE_USER": {
     "FOLLOW": "Seguir",
+    "FOLLOW_BACK": "Seguir También",
     "FOLLOWED_BY": "Te Sigue",
+    "FOLLOWER_REMOVE": "Eliminar seguidor",
     "FOLLOWERS": "Seguidores",
     "FOLLOWING": "Siguiendo",
     "NO_POSTS": {
@@ -82,6 +85,10 @@
     "PRIVATE": {
       "TITLE": "Esta cuenta es privada",
       "SUB": "Síguela para ver sus fotos y videos."
+    },
+    "REMOVE_FOLLOWER": {
+      "TITLE": "¿Eliminar Seguidor?",
+      "SUB": "Instagram no le avisará a {{ user }} que ya no forma parte de tus seguidores."
     },
     "TABS": {
       "CLIPS": "Clips",
