@@ -13,7 +13,7 @@
   </div>
   <div>
     <div class="user-header">
-      <div class="space-x-2">
+      <div class="flex space-x-2">
         <div class="text-main text-[32px]">{{ userProfile.full_name ? userProfile.full_name : userProfile.username }}</div>
         <img *ngIf="userProfile.is_verified" src="/assets/images/verified.svg" class="w-7">
       </div>
@@ -30,9 +30,13 @@
           <img [dropdown]="moreOptions" dropdownPlace="bottom" src="/assets/images/more.svg">
         </div>
         <div #moreOptions class="user-more">
+          <span *ngIf="userProfile.friendship.following" (click)="userProfile.friendship.is_bestie ? removeBestie() : addBestie()">
+            <img [src]="'/assets/images/' + (userProfile.friendship.is_bestie ? 'star-besties.svg' : 'star.svg')">
+            <p>{{ 'PAGE_USER.OPTIONS.BESTIES' | translate: { action: (userProfile.friendship.is_bestie ? 'GENERAL.REMOVE_FROM' : 'GENERAL.ADD_TO') | translate } }}</p>
+          </span>
           <span *ngIf="userProfile.pk != store.state.userPk && userProfile.friendship.followed_by" (click)="removeFollower = true">
             <img src="/assets/images/profile-cross.svg">
-            <p>{{ 'PAGE_USER.FOLLOWER_REMOVE' | translate }}</p>
+            <p>{{ 'PAGE_USER.OPTIONS.FOLLOWER_REMOVE' | translate }}</p>
           </span>
         </div>
       </div>

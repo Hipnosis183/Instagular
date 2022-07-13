@@ -29,6 +29,16 @@ export class UserProfileComponent {
     this.friendship.unfollow(this.userProfile.pk);
   }
 
+  addBestie(): void {
+    this.userProfile.friendship.is_bestie = true;
+    this.friendship.setBesties([this.userProfile.pk], []);
+  }
+
+  removeBestie(): void {
+    this.userProfile.friendship.is_bestie = false;
+    this.friendship.setBesties([], [this.userProfile.pk]);
+  }
+
   removeFollower: boolean = false;
 
   _removeFollower(): void {

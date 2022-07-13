@@ -37,6 +37,16 @@ export class ViewerUsersComponent {
     this.friendship.unfollow(this.usersList[i].pk);
   }
 
+  addBestie(i: number): void {
+    this.usersList[i].friendship.is_bestie = true;
+    this.friendship.setBesties([this.usersList[i].pk], []);
+  }
+
+  removeBestie(i: number): void {
+    this.usersList[i].friendship.is_bestie = false;
+    this.friendship.setBesties([], [this.usersList[i].pk]);
+  }
+
   userName: any = this.route.snapshot.paramMap.get('id');
   removeFollower: any = null;
 

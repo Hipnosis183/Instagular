@@ -16,6 +16,8 @@
     }
   },
   "GENERAL": {
+    "ADD": "Add",
+    "ADD_TO": "Add to",
     "CANCEL": "Cancel",
     "CONFIRM": "Confirm",
     "CREATE": "Create",
@@ -28,6 +30,7 @@
     "LOADING": "Loading...",
     "OK": "Ok",
     "REMOVE": "Remove",
+    "REMOVE_FROM": "Remove from",
     "UNHIDE": "Unhide",
     "UPDATE": "Update",
     "VIEW": "View"
@@ -68,7 +71,6 @@
     "FOLLOW": "Follow",
     "FOLLOW_BACK": "Follow Back",
     "FOLLOWED_BY": "Follows you",
-    "FOLLOWER_REMOVE": "Remove follower",
     "FOLLOWERS": "Followers",
     "FOLLOWING": "Following",
     "NO_POSTS": {
@@ -80,6 +82,10 @@
       "SUB": "The link you followed may be broken, or the page may have been removed."
     },
     "NOT_FOUND_TITLE": "Page not found • Instagular",
+    "OPTIONS": {
+      "BESTIES": "{{ action }} close friends list",
+      "FOLLOWER_REMOVE": "Remove follower"
+    },
     "PRIVATE": {
       "TITLE": "This account is private",
       "SUB": "Follow to see their photos and videos."

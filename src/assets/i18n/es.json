@@ -18,6 +18,8 @@
     }
   },
   "GENERAL": {
+    "ADD": "Añadir",
+    "ADD_TO": "Añadir a",
     "CANCEL": "Cancelar",
     "CONFIRM": "Confirmar",
     "CREATE": "Crear",
@@ -30,6 +32,7 @@
     "LOADING": "Cargando...",
     "OK": "Aceptar",
     "REMOVE": "Eliminar",
+    "REMOVE_FROM": "Eliminar de",
     "UNHIDE": "Mostrar",
     "UPDATE": "Actualizar",
     "VIEW": "Ver"
@@ -70,7 +73,6 @@
     "FOLLOW": "Seguir",
     "FOLLOW_BACK": "Seguir También",
     "FOLLOWED_BY": "Te Sigue",
-    "FOLLOWER_REMOVE": "Eliminar seguidor",
     "FOLLOWERS": "Seguidores",
     "FOLLOWING": "Siguiendo",
     "NO_POSTS": {
@@ -82,6 +84,10 @@
       "SUB": "Es posible que el enlace que seleccionaste no funcione o que se haya eliminado la página."
     },
     "NOT_FOUND_TITLE": "Página no encontrada • Instagular",
+    "OPTIONS": {
+      "BESTIES": "{{ action }} la lista de mejores amigos",
+      "FOLLOWER_REMOVE": "Eliminar seguidor"
+    },
     "PRIVATE": {
       "TITLE": "Esta cuenta es privada",
       "SUB": "Síguela para ver sus fotos y videos."

@@ -27,9 +27,13 @@
         <div *ngIf="userName == store.state.userName" class="options-more">
           <img [dropdown]="moreOptions" [dropdownOffset]="[0, 16]" dropdownPlace="bottom" src="/assets/images/more.svg">
           <div #moreOptions class="w-max">
+            <span *ngIf="user.friendship.following" (click)="user.friendship.is_bestie ? removeBestie(i) : addBestie(i)">
+              <img [src]="'/assets/images/' + (user.friendship.is_bestie ? 'star-besties.svg' : 'star.svg')">
+              <p>{{ 'PAGE_USER.OPTIONS.BESTIES' | translate: { action: (user.friendship.is_bestie ? 'GENERAL.REMOVE_FROM' : 'GENERAL.ADD_TO') | translate } }}</p>
+            </span>
             <span *ngIf="feedStorage == 'followers'" (click)="removeFollower = { user: user.username, i: i }">
               <img src="/assets/images/profile-cross.svg">
-              <p>{{ 'PAGE_USER.FOLLOWER_REMOVE' | translate }}</p>
+              <p>{{ 'PAGE_USER.OPTIONS.FOLLOWER_REMOVE' | translate }}</p>
             </span>
           </div>
         </div>

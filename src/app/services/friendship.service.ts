@@ -19,6 +19,12 @@ export class FriendshipService {
     }).subscribe();
   }
 
+  setBesties(add: any[], remove: any[]): void {
+    this.http.post('/api/friendship/setBesties', {
+      add: add, remove: remove, session: localStorage.getItem('state'),
+    }).subscribe();
+  }
+
   unfollow(id: any): void {
     this.http.post('/api/friendship/unfollow', {
       id: id, session: localStorage.getItem('state'),
