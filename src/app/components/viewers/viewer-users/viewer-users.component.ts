@@ -47,6 +47,16 @@ export class ViewerUsersComponent {
     this.friendship.setBesties([], [this.usersList[i].pk]);
   }
 
+  addFavorite(i: number): void {
+    this.usersList[i].friendship.is_feed_favorite = true;
+    this.friendship.updateFeedFavorites([this.usersList[i].pk], []);
+  }
+
+  removeFavorite(i: number): void {
+    this.usersList[i].friendship.is_feed_favorite = false;
+    this.friendship.updateFeedFavorites([], [this.usersList[i].pk]);
+  }
+
   userName: any = this.route.snapshot.paramMap.get('id');
   removeFollower: any = null;
 

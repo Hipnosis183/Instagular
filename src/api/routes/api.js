@@ -44,6 +44,7 @@ router.post('/friendship/follow', friendship.follow);
 router.post('/friendship/removeFollower', friendship.removeFollower);
 router.post('/friendship/setBesties', friendship.setBesties);
 router.post('/friendship/unfollow', friendship.unfollow);
+router.post('/friendship/updateFeedFavorites', friendship.updateFeedFavorites);
 
 // Highlights route endpoints.
 const highlights = require('./highlights');

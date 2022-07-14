@@ -30,4 +30,10 @@ export class FriendshipService {
       id: id, session: localStorage.getItem('state'),
     }).subscribe();
   }
+
+  updateFeedFavorites(add: any[], remove: any[]): void {
+    this.http.post('/api/friendship/updateFeedFavorites', {
+      add: add, remove: remove, session: localStorage.getItem('state'),
+    }).subscribe();
+  }
 }

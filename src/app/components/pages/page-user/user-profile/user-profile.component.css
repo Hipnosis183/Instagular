@@ -24,6 +24,9 @@
 .user-header button.color {
   @apply bg-blue-500 hover:bg-blue-600 text-slate-50;
 }
+.user-header button.favorite {
+  @apply bg-red-500 hover:bg-red-600 text-slate-50;
+}
 .user-header button.lite {
   @apply bg-slate-200 hover:bg-slate-300 text-slate-700;
 }

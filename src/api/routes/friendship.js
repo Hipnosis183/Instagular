@@ -40,7 +40,7 @@ module.exports.setBesties = (req, res, next) => {
     const client = new Client();
     await client.state.deserialize(req.body.session);
     try {
-      // Remove the selected user from followers.
+      // Set user besties/close friends.
       await client.friendship.setBesties({ add: req.body.add, remove: req.body.remove });
       res.status(200);
       res.send();
@@ -59,6 +59,23 @@ module.exports.unfollow = (req, res, next) => {
     try {
       // Unfollow the selected user.
       await client.friendship.destroy(req.body.id);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
+module.exports.updateFeedFavorites = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Update user favorite accounts.
+      await client.friendship.updateFeedFavorites({ add: req.body.add, remove: req.body.remove });
       res.status(200);
       res.send();
     } catch (e) {

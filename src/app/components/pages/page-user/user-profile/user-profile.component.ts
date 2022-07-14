@@ -39,6 +39,16 @@ export class UserProfileComponent {
     this.friendship.setBesties([], [this.userProfile.pk]);
   }
 
+  addFavorite(): void {
+    this.userProfile.friendship.is_feed_favorite = true;
+    this.friendship.updateFeedFavorites([this.userProfile.pk], []);
+  }
+
+  removeFavorite(): void {
+    this.userProfile.friendship.is_feed_favorite = false;
+    this.friendship.updateFeedFavorites([], [this.userProfile.pk]);
+  }
+
   removeFollower: boolean = false;
 
   _removeFollower(): void {

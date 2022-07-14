@@ -84,6 +84,7 @@
     "NOT_FOUND_TITLE": "Page not found • Instagular",
     "OPTIONS": {
       "BESTIES": "{{ action }} close friends list",
+      "FAVORITE": "{{ action }} favorites",
       "FOLLOWER_REMOVE": "Remove follower"
     },
     "PRIVATE": {

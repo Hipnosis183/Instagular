@@ -86,6 +86,7 @@
     "NOT_FOUND_TITLE": "Página no encontrada • Instagular",
     "OPTIONS": {
       "BESTIES": "{{ action }} la lista de mejores amigos",
+      "FAVORITE": "{{ action }} favoritos",
       "FOLLOWER_REMOVE": "Eliminar seguidor"
     },
     "PRIVATE": {
