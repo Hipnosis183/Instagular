@@ -22,7 +22,6 @@ export class SearchBoxComponent {
   loadedSearch = true;
   queryResults: any[] = [];
   queryFinished: boolean = true;
-  searchRecent: any[] = this.store.state.recentSearches;
 
   @Input() selectModel: string = '';
   @Input() searchSmall: boolean = false;

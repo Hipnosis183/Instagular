@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FeedService } from 'src/app/services/feed.service';
@@ -20,8 +20,6 @@ export class UserFeedsComponent {
     public store: StoreService,
   ) { this.router.routeReuseStrategy.shouldReuseRoute = () => false; }
 
-  @Input() userProfile: any;
-
   feedSelect: string = 'timeline';
   feedSelected: any = {
     timeline: false,
@@ -40,7 +38,7 @@ export class UserFeedsComponent {
 
   async feedTimeline(): Promise<void> {
     this.feedSelect = 'timeline';
-    this.location.go(this.userProfile.username);
+    this.location.go(this.store.state.userPage.username);
     if (!this.feedSelected.timeline) {
       this.feedSelected.timeline = true;
       await this.loadUser();
@@ -49,9 +47,9 @@ export class UserFeedsComponent {
   }
 
   async feedReels(): Promise<void> {
-    if (this.userProfile.total_clips_count) {
+    if (this.store.state.userPage.total_clips_count) {
       this.feedSelect = 'reels';
-      this.location.go(this.userProfile.username + '/reels');
+      this.location.go(this.store.state.userPage.username + '/reels');
       if (!this.feedSelected.reels) {
         this.feedSelected.reels = true;
         await this.loadReels();
@@ -61,9 +59,9 @@ export class UserFeedsComponent {
   }
 
   async feedVideo(): Promise<void> {
-    if (this.userProfile.has_videos) {
+    if (this.store.state.userPage.has_videos) {
       this.feedSelect = 'video';
-      this.location.go(this.userProfile.username + '/channel');
+      this.location.go(this.store.state.userPage.username + '/channel');
       if (!this.feedSelected.video) {
         this.feedSelected.video = true;
         await this.loadVideo();
@@ -73,9 +71,9 @@ export class UserFeedsComponent {
   }
 
   async feedTagged(): Promise<void> {
-    if (this.userProfile.usertags_count) {
+    if (this.store.state.userPage.usertags_count) {
       this.feedSelect = 'tagged';
-      this.location.go(this.userProfile.username + '/tagged');
+      this.location.go(this.store.state.userPage.username + '/tagged');
       if (!this.feedSelected.tagged) {
         this.feedSelected.tagged = true;
         await this.loadTagged();
@@ -87,9 +85,9 @@ export class UserFeedsComponent {
   feedSavedUrl: string = '';
 
   async feedSaved(): Promise<void> {
-    if (this.userProfile.has_saved_items) {
+    if (this.store.state.userPage.has_saved_items) {
       this.feedSelect = 'saved';
-      this.location.go(this.userProfile.username + '/saved' + this.feedSavedUrl);
+      this.location.go(this.store.state.userPage.username + '/saved' + this.feedSavedUrl);
     } else { this.feedTimeline(); }
   }
 
@@ -105,31 +103,31 @@ export class UserFeedsComponent {
   }
 
   async loadReels(): Promise<void> {
-    await this.feed.reels(this.userProfile.pk).then((data) => {
+    await this.feed.reels(this.store.state.userPage.pk).then((data) => {
       this.userReels = this.userReels.concat(data.posts);
     });
   }
 
   async loadVideo(): Promise<void> {
-    await this.feed.video(this.userProfile.pk, this.route.snapshot.paramMap.get('id')).then((data) => {
+    await this.feed.video(this.store.state.userPage.pk, this.route.snapshot.paramMap.get('id')).then((data) => {
       this.userVideos = this.userVideos.concat(data.posts);
     });
   }
 
   async loadTagged(): Promise<void> {
-    await this.feed.tagged(this.userProfile.pk).then((data) => {
+    await this.feed.tagged(this.store.state.userPage.pk).then((data) => {
       this.userTagged = this.userTagged.concat(data.posts);
     });
   }
 
   loadSaved(): void {
-    if (this.userProfile.has_saved_items && this.store.state.savedPosts.length > 0) {
+    if (this.store.state.userPage.has_saved_items && this.store.state.savedPosts.length > 0) {
       this.feedLoaded.saved = true;
     }
   }
 
   loadTabs(): void {
-    if (!this.userProfile.is_private || (this.userProfile.is_private && this.userProfile.friendship.following)) {
+    if (!this.store.state.userPage.is_private || (this.store.state.userPage.is_private && this.store.state.userPage.friendship.following)) {
       let tab = this.route.snapshot.paramMap.get('tab');
       switch (tab) {
         case 'reels': { this.feedReels(); break; }

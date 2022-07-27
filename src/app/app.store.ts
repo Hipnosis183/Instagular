@@ -8,6 +8,7 @@ const { state } = createStore({
   savedPosts: [],
   userName: localStorage.getItem('username'),
   userPk: localStorage.getItem('userpk'),
+  userPage: null,
 });
 
 export default state;

@@ -1,10 +1,10 @@
-<user-profile [userProfile]="userProfile"></user-profile>
-<div *ngIf="userProfile">
-  <div *ngIf="!userProfile.is_private || (userProfile.is_private && userProfile.friendship.following); then allow; else block"></div>
+<user-profile></user-profile>
+<div *ngIf="store.state.userPage">
+  <div *ngIf="!store.state.userPage.is_private || (store.state.userPage.is_private && store.state.userPage.friendship.following); then allow; else block"></div>
   <ng-template #allow>
     <media-stories [feedStories]="userStories"></media-stories>
-    <user-feeds #userFeeds [userProfile]="userProfile"></user-feeds>
-    <div *ngIf="!userProfile.media_count && userFeeds.feedSelect != 'saved'" class="error-noposts">
+    <user-feeds #userFeeds></user-feeds>
+    <div *ngIf="!store.state.userPage.media_count && userFeeds.feedSelect != 'saved'" class="error-noposts">
       <img src="/assets/images/camera.svg">
       <div class="text-main">{{ 'PAGE_USER.NO_POSTS.TITLE' | translate }}</div>
       <div class="text-sub">{{ 'PAGE_USER.NO_POSTS.SUB' | translate }}</div>

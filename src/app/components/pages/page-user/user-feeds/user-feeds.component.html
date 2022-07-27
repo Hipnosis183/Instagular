@@ -1,26 +1,26 @@
 <div tooltipArray tooltipArrayPlace="bottom" class="feed-select">
-  <div attr.tooltipItem="{{ userProfile.media_count | shortNumber }} {{ 'PAGE_USER.TABS.POSTS' | translate }}"
+  <div attr.tooltipItem="{{ store.state.userPage.media_count | shortNumber }} {{ 'PAGE_USER.TABS.POSTS' | translate }}"
     (click)="feedTimeline()" [class]="feedSelect == 'timeline' ? 'bg-slate-200' : ''">
     <img src="/assets/images/user-posts.svg">
     <p>{{ 'PAGE_USER.TABS.POSTS' | translate | uppercase }}</p>
   </div>
-  <div attr.tooltipItem="{{ userProfile.total_clips_count | shortNumber }} {{ 'PAGE_USER.TABS.CLIPS' | translate }}"
-    *ngIf="userProfile.total_clips_count" (click)="feedReels()" [class]="feedSelect == 'reels' ? 'bg-slate-200' : ''">
+  <div attr.tooltipItem="{{ store.state.userPage.total_clips_count | shortNumber }} {{ 'PAGE_USER.TABS.CLIPS' | translate }}"
+    *ngIf="store.state.userPage.total_clips_count" (click)="feedReels()" [class]="feedSelect == 'reels' ? 'bg-slate-200' : ''">
     <img src="/assets/images/user-reels.svg">
     <p>{{ 'PAGE_USER.TABS.REELS' | translate | uppercase }}</p>
   </div>
-  <div attr.tooltipItem="{{ userProfile.total_igtv_videos | shortNumber }} {{ 'PAGE_USER.TABS.IGTV' | translate }}"
-    *ngIf="userProfile.has_videos" (click)="feedVideo()" [class]="feedSelect == 'video' ? 'bg-slate-200' : ''">
+  <div attr.tooltipItem="{{ store.state.userPage.total_igtv_videos | shortNumber }} {{ 'PAGE_USER.TABS.IGTV' | translate }}"
+    *ngIf="store.state.userPage.has_videos" (click)="feedVideo()" [class]="feedSelect == 'video' ? 'bg-slate-200' : ''">
     <img src="/assets/images/user-videos.svg">
     <p>{{ 'PAGE_USER.TABS.VIDEOS' | translate | uppercase }}</p>
   </div>
-  <div attr.tooltipItem="{{ userProfile.usertags_count | shortNumber }} {{ 'PAGE_USER.TABS.POSTS' | translate }}"
-    *ngIf="userProfile.usertags_count" (click)="feedTagged()" [class]="feedSelect == 'tagged' ? 'bg-slate-200' : ''">
+  <div attr.tooltipItem="{{ store.state.userPage.usertags_count | shortNumber }} {{ 'PAGE_USER.TABS.POSTS' | translate }}"
+    *ngIf="store.state.userPage.usertags_count" (click)="feedTagged()" [class]="feedSelect == 'tagged' ? 'bg-slate-200' : ''">
     <img src="/assets/images/user-tagged.svg">
     <p>{{ 'PAGE_USER.TABS.TAGGED' | translate | uppercase }}</p>
   </div>
   <div attr.tooltipItem="{{ store.state.savedPosts.length }} {{ 'PAGE_USER.TABS.COLLECTIONS' | translate }}"
-    *ngIf="userProfile.has_saved_items" (click)="feedSaved()" [class]="feedSelect == 'saved' ? 'bg-slate-200' : ''">
+    *ngIf="store.state.userPage.has_saved_items" (click)="feedSaved()" [class]="feedSelect == 'saved' ? 'bg-slate-200' : ''">
     <img src="/assets/images/user-saved.svg">
     <p>{{ 'PAGE_USER.TABS.SAVED' | translate | uppercase }}</p>
   </div>

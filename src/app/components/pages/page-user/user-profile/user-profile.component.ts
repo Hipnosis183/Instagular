@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FeedService } from 'src/app/services/feed.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
 import { StoreService } from 'src/app/services/store.service';
@@ -17,48 +17,46 @@ export class UserProfileComponent {
     public store: StoreService,
   ) { }
 
-  @Input() userProfile: any;
-
   followUser(): void {
-    this.userProfile.friendship.following = true;
-    this.friendship.follow(this.userProfile.pk);
+    this.store.state.userPage.friendship.following = true;
+    this.friendship.follow(this.store.state.userPage.pk);
   }
 
   unfollowUser(): void {
-    this.userProfile.friendship.following = false;
-    this.friendship.unfollow(this.userProfile.pk);
+    this.store.state.userPage.friendship.following = false;
+    this.friendship.unfollow(this.store.state.userPage.pk);
   }
 
   addBestie(): void {
-    this.userProfile.friendship.is_bestie = true;
-    this.friendship.setBesties([this.userProfile.pk], []);
+    this.store.state.userPage.friendship.is_bestie = true;
+    this.friendship.setBesties([this.store.state.userPage.pk], []);
   }
 
   removeBestie(): void {
-    this.userProfile.friendship.is_bestie = false;
-    this.friendship.setBesties([], [this.userProfile.pk]);
+    this.store.state.userPage.friendship.is_bestie = false;
+    this.friendship.setBesties([], [this.store.state.userPage.pk]);
   }
 
   addFavorite(): void {
-    this.userProfile.friendship.is_feed_favorite = true;
-    this.friendship.updateFeedFavorites([this.userProfile.pk], []);
+    this.store.state.userPage.friendship.is_feed_favorite = true;
+    this.friendship.updateFeedFavorites([this.store.state.userPage.pk], []);
   }
 
   removeFavorite(): void {
-    this.userProfile.friendship.is_feed_favorite = false;
-    this.friendship.updateFeedFavorites([], [this.userProfile.pk]);
+    this.store.state.userPage.friendship.is_feed_favorite = false;
+    this.friendship.updateFeedFavorites([], [this.store.state.userPage.pk]);
   }
 
   removeFollower: boolean = false;
 
   _removeFollower(): void {
-    this.userProfile.friendship.followed_by = false;
-    this.friendship.removeFollower(this.userProfile.pk);
+    this.store.state.userPage.friendship.followed_by = false;
+    this.friendship.removeFollower(this.store.state.userPage.pk);
     this.removeFollower = false;
   }
 
   __removeFollower(): void {
-    this.userProfile.follower_count--;
+    this.store.state.userPage.follower_count--;
   }
 
   userFollowers: any[] = [];
@@ -74,7 +72,7 @@ export class UserProfileComponent {
   }
 
   __loadFollowers(): void {
-    this.feed.followers(this.userProfile.pk).then((data) => {
+    this.feed.followers(this.store.state.userPage.pk).then((data) => {
       this.userFollowers = this.userFollowers.concat(data.followers);
     });
   }
@@ -92,7 +90,7 @@ export class UserProfileComponent {
   }
 
   __loadFollowing(): void {
-    this.feed.following(this.userProfile.pk).then((data) => {
+    this.feed.following(this.store.state.userPage.pk).then((data) => {
       this.userFollowing = this.userFollowing.concat(data.following);
     });
   }
@@ -100,7 +98,7 @@ export class UserProfileComponent {
   loadStories: boolean = false;
 
   openStories(): void {
-    if (this.userProfile.reels) {
+    if (this.store.state.userPage.reels) {
       this.loadStories = true;
     }
   }

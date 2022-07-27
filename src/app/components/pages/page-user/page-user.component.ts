@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { HighlightsService } from 'src/app/services/highlights.service';
+import { StoreService } from 'src/app/services/store.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -16,19 +17,19 @@ export class PageUserComponent {
   constructor(
     private highlights: HighlightsService,
     private route: ActivatedRoute,
+    public store: StoreService,
     private title: Title,
     private translate: TranslateService,
     private user: UserService,
   ) { }
 
-  userProfile: any = null;
   userStories: any[] = [];
   userNotFound: boolean = false;
 
   async loadProfile(): Promise<void> {
     try {
       await this.user.profile(this.route.snapshot.paramMap.get('id')).then((data) => {
-        this.userProfile = data;
+        this.store.state.userPage = data;
         this.title.setTitle(`${data.full_name ? data.full_name : data.username} (@${data.username})`);
       });
     } catch {
@@ -39,7 +40,7 @@ export class PageUserComponent {
 
   async loadStories(): Promise<void> {
     if (!this.userNotFound) {
-      await this.highlights.tray(this.userProfile.pk).then((data) => {
+      await this.highlights.tray(this.store.state.userPage.pk).then((data) => {
         this.userStories = this.userStories.concat(data);
       });
     }
@@ -53,6 +54,7 @@ export class PageUserComponent {
     localStorage.removeItem('collection');
     localStorage.removeItem('followers');
     localStorage.removeItem('following');
+    this.store.state.userPage = null;
     await this.loadProfile();
     await this.loadStories();
   }
