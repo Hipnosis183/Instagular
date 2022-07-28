@@ -22,7 +22,10 @@ export class UserProfileComponent {
     this.friendship.follow(this.store.state.userPage.pk);
   }
 
-  unfollowUser(): void {
+  unfollowUser: boolean = false;
+
+  _unfollowUser(): void {
+    this.unfollowUser = false;
     this.store.state.userPage.friendship.following = false;
     this.store.state.userPage.friendship.is_bestie = false;
     this.store.state.userPage.friendship.is_feed_favorite = false;

@@ -11,8 +11,8 @@ export class DialogComponent {
 
   constructor(private translate: TranslateService) { }
 
-  @Input() title: string = '';
-  @Input() subtitle: string = '';
+  @Input() title: any = null;
+  @Input() subtitle: any = null;
   @Input() buttonText: string = this.translate.instant('GENERAL.OK');
   @Input() buttonTheme: string = 'blue';
 

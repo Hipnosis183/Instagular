@@ -85,7 +85,7 @@
     "OPTIONS": {
       "BESTIES": "{{ action }} close friends list",
       "FAVORITE": "{{ action }} favorites",
-      "FOLLOW": "{{ action }} {{ user }}",
+      "FOLLOW": "{{ action }} @{{ user }}",
       "FOLLOWER_REMOVE": "Remove follower"
     },
     "PRIVATE": {
@@ -94,7 +94,7 @@
     },
     "REMOVE_FOLLOWER": {
       "TITLE": "Remove Follower?",
-      "SUB": "Instagram won't tell {{ user }} they were removed from your followers."
+      "SUB": "Instagram won't tell @{{ user }} they were removed from your followers."
     },
     "TABS": {
       "CLIPS": "Clips",
@@ -106,7 +106,10 @@
       "TAGGED": "Tagged",
       "VIDEOS": "Videos"
     },
-    "UNFOLLOW": "Unfollow"
+    "UNFOLLOW": {
+      "TITLE": "Unfollow",
+      "SUB": "Unfollow @{{ user }}?"
+    }
   },
   "SEARCH": {
     "CLEAR": "Clear",
@@ -159,7 +162,7 @@
       "SUB": "Are you sure you want to pin this post? You can only pin up to three posts to your profile. Pinning this post will replace your oldest pinned post."
     },
     "REPLY": "Reply",
-    "REPLY_TO": "Reply to {{ user }}",
+    "REPLY_TO": "Reply to @{{ user }}",
     "UNPIN": "Unpin",
     "VIEW_REPLIES": "{{ state }} replies",
     "VIDEO_BLOCKED": {

@@ -87,7 +87,7 @@
     "OPTIONS": {
       "BESTIES": "{{ action }} la lista de mejores amigos",
       "FAVORITE": "{{ action }} favoritos",
-      "FOLLOW": "{{ action }} a {{ user }}",
+      "FOLLOW": "{{ action }} a @{{ user }}",
       "FOLLOWER_REMOVE": "Eliminar seguidor"
     },
     "PRIVATE": {
@@ -96,7 +96,7 @@
     },
     "REMOVE_FOLLOWER": {
       "TITLE": "¿Eliminar Seguidor?",
-      "SUB": "Instagram no le avisará a {{ user }} que ya no forma parte de tus seguidores."
+      "SUB": "Instagram no le avisará a @{{ user }} que ya no forma parte de tus seguidores."
     },
     "TABS": {
       "CLIPS": "Clips",
@@ -108,7 +108,10 @@
       "TAGGED": "Etiquetadas",
       "VIDEOS": "Videos"
     },
-    "UNFOLLOW": "Dejar de seguir"
+    "UNFOLLOW": {
+      "TITLE": "Dejar de seguir",
+      "SUB": "¿Dejar de seguir a @{{ user }}?"
+    }
   },
   "SEARCH": {
     "CLEAR": "Borrar",
@@ -161,7 +164,7 @@
       "SUB": "¿Seguro que quieres fijar esta publicación? Solo puedes fijar hasta tres publicaciones en tu perfil. Si fijas esta, reemplazará a la publicación fijada más antigua."
     },
     "REPLY": "Responder",
-    "REPLY_TO": "Responder a {{ user }}",
+    "REPLY_TO": "Responder a @{{ user }}",
     "UNPIN": "Desfijar",
     "VIEW_REPLIES": "{{ state }} respuestas",
     "VIDEO_BLOCKED": {

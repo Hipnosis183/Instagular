@@ -51,3 +51,9 @@
 .user-stats {
   @apply cursor-default flex space-x-4;
 }
+.user-unfollow {
+  @apply flex justify-center my-5 w-full;
+}
+.user-unfollow img-await {
+  @apply min-h-[100px] overflow-hidden rounded-full w-[100px];
+}

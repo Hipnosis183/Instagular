@@ -6,6 +6,12 @@
   [usersList]="userFollowers" (onClose)="loadFollowers = false" (onScroll)="__loadFollowers()" (onRemove)="__removeFollower()"></viewer-users>
 <viewer-users [hidden]="!loadFollowing" feedStorage="following" [usersTitle]="'PAGE_USER.FOLLOWING' | translate"
   [usersList]="userFollowing" (onClose)="loadFollowing = false" (onScroll)="__loadFollowing()"></viewer-users>
+<dialog *ngIf="unfollowUser" [subtitle]="'PAGE_USER.UNFOLLOW.SUB' | translate: { user: store.state.userPage.username }"
+  [buttonText]="'PAGE_USER.UNFOLLOW.TITLE' | translate" buttonTheme="red" (onOk)="_unfollowUser()" (onCancel)="unfollowUser = false">
+  <div class="user-unfollow">
+    <img-await [source]="store.state.userPage.hd_profile_pic_url_info.url"></img-await>
+  </div>
+</dialog>
 <div *ngIf="store.state.userPage" class="user-container">
   <div (click)="openStories()" class="user-stories" [ngClass]="[store.state.userPage.reels ? 'cursor-pointer' : 'border-none',
     store.state.userPage.reels ? store.state.userPage.reels.seen < store.state.userPage.reels.latest_reel_media ? store.state.userPage.reels.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200' : '']">
@@ -18,7 +24,7 @@
         <img *ngIf="store.state.userPage.is_verified" src="/assets/images/verified.svg" class="w-7">
       </div>
       <div *ngIf="store.state.userPage.username != store.state.userName" class="contents">
-        <button (click)="store.state.userPage.friendship.following ? unfollowUser() : followUser()"
+        <button (click)="store.state.userPage.friendship.following ? unfollowUser = true : followUser()"
           [class]="store.state.userPage.friendship.following ? store.state.userPage.friendship.is_bestie ? 'bestie' : store.state.userPage.friendship.is_feed_favorite ? 'favorite' : 'lite' : 'color'">
           {{ (store.state.userPage.friendship.following ? 'PAGE_USER.FOLLOWING' : store.state.userPage.friendship.followed_by ? 'PAGE_USER.FOLLOW_BACK' : 'PAGE_USER.FOLLOW') | translate }}
         </button>

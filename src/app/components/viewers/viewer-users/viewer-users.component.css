@@ -62,6 +62,12 @@
 .options-text {
   @apply flex flex-col overflow-hidden;
 }
+.options-unfollow {
+  @apply flex justify-center my-5 w-full;
+}
+.options-unfollow img-await {
+  @apply min-h-[100px] overflow-hidden rounded-full w-[100px];
+}
 
 .text-main {
   @apply text-lg text-slate-800;

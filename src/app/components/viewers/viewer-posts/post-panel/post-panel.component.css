@@ -76,6 +76,12 @@
   @apply flex flex-col items-center w-full;
   height: calc(100% - 61px);
 }
+.panel-unfollow {
+  @apply flex justify-center my-5 w-full;
+}
+.panel-unfollow img-await {
+  @apply min-h-[100px] overflow-hidden rounded-full w-[100px];
+}
 .panel-user {
   @apply bg-slate-50 flex flex-col items-center p-6 w-full;
 }

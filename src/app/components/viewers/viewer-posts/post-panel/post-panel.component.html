@@ -2,6 +2,12 @@
   [buttonText]="'GENERAL.CONFIRM' | translate" (onOk)="_postPin()" (onCancel)="postPin = false"></dialog>
 <create-collection *ngIf="collectionCreate" [fromPost]="feedPost.id" (onCreate)="_collectionCreate($event)"
   (onClose)="collectionCreate = false"></create-collection>
+<dialog *ngIf="unfollowUser" [subtitle]="'PAGE_USER.UNFOLLOW.SUB' | translate: { user: feedPost.user.username }"
+  [buttonText]="'PAGE_USER.UNFOLLOW.TITLE' | translate" buttonTheme="red" (onOk)="_unfollowUser()" (onCancel)="unfollowUser = false">
+  <div class="panel-unfollow">
+    <img-await [source]="feedPost.user.profile_pic_url"></img-await>
+  </div>
+</dialog>
 <div class="panel-container">
   <post-comments #postComments [feedPost]="feedPost"></post-comments>
   <div class="panel-post">
@@ -14,9 +20,9 @@
         <img src="/assets/images/download.svg">
         <p>{{ 'GENERAL.DOWNLOAD' | translate }}</p>
       </span>
-      <span *ngIf="feedPost.user.pk != store.state.userPk" (click)="feedPost.user.friendship_status.following ? unfollowUser() : followUser()">
+      <span *ngIf="feedPost.user.pk != store.state.userPk" (click)="feedPost.user.friendship_status.following ? unfollowUser = true : followUser()">
         <img src="/assets/images/profile.svg">
-        <p>{{ 'PAGE_USER.OPTIONS.FOLLOW' | translate: { action: (feedPost.user.friendship_status.following ? 'PAGE_USER.UNFOLLOW' : 'PAGE_USER.FOLLOW') | translate, user: feedPost.user.username } }}</p>
+        <p>{{ 'PAGE_USER.OPTIONS.FOLLOW' | translate: { action: (feedPost.user.friendship_status.following ? 'PAGE_USER.UNFOLLOW.TITLE' : 'PAGE_USER.FOLLOW') | translate, user: feedPost.user.username } }}</p>
       </span>
       <span *ngIf="feedPost.user.friendship_status.following" (click)="feedPost.user.friendship_status.is_bestie ? removeBestie() : addBestie()">
         <img [src]="'/assets/images/' + (feedPost.user.friendship_status.is_bestie ? 'star-besties.svg' : 'star.svg')">
