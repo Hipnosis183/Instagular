@@ -14,6 +14,18 @@
         <img src="/assets/images/download.svg">
         <p>{{ 'GENERAL.DOWNLOAD' | translate }}</p>
       </span>
+      <span *ngIf="feedPost.user.pk != store.state.userPk" (click)="feedPost.user.friendship_status.following ? unfollowUser() : followUser()">
+        <img src="/assets/images/profile.svg">
+        <p>{{ 'PAGE_USER.OPTIONS.FOLLOW' | translate: { action: (feedPost.user.friendship_status.following ? 'PAGE_USER.UNFOLLOW' : 'PAGE_USER.FOLLOW') | translate, user: feedPost.user.username } }}</p>
+      </span>
+      <span *ngIf="feedPost.user.friendship_status.following" (click)="feedPost.user.friendship_status.is_bestie ? removeBestie() : addBestie()">
+        <img [src]="'/assets/images/' + (feedPost.user.friendship_status.is_bestie ? 'star-besties.svg' : 'star.svg')">
+        <p>{{ 'PAGE_USER.OPTIONS.BESTIES' | translate: { action: (feedPost.user.friendship_status.is_bestie ? 'GENERAL.REMOVE_FROM' : 'GENERAL.ADD_TO') | translate } }}</p>
+      </span>
+      <span *ngIf="feedPost.user.friendship_status.following" (click)="feedPost.user.friendship_status.is_feed_favorite ? removeFavorite() : addFavorite()">
+        <img [src]="'/assets/images/' + (feedPost.user.friendship_status.is_feed_favorite ? 'star-favorite.svg' : 'star.svg')">
+        <p>{{ 'PAGE_USER.OPTIONS.FAVORITE' | translate: { action: (feedPost.user.friendship_status.is_feed_favorite ? 'GENERAL.REMOVE_FROM' : 'GENERAL.ADD_TO') | translate } }}</p>
+      </span>
       <span *ngIf="feedPost.user.pk == store.state.userPk" (click)="feedPost.timeline_pinned_user_ids ? postUnpin() : _postPin()">
         <img src="/assets/images/pin.svg">
         <p>{{ 'VIEWER_POSTS.OPTIONS.PIN_PROFILE' | translate: { action: (feedPost.timeline_pinned_user_ids ? 'VIEWER_POSTS.UNPIN' : 'VIEWER_POSTS.PIN') | translate } }}</p>

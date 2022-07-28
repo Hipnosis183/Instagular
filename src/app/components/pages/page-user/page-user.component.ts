@@ -60,6 +60,7 @@ export class PageUserComponent {
   }
 
   ngOnDestroy(): void {
+    this.store.state.userPage = null;
     this.title.setTitle(this.translate.instant('GENERAL.INSTAGULAR'));
   }
 }

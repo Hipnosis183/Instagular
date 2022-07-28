@@ -87,6 +87,7 @@
     "OPTIONS": {
       "BESTIES": "{{ action }} la lista de mejores amigos",
       "FAVORITE": "{{ action }} favoritos",
+      "FOLLOW": "{{ action }} a {{ user }}",
       "FOLLOWER_REMOVE": "Eliminar seguidor"
     },
     "PRIVATE": {
@@ -106,7 +107,8 @@
       "SAVED": "Guardado",
       "TAGGED": "Etiquetadas",
       "VIDEOS": "Videos"
-    }
+    },
+    "UNFOLLOW": "Dejar de seguir"
   },
   "SEARCH": {
     "CLEAR": "Borrar",

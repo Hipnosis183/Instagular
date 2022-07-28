@@ -13,8 +13,12 @@ export class ViewerPostsComponent {
   @Output() onClose = new EventEmitter();
   @Output() onNextPost = new EventEmitter();
   @Output() onPrevPost = new EventEmitter();
+
   @Output() onPin = new EventEmitter();
   @Output() onUnpin = new EventEmitter();
+  @Output() onFollow = new EventEmitter();
+  @Output() onBesties = new EventEmitter();
+  @Output() onFavorite = new EventEmitter();
 
   carouselIndex = 0;
   expandedPanel: boolean = true;

@@ -75,6 +75,30 @@ export class MediaFeedComponent {
     this.pinStateUpdate();
   }
 
+  followUpdate(user: { id: number, state: boolean }): void {
+    for (let i = 0; i < this.feedPosts.length; i++) {
+      if (this.feedPosts[i].user.pk == user.id) {
+        this.feedPosts[i].user.friendship_status.following = user.state;
+      }
+    }
+  }
+
+  bestiesUpdate(user: { id: number, state: boolean }): void {
+    for (let i = 0; i < this.feedPosts.length; i++) {
+      if (this.feedPosts[i].user.pk == user.id) {
+        this.feedPosts[i].user.friendship_status.is_bestie = user.state;
+      }
+    }
+  }
+
+  favoriteUpdate(user: { id: number, state: boolean }): void {
+    for (let i = 0; i < this.feedPosts.length; i++) {
+      if (this.feedPosts[i].user.pk == user.id) {
+        this.feedPosts[i].user.friendship_status.is_feed_favorite = user.state;
+      }
+    }
+  }
+
   hideIntersect: boolean = true;
   stopIntersect: boolean = false;
   @Output() onScroll = new EventEmitter();

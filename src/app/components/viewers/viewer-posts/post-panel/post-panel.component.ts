@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { CommentService } from 'src/app/services/comment.service';
+import { FriendshipService } from 'src/app/services/friendship.service';
 import { MediaService } from 'src/app/services/media.service';
 import { StoreService } from 'src/app/services/store.service';
 import { UserService } from 'src/app/services/user.service';
@@ -14,6 +15,7 @@ export class PostPanelComponent {
 
   constructor(
     private comment: CommentService,
+    private friendship: FriendshipService,
     private media: MediaService,
     public store: StoreService,
     private user: UserService,
@@ -91,7 +93,67 @@ export class PostPanelComponent {
     this.feedPost = this.comment.commentsDisable(this.feedPost);
   }
 
+  @Output() onFollow = new EventEmitter();
+  @Output() onBesties = new EventEmitter();
+  @Output() onFavorite = new EventEmitter();
+
+  followUser(): void {
+    this.feedPost.user.friendship_status.following = true;
+    this.friendship.follow(this.feedPost.user.pk);
+    if (this.store.state.userPage) {
+      this.store.state.userPage.friendship.following = true;
+    } else { this.onFollow.emit({ id: this.feedPost.user.pk, state: true }); }
+  }
+
+  unfollowUser(): void {
+    this.feedPost.user.friendship_status.following = false;
+    this.friendship.unfollow(this.feedPost.user.pk);
+    if (this.store.state.userPage) {
+      this.store.state.userPage.friendship.following = false;
+    } else { this.onFollow.emit({ id: this.feedPost.user.pk, state: false }); }
+  }
+
+  addBestie(): void {
+    this.feedPost.user.friendship_status.is_bestie = true;
+    this.friendship.setBesties([this.feedPost.user.pk], []);
+    if (this.store.state.userPage) {
+      this.store.state.userPage.friendship.is_bestie = true;
+    } else { this.onBesties.emit({ id: this.feedPost.user.pk, state: true }); }
+  }
+
+  removeBestie(): void {
+    this.feedPost.user.friendship_status.is_bestie = false;
+    this.friendship.setBesties([], [this.feedPost.user.pk]);
+    if (this.store.state.userPage) {
+      this.store.state.userPage.friendship.is_bestie = false;
+    } else { this.onBesties.emit({ id: this.feedPost.user.pk, state: false }); }
+  }
+
+  addFavorite(): void {
+    this.feedPost.user.friendship_status.is_feed_favorite = true;
+    this.friendship.updateFeedFavorites([this.feedPost.user.pk], []);
+    if (this.store.state.userPage) {
+      this.store.state.userPage.friendship.is_feed_favorite = true;
+    } else { this.onFavorite.emit({ id: this.feedPost.user.pk, state: true }); }
+  }
+
+  removeFavorite(): void {
+    this.feedPost.user.friendship_status.is_feed_favorite = false;
+    this.friendship.updateFeedFavorites([], [this.feedPost.user.pk]);
+    if (this.store.state.userPage) {
+      this.store.state.userPage.friendship.is_feed_favorite = false;
+    } else { this.onFavorite.emit({ id: this.feedPost.user.pk, state: false }); }
+  }
+
   downloadMedia(): void {
     window.open(this.feedPost.instagular.full[this.carouselIndex] + '&se=0&dl=1', '_blank');
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['feedPost']) {
+      if (!this.feedPost.user.friendship_status) {
+        this.feedPost.user.friendship_status = this.store.state.userPage.friendship;
+      }
+    }
   }
 }

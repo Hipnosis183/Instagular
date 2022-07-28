@@ -85,6 +85,7 @@
     "OPTIONS": {
       "BESTIES": "{{ action }} close friends list",
       "FAVORITE": "{{ action }} favorites",
+      "FOLLOW": "{{ action }} {{ user }}",
       "FOLLOWER_REMOVE": "Remove follower"
     },
     "PRIVATE": {
@@ -104,7 +105,8 @@
       "SAVED": "Saved",
       "TAGGED": "Tagged",
       "VIDEOS": "Videos"
-    }
+    },
+    "UNFOLLOW": "Unfollow"
   },
   "SEARCH": {
     "CLEAR": "Clear",
