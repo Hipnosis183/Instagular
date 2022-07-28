@@ -107,9 +107,13 @@ export class PostPanelComponent {
 
   unfollowUser(): void {
     this.feedPost.user.friendship_status.following = false;
+    this.feedPost.user.friendship_status.is_bestie = false;
+    this.feedPost.user.friendship_status.is_feed_favorite = false;
     this.friendship.unfollow(this.feedPost.user.pk);
     if (this.store.state.userPage) {
       this.store.state.userPage.friendship.following = false;
+      this.store.state.userPage.friendship.is_bestie = false;
+      this.store.state.userPage.friendship.is_feed_favorite = false;
     } else { this.onFollow.emit({ id: this.feedPost.user.pk, state: false }); }
   }
 

@@ -34,6 +34,8 @@ export class ViewerUsersComponent {
 
   unfollowUser(i: number): void {
     this.usersList[i].friendship.following = false;
+    this.usersList[i].friendship.is_bestie = false;
+    this.usersList[i].friendship.is_feed_favorite = false;
     this.friendship.unfollow(this.usersList[i].pk);
   }
 

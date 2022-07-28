@@ -24,6 +24,8 @@ export class UserProfileComponent {
 
   unfollowUser(): void {
     this.store.state.userPage.friendship.following = false;
+    this.store.state.userPage.friendship.is_bestie = false;
+    this.store.state.userPage.friendship.is_feed_favorite = false;
     this.friendship.unfollow(this.store.state.userPage.pk);
   }
 
