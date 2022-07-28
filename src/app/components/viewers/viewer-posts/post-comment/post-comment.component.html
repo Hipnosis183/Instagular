@@ -20,7 +20,7 @@
             <p>{{ 'VIEWER_POSTS.REPLY' | translate }}</p>
             <img src="/assets/images/reply.svg">
           </span>
-          <span *ngIf="(post == store.state.userPk) || (comment.user.pk == store.state.userPk)"
+          <span *ngIf="(post == store.state.userProfile.pk) || (comment.user.pk == store.state.userProfile.pk)"
             (click)="onDelete.emit({ pk: comment.pk, reply: comment.parent_comment_id })">
             <p>{{ 'GENERAL.DELETE' | translate }}</p>
             <img src="/assets/images/trash.svg">

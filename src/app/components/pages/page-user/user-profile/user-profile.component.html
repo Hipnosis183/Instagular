@@ -23,7 +23,7 @@
         <div class="text-main text-[32px]">{{ store.state.userPage.full_name ? store.state.userPage.full_name : store.state.userPage.username }}</div>
         <img *ngIf="store.state.userPage.is_verified" src="/assets/images/verified.svg" class="w-7">
       </div>
-      <div *ngIf="store.state.userPage.username != store.state.userName" class="contents">
+      <div *ngIf="store.state.userPage.username != store.state.userProfile.username" class="contents">
         <button (click)="store.state.userPage.friendship.following ? unfollowUser = true : followUser()"
           [class]="store.state.userPage.friendship.following ? store.state.userPage.friendship.is_bestie ? 'bestie' : store.state.userPage.friendship.is_feed_favorite ? 'favorite' : 'lite' : 'color'">
           {{ (store.state.userPage.friendship.following ? 'PAGE_USER.FOLLOWING' : store.state.userPage.friendship.followed_by ? 'PAGE_USER.FOLLOW_BACK' : 'PAGE_USER.FOLLOW') | translate }}
@@ -44,7 +44,7 @@
             <img [src]="'/assets/images/' + (store.state.userPage.friendship.is_feed_favorite ? 'star-favorite.svg' : 'star.svg')">
             <p>{{ 'PAGE_USER.OPTIONS.FAVORITE' | translate: { action: (store.state.userPage.friendship.is_feed_favorite ? 'GENERAL.REMOVE_FROM' : 'GENERAL.ADD_TO') | translate } }}</p>
           </span>
-          <span *ngIf="store.state.userPage.pk != store.state.userPk && store.state.userPage.friendship.followed_by" (click)="removeFollower = true">
+          <span *ngIf="store.state.userPage.pk != store.state.userProfile.pk && store.state.userPage.friendship.followed_by" (click)="removeFollower = true">
             <img src="/assets/images/profile-cross.svg">
             <p>{{ 'PAGE_USER.OPTIONS.FOLLOWER_REMOVE' | translate }}</p>
           </span>

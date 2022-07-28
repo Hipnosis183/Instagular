@@ -36,8 +36,7 @@ export class SidenavComponent {
   loadProfile(): void {
     this.user.profile().then((data: any) => {
       this.userProfile = data;
-      localStorage.setItem('userpk', data.pk);
-      localStorage.setItem('username', data.username);
+      localStorage.setItem('user', JSON.stringify(data));
       this.store.loadSaved();
     });
   }

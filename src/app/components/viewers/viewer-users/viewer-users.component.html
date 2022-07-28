@@ -17,14 +17,14 @@
           <div class="text-sub">@{{ user.username }}</div>
         </div>
       </div>
-      <div *ngIf="user.pk != store.state.userPk" class="options-icons">
+      <div *ngIf="user.pk != store.state.userProfile.pk" class="options-icons">
         <img *ngIf="user.friendship.is_feed_favorite" src="/assets/images/star-favorite.svg">
         <img *ngIf="!user.friendship.following && user.is_private" src="/assets/images/lock-bold.svg" class="h-[18px]">
         <button [class]="user.friendship.following ? user.friendship.is_bestie ? 'bestie' : user.friendship.is_feed_favorite ? 'favorite' : 'lite' : 'color'"
           (click)="user.friendship.following ? unfollowUser = { user: user.username, i: i, pic: user.profile_pic_url } : followUser(i)">
-          {{ (user.friendship.following ? 'PAGE_USER.FOLLOWING' : userName == store.state.userName ? 'PAGE_USER.FOLLOW_BACK' : 'PAGE_USER.FOLLOW') | translate }}
+          {{ (user.friendship.following ? 'PAGE_USER.FOLLOWING' : userName == store.state.userProfile.username ? 'PAGE_USER.FOLLOW_BACK' : 'PAGE_USER.FOLLOW') | translate }}
         </button>
-        <div *ngIf="userName == store.state.userName" class="options-more">
+        <div *ngIf="userName == store.state.userProfile.username" class="options-more">
           <img [dropdown]="moreOptions" [dropdownOffset]="[0, 16]" dropdownPlace="bottom" src="/assets/images/more.svg">
           <div #moreOptions class="w-max">
             <span *ngIf="user.friendship.following" (click)="user.friendship.is_bestie ? removeBestie(i) : addBestie(i)">

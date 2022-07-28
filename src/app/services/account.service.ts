@@ -20,8 +20,7 @@ export class AccountService {
       session: localStorage.getItem('state'),
     }).subscribe(() => {
       localStorage.removeItem('state');
-      localStorage.removeItem('userpk');
-      localStorage.removeItem('username');
+      localStorage.removeItem('user');
       window.location.assign('');
     });
   }

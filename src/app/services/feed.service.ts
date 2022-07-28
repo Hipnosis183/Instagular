@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import store from 'src/app/app.store';
 
 @Injectable({ providedIn: 'root' })
 
@@ -79,7 +80,7 @@ export class FeedService {
     return await lastValueFrom(
       this.http.post('/api/feed/saved', {
         feed: localStorage.getItem('saved'),
-        id: localStorage.getItem('userpk'),
+        id: store.userProfile.pk,
         session: localStorage.getItem('state'),
       })).then((data: any) => {
         localStorage.setItem('saved', data.feed);
