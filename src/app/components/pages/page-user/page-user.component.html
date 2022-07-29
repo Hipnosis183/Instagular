@@ -1,5 +1,6 @@
 <user-profile></user-profile>
 <div *ngIf="store.state.userPage">
+  <div *ngIf="userStories.length == 0" class="separator"></div>
   <div *ngIf="!store.state.userPage.is_private || (store.state.userPage.is_private && store.state.userPage.friendship.following); then allow; else block"></div>
   <ng-template #allow>
     <media-stories [feedStories]="userStories"></media-stories>

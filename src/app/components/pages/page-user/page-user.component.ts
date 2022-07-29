@@ -39,7 +39,7 @@ export class PageUserComponent {
   }
 
   async loadStories(): Promise<void> {
-    if (!this.userNotFound) {
+    if (!this.userNotFound && this.store.state.userPage.has_highlight_reels) {
       await this.highlights.tray(this.store.state.userPage.pk).then((data) => {
         this.userStories = this.userStories.concat(data);
       });
