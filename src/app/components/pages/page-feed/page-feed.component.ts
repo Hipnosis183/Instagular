@@ -38,6 +38,11 @@ export class PageFeedComponent {
     }
   }
 
+  async updateFeed(id: number): Promise<void> {
+    this.feedPosts = this.feedPosts.filter((v) => v.user.pk != id);
+    await this.reloadFeed('stories');
+  }
+
   async ngOnInit(): Promise<void> {
     await this.reloadFeed('all');
   }

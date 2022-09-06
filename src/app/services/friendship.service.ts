@@ -15,10 +15,11 @@ export class FriendshipService {
       })).then((data) => { return data; });
   }
 
-  follow(id: any): void {
-    this.http.post('/api/friendship/follow', {
-      id: id, session: localStorage.getItem('state'),
-    }).subscribe();
+  async follow(id: any): Promise<any> {
+    return await lastValueFrom(
+      this.http.post('/api/friendship/follow', {
+        id: id, session: localStorage.getItem('state'),
+      })).then((data) => { return data; });
   }
 
   removeFollower(id: any): void {
@@ -40,10 +41,11 @@ export class FriendshipService {
       })).then((data) => { return data; });
   }
 
-  unfollow(id: any): void {
-    this.http.post('/api/friendship/unfollow', {
-      id: id, session: localStorage.getItem('state'),
-    }).subscribe();
+  async unfollow(id: any): Promise<any> {
+    return await lastValueFrom(
+      this.http.post('/api/friendship/unfollow', {
+        id: id, session: localStorage.getItem('state'),
+      })).then((data) => { return data; });
   }
 
   updateFeedFavorites(add: any[], remove: any[]): void {

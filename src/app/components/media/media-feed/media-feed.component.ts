@@ -77,11 +77,14 @@ export class MediaFeedComponent {
   }
 
   followUpdate(user: { id: number, state: boolean }): void {
-    for (let i = 0; i < this.feedPosts.length; i++) {
-      if (this.feedPosts[i].user.pk == user.id) {
-        this.feedPosts[i].user.friendship_status.following = user.state;
+    let is_private = this.feedPosts.find((v) => v.user.pk == user.id).user.is_private;
+    if (!is_private) {
+      for (let i = 0; i < this.feedPosts.length; i++) {
+        if (this.feedPosts[i].user.pk == user.id) {
+          this.feedPosts[i].user.friendship_status.following = user.state;
+        }
       }
-    }
+    } else { this.onUpdate.emit(user.id); }
   }
 
   bestiesUpdate(user: { id: number, state: boolean }): void {
@@ -101,8 +104,7 @@ export class MediaFeedComponent {
   }
 
   blockUpdate(user: { id: number, state: boolean }): void {
-    this.feedPosts = this.feedPosts.filter((v) => v.user.pk != user.id);
-    this.onUpdate.emit();
+    this.onUpdate.emit(user.id);
   }
 
   hideIntersect: boolean = true;
