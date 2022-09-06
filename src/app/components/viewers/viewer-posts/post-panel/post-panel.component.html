@@ -23,7 +23,7 @@
         <p>{{ 'GENERAL.DOWNLOAD' | translate }}</p>
       </span>
       <span *ngIf="feedPost.user.pk != store.state.userProfile.pk" (click)="feedPost.user.friendship_status.following ? unfollowUser = true : followUser()">
-        <img src="/assets/images/profile.svg">
+        <img [src]="'/assets/images/' + (feedPost.user.friendship_status.following ? 'profile-fill.svg' : 'profile.svg')">
         <p>{{ 'PAGE_USER.OPTIONS.FOLLOW' | translate: { action: (feedPost.user.friendship_status.following ? 'PAGE_USER.UNFOLLOW.TITLE' : 'PAGE_USER.FOLLOW') | translate, user: feedPost.user.username } }}</p>
       </span>
       <span *ngIf="feedPost.user.friendship_status.following" (click)="feedPost.user.friendship_status.is_bestie ? removeBestie() : addBestie()">
@@ -35,15 +35,15 @@
         <p>{{ 'PAGE_USER.OPTIONS.FAVORITE' | translate: { action: (feedPost.user.friendship_status.is_feed_favorite ? 'GENERAL.REMOVE_FROM' : 'GENERAL.ADD_TO') | translate } }}</p>
       </span>
       <span *ngIf="feedPost.user.pk == store.state.userProfile.pk" (click)="feedPost.timeline_pinned_user_ids ? postUnpin() : _postPin()">
-        <img src="/assets/images/pin.svg">
+        <img [src]="'/assets/images/' + (feedPost.timeline_pinned_user_ids ? 'pin-fill.svg' : 'pin.svg')">
         <p>{{ 'VIEWER_POSTS.OPTIONS.PIN_PROFILE' | translate: { action: (feedPost.timeline_pinned_user_ids ? 'VIEWER_POSTS.UNPIN' : 'VIEWER_POSTS.PIN') | translate } }}</p>
       </span>
       <span *ngIf="feedPost.user.pk == store.state.userProfile.pk" (click)="feedPost.like_and_view_counts_disabled ? likesUnhide() : likesHide()">
-        <img src="/assets/images/like.svg">
+        <img [src]="'/assets/images/' + (feedPost.like_and_view_counts_disabled ? 'like.svg' : 'like-fill.svg')">
         <p>{{ 'VIEWER_POSTS.OPTIONS.VIEW_LIKES' | translate: { state: (feedPost.like_and_view_counts_disabled ? 'GENERAL.UNHIDE' : 'GENERAL.HIDE') | translate } }}</p>
       </span>
       <span *ngIf="feedPost.user.pk == store.state.userProfile.pk" (click)="feedPost.comments_disabled ? commentsEnable() : commentsDisable()">
-        <img src="/assets/images/visibility.svg">
+        <img [src]="'/assets/images/' + (feedPost.comments_disabled ? 'visibility-alt.svg' : 'visibility.svg')">
         <p>{{ 'VIEWER_POSTS.OPTIONS.VIEW_COMMENTS' | translate: { state: (feedPost.comments_disabled ? 'GENERAL.ENABLE' : 'GENERAL.DISABLE') | translate } }}</p>
       </span>
       <span *ngIf="feedPost.user.pk != store.state.userProfile.pk && !feedPost.user.friendship_status.blocking" (click)="blockUser = true">

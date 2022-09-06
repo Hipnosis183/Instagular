@@ -1,7 +1,7 @@
 <div class="post-header">
   <div class="post-stat">
     <p>{{ post.view_count | shortNumber }}</p>
-    <img src="/assets/images/play.svg">
+    <img src="/assets/images/card-play.svg">
   </div>
 </div>
 <div class="post-container">
@@ -12,7 +12,7 @@
         <p>{{ post.like_count | shortNumber }}</p>
       </div>
       <div *ngIf="!post.comments_disabled">
-        <img src="/assets/images/comment-fill.svg">
+        <img src="/assets/images/comment-fill-lite.svg">
         <p>{{ post.comment_count | shortNumber }}</p>
       </div>
     </div>

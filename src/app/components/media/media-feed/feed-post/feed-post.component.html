@@ -1,7 +1,7 @@
-<img *ngIf="post.timeline_pinned_user_ids" src="/assets/images/pin-lite.svg" class="post-pinned">
-<img *ngIf="post.media_type == 8" src="/assets/images/carousel.svg" class="post-type">
-<img *ngIf="(post.media_type == 2) && (post.product_type != 'clips')" src="/assets/images/play.svg" class="post-type">
-<img *ngIf="(post.media_type == 2) && (post.product_type == 'clips')" src="/assets/images/reels.svg" class="post-type">
+<img *ngIf="post.timeline_pinned_user_ids" src="/assets/images/card-pinned.svg" class="post-pinned">
+<img *ngIf="post.media_type == 8" src="/assets/images/card-carousel.svg" class="post-type">
+<img *ngIf="(post.media_type == 2) && (post.product_type != 'clips')" src="/assets/images/card-play.svg" class="post-type">
+<img *ngIf="(post.media_type == 2) && (post.product_type == 'clips')" src="/assets/images/card-reels.svg" class="post-type">
 <div class="post-container">
   <div *ngIf="!hideHeader" [routerLink]="['/' + post.user.username]" class="post-header">
     <img-await [source]="post.user.profile_pic_url" class="post-profile"></img-await>
@@ -15,7 +15,7 @@
         <p>{{ post.like_count | shortNumber }}</p>
       </div>
       <div *ngIf="!post.comments_disabled">
-        <img src="/assets/images/comment-fill.svg">
+        <img src="/assets/images/comment-fill-lite.svg">
         <p>{{ post.comment_count | shortNumber }}</p>
       </div>
     </div>

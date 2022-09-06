@@ -3,7 +3,7 @@
     [buttonText]="'SEARCH.CLEAR' | translate" (onOk)="searchBox._clearRecent()" (onCancel)="clearRecent = false"></dialog>
   <input [(ngModel)]="selectModel" [dropdown]="searchDialog" dropdownPlace="bottom" [placeholder]="'SEARCH.SEARCH' | translate"
     (click)="searchBox.loadRecent()" (input)="searchBox._updateValue()" />
-  <img src="/assets/images/search-lite.svg" class="search-icon">
+  <img src="/assets/images/search-light.svg" class="search-icon">
   <img *ngIf="selectModel" (click)="searchBox.clearValue()" src="/assets/images/close-circle.svg" class="search-clear">
   <div #searchDialog>
     <search-box (onClear)="selectModel = ''" (onClearAll)="clearRecent = !clearRecent"
@@ -19,7 +19,7 @@
   <div #searchDialog>
     <div class="search-s-bar">
       <input dropdownIgnore [(ngModel)]="selectModel" [placeholder]="'SEARCH.SEARCH' | translate" (input)="searchBox._updateValue()" />
-      <img dropdownIgnore src="/assets/images/search-lite.svg" class="search-s-icon">
+      <img dropdownIgnore src="/assets/images/search-light.svg" class="search-s-icon">
       <img dropdownIgnore *ngIf="selectModel" (click)="searchBox.clearValue()" src="/assets/images/close-circle.svg"
         class="search-s-clear">
     </div>

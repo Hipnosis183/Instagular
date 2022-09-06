@@ -1,7 +1,7 @@
 <div class="post-header">
   <div class="post-stat">
     <p>{{ post.node.video_view_count | shortNumber }}</p>
-    <img src="/assets/images/play.svg">
+    <img src="/assets/images/card-play.svg">
   </div>
 </div>
 <div class="post-container">
@@ -12,7 +12,7 @@
         <p>{{ post.node.edge_liked_by.count | shortNumber }}</p>
       </div>
       <div *ngIf="!post.node.comments_disabled">
-        <img src="/assets/images/comment-fill.svg">
+        <img src="/assets/images/comment-fill-lite.svg">
         <p>{{ post.node.edge_media_to_comment.count | shortNumber }}</p>
       </div>
     </div>
