@@ -39,6 +39,10 @@
               <img src="/assets/images/profile-cross.svg">
               <p>{{ 'PAGE_USER.OPTIONS.FOLLOWER_REMOVE' | translate }}</p>
             </span>
+            <span *ngIf="!user.friendship.blocking" (click)="blockUser = { user: user.username, i: i }">
+              <img src="/assets/images/block.svg">
+              <p>{{ 'PAGE_USER.OPTIONS.BLOCK' | translate: { action: 'PAGE_USER.BLOCK' | translate, user: user.username } }}</p>
+            </span>
           </div>
         </div>
       </div>
@@ -50,6 +54,8 @@
 </modal>
 <dialog *ngIf="feedStorage == 'followers' && removeFollower" [title]="'PAGE_USER.REMOVE_FOLLOWER.TITLE' | translate" [subtitle]="'PAGE_USER.REMOVE_FOLLOWER.SUB' | translate: { user: removeFollower.user }"
   [buttonText]="'GENERAL.REMOVE' | translate" buttonTheme="red" (onOk)="_removeFollower(removeFollower.i)" (onCancel)="removeFollower = null"></dialog>
+<dialog *ngIf="blockUser" [title]="'PAGE_USER.BLOCK_USER.TITLE' | translate: { user: blockUser.user }" [subtitle]="'PAGE_USER.BLOCK_USER.SUB' | translate"
+  [buttonText]="'PAGE_USER.BLOCK' | translate" buttonTheme="red" (onOk)="_blockUser(blockUser.i)" (onCancel)="blockUser = false"></dialog>
 <dialog *ngIf="unfollowUser" [subtitle]="'PAGE_USER.UNFOLLOW.SUB' | translate: { user: unfollowUser.user }" buttonTheme="red"
   [buttonText]="'PAGE_USER.UNFOLLOW.TITLE' | translate" (onOk)="_unfollowUser(unfollowUser.i)" (onCancel)="unfollowUser = null">
   <div class="options-unfollow">

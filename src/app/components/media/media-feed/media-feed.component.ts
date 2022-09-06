@@ -13,6 +13,7 @@ export class MediaFeedComponent {
   @Input() feedPosts: any[] = [];
   @Input() feedSaved: boolean = false;
   @Input() hideHeader: boolean = false;
+  @Output() onUpdate = new EventEmitter;
 
   openMedia(post: any): void {
     this.feedPost = post;
@@ -97,6 +98,11 @@ export class MediaFeedComponent {
         this.feedPosts[i].user.friendship_status.is_feed_favorite = user.state;
       }
     }
+  }
+
+  blockUpdate(user: { id: number, state: boolean }): void {
+    this.feedPosts = this.feedPosts.filter((v) => v.user.pk != user.id);
+    this.onUpdate.emit();
   }
 
   hideIntersect: boolean = true;

@@ -96,6 +96,8 @@ export class PostPanelComponent {
   @Output() onFollow = new EventEmitter();
   @Output() onBesties = new EventEmitter();
   @Output() onFavorite = new EventEmitter();
+  @Output() onBlock = new EventEmitter();
+  @Output() onClose = new EventEmitter();
 
   followUser(): void {
     this.feedPost.user.friendship_status.following = true;
@@ -150,6 +152,27 @@ export class PostPanelComponent {
     if (this.store.state.userPage) {
       this.store.state.userPage.friendship.is_feed_favorite = false;
     } else { this.onFavorite.emit({ id: this.feedPost.user.pk, state: false }); }
+  }
+
+  blockUser: boolean = false;
+
+  _blockUser(): void {
+    this.blockUser = false;
+    this.feedPost.user.friendship_status.blocking = true;
+    this.feedPost.user.friendship_status.following = false;
+    this.feedPost.user.friendship_status.is_bestie = false;
+    this.feedPost.user.friendship_status.is_feed_favorite = false;
+    this.friendship.block(this.feedPost.user.pk).then(() => {
+      if (this.store.state.userPage) {
+        this.store.state.userPage.follower_count = 0;
+        this.store.state.userPage.following_count = 0;
+        this.store.state.userPage.friendship.blocking = true;
+        this.store.state.userPage.friendship.following = false;
+        this.store.state.userPage.friendship.is_bestie = false;
+        this.store.state.userPage.friendship.is_feed_favorite = false;
+      } else { this.onBlock.emit({ id: this.feedPost.user.pk, state: true }); }
+      this.onClose.emit();
+    });
   }
 
   downloadMedia(): void {

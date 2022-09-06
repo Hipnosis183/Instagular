@@ -1,7 +1,7 @@
 <user-profile></user-profile>
 <div *ngIf="store.state.userPage">
-  <div *ngIf="userStories.length == 0" class="separator"></div>
-  <div *ngIf="!store.state.userPage.is_private || (store.state.userPage.is_private && store.state.userPage.friendship.following); then allow; else block"></div>
+  <div *ngIf="userStories.length == 0 || store.state.userPage.friendship.blocking" class="separator"></div>
+  <div *ngIf="(!store.state.userPage.is_private || (store.state.userPage.is_private && store.state.userPage.friendship.following)) && !store.state.userPage.friendship.blocking; then allow; else block"></div>
   <ng-template #allow>
     <media-stories [feedStories]="userStories"></media-stories>
     <user-feeds #userFeeds></user-feeds>
@@ -12,7 +12,12 @@
     </div>
   </ng-template>
   <ng-template #block>
-    <div class="error-private">
+    <div *ngIf="store.state.userPage.friendship.blocking" class="error-private">
+      <img src="/assets/images/block.svg">
+      <div class="text-main">{{ 'PAGE_USER.BLOCKED.TITLE' | translate }}</div>
+      <div class="text-sub">{{ 'PAGE_USER.BLOCKED.SUB' | translate }}</div>
+    </div>
+    <div *ngIf="!store.state.userPage.friendship.blocking" class="error-private">
       <img src="/assets/images/lock.svg">
       <div class="text-main">{{ 'PAGE_USER.PRIVATE.TITLE' | translate }}</div>
       <div class="text-sub">{{ 'PAGE_USER.PRIVATE.SUB' | translate }}</div>
@@ -20,7 +25,7 @@
   </ng-template>
 </div>
 <div *ngIf="userNotFound" class="error-notfound">
-  <img src="/assets/images/slash.svg">
+  <img src="/assets/images/block.svg">
   <div class="text-main">{{ 'PAGE_USER.NOT_FOUND.TITLE' | translate }}</div>
   <div class="text-sub">{{ 'PAGE_USER.NOT_FOUND.SUB' | translate }}</div>
 </div>

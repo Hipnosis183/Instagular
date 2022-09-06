@@ -72,6 +72,14 @@ export class ViewerUsersComponent {
     this.onRemove.emit();
   }
 
+  blockUser: any = null;
+
+  _blockUser(i: number): void {
+    this.friendship.block(this.usersList[i].pk);
+    this.usersList.splice(i, 1);
+    this.blockUser = null;
+  }
+
   hideIntersect: boolean = true;
   stopIntersect: boolean = false;
   @Output() onScroll = new EventEmitter();

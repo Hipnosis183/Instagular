@@ -40,9 +40,11 @@ router.post('/feed/video', feed.video);
 
 // Friendship route endpoints.
 const friendship = require('./friendship');
+router.post('/friendship/block', friendship.block);
 router.post('/friendship/follow', friendship.follow);
 router.post('/friendship/removeFollower', friendship.removeFollower);
 router.post('/friendship/setBesties', friendship.setBesties);
+router.post('/friendship/unblock', friendship.unblock);
 router.post('/friendship/unfollow', friendship.unfollow);
 router.post('/friendship/updateFeedFavorites', friendship.updateFeedFavorites);
 

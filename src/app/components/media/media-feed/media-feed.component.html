@@ -1,6 +1,7 @@
 <viewer-posts *ngIf="feedPost" [feedPost]="feedPost" [feedIndex]="feedIndex" (onClose)="feedPost = null"
   (onNextPost)="nextPost()" (onPrevPost)="prevPost()" (onPin)="pinUpdate($event)" (onUnpin)="unpinUpdate($event)"
-  (onFollow)="followUpdate($event)" (onBesties)="bestiesUpdate($event)" (onFavorite)="favoriteUpdate($event)"></viewer-posts>
+  (onFollow)="followUpdate($event)" (onBesties)="bestiesUpdate($event)" (onFavorite)="favoriteUpdate($event)"
+  (onBlock)="blockUpdate($event)"></viewer-posts>
 <div *ngIf="feedPosts" class="feed-container">
   <div class="feed-grid">
     <div *ngFor="let post of feedPosts" [hidden]="feedSaved && !post.has_viewer_saved" class="feed-post">

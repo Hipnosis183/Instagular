@@ -68,6 +68,15 @@
     "USERNAME": "Username"
   },
   "PAGE_USER": {
+    "BLOCK": "Block",
+    "BLOCK_USER": {
+      "TITLE": "Block @{{ user }}?",
+      "SUB": "They won't be able to find your profile, posts or story on Instagram. Instagram won't let them know you blocked them."
+    },
+    "BLOCKED": {
+      "TITLE": "This account is blocked",
+      "SUB": "Unblock to see their photos and videos."
+    },
     "FOLLOW": "Follow",
     "FOLLOW_BACK": "Follow Back",
     "FOLLOWED_BY": "Follows you",
@@ -84,6 +93,7 @@
     "NOT_FOUND_TITLE": "Page not found • Instagular",
     "OPTIONS": {
       "BESTIES": "{{ action }} close friends list",
+      "BLOCK": "{{ action }} @{{ user }}",
       "FAVORITE": "{{ action }} favorites",
       "FOLLOW": "{{ action }} @{{ user }}",
       "FOLLOWER_REMOVE": "Remove follower"
@@ -105,6 +115,11 @@
       "SAVED": "Saved",
       "TAGGED": "Tagged",
       "VIDEOS": "Videos"
+    },
+    "UNBLOCK": "Unblock",
+    "UNBLOCK_USER": {
+      "TITLE": "Unblock @{{ user }}?",
+      "SUB": "They will now be able to see your posts and follow you on Instagram. Instagram won't let them known you unblocked them."
     },
     "UNFOLLOW": {
       "TITLE": "Unfollow",

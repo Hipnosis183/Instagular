@@ -64,6 +64,27 @@ export class UserProfileComponent {
     this.store.state.userPage.follower_count--;
   }
 
+  blockUser: boolean = false;
+
+  _blockUser(): void {
+    this.blockUser = false;
+    this.store.state.userPage.follower_count = 0;
+    this.store.state.userPage.following_count = 0;
+    this.store.state.userPage.friendship.blocking = true;
+    this.store.state.userPage.friendship.following = false;
+    this.store.state.userPage.friendship.is_bestie = false;
+    this.store.state.userPage.friendship.is_feed_favorite = false;
+    this.friendship.block(this.store.state.userPage.pk);
+  }
+
+  unblockUser: boolean = false;
+
+  _unblockUser(): void {
+    this.unblockUser = false;
+    this.store.state.userPage.friendship.blocking = false;
+    this.friendship.unblock(this.store.state.userPage.pk);
+  }
+
   userFollowers: any[] = [];
   loadFollowers: boolean = false;
   loadedFollowers: boolean = false;

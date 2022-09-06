@@ -1,5 +1,9 @@
 <dialog *ngIf="removeFollower" [title]="'PAGE_USER.REMOVE_FOLLOWER.TITLE' | translate" [subtitle]="'PAGE_USER.REMOVE_FOLLOWER.SUB' | translate: { user: store.state.userPage.username }"
   [buttonText]="'GENERAL.REMOVE' | translate" buttonTheme="red" (onOk)="_removeFollower()" (onCancel)="removeFollower = false"></dialog>
+<dialog *ngIf="blockUser" [title]="'PAGE_USER.BLOCK_USER.TITLE' | translate: { user: store.state.userPage.username }" [subtitle]="'PAGE_USER.BLOCK_USER.SUB' | translate"
+  [buttonText]="'PAGE_USER.BLOCK' | translate" buttonTheme="red" (onOk)="_blockUser()" (onCancel)="blockUser = false"></dialog>
+<dialog *ngIf="unblockUser" [title]="'PAGE_USER.UNBLOCK_USER.TITLE' | translate: { user: store.state.userPage.username }" [subtitle]="'PAGE_USER.UNBLOCK_USER.SUB' | translate"
+  [buttonText]="'PAGE_USER.UNBLOCK' | translate" (onOk)="_unblockUser()" (onCancel)="unblockUser = false"></dialog>
 <viewer-stories *ngIf="loadStories" [feedStories]="[store.state.userPage.reels]" [seenStories]="store.state.userPage.friendship.following"
   [originIndex]="0" (onClose)="loadStories = false"></viewer-stories>
 <viewer-users [hidden]="!loadFollowers" feedStorage="followers" [usersTitle]="'PAGE_USER.FOLLOWERS' | translate"
@@ -24,9 +28,12 @@
         <img *ngIf="store.state.userPage.is_verified" src="/assets/images/verified.svg" class="w-7">
       </div>
       <div *ngIf="store.state.userPage.username != store.state.userProfile.username" class="contents">
-        <button (click)="store.state.userPage.friendship.following ? unfollowUser = true : followUser()"
+        <button *ngIf="!store.state.userPage.friendship.blocking" (click)="store.state.userPage.friendship.following ? unfollowUser = true : followUser()"
           [class]="store.state.userPage.friendship.following ? store.state.userPage.friendship.is_bestie ? 'bestie' : store.state.userPage.friendship.is_feed_favorite ? 'favorite' : 'lite' : 'color'">
           {{ (store.state.userPage.friendship.following ? 'PAGE_USER.FOLLOWING' : store.state.userPage.friendship.followed_by ? 'PAGE_USER.FOLLOW_BACK' : 'PAGE_USER.FOLLOW') | translate }}
+        </button>
+        <button *ngIf="store.state.userPage.friendship.blocking" (click)="unblockUser = true" class="color">
+          {{ 'PAGE_USER.UNBLOCK' | translate }}
         </button>
         <div *ngIf="store.state.userPage.friendship.followed_by" class="pl-4 user-stats">
           <div class="text-sub">•</div>
@@ -47,6 +54,10 @@
           <span *ngIf="store.state.userPage.pk != store.state.userProfile.pk && store.state.userPage.friendship.followed_by" (click)="removeFollower = true">
             <img src="/assets/images/profile-cross.svg">
             <p>{{ 'PAGE_USER.OPTIONS.FOLLOWER_REMOVE' | translate }}</p>
+          </span>
+          <span *ngIf="store.state.userPage.pk != store.state.userProfile.pk" (click)="store.state.userPage.friendship.blocking ? unblockUser = true : blockUser = true">
+            <img [src]="'/assets/images/' + (store.state.userPage.friendship.blocking ? 'block-alt.svg' : 'block.svg')">
+            <p>{{ 'PAGE_USER.OPTIONS.BLOCK' | translate: { action: (store.state.userPage.friendship.blocking ? 'PAGE_USER.UNBLOCK' : 'PAGE_USER.BLOCK') | translate, user: store.state.userPage.username } }}</p>
           </span>
         </div>
       </div>

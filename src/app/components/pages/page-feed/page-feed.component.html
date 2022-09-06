@@ -1,2 +1,2 @@
 <media-stories [feedStories]="feedStories" (onReload)="reloadFeed($event)"></media-stories>
-<media-feed [feedPosts]="feedPosts" (onScroll)="loadFeed()"></media-feed>
+<media-feed [feedPosts]="feedPosts" (onScroll)="loadFeed()" (onUpdate)="reloadFeed('stories')"></media-feed>

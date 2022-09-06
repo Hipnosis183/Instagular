@@ -70,6 +70,15 @@
     "USERNAME": "Nombre de Usuario"
   },
   "PAGE_USER": {
+    "BLOCK": "Bloquear",
+    "BLOCK_USER": {
+      "TITLE": "¿Bloquear a @{{ user }}?",
+      "SUB": "No podrá encontrar tu perfil, tus publicaciones ni tu historia en Instagram. Instagram no le avisará a esta persona que la bloqueaste."
+    },
+    "BLOCKED": {
+      "TITLE": "Esta cuenta está bloqueada",
+      "SUB": "Desbloqueala para ver sus fotos y videos."
+    },
     "FOLLOW": "Seguir",
     "FOLLOW_BACK": "Seguir También",
     "FOLLOWED_BY": "Te Sigue",
@@ -86,6 +95,7 @@
     "NOT_FOUND_TITLE": "Página no encontrada • Instagular",
     "OPTIONS": {
       "BESTIES": "{{ action }} la lista de mejores amigos",
+      "BLOCK": "{{ action }} a @{{ user }}",
       "FAVORITE": "{{ action }} favoritos",
       "FOLLOW": "{{ action }} a @{{ user }}",
       "FOLLOWER_REMOVE": "Eliminar seguidor"
@@ -107,6 +117,11 @@
       "SAVED": "Guardado",
       "TAGGED": "Etiquetadas",
       "VIDEOS": "Videos"
+    },
+    "UNBLOCK": "Desbloquear",
+    "UNBLOCK_USER": {
+      "TITLE": "¿Desbloquear a @{{ user }}?",
+      "SUB": "Ahora podrá ver tus publicaciones y seguirte en Instagram. Instagram no le avisará a esta persona que la desbloqueaste."
     },
     "UNFOLLOW": {
       "TITLE": "Dejar de seguir",
