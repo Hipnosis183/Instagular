@@ -37,6 +37,9 @@
     "UPDATE": "Actualizar",
     "VIEW": "Ver"
   },
+  "MEDIA_FEED": {
+    "END": "Llegaste al final del feed"
+  },
   "MEDIA_SAVED": {
     "COLLECTION": {
       "ADD": "Añadir a Colección",

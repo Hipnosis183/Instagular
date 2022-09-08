@@ -8,4 +8,5 @@
   </div>
   <div infiniteScroll (onIntersect)="onIntersection()" [stopIntersect]="stopIntersect"
     [class]="hideIntersect ? 'hidden' : 'block'" class="h-px w-px"></div>
+  <media-footer *ngIf="feedPosts.length > 0 && stopIntersect"></media-footer>
 </div>

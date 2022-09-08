@@ -1,0 +1,3 @@
+.footer-container {
+  @apply border-t border-t-slate-200 cursor-default flex font-light justify-center mt-6 pt-5 text-slate-400 w-full;
+}

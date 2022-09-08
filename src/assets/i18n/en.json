@@ -35,6 +35,9 @@
     "UPDATE": "Update",
     "VIEW": "View"
   },
+  "MEDIA_FEED": {
+    "END": "You reached the end of the feed"
+  },
   "MEDIA_SAVED": {
     "COLLECTION": {
       "ADD": "Add to Collection",
