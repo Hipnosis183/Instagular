@@ -1,4 +1,4 @@
-<div [class]="intersecting ? 'top-0' : '-top-16'" class="bar-container">
+<div class="bar-container" [ngClass]="[intersecting ? 'top-0' : '-top-16', store.state.expandedSidenav ? 'w-[calc(100%-384px)]' : 'w-[calc(100%-164px)]']">
   <div class="bar-contents">
     <div class="bar-profile">
       <img-await [source]="store.state.userPage.profile_pic_url"></img-await>

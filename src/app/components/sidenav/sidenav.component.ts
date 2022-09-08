@@ -20,7 +20,8 @@ export class SidenavComponent {
   expandedSidenav: boolean = true;
 
   expandSidenav(): void {
-    this.expandedSidenav = !this.expandedSidenav
+    this.expandedSidenav = !this.expandedSidenav;
+    this.store.state.expandedSidenav = this.expandedSidenav;
     localStorage.setItem('expanded', this.expandedSidenav.toString());
   }
 
