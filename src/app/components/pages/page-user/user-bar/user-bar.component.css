@@ -1,0 +1,33 @@
+.bar-arrow {
+  @apply cursor-pointer opacity-50 hover:opacity-100;
+  transition: opacity 0.2s ease-in-out;
+}
+.bar-container {
+  @apply border-b border-b-slate-200 bg-slate-50 fixed flex h-16 items-center justify-between pl-4 w-[calc(100%-164px)] z-10;
+  transition: top 0.2s ease-in-out;
+}
+.bar-contents {
+  @apply cursor-default flex space-x-6;
+}
+.bar-profile {
+  @apply border-r border-r-slate-200 flex items-center pr-6 space-x-4;
+}
+.bar-profile > div {
+  @apply flex items-center space-x-4;
+}
+.bar-profile > img-await {
+  @apply h-10 overflow-hidden rounded-full w-10;
+}
+.bar-stats {
+  @apply flex space-x-4;
+}
+.bar-stats > div {
+  @apply flex items-center space-x-2;
+}
+
+.text-main {
+  @apply font-light text-slate-800;
+}
+.text-sub {
+  @apply font-light text-slate-600;
+}

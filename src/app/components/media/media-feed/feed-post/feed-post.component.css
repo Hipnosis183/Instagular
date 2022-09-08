@@ -3,7 +3,7 @@
   transition: opacity 0.2s;
 }
 .post-footer {
-  @apply absolute bottom-0 flex items-end justify-between p-3 pointer-events-none w-full z-10;
+  @apply absolute bottom-0 flex items-end justify-between p-3 pointer-events-none w-full z-[2];
 }
 .post-footer img {
   @apply h-6 w-6;
@@ -19,7 +19,7 @@
   filter: brightness(0.5);
 }
 .post-header {
-  @apply absolute flex m-3 space-x-3 z-10;
+  @apply absolute flex m-3 space-x-3 z-[2];
 }
 .post-header p {
   @apply flex font-medium items-center text-lg text-white;

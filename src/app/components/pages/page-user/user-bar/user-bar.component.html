@@ -1,0 +1,29 @@
+<div [class]="intersecting ? 'top-0' : '-top-16'" class="bar-container">
+  <div class="bar-contents">
+    <div class="bar-profile">
+      <img-await [source]="store.state.userPage.profile_pic_url"></img-await>
+      <div>
+        <div>
+          <p class="text-main">{{ store.state.userPage.full_name ? store.state.userPage.full_name : store.state.userPage.username }}</p>
+          <p class="-mt-1 text-sub">@{{ store.state.userPage.username }}</p>
+        </div>
+        <img *ngIf="store.state.userPage.is_verified" src="/assets/images/verified.svg">
+      </div>
+    </div>
+    <div class="bar-stats">
+      <div>
+        <div class="text-main">{{ store.state.userPage.media_count | shortNumber }}</div>
+        <div class="text-sub">{{ 'PAGE_USER.TABS.POSTS' | translate }}</div>
+      </div>
+      <div>
+        <div class="text-main">{{ store.state.userPage.follower_count | shortNumber }}</div>
+        <div class="text-sub">{{ 'PAGE_USER.FOLLOWERS' | translate }}</div>
+      </div>
+      <div>
+        <div class="text-main">{{ store.state.userPage.following_count | shortNumber }}</div>
+        <div class="text-sub">{{ 'PAGE_USER.FOLLOWING' | translate }}</div>
+      </div>
+    </div>
+  </div>
+  <img (click)="scrollToTop()" [tooltip]="'PAGE_USER.TOP' | translate" src="/assets/images/arrow.svg" class="bar-arrow">
+</div>

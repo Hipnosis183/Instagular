@@ -1,5 +1,5 @@
 .page-container {
-  @apply relative overflow-y-auto w-full;
+  @apply relative overflow-y-auto scroll-smooth w-full;
 }
 .page-content {
   @apply absolute bottom-0 left-0 m-6 max-h-full right-0 top-0;

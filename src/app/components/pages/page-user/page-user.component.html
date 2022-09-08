@@ -1,8 +1,10 @@
 <user-profile></user-profile>
+<div #sentinel class="h-px w-px"></div>
 <div *ngIf="store.state.userPage">
   <div *ngIf="userStories.length == 0 || store.state.userPage.friendship.blocking" class="separator"></div>
   <div *ngIf="(!store.state.userPage.is_private || (store.state.userPage.is_private && store.state.userPage.friendship.following)) && !store.state.userPage.friendship.blocking; then allow; else block"></div>
   <ng-template #allow>
+    <user-bar [sentinel]="sentinel"></user-bar>
     <media-stories [feedStories]="userStories"></media-stories>
     <user-feeds #userFeeds></user-feeds>
     <div *ngIf="!store.state.userPage.media_count && userFeeds.feedSelect != 'saved'" class="error-noposts">

@@ -116,6 +116,7 @@
       "TAGGED": "Tagged",
       "VIDEOS": "Videos"
     },
+    "TOP": "Back to Top",
     "UNBLOCK": "Unblock",
     "UNBLOCK_USER": {
       "TITLE": "Unblock @{{ user }}?",

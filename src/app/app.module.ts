@@ -23,6 +23,7 @@ import { VideoPostComponent } from './components/media/media-video/video-post/vi
 import { PageFeedComponent } from './components/pages/page-feed/page-feed.component';
 import { PageLoginComponent } from './components/pages/page-login/page-login.component';
 import { PageUserComponent } from './components/pages/page-user/page-user.component';
+import { UserBarComponent } from './components/pages/page-user/user-bar/user-bar.component';
 import { UserFeedsComponent } from './components/pages/page-user/user-feeds/user-feeds.component';
 import { UserProfileComponent } from './components/pages/page-user/user-profile/user-profile.component';
 import { SearchComponent } from './components/search/search.component';
@@ -92,6 +93,7 @@ function appInitializerFactory(translate: TranslateService) {
     PageFeedComponent,
     PageLoginComponent,
     PageUserComponent,
+    UserBarComponent,
     UserFeedsComponent,
     UserProfileComponent,
     SearchComponent,

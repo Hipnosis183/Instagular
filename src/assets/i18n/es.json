@@ -118,6 +118,7 @@
       "TAGGED": "Etiquetadas",
       "VIDEOS": "Videos"
     },
+    "TOP": "Volver Arriba",
     "UNBLOCK": "Desbloquear",
     "UNBLOCK_USER": {
       "TITLE": "¿Desbloquear a @{{ user }}?",
