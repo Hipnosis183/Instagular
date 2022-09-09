@@ -29,6 +29,17 @@ export class FeedService {
       })).then((data) => { return data; });
   }
 
+  async followersMutual(id: any): Promise<any> {
+    return await lastValueFrom(
+      this.http.post('/api/feed/followers_mutual', {
+        id: id, feed: localStorage.getItem('mutuals'),
+        session: localStorage.getItem('state'),
+      })).then((data: any) => {
+        localStorage.setItem('mutuals', data.feed);
+        return data;
+      });
+  }
+
   async followers(id: any): Promise<any> {
     return await lastValueFrom(
       this.http.post('/api/feed/followers', {

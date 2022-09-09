@@ -39,6 +39,15 @@
 .user-more img {
   @apply mr-3 w-[18px];
 }
+.user-mutuals {
+  @apply flex mt-5;
+}
+.user-mutuals img-await {
+  @apply flex h-6 -mr-1 outline outline-slate-50 overflow-hidden rounded-full w-6;
+}
+.user-mutuals .mutuals {
+  @apply cursor-pointer flex ml-4 space-x-1;
+}
 .user-stories {
   @apply border-[4px] p-[6px] rounded-full;
 }

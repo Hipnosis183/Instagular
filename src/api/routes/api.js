@@ -25,6 +25,7 @@ router.post('/comment/comments_disable', comment.comments_disable);
 const feed = require('./feed');
 router.post('/feed/comments', feed.comments);
 router.post('/feed/comments_replies', feed.comments_replies);
+router.post('/feed/followers_mutual', feed.followers_mutual);
 router.post('/feed/followers', feed.followers);
 router.post('/feed/following', feed.following);
 router.post('/feed/reels', feed.reels);

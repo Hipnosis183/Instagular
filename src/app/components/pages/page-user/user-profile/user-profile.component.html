@@ -10,6 +10,8 @@
   [usersList]="userFollowers" (onClose)="loadFollowers = false" (onScroll)="__loadFollowers()" (onRemove)="__removeFollower()"></viewer-users>
 <viewer-users [hidden]="!loadFollowing" feedStorage="following" [usersTitle]="'PAGE_USER.FOLLOWING' | translate"
   [usersList]="userFollowing" (onClose)="loadFollowing = false" (onScroll)="__loadFollowing()"></viewer-users>
+<viewer-users [hidden]="!loadMutualFollow" feedStorage="mutuals" [usersTitle]="'PAGE_USER.FOLLOWING' | translate"
+  [usersList]="userMutualFollow" (onClose)="loadMutualFollow = false" (onScroll)="__loadMutualFollow()"></viewer-users>
 <dialog *ngIf="unfollowUser" [subtitle]="'PAGE_USER.UNFOLLOW.SUB' | translate: { user: store.state.userPage.username }"
   [buttonText]="'PAGE_USER.UNFOLLOW.TITLE' | translate" buttonTheme="red" (onOk)="_unfollowUser()" (onCancel)="unfollowUser = false">
   <div class="user-unfollow">
@@ -85,6 +87,32 @@
       <img src="/assets/images/link.svg">
       <a [href]="store.state.userPage.external_url" target="_blank" rel="noopener noreferrer">
         {{ store.state.userPage.external_url }}</a>
+    </div>
+    <div *ngIf="store.state.userPage.profile_context_facepile_users; let p">
+      <div *ngIf="p.length > 0" class="user-mutuals">
+        <div *ngFor="let i of p">
+          <img-await [source]="i.profile_pic_url"></img-await>
+        </div>
+        <div (click)="_loadMutualFollow()" class="mutuals">
+          <div *ngFor="let i of p">
+            <div class="flex">
+              <p class="text-main">{{ i.username }}</p>
+              <p class="text-sub">{{ i.username == p[p.length - 1].username ? '' : ',' }}</p>
+            </div>
+          </div>
+          <div *ngIf="store.state.userPage.mutual_followers_count; let count" class="text-sub">
+            <div *ngIf="count == 1">
+              <p>{{ 'PAGE_USER.FOLLOWERS_MUTUAL.SINGLE' | translate }}</p>
+            </div>
+            <div *ngIf="(count == 2) || (count == 3)">
+              <p>{{ 'PAGE_USER.FOLLOWERS_MUTUAL.MULTI' | translate }}</p>
+            </div>
+            <div *ngIf="count > 3">
+              <p>{{ 'PAGE_USER.FOLLOWERS_MUTUAL.MORE' | translate: { users: count - p.length } }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

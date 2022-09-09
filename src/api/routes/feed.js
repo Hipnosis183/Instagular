@@ -44,6 +44,37 @@ module.exports.comments_replies = (req, res, next) => {
   })();
 };
 
+module.exports.followers_mutual = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      const userId = req.body.id ? req.body.id : client.state.cookieUserId;
+      // Get user mutual followers information.
+      const mutualsFeed = client.feed.accountFollowersMutual(userId);
+      // Load the state of the feed if present.
+      if (req.body.feed) { mutualsFeed.deserialize(req.body.feed); }
+      // Load user mutual followers. Feeds are auto paginated.
+      let mutuals = !req.body.feed || mutualsFeed.isMoreAvailable() ? await mutualsFeed.items() : {};
+      let mutualsIds = mutuals.map((res) => { return res.pk; });
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Load mutual followers friendship status, since it's not included in the previous call.
+      await client.friendship.showMany(mutualsIds).then((data) => {
+        for (let i = 0; i < mutuals.length; i++) {
+          mutuals[i].friendship = data[mutuals[i].pk];
+        }
+      });
+      // Return user mutual followers information.
+      res.status(200);
+      res.json({ feed: mutualsFeed.serialize(), mutuals: mutuals });
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
 module.exports.followers = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.

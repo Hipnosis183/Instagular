@@ -86,6 +86,11 @@
     "FOLLOW_BACK": "Seguir También",
     "FOLLOWED_BY": "Te Sigue",
     "FOLLOWERS": "Seguidores",
+    "FOLLOWERS_MUTUAL": {
+      "SINGLE": "sigue esta cuenta",
+      "MULTI": "siguen esta cuenta",
+      "MORE": "y {{ users }} más siguen esta cuenta"
+    },
     "FOLLOWING": "Siguiendo",
     "NO_POSTS": {
       "TITLE": "Aún no hay publicaciones",

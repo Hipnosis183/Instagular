@@ -52,6 +52,7 @@ export class PageUserComponent {
     localStorage.removeItem('video');
     localStorage.removeItem('tagged');
     localStorage.removeItem('collection');
+    localStorage.removeItem('mutuals');
     localStorage.removeItem('followers');
     localStorage.removeItem('following');
     this.store.state.userPage = null;

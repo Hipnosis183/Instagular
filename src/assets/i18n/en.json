@@ -84,6 +84,11 @@
     "FOLLOW_BACK": "Follow Back",
     "FOLLOWED_BY": "Follows you",
     "FOLLOWERS": "Followers",
+    "FOLLOWERS_MUTUAL": {
+      "SINGLE": "follows this account",
+      "MULTI": "follow this account",
+      "MORE": "and {{ users }} more follow this account"
+    },
     "FOLLOWING": "Following",
     "NO_POSTS": {
       "TITLE": "No posts yet",

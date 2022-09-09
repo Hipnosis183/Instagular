@@ -121,6 +121,24 @@ export class UserProfileComponent {
     });
   }
 
+  userMutualFollow: any[] = [];
+  loadMutualFollow: boolean = false;
+  loadedMutualFollow: boolean = false;
+
+  _loadMutualFollow(): void {
+    this.loadMutualFollow = true;
+    if (!this.loadedMutualFollow) {
+      this.__loadMutualFollow();
+      this.loadedMutualFollow = true;
+    }
+  }
+
+  __loadMutualFollow(): void {
+    this.feed.followersMutual(this.store.state.userPage.pk).then((data) => {
+      this.userMutualFollow = this.userMutualFollow.concat(data.mutuals);
+    });
+  }
+
   loadStories: boolean = false;
 
   openStories(): void {
