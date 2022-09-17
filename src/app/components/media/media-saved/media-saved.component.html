@@ -19,7 +19,7 @@
 </div>
 <ng-template #feed>
   <media-feed [feedPosts]="feedCollection" [feedSaved]="true" feedStorage="collection"
-    (onReturn)="closeCollection()" (onScroll)="openCollection(selectedCollection.collection_id)"></media-feed>
+    (onReturn)="closeCollection()" (onScroll)="openCollection(selectedCollection)"></media-feed>
 </ng-template>
 <ng-template #empty>
   <div class="empty-container">
