@@ -17,45 +17,45 @@ export class MediaVideoComponent {
 
   openMedia(post: any): void {
     // If the media information hasn't been requested yet.
-    if (!post.node.instagular) {
-      this.media.video(post.node.shortcode).then((data) => {
+    if (!post.instagular) {
+      this.media.video(post.shortcode).then((data) => {
         this.feedPost = data;
-        this.feedIndex.current = this.feedPosts.findIndex((res) => res.node.id == post.node.id);
+        this.feedIndex.current = this.feedPosts.findIndex((res) => res.id == post.id);
         this.feedIndex.total = this.feedPosts.length - 1;
         // Store results to avoid further request for the selected media.
-        this.feedPosts[this.feedIndex.current].node.instagular = data;
+        this.feedPosts[this.feedIndex.current].instagular = data;
       });
     } else {
-      this.feedIndex.current = this.feedPosts.findIndex((res) => res.node.id == post.node.id);
-      this.feedPost = this.feedPosts[this.feedIndex.current].node.instagular;
+      this.feedIndex.current = this.feedPosts.findIndex((res) => res.id == post.id);
+      this.feedPost = this.feedPosts[this.feedIndex.current].instagular;
     }
   }
 
   prevPost(): void {
     this.feedIndex.current--;
     // If the media information hasn't been requested yet.
-    if (!this.feedPosts[this.feedIndex.current].node.instagular) {
-      this.media.video(this.feedPosts[this.feedIndex.current].node.shortcode).then((data) => {
+    if (!this.feedPosts[this.feedIndex.current].instagular) {
+      this.media.video(this.feedPosts[this.feedIndex.current].shortcode).then((data) => {
         this.feedPost = data;
         // Store results to avoid further request for the selected media.
-        this.feedPosts[this.feedIndex.current].node.instagular = data;
+        this.feedPosts[this.feedIndex.current].instagular = data;
       });
     } else {
-      this.feedPost = this.feedPosts[this.feedIndex.current].node.instagular;
+      this.feedPost = this.feedPosts[this.feedIndex.current].instagular;
     }
   }
 
   nextPost(): void {
     this.feedIndex.current++;
     // If the media information hasn't been requested yet.
-    if (!this.feedPosts[this.feedIndex.current].node.instagular) {
-      this.media.video(this.feedPosts[this.feedIndex.current].node.shortcode).then((data) => {
+    if (!this.feedPosts[this.feedIndex.current].instagular) {
+      this.media.video(this.feedPosts[this.feedIndex.current].shortcode).then((data) => {
         this.feedPost = data;
         // Store results to avoid further request for the selected media.
-        this.feedPosts[this.feedIndex.current].node.instagular = data;
+        this.feedPosts[this.feedIndex.current].instagular = data;
       });
     } else {
-      this.feedPost = this.feedPosts[this.feedIndex.current].node.instagular;
+      this.feedPost = this.feedPosts[this.feedIndex.current].instagular;
     }
   }
 
