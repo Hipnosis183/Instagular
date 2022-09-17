@@ -45,6 +45,18 @@
 .panel-image {
   @apply cursor-pointer mb-5 min-h-[100px] overflow-hidden rounded-full w-[100px];
 }
+.panel-likes {
+  @apply bg-slate-50 border-b-[1px] border-b-slate-200 cursor-default flex items-center px-4 py-2 w-full;
+}
+.panel-likes img-await {
+  @apply flex h-6 -mr-1 outline outline-slate-50 overflow-hidden rounded-full w-6;
+}
+.panel-likes p {
+  @apply ml-4 text-sub;
+}
+.panel-likes b {
+  @apply cursor-pointer text-slate-800;
+}
 .panel-location {
   @apply cursor-default max-w-full mt-2 overflow-hidden text-sub whitespace-nowrap;
 }

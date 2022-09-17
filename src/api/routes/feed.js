@@ -137,6 +137,28 @@ module.exports.following = (req, res, next) => {
   })();
 };
 
+module.exports.liked_by = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Load liked by feed object.
+      const feedLikedBy = client.feed.likedBy(req.body.shortcode);
+      // Load the state of the feed if present.
+      if (req.body.feed) { feedLikedBy.deserialize(req.body.feed); }
+      // Get users list from the feed object.
+      let users = await feedLikedBy.items();
+      // Return media liked by users list and state.
+      res.status(200);
+      res.json({ feed: feedLikedBy.serialize(), users: users });
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
 module.exports.reels = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.

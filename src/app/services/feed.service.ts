@@ -62,6 +62,17 @@ export class FeedService {
       });
   }
 
+  async likedBy(shortcode: any): Promise<any> {
+    return await lastValueFrom(
+      this.http.post('/api/feed/liked_by', {
+        shortcode: shortcode, feed: localStorage.getItem('likers'),
+        session: localStorage.getItem('state'),
+      })).then((data: any) => {
+        localStorage.setItem('likers', data.feed);
+        return data;
+      });
+  }
+
   async reels(id: any): Promise<any> {
     return await lastValueFrom(
       this.http.post('/api/feed/reels', {

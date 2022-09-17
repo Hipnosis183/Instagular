@@ -32,6 +32,11 @@ export class ViewerUsersComponent {
     this.friendship.follow(this.usersList[i].pk);
   }
 
+  qlFollowUser(i: number): void {
+    this.usersList[i].followed_by_viewer = true;
+    this.friendship.follow(this.usersList[i].id);
+  }
+
   unfollowUser: any = null;
 
   _unfollowUser(i: number): void {
@@ -40,6 +45,12 @@ export class ViewerUsersComponent {
     this.usersList[i].friendship.is_bestie = false;
     this.usersList[i].friendship.is_feed_favorite = false;
     this.friendship.unfollow(this.usersList[i].pk);
+  }
+
+  qlUnfollowUser(i: number): void {
+    this.unfollowUser = null;
+    this.usersList[i].followed_by_viewer = false;
+    this.friendship.unfollow(this.usersList[i].id);
   }
 
   addBestie(i: number): void {

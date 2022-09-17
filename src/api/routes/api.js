@@ -28,6 +28,7 @@ router.post('/feed/comments_replies', feed.comments_replies);
 router.post('/feed/followers_mutual', feed.followers_mutual);
 router.post('/feed/followers', feed.followers);
 router.post('/feed/following', feed.following);
+router.post('/feed/liked_by', feed.liked_by);
 router.post('/feed/reels', feed.reels);
 router.post('/feed/reels_media', feed.reelsMedia);
 router.post('/feed/reels_tray', feed.reelsTray);

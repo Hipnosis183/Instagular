@@ -175,6 +175,10 @@
     "COMMENTS_DISABLED": "Se limitaron los comentarios en esta publicación.",
     "COMMENTS_MORE": "Cargar más comentarios",
     "EXPAND": "Expandir",
+    "LIKED_BY": {
+      "TITLE": "Me Gusta",
+      "SUB": ["Les gusta a", "y", "personas más"]
+    },
     "MORE_OPTIONS": "Más Opciones",
     "OPTIONS": {
       "PIN_PROFILE": "{{ action }} en tu perfil",

@@ -17,7 +17,7 @@
           <div class="text-sub">@{{ user.username }}</div>
         </div>
       </div>
-      <div *ngIf="user.pk != store.state.userProfile.pk" class="options-icons">
+      <div *ngIf="(feedStorage == 'followers' || feedStorage == 'following') && user.pk != store.state.userProfile.pk" class="options-icons">
         <img *ngIf="user.friendship.is_feed_favorite" src="/assets/images/star-favorite.svg">
         <img *ngIf="!user.friendship.following && user.is_private" src="/assets/images/lock-bold.svg" class="h-[18px]">
         <button [class]="user.friendship.following ? user.friendship.is_bestie ? 'bestie' : user.friendship.is_feed_favorite ? 'favorite' : 'lite' : 'color'"
@@ -46,6 +46,13 @@
           </div>
         </div>
       </div>
+      <div *ngIf="feedStorage == 'likers'" class="options-icons">
+        <img *ngIf="!user.followed_by_viewer && user.is_private" src="/assets/images/lock-bold.svg" class="h-[18px]">
+        <button [class]="user.followed_by_viewer ? 'lite' : 'color'"
+          (click)="user.followed_by_viewer ? unfollowUser = { user: user.username, i: i, pic: user.profile_pic_url, ql: true } : qlFollowUser(i)">
+          {{ (user.followed_by_viewer ? 'PAGE_USER.FOLLOWING' : userName == store.state.userProfile.username ? 'PAGE_USER.FOLLOW_BACK' : 'PAGE_USER.FOLLOW') | translate }}
+        </button>
+      </div>
     </div>
     <div infiniteScroll (onIntersect)="onIntersection()" [stopIntersect]="stopIntersect"
       [class]="hideIntersect ? 'hidden' : 'block'" class="h-px w-px"></div>
@@ -57,7 +64,7 @@
 <dialog *ngIf="blockUser" [title]="'PAGE_USER.BLOCK_USER.TITLE' | translate: { user: blockUser.user }" [subtitle]="'PAGE_USER.BLOCK_USER.SUB' | translate"
   [buttonText]="'PAGE_USER.BLOCK' | translate" buttonTheme="red" (onOk)="_blockUser(blockUser.i)" (onCancel)="blockUser = false"></dialog>
 <dialog *ngIf="unfollowUser" [subtitle]="'PAGE_USER.UNFOLLOW.SUB' | translate: { user: unfollowUser.user }" buttonTheme="red"
-  [buttonText]="'PAGE_USER.UNFOLLOW.TITLE' | translate" (onOk)="_unfollowUser(unfollowUser.i)" (onCancel)="unfollowUser = null">
+  [buttonText]="'PAGE_USER.UNFOLLOW.TITLE' | translate" (onOk)="unfollowUser.ql ? qlUnfollowUser(unfollowUser.i) : _unfollowUser(unfollowUser.i)" (onCancel)="unfollowUser = null">
   <div class="options-unfollow">
     <img-await [source]="unfollowUser.pic"></img-await>
   </div>

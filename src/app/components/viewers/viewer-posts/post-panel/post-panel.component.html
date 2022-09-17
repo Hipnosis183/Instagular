@@ -2,6 +2,8 @@
   [buttonText]="'GENERAL.CONFIRM' | translate" (onOk)="_postPin()" (onCancel)="postPin = false"></dialog>
 <dialog *ngIf="blockUser" [title]="'PAGE_USER.BLOCK_USER.TITLE' | translate: { user: feedPost.user.username }" [subtitle]="'PAGE_USER.BLOCK_USER.SUB' | translate"
   [buttonText]="'PAGE_USER.BLOCK' | translate" buttonTheme="red" (onOk)="_blockUser()" (onCancel)="blockUser = false"></dialog>
+<viewer-users *ngIf="resetLikers" [hidden]="!loadLikers" feedStorage="likers" [usersTitle]="'VIEWER_POSTS.LIKED_BY.TITLE' | translate"
+  [usersList]="likersMedia" (onClose)="loadLikers = false" (onScroll)="__loadLikers()"></viewer-users>
 <create-collection *ngIf="collectionCreate" [fromPost]="feedPost.id" (onCreate)="_collectionCreate($event)"
   (onClose)="collectionCreate = false"></create-collection>
 <dialog *ngIf="unfollowUser" [subtitle]="'PAGE_USER.UNFOLLOW.SUB' | translate: { user: feedPost.user.username }"
@@ -112,6 +114,18 @@
           </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="feedPost.facepile_top_likers" class="panel-likes">
+      <div *ngFor="let l of feedPost.facepile_top_likers">
+        <img-await [source]="l.profile_pic_url"></img-await>
+      </div>
+      <p>
+        {{ 'VIEWER_POSTS.LIKED_BY.SUB.0' | translate }}
+        <b [routerLink]="['/' + feedPost.facepile_top_likers[0].username]">{{ feedPost.facepile_top_likers[0].username }}</b>
+        {{ 'VIEWER_POSTS.LIKED_BY.SUB.1' | translate }}
+        <b (click)="_loadLikers()">{{ (feedPost.like_count - 1) | shortNumber }}
+          {{ 'VIEWER_POSTS.LIKED_BY.SUB.2' | translate }}</b>
+      </p>
     </div>
     <div class="panel-comments">
       <div *ngIf="feedPost.caption" [innerHTML]="feedPost.caption.text | parseUrls" class="panel-caption"></div>

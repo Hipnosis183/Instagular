@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { CommentService } from 'src/app/services/comment.service';
 import { FriendshipService } from 'src/app/services/friendship.service';
+import { FeedService } from 'src/app/services/feed.service';
 import { MediaService } from 'src/app/services/media.service';
 import { StoreService } from 'src/app/services/store.service';
 import { UserService } from 'src/app/services/user.service';
@@ -16,6 +17,7 @@ export class PostPanelComponent {
   constructor(
     private comment: CommentService,
     private friendship: FriendshipService,
+    private feed: FeedService,
     private media: MediaService,
     public store: StoreService,
     private user: UserService,
@@ -31,6 +33,37 @@ export class PostPanelComponent {
 
   unlikeMedia(post: any): void {
     this.feedPost = this.media.unlike(post);
+  }
+
+  likersMedia: any[] = [];
+  loadLikers: boolean = false;
+  loadedLikers: boolean = false;
+  resetLikers: boolean = true;
+
+  _loadLikers(): void {
+    this.loadLikers = true;
+    if (!this.loadedLikers) {
+      this.__loadLikers();
+      this.loadedLikers = true;
+    }
+  }
+
+  __loadLikers(): void {
+    this.feed.likedBy(this.feedPost.code).then((data) => {
+      this.likersMedia = this.likersMedia.concat(data.users);
+    });
+  }
+
+  _resetLikers(): void {
+    this.resetLikers = false;
+    // Make sure the component gets destroyed before resetting the values.
+    setTimeout(() => {
+      this.likersMedia = [];
+      this.loadLikers = false;
+      this.loadedLikers = false;
+      localStorage.removeItem('likers');
+      this.resetLikers = true;
+    }, 200);
   }
 
   saveMedia(post: any): void {
@@ -183,6 +216,7 @@ export class PostPanelComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['feedPost']) {
+      this._resetLikers();
       if (!this.feedPost.user.friendship_status) {
         this.feedPost.user.friendship_status = this.store.state.userPage.friendship;
       }

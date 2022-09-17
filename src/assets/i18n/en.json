@@ -173,6 +173,10 @@
     "COMMENTS_DISABLED": "Comments on this post have been limited.",
     "COMMENTS_MORE": "Load more comments",
     "EXPAND": "Expand",
+    "LIKED_BY": {
+      "TITLE": "Likes",
+      "SUB": ["Liked by", "and", "others"]
+    },
     "MORE_OPTIONS": "More Options",
     "OPTIONS": {
       "PIN_PROFILE": "{{ action }} to your profile",
