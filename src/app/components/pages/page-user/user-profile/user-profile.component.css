@@ -39,6 +39,12 @@
 .user-more img {
   @apply mr-3 w-[18px];
 }
+.user-mute {
+  @apply cursor-default font-light mb-6 ml-auto mr-auto mt-4 space-y-2 text-xl;
+}
+.user-mute > div {
+  @apply flex items-center justify-between space-x-8;
+}
 .user-mutuals {
   @apply flex mt-5;
 }

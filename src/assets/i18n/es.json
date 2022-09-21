@@ -106,7 +106,11 @@
       "BLOCK": "{{ action }} a @{{ user }}",
       "FAVORITE": "{{ action }} favoritos",
       "FOLLOW": "{{ action }} a @{{ user }}",
-      "FOLLOWER_REMOVE": "Eliminar seguidor"
+      "FOLLOWER_REMOVE": "Eliminar seguidor",
+      "MUTE": {
+        "TITLE": "Silenciar a @{{ user }}",
+        "SUB": "Instagram no le avisará al usuario que lo silenciaste."
+      }
     },
     "PRIVATE": {
       "TITLE": "Esta cuenta es privada",
@@ -123,6 +127,7 @@
       "POSTS": "Publicaciones",
       "REELS": "Reels",
       "SAVED": "Guardado",
+      "STORIES": "Historias",
       "TAGGED": "Etiquetadas",
       "VIDEOS": "Videos"
     },

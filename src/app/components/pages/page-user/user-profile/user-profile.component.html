@@ -18,6 +18,19 @@
     <img-await [source]="store.state.userPage.hd_profile_pic_url_info.url"></img-await>
   </div>
 </dialog>
+<dialog *ngIf="muteUser" [title]="'PAGE_USER.OPTIONS.MUTE.TITLE' | translate: { user: store.state.userPage.username }"
+  [subtitle]="'PAGE_USER.OPTIONS.MUTE.SUB' | translate" (onOk)="__muteUser()" (onCancel)="muteUser = false">
+  <div class="user-mute">
+    <div>
+      <p>{{ 'PAGE_USER.TABS.POSTS' | translate }}</p>
+      <switch [(value)]="muteUserOptions.posts"></switch>
+    </div>
+    <div>
+      <p>{{ 'PAGE_USER.TABS.STORIES' | translate }}</p>
+      <switch [(value)]="muteUserOptions.stories"></switch>
+    </div>
+  </div>
+</dialog>
 <div *ngIf="store.state.userPage" class="user-container">
   <div (click)="openStories()" class="user-stories" [ngClass]="[store.state.userPage.reels ? 'cursor-pointer' : 'border-none',
     store.state.userPage.reels ? store.state.userPage.reels.seen < store.state.userPage.reels.latest_reel_media ? store.state.userPage.reels.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200' : '']">
@@ -56,6 +69,10 @@
           <span *ngIf="store.state.userPage.pk != store.state.userProfile.pk && store.state.userPage.friendship.followed_by" (click)="removeFollower = true">
             <img src="/assets/images/profile-cross.svg">
             <p>{{ 'PAGE_USER.OPTIONS.FOLLOWER_REMOVE' | translate }}</p>
+          </span>
+          <span *ngIf="store.state.userPage.pk != store.state.userProfile.pk" (click)="_muteUser()">
+            <img src="/assets/images/mute.svg">
+            <p>{{ 'PAGE_USER.OPTIONS.MUTE.TITLE' | translate: { user: store.state.userPage.username } }}</p>
           </span>
           <span *ngIf="store.state.userPage.pk != store.state.userProfile.pk" (click)="store.state.userPage.friendship.blocking ? unblockUser = true : blockUser = true">
             <img [src]="'/assets/images/' + (store.state.userPage.friendship.blocking ? 'block-alt.svg' : 'block.svg')">

@@ -34,6 +34,23 @@ module.exports.follow = (req, res, next) => {
   })();
 };
 
+module.exports.mute = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Mute the selected user.
+      await client.friendship.mutePostsOrStoryFromFollow({ mediaId: null, targetReelAuthorId: req.body.reel, targetPostsAuthorId: req.body.post });
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
 module.exports.removeFollower = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.
@@ -93,6 +110,23 @@ module.exports.unfollow = (req, res, next) => {
     try {
       // Unfollow the selected user.
       await client.friendship.destroy(req.body.id);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
+module.exports.unmute = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      // Unmute the selected user.
+      await client.friendship.unmutePostsOrStoryFromFollow({ targetReelAuthorId: req.body.reel, targetPostsAuthorId: req.body.post });
       res.status(200);
       res.send();
     } catch (e) {

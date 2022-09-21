@@ -146,4 +146,36 @@ export class UserProfileComponent {
       this.loadStories = true;
     }
   }
+
+  muteUser: boolean = false;
+  muteUserOptions = { posts: false, stories: false };
+
+  _muteUser(): void {
+    this.muteUser = true;
+    this.muteUserOptions = {
+      posts: this.store.state.userPage.friendship.muting,
+      stories: this.store.state.userPage.friendship.is_muting_reel
+    };
+  }
+
+  async __muteUser(): Promise<void> {
+    this.muteUser = false;
+    this.store.state.userPage.friendship.muting = this.muteUserOptions.posts;
+    this.store.state.userPage.friendship.is_muting_reel = this.muteUserOptions.stories;
+    const mute = {
+      posts: this.muteUserOptions.posts ? this.store.state.userPage.pk : null,
+      stories: this.muteUserOptions.stories ? this.store.state.userPage.pk : null
+    };
+    const unmute = {
+      posts: !this.muteUserOptions.posts ? this.store.state.userPage.pk : null,
+      stories: !this.muteUserOptions.stories ? this.store.state.userPage.pk : null
+    };
+    if (mute.stories || mute.posts) {
+      await this.friendship.mute(mute.stories, mute.posts);
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
+    if (unmute.stories || unmute.posts) {
+      await this.friendship.unmute(unmute.stories, unmute.posts);
+    }
+  }
 }

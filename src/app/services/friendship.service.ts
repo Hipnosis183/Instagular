@@ -22,6 +22,13 @@ export class FriendshipService {
       })).then((data) => { return data; });
   }
 
+  async mute(reel: any, post: any): Promise<any> {
+    return await lastValueFrom(
+      this.http.post('/api/friendship/mute', {
+        reel: reel, post: post, session: localStorage.getItem('state'),
+      })).then((data) => { return data; });
+  }
+
   removeFollower(id: any): void {
     this.http.post('/api/friendship/removeFollower', {
       id: id, session: localStorage.getItem('state'),
@@ -45,6 +52,13 @@ export class FriendshipService {
     return await lastValueFrom(
       this.http.post('/api/friendship/unfollow', {
         id: id, session: localStorage.getItem('state'),
+      })).then((data) => { return data; });
+  }
+
+  async unmute(reel: any, post: any): Promise<any> {
+    return await lastValueFrom(
+      this.http.post('/api/friendship/unmute', {
+        reel: reel, post: post, session: localStorage.getItem('state'),
       })).then((data) => { return data; });
   }
 
