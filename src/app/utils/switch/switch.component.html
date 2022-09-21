@@ -1,0 +1,7 @@
+<div (click)="switchValue()" class="cursor-pointer">
+  <input [ngModel]="value" (ngModelChange)="switchValue()" type="checkbox" class="hidden" />
+  <div class="switch-container group">
+    <div class="switch-slider" [class]="value ? 'bg-blue-500 group-hover:bg-blue-600' : 'bg-slate-200 group-hover:bg-slate-300'"></div>
+    <div class="switch-button" [style]="{ marginLeft: value ? '26px' : '-2px'}"></div>
+  </div>
+</div>
