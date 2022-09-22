@@ -3,7 +3,7 @@
   <div class="viewer-contents">
     <post-panel [hidden]="!expandedPanel" [feedPost]="feedPost" [feedIndex]="feedIndex" [carouselIndex]="carouselIndex"
       (onClose)="onClose.emit()" (onPin)="onPin.emit($event)" (onUnpin)="onUnpin.emit($event)" (onFollow)="onFollow.emit($event)"
-      (onBesties)="onBesties.emit($event)" (onFavorite)="onFavorite.emit($event)" (onBlock)="onBlock.emit($event)"></post-panel>
+      (onBesties)="onBesties.emit($event)" (onFavorite)="onFavorite.emit($event)" (onMute)="onMute.emit($event)" (onBlock)="onBlock.emit($event)"></post-panel>
     <div class="z-[2]">
       <div class="button-nav">
         <div *ngIf="feedPost.instagular.full.length > 1 && carouselIndex > 0" class="carousel">

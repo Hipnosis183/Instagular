@@ -1,5 +1,7 @@
 <dialog *ngIf="postPin" [title]="'VIEWER_POSTS.PIN_LIMIT.TITLE' | translate" [subtitle]="'VIEWER_POSTS.PIN_LIMIT.SUB' | translate"
   [buttonText]="'GENERAL.CONFIRM' | translate" (onOk)="_postPin()" (onCancel)="postPin = false"></dialog>
+<dialog *ngIf="muteUser" [title]="'PAGE_USER.OPTIONS.MUTE.TITLE' | translate: { user: feedPost.user.username }" [subtitle]="'PAGE_USER.OPTIONS.MUTE.SUB' | translate"
+  [buttonText]="'GENERAL.MUTE' | translate" buttonTheme="red" (onOk)="_muteUser()" (onCancel)="muteUser = false"></dialog>
 <dialog *ngIf="blockUser" [title]="'PAGE_USER.BLOCK_USER.TITLE' | translate: { user: feedPost.user.username }" [subtitle]="'PAGE_USER.BLOCK_USER.SUB' | translate"
   [buttonText]="'PAGE_USER.BLOCK' | translate" buttonTheme="red" (onOk)="_blockUser()" (onCancel)="blockUser = false"></dialog>
 <viewer-users *ngIf="resetLikers" [hidden]="!loadLikers" feedStorage="likers" [usersTitle]="'VIEWER_POSTS.LIKED_BY.TITLE' | translate"
@@ -47,6 +49,10 @@
       <span *ngIf="feedPost.user.pk == store.state.userProfile.pk" (click)="feedPost.comments_disabled ? commentsEnable() : commentsDisable()">
         <img [src]="'/assets/images/' + (feedPost.comments_disabled ? 'visibility-alt.svg' : 'visibility.svg')">
         <p>{{ 'VIEWER_POSTS.OPTIONS.VIEW_COMMENTS' | translate: { state: (feedPost.comments_disabled ? 'GENERAL.ENABLE' : 'GENERAL.DISABLE') | translate } }}</p>
+      </span>
+      <span *ngIf="feedPost.user.pk != store.state.userProfile.pk && !feedPost.user.friendship_status.muting" (click)="muteUser = true">
+        <img src="/assets/images/mute.svg">
+        <p>{{ 'PAGE_USER.OPTIONS.MUTE.TITLE' | translate: { user: feedPost.user.username } }}</p>
       </span>
       <span *ngIf="feedPost.user.pk != store.state.userProfile.pk && !feedPost.user.friendship_status.blocking" (click)="blockUser = true">
         <img src="/assets/images/block.svg">

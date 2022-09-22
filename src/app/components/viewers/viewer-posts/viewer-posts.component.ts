@@ -19,6 +19,7 @@ export class ViewerPostsComponent {
   @Output() onFollow = new EventEmitter();
   @Output() onBesties = new EventEmitter();
   @Output() onFavorite = new EventEmitter();
+  @Output() onMute = new EventEmitter();
   @Output() onBlock = new EventEmitter();
 
   carouselIndex = 0;

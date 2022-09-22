@@ -129,6 +129,7 @@ export class PostPanelComponent {
   @Output() onFollow = new EventEmitter();
   @Output() onBesties = new EventEmitter();
   @Output() onFavorite = new EventEmitter();
+  @Output() onMute = new EventEmitter();
   @Output() onBlock = new EventEmitter();
   @Output() onClose = new EventEmitter();
 
@@ -187,6 +188,18 @@ export class PostPanelComponent {
     if (this.store.state.userPage) {
       this.store.state.userPage.friendship.is_feed_favorite = false;
     } else { this.onFavorite.emit({ id: this.feedPost.user.pk, state: false }); }
+  }
+
+  muteUser: boolean = false;
+
+  _muteUser(): void {
+    this.muteUser = false;
+    this.feedPost.user.friendship_status.muting = true;
+    this.friendship.mute(null, this.feedPost.user.pk).then(() => {
+      if (!this.store.state.userPage) {
+        this.onMute.emit({ id: this.feedPost.user.pk, state: true });
+      } this.onClose.emit();
+    });
   }
 
   blockUser: boolean = false;

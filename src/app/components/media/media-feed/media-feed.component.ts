@@ -103,6 +103,10 @@ export class MediaFeedComponent {
     }
   }
 
+  muteUpdate(user: { id: number, state: boolean }): void {
+    this.onUpdate.emit(user.id);
+  }
+
   blockUpdate(user: { id: number, state: boolean }): void {
     this.onUpdate.emit(user.id);
   }
