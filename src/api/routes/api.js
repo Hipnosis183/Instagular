@@ -46,13 +46,13 @@ router.post('/friendship/block', friendship.block);
 router.post('/friendship/favorite', friendship.favorite);
 router.post('/friendship/follow', friendship.follow);
 router.post('/friendship/mute', friendship.mute);
-router.post('/friendship/removeFollower', friendship.removeFollower);
-router.post('/friendship/setBesties', friendship.setBesties);
+router.post('/friendship/remove_follower', friendship.remove_follower);
+router.post('/friendship/set_besties', friendship.set_besties);
 router.post('/friendship/unblock', friendship.unblock);
 router.post('/friendship/unfavorite', friendship.unfavorite);
 router.post('/friendship/unfollow', friendship.unfollow);
 router.post('/friendship/unmute', friendship.unmute);
-router.post('/friendship/updateFeedFavorites', friendship.updateFeedFavorites);
+router.post('/friendship/update_feed_favorites', friendship.update_feed_favorites);
 
 // Highlights route endpoints.
 const highlights = require('./highlights');

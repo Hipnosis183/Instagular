@@ -37,13 +37,13 @@ export class FriendshipService {
   }
 
   removeFollower(id: any): void {
-    this.http.post('/api/friendship/removeFollower', {
+    this.http.post('/api/friendship/remove_follower', {
       id: id, session: localStorage.getItem('state'),
     }).subscribe();
   }
 
   setBesties(add: any[], remove: any[]): void {
-    this.http.post('/api/friendship/setBesties', {
+    this.http.post('/api/friendship/set_besties', {
       add: add, remove: remove, session: localStorage.getItem('state'),
     }).subscribe();
   }
@@ -77,7 +77,7 @@ export class FriendshipService {
   }
 
   updateFeedFavorites(add: any[], remove: any[]): void {
-    this.http.post('/api/friendship/updateFeedFavorites', {
+    this.http.post('/api/friendship/update_feed_favorites', {
       add: add, remove: remove, session: localStorage.getItem('state'),
     }).subscribe();
   }

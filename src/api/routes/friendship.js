@@ -84,7 +84,7 @@ module.exports.mute = (req, res, next) => {
   })();
 };
 
-module.exports.removeFollower = (req, res, next) => {
+module.exports.remove_follower = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.
     const client = new Client();
@@ -101,7 +101,7 @@ module.exports.removeFollower = (req, res, next) => {
   })();
 };
 
-module.exports.setBesties = (req, res, next) => {
+module.exports.set_besties = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.
     const client = new Client();
@@ -202,7 +202,7 @@ module.exports.unmute = (req, res, next) => {
   })();
 };
 
-module.exports.updateFeedFavorites = (req, res, next) => {
+module.exports.update_feed_favorites = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.
     const client = new Client();
