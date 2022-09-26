@@ -15,6 +15,13 @@ export class FriendshipService {
       })).then((data) => { return data; });
   }
 
+  async favorite(id: any, option: string): Promise<any> {
+    return await lastValueFrom(
+      this.http.post('/api/friendship/favorite', {
+        id: id, option: option, session: localStorage.getItem('state'),
+      })).then((data) => { return data; });
+  }
+
   async follow(id: any): Promise<any> {
     return await lastValueFrom(
       this.http.post('/api/friendship/follow', {
@@ -45,6 +52,13 @@ export class FriendshipService {
     return await lastValueFrom(
       this.http.post('/api/friendship/unblock', {
         id: id, session: localStorage.getItem('state'),
+      })).then((data) => { return data; });
+  }
+
+  async unfavorite(id: any, option: string): Promise<any> {
+    return await lastValueFrom(
+      this.http.post('/api/friendship/unfavorite', {
+        id: id, option: option, session: localStorage.getItem('state'),
       })).then((data) => { return data; });
   }
 

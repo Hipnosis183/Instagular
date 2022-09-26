@@ -26,6 +26,7 @@ import { PageLoginComponent } from './components/pages/page-login/page-login.com
 import { PageUserComponent } from './components/pages/page-user/page-user.component';
 import { UserBarComponent } from './components/pages/page-user/user-bar/user-bar.component';
 import { UserFeedsComponent } from './components/pages/page-user/user-feeds/user-feeds.component';
+import { UserNotificationsComponent } from './components/pages/page-user/user-profile/user-notifications/user-notifications.component';
 import { UserProfileComponent } from './components/pages/page-user/user-profile/user-profile.component';
 import { SearchComponent } from './components/search/search.component';
 import { SearchBoxComponent } from './components/search/search-box/search-box.component';
@@ -99,6 +100,7 @@ function appInitializerFactory(translate: TranslateService) {
     PageUserComponent,
     UserBarComponent,
     UserFeedsComponent,
+    UserNotificationsComponent,
     UserProfileComponent,
     SearchComponent,
     SearchBoxComponent,

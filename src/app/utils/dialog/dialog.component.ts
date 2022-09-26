@@ -13,6 +13,8 @@ export class DialogComponent {
 
   @Input() title: any = null;
   @Input() subtitle: any = null;
+  @Input() subtitleSmall: boolean = false;
+  @Input() buttonCancel: boolean = true;
   @Input() buttonText: string = this.translate.instant('GENERAL.OK');
   @Input() buttonTheme: string = 'blue';
 

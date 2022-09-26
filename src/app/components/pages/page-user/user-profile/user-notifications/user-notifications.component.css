@@ -1,0 +1,15 @@
+.notifications-common {
+  @apply ml-auto mr-auto w-[200px];
+}
+.notifications-live {
+  @apply space-y-1 w-[300px];
+}
+.notifications-live > p {
+  @apply mb-5 mt-6 text-center text-xl;
+}
+.user-notifications {
+  @apply cursor-default font-light mb-6 ml-auto mr-auto mt-1 space-y-2 text-lg;
+}
+.user-notifications span {
+  @apply flex items-center justify-between space-x-8;
+}

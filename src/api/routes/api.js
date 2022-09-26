@@ -43,11 +43,13 @@ router.post('/feed/video', feed.video);
 // Friendship route endpoints.
 const friendship = require('./friendship');
 router.post('/friendship/block', friendship.block);
+router.post('/friendship/favorite', friendship.favorite);
 router.post('/friendship/follow', friendship.follow);
 router.post('/friendship/mute', friendship.mute);
 router.post('/friendship/removeFollower', friendship.removeFollower);
 router.post('/friendship/setBesties', friendship.setBesties);
 router.post('/friendship/unblock', friendship.unblock);
+router.post('/friendship/unfavorite', friendship.unfavorite);
 router.post('/friendship/unfollow', friendship.unfollow);
 router.post('/friendship/unmute', friendship.unmute);
 router.post('/friendship/updateFeedFavorites', friendship.updateFeedFavorites);
@@ -55,6 +57,10 @@ router.post('/friendship/updateFeedFavorites', friendship.updateFeedFavorites);
 // Highlights route endpoints.
 const highlights = require('./highlights');
 router.post('/highlights/tray', highlights.tray);
+
+// Live route endpoints.
+const live = require('./live');
+router.post('/live/set_subscription_preference', live.set_subscription_preference);
 
 // Media route endpoints.
 const media = require('./media');

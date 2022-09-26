@@ -2,8 +2,8 @@
   <div class="flex flex-col">
     <div *ngIf="title" class="title">{{ title }}</div>
     <ng-content></ng-content>
-    <div *ngIf="subtitle" class="subtitle">{{ subtitle }}</div>
+    <div *ngIf="subtitle" class="subtitle" [class]="subtitleSmall ? 'text-sm' : ''">{{ subtitle }}</div>
   </div>
-  <div (click)="onOk.emit()" class="button" [class]="buttonTheme">{{ buttonText }}</div>
-  <div (click)="onCancel.emit()" class="button default">{{ 'GENERAL.CANCEL' | translate }}</div>
+  <div (click)="onOk.emit()" class="button" [ngClass]="[buttonTheme, buttonCancel ? '' : 'rounded-b-xl']">{{ buttonText }}</div>
+  <div (click)="onCancel.emit()" class="button default" *ngIf="buttonCancel">{{ 'GENERAL.CANCEL' | translate }}</div>
 </modal>

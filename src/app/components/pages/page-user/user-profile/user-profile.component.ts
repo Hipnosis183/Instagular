@@ -178,4 +178,9 @@ export class UserProfileComponent {
       await this.friendship.unmute(unmute.stories, unmute.posts);
     }
   }
+
+  userNotifications: boolean = false;
+  _userNotifications(): void {
+    this.userNotifications = !this.userNotifications;
+  };
 }

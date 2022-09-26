@@ -31,6 +31,7 @@
     </div>
   </div>
 </dialog>
+<user-notifications *ngIf="userNotifications" (onClose)="_userNotifications()"></user-notifications>
 <div *ngIf="store.state.userPage" class="user-container">
   <div (click)="openStories()" class="user-stories" [ngClass]="[store.state.userPage.reels ? 'cursor-pointer' : 'border-none',
     store.state.userPage.reels ? store.state.userPage.reels.seen < store.state.userPage.reels.latest_reel_media ? store.state.userPage.reels.has_besties_media ? 'border-[#26cb54]' : 'border-[#e16857]' : 'border-slate-200' : '']">
@@ -70,7 +71,11 @@
             <img src="/assets/images/profile-cross.svg">
             <p>{{ 'PAGE_USER.OPTIONS.FOLLOWER_REMOVE' | translate }}</p>
           </span>
-          <span *ngIf="store.state.userPage.pk != store.state.userProfile.pk" (click)="_muteUser()">
+          <span *ngIf="store.state.userPage.pk != store.state.userProfile.pk && store.state.userPage.friendship.following" (click)="_userNotifications()">
+            <img src="/assets/images/bell.svg">
+            <p>{{ 'PAGE_USER.OPTIONS.NOTIFICATIONS' | translate }}</p>
+          </span>
+          <span *ngIf="store.state.userPage.pk != store.state.userProfile.pk && store.state.userPage.friendship.following" (click)="_muteUser()">
             <img src="/assets/images/mute.svg">
             <p>{{ 'PAGE_USER.OPTIONS.MUTE.TITLE' | translate: { user: store.state.userPage.username } }}</p>
           </span>

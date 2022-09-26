@@ -17,6 +17,39 @@ module.exports.block = (req, res, next) => {
   })();
 };
 
+module.exports.favorite = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      switch (req.body.option) {
+        case 'posts': {
+          // Enable posts notifications for the selected user.
+          await client.friendship.favorite(req.body.id); break;
+        }
+        case 'stories': {
+          // Enable stories notifications for the selected user.
+          await client.friendship.favoriteStories(req.body.id); break;
+        }
+        case 'videos': {
+          // Enable videos notifications for the selected user.
+          await client.friendship.favoriteIgtv(req.body.id); break;
+        }
+        case 'reels': {
+          // Enable reels notifications for the selected user.
+          await client.friendship.favoriteClips(req.body.id); break;
+        }
+      }
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
 module.exports.follow = (req, res, next) => {
   ; (async () => {
     // Create client instance an load session state.
@@ -93,6 +126,39 @@ module.exports.unblock = (req, res, next) => {
     try {
       // Unblock the selected user.
       await client.friendship.unblock(req.body.id);
+      res.status(200);
+      res.send();
+    } catch (e) {
+      res.status(400);
+      res.send(e);
+    }
+  })();
+};
+
+module.exports.unfavorite = (req, res, next) => {
+  ; (async () => {
+    // Create client instance an load session state.
+    const client = new Client();
+    await client.state.deserialize(req.body.session);
+    try {
+      switch (req.body.option) {
+        case 'posts': {
+          // Disable posts notifications for the selected user.
+          await client.friendship.unfavorite(req.body.id); break;
+        }
+        case 'stories': {
+          // Disable stories notifications for the selected user.
+          await client.friendship.unfavoriteStories(req.body.id); break;
+        }
+        case 'videos': {
+          // Disable videos notifications for the selected user.
+          await client.friendship.unfavoriteIgtv(req.body.id); break;
+        }
+        case 'reels': {
+          // Disable reels notifications for the selected user.
+          await client.friendship.unfavoriteClips(req.body.id); break;
+        }
+      }
       res.status(200);
       res.send();
     } catch (e) {

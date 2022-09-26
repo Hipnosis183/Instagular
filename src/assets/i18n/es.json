@@ -102,12 +102,23 @@
       "SUB": "Es posible que el enlace que seleccionaste no funcione o que se haya eliminado la página."
     },
     "NOT_FOUND_TITLE": "Página no encontrada • Instagular",
+    "NOTIFICATIONS": {
+      "TITLE": "Notificaciones",
+      "LIVE": {
+        "TITLE": "Videos en vivo",
+        "ALL": "Recibir todas las notificaciones",
+        "DEFAULT": "Recibir algunas notificaciones",
+        "NONE": "Desactivar notificaciones",
+        "TEXT": "Te enviamos automáticamente notificaciones sobre videos en vivo que te pueden interesar. No obstante, puedes elegir recibir una notificación cada vez que {{ user }} inicie un video en vivo o bien que no se te notifique nunca."
+      }
+    },
     "OPTIONS": {
       "BESTIES": "{{ action }} la lista de mejores amigos",
       "BLOCK": "{{ action }} a @{{ user }}",
       "FAVORITE": "{{ action }} favoritos",
       "FOLLOW": "{{ action }} a @{{ user }}",
       "FOLLOWER_REMOVE": "Eliminar seguidor",
+      "NOTIFICATIONS": "Administrar notificaciones",
       "MUTE": {
         "TITLE": "Silenciar a @{{ user }}",
         "SUB": "Instagram no le avisará al usuario que lo silenciaste."

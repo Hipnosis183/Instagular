@@ -1,0 +1,38 @@
+<dialog [title]="'PAGE_USER.NOTIFICATIONS.TITLE' | translate" [buttonCancel]="false" [subtitleSmall]="true"
+  [subtitle]="'PAGE_USER.NOTIFICATIONS.LIVE.TEXT' | translate: { user: store.state.userPage.username }" (onOk)="onClose.emit()">
+  <div class="user-notifications">
+    <div class="notifications-common">
+      <span>
+        <p>{{ 'PAGE_USER.TABS.POSTS' | translate }}</p>
+        <switch (click)="notificationsPosts()" [(value)]="userNotificationsOptions.posts"></switch>
+      </span>
+      <span>
+        <p>{{ 'PAGE_USER.TABS.STORIES' | translate }}</p>
+        <switch (click)="notificationsStories()" [(value)]="userNotificationsOptions.stories"></switch>
+      </span>
+      <span>
+        <p>{{ 'PAGE_USER.TABS.VIDEOS' | translate }}</p>
+        <switch (click)="notificationsVideos()" [(value)]="userNotificationsOptions.videos"></switch>
+      </span>
+      <span>
+        <p>{{ 'PAGE_USER.TABS.REELS' | translate }}</p>
+        <switch (click)="notificationsReels()" [(value)]="userNotificationsOptions.reels"></switch>
+      </span>
+    </div>
+    <div class="notifications-live">
+      <p>{{ 'PAGE_USER.NOTIFICATIONS.LIVE.TITLE' | translate }}</p>
+      <span>
+        <p>{{ 'PAGE_USER.NOTIFICATIONS.LIVE.ALL' | translate }}</p>
+        <radio name="live" value="all" (click)="notificationsLive()" [(model)]="userNotificationsOptions.live"></radio>
+      </span>
+      <span>
+        <p>{{ 'PAGE_USER.NOTIFICATIONS.LIVE.DEFAULT' | translate }}</p>
+        <radio name="live" value="default" (click)="notificationsLive()" [(model)]="userNotificationsOptions.live"></radio>
+      </span>
+      <span>
+        <p>{{ 'PAGE_USER.NOTIFICATIONS.LIVE.NONE' | translate }}</p>
+        <radio name="live" value="none" (click)="notificationsLive()" [(model)]="userNotificationsOptions.live"></radio>
+      </span>
+    </div>
+  </div>
+</dialog>
