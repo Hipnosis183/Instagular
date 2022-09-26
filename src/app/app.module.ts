@@ -44,6 +44,7 @@ import { ViewerUsersComponent } from './components/viewers/viewer-users/viewer-u
 import { DialogComponent } from './utils/dialog/dialog.component';
 import { ImgAwaitComponent } from './utils/img-await/img-await.component';
 import { ModalComponent } from './utils/modal/modal.component';
+import { RadioComponent } from './utils/radio/radio.component';
 import { SwitchComponent } from './utils/switch/switch.component';
 
 // Directives.
@@ -115,6 +116,7 @@ function appInitializerFactory(translate: TranslateService) {
     DialogComponent,
     ImgAwaitComponent,
     ModalComponent,
+    RadioComponent,
     SwitchComponent,
     // Directives.
     AutoFocusDirective,

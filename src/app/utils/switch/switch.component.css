@@ -1,5 +1,5 @@
 .switch-button {
-  @apply absolute bg-slate-50 h-5 my-auto rounded-full shadow-sm shadow-slate-400 w-5;
+  @apply absolute bg-slate-50 border h-5 my-auto rounded-full w-5;
   transition: all 0.2s ease-in-out;
 }
 .switch-container {

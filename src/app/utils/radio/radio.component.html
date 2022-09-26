@@ -1,0 +1,4 @@
+<div (click)="updateModel()" class="cursor-pointer">
+  <input [ngModel]="model" (ngModelChange)="updateModel()" [name]="name" [value]="value" type="radio" class="hidden">
+  <div class="radio-button"></div>
+</div>

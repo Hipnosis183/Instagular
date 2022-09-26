@@ -1,0 +1,14 @@
+.radio-button {
+  @apply bg-slate-100 hover:bg-slate-200 block border border-slate-300 h-[22px] rounded-full w-[22px];
+  transition: background-color 0.2s ease-in-out;
+}
+.radio-button:after {
+  @apply absolute bg-white h-2 hidden m-[7px] rounded-full w-2;
+  content: "";
+}
+input:checked ~ .radio-button {
+  @apply bg-blue-500 hover:bg-blue-600 border-none;
+}
+input:checked ~ .radio-button:after {
+  @apply block;
+}
